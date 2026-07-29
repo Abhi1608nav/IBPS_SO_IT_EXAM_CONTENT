@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Data Structures &amp; Algorithms Complexity Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --dsa:#5b8def; --dsa-dim:#1c2740;
+    --good:#5ecfa8; --warn:#e0a458; --danger:#e2707a;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, rgba(91,141,239,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,207,168,0.05), transparent 55%), var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; padding:0 0 60px 0;
+  }
+  a{color:var(--dsa);}
+  .wrap{max-width:940px;margin:0 auto;padding:0 20px;}
+
+  header.top{border-bottom:1px solid var(--border);padding:28px 0 20px 0;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--dsa);box-shadow:0 0 8px var(--dsa);}
+  h1{font-family:var(--display);font-size:27px;font-weight:700;margin:0 0 6px 0;letter-spacing:-0.01em;}
+  h1 span{color:var(--text-dim);font-weight:500;}
+  .subhead{color:var(--text-dim);font-size:14px;margin:0 0 18px 0;max-width:640px;}
+  .examstrip{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--border);border-radius:100px;padding:6px 12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+  .chip b{color:var(--text);font-weight:600;}
+
+  main{padding-top:26px;}
+
+  details.acc{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
+  details.acc[open]{border-color:var(--border-soft);}
+  details.acc summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;color:var(--text);}
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .code{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 7px;border-radius:5px;color:#0e131a;background:var(--dsa);flex-shrink:0;}
+  summary .chev{margin-left:auto;color:var(--text-faint);font-size:12px;transition:transform .2s ease;}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  .acc-body{padding:2px 20px 20px 20px;color:var(--text-dim);font-size:14px;}
+  .acc-body p{margin:8px 0;}
+  .acc-body ul,.acc-body ol{margin:8px 0;padding-left:20px;}
+  .acc-body li{margin:4px 0;}
+  .acc-body h4{font-family:var(--sans);color:var(--text);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin:16px 0 6px 0;}
+  .acc-body strong{color:var(--text);font-weight:600;}
+  .acc-body code{font-family:var(--mono);background:var(--panel-alt);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:12.5px;color:#f0dcb8;}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px 0;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-faint);font-weight:500;border-bottom:1px solid var(--border-soft);}
+  td{color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong,td b{color:var(--text);}
+  .tbl-wrap{overflow-x:auto;}
+  td.o, th.o{font-family:var(--mono);white-space:nowrap;}
+  .good{color:var(--good);font-weight:600;}
+  .warnc{color:var(--warn);font-weight:600;}
+  .badc{color:var(--danger);font-weight:600;}
+
+  .tip{display:flex;gap:10px;background:var(--panel-alt);border:1px dashed var(--border-soft);border-radius:8px;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .tip .lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;color:#0e131a;background:#f0b429;padding:2px 6px;border-radius:4px;height:fit-content;flex-shrink:0;}
+  .tip.warn .lbl{background:var(--danger);}
+  .tip p{margin:0;color:var(--text-dim);}
+
+  .master{background:var(--panel);border:2px solid var(--dsa);border-radius:var(--radius);padding:4px;margin:26px 0;}
+  .master-inner{padding:16px 18px;}
+  .master h3{font-family:var(--display);font-size:17px;color:var(--dsa);margin:0 0 4px 0;display:flex;align-items:center;gap:8px;}
+  .master p.note{color:var(--text-faint);font-size:12.5px;margin:0 0 14px 0;}
+
+  .quiz{margin-top:26px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px 22px 20px;}
+  .quiz-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .quiz-header h3{font-family:var(--display);font-size:16px;margin:0;display:flex;align-items:center;gap:8px;}
+  .quiz-stats{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .quiz-stats .score{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .quiz-stats .timer{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .reset-btn{font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:6px 10px;border-radius:6px;cursor:pointer;}
+  .reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+  .quiz-q{padding:14px 0;border-bottom:1px solid var(--border-soft);}
+  .quiz-q:last-of-type{border-bottom:none;padding-bottom:0;}
+  .q-text{font-size:14px;color:var(--text);margin:0 0 10px 0;font-weight:500;}
+  .quiz-options{display:grid;gap:8px;}
+  .opt{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:9px 12px;border-radius:7px;font-family:var(--sans);font-size:13.5px;cursor:pointer;transition:border-color .12s ease, background .12s ease;}
+  .quiz-q:not(.answered) .opt:hover{border-color:var(--text-faint);color:var(--text);}
+  .quiz-q.answered .opt{cursor:default;}
+  .opt.picked-correct{border-color:var(--good);background:rgba(94,207,168,0.12);color:#bfe8cf;}
+  .opt.picked-wrong{border-color:var(--danger);background:rgba(226,112,122,0.12);color:#f3c3c7;}
+  .opt.reveal-correct{border-color:var(--good);background:rgba(94,207,168,0.08);color:#bfe8cf;}
+  .explain{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--dsa);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .explain b{color:var(--text);}
+
+  footer{text-align:center;color:var(--text-faint);font-size:12px;font-family:var(--mono);margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+
+  @media (max-width:640px){
+    h1{font-size:21px;}
+    .acc-body{padding:2px 14px 16px 14px;}
+    table{font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER SCALE-I · PROFESSIONAL KNOWLEDGE</div>
+    <h1>Data Structures &amp; Algorithms <span>— Time &amp; Space Complexity Reference</span></h1>
+    <p class="subhead">Every core data structure and algorithm with its time complexity (best/average/worst) and space complexity, plus a consolidated cheat-sheet table at the end for last-minute revision.</p>
+    <div class="examstrip">
+      <div class="chip">Covers: <b>DS · Sorting · Searching · Graph Algorithms</b></div>
+      <div class="chip">Includes: <b>Master cheat-sheet table</b></div>
+      <div class="chip">Negative marking: <b>−0.25</b> per wrong answer</div>
+    </div>
+  </header>
+
+  <main>
+    <details class="acc" open>
+      <summary><span class="code">DS1</span> Array <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Time Complexity</th><th>Note</th></tr>
+          <tr><td>Access by index</td><td class="o good">O(1)</td><td>Direct address computation — the array's defining advantage</td></tr>
+          <tr><td>Search (unsorted)</td><td class="o warnc">O(n)</td><td>Must check every element in the worst case</td></tr>
+          <tr><td>Search (sorted, binary search)</td><td class="o good">O(log n)</td><td>Only possible because array supports O(1) random access</td></tr>
+          <tr><td>Insertion (at end, space available)</td><td class="o good">O(1)</td><td>Amortized O(1) for dynamic arrays even when resizing is needed</td></tr>
+          <tr><td>Insertion (at beginning/middle)</td><td class="o badc">O(n)</td><td>Requires shifting all subsequent elements</td></tr>
+          <tr><td>Deletion (at beginning/middle)</td><td class="o badc">O(n)</td><td>Requires shifting elements to fill the gap</td></tr>
+        </table></div>
+        <p><strong>Space Complexity: O(n)</strong> for storing n elements.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS2</span> Linked List (Singly / Doubly / Circular) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Time Complexity</th><th>Note</th></tr>
+          <tr><td>Access by index</td><td class="o badc">O(n)</td><td>Must traverse from the head — no random access</td></tr>
+          <tr><td>Search</td><td class="o badc">O(n)</td><td>Linear traversal required</td></tr>
+          <tr><td>Insertion at head</td><td class="o good">O(1)</td><td>Just repoint the head</td></tr>
+          <tr><td>Insertion at tail</td><td class="o warnc">O(n) / O(1)</td><td>O(n) without a tail pointer, O(1) if one is maintained</td></tr>
+          <tr><td>Insertion/Deletion given a node reference</td><td class="o good">O(1)</td><td>Once you have the node, relinking is constant time (O(1) for doubly linked; singly linked still needs the previous node)</td></tr>
+        </table></div>
+        <p><strong>Space Complexity: O(n)</strong>, plus per-node pointer overhead (one pointer for singly linked, two for doubly linked).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS3</span> Stack <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>LIFO (Last In, First Out) structure — typically implemented via an array or linked list.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Time Complexity</th></tr>
+          <tr><td>Push</td><td class="o good">O(1)</td></tr>
+          <tr><td>Pop</td><td class="o good">O(1)</td></tr>
+          <tr><td>Peek/Top</td><td class="o good">O(1)</td></tr>
+          <tr><td>Search</td><td class="o badc">O(n)</td></tr>
+        </table></div>
+        <p><strong>Space Complexity: O(n)</strong>.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS4</span> Queue (Simple / Circular / Priority / Deque) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>FIFO (First In, First Out) structure.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Time Complexity</th><th>Note</th></tr>
+          <tr><td>Enqueue</td><td class="o good">O(1)</td><td>Array-based circular queue or linked list</td></tr>
+          <tr><td>Dequeue</td><td class="o good">O(1)</td><td></td></tr>
+          <tr><td>Priority Queue — Insert</td><td class="o warnc">O(log n)</td><td>When implemented via a binary heap</td></tr>
+          <tr><td>Priority Queue — Extract min/max</td><td class="o warnc">O(log n)</td><td>Heap-based implementation</td></tr>
+          <tr><td>Priority Queue — Peek min/max</td><td class="o good">O(1)</td><td></td></tr>
+        </table></div>
+        <p><strong>Space Complexity: O(n)</strong>.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">DS5</span> Hash Table <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Average Case</th><th class="o">Worst Case</th></tr>
+          <tr><td>Search</td><td class="o good">O(1)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Insert</td><td class="o good">O(1)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Delete</td><td class="o good">O(1)</td><td class="o badc">O(n)</td></tr>
+        </table></div>
+        <p>Worst case O(n) happens when many keys collide into the same bucket (e.g. a poorly designed hash function). <strong>Collision resolution</strong> techniques: <strong>Chaining</strong> (each bucket holds a linked list of colliding entries) and <strong>Open addressing</strong> (linear probing, quadratic probing, double hashing — all search for the next free slot within the table itself).</p>
+        <p><strong>Space Complexity: O(n)</strong>.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS6</span> Binary Search Tree (BST) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Average Case</th><th class="o">Worst Case (skewed)</th></tr>
+          <tr><td>Search</td><td class="o good">O(log n)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Insert</td><td class="o good">O(log n)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Delete</td><td class="o good">O(log n)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Traversal (in/pre/post-order)</td><td class="o good">O(n)</td><td class="o good">O(n)</td></tr>
+        </table></div>
+        <div class="tip warn"><span class="lbl">EXAM TIP</span><p>The worst case O(n) happens when the tree degenerates into a skewed shape (essentially a linked list) — e.g. inserting already-sorted data into a plain BST with no rebalancing.</p></div>
+        <p><strong>Space Complexity: O(n)</strong> for the structure; traversal recursion uses <strong>O(h)</strong> stack space, where h is the tree's height (O(log n) balanced, O(n) worst case skewed).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS7</span> Self-Balancing Trees (AVL / Red-Black) &amp; B-Trees <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>AVL trees</strong> and <strong>Red-Black trees</strong> automatically rebalance after insertions/deletions, guaranteeing height stays O(log n) — eliminating the BST's worst-case skew problem entirely.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Structure</th><th class="o">Search</th><th class="o">Insert</th><th class="o">Delete</th></tr>
+          <tr><td>AVL Tree</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td></tr>
+          <tr><td>Red-Black Tree</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td></tr>
+          <tr><td>B-Tree / B+ Tree</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td><td class="o good">O(log n)</td></tr>
+        </table></div>
+        <p>These are all <strong>guaranteed worst-case O(log n)</strong> — unlike a plain BST. B-Trees/B+ Trees are specifically optimized for disk-based storage (databases, file systems) since each node holds many keys, minimizing costly disk reads.</p>
+        <p><strong>Space Complexity: O(n)</strong> for all of these.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS8</span> Heap (Binary Min/Max Heap) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th class="o">Time Complexity</th></tr>
+          <tr><td>Find min/max</td><td class="o good">O(1)</td></tr>
+          <tr><td>Insert</td><td class="o warnc">O(log n)</td></tr>
+          <tr><td>Delete min/max</td><td class="o warnc">O(log n)</td></tr>
+          <tr><td>Build heap from an unsorted array</td><td class="o good">O(n)</td></tr>
+        </table></div>
+        <div class="tip warn"><span class="lbl">COMMON TRAP</span><p>Building a heap from n elements is <strong>O(n), not O(n log n)</strong> — a classic exam trap. Although each of the n insertions could cost O(log n), the bottom-up "heapify" construction algorithm does the work more efficiently overall, giving a true O(n) bound.</p></div>
+        <p><strong>Space Complexity: O(n)</strong>.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">DS9</span> Graph — Representation &amp; Traversal <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Representations</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Representation</th><th class="o">Space</th><th>Note</th></tr>
+          <tr><td>Adjacency Matrix</td><td class="o warnc">O(V²)</td><td>Fast O(1) edge lookup, but wasteful for sparse graphs</td></tr>
+          <tr><td>Adjacency List</td><td class="o good">O(V + E)</td><td>Space-efficient for sparse graphs; most commonly used</td></tr>
+        </table></div>
+        <h4>Traversal</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th class="o">Time</th><th class="o">Space</th></tr>
+          <tr><td>BFS (Breadth-First Search)</td><td class="o good">O(V + E)</td><td class="o warnc">O(V)</td></tr>
+          <tr><td>DFS (Depth-First Search)</td><td class="o good">O(V + E)</td><td class="o warnc">O(V)</td></tr>
+        </table></div>
+        <p>V = number of vertices, E = number of edges. Space is O(V) for the visited-set/queue (BFS) or recursion stack (DFS).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS10</span> Graph Algorithms — Shortest Path &amp; MST <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th>Purpose</th><th class="o">Time Complexity</th></tr>
+          <tr><td><strong>Dijkstra's</strong></td><td>Single-source shortest path (non-negative weights only)</td><td class="o warnc">O((V+E) log V) with min-heap</td></tr>
+          <tr><td><strong>Bellman-Ford</strong></td><td>Single-source shortest path (handles negative weights, detects negative cycles)</td><td class="o badc">O(V × E)</td></tr>
+          <tr><td><strong>Floyd-Warshall</strong></td><td>All-pairs shortest path</td><td class="o badc">O(V³)</td></tr>
+          <tr><td><strong>Kruskal's (MST)</strong></td><td>Minimum Spanning Tree — edge-based, uses Union-Find</td><td class="o warnc">O(E log E)</td></tr>
+          <tr><td><strong>Prim's (MST)</strong></td><td>Minimum Spanning Tree — vertex-based, grows one tree</td><td class="o warnc">O(E log V) with min-heap</td></tr>
+          <tr><td><strong>Topological Sort</strong></td><td>Linear ordering of a Directed Acyclic Graph (DAG)</td><td class="o good">O(V + E)</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Dijkstra's <strong>fails with negative edge weights</strong> — that's specifically what Bellman-Ford is for. This distinction ("which algorithm handles negative weights") is a very frequently tested question.</p></div>
+      </div>
+    </details>
+    <details class="acc" open>
+      <summary><span class="code">DS11</span> Sorting Algorithms <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th class="o">Best</th><th class="o">Average</th><th class="o">Worst</th><th class="o">Space</th><th>Stable?</th></tr>
+          <tr><td>Bubble Sort</td><td class="o good">O(n)</td><td class="o badc">O(n²)</td><td class="o badc">O(n²)</td><td class="o good">O(1)</td><td>Yes</td></tr>
+          <tr><td>Selection Sort</td><td class="o badc">O(n²)</td><td class="o badc">O(n²)</td><td class="o badc">O(n²)</td><td class="o good">O(1)</td><td>No</td></tr>
+          <tr><td>Insertion Sort</td><td class="o good">O(n)</td><td class="o badc">O(n²)</td><td class="o badc">O(n²)</td><td class="o good">O(1)</td><td>Yes</td></tr>
+          <tr><td>Merge Sort</td><td class="o warnc">O(n log n)</td><td class="o warnc">O(n log n)</td><td class="o warnc">O(n log n)</td><td class="o badc">O(n)</td><td>Yes</td></tr>
+          <tr><td>Quick Sort</td><td class="o warnc">O(n log n)</td><td class="o warnc">O(n log n)</td><td class="o badc">O(n²)</td><td class="o warnc">O(log n)</td><td>No</td></tr>
+          <tr><td>Heap Sort</td><td class="o warnc">O(n log n)</td><td class="o warnc">O(n log n)</td><td class="o warnc">O(n log n)</td><td class="o good">O(1)</td><td>No</td></tr>
+          <tr><td>Counting Sort</td><td class="o good">O(n+k)</td><td class="o good">O(n+k)</td><td class="o good">O(n+k)</td><td class="o badc">O(n+k)</td><td>Yes</td></tr>
+          <tr><td>Radix Sort</td><td class="o good">O(d(n+k))</td><td class="o good">O(d(n+k))</td><td class="o good">O(d(n+k))</td><td class="o badc">O(n+k)</td><td>Yes</td></tr>
+          <tr><td>Bucket Sort</td><td class="o good">O(n+k)</td><td class="o good">O(n+k)</td><td class="o badc">O(n²)</td><td class="o badc">O(n+k)</td><td>Yes</td></tr>
+        </table></div>
+        <p><em>k = range of input values (counting/radix/bucket sort), d = number of digits (radix sort).</em></p>
+        <div class="tip warn"><span class="lbl">COMMON TRAPS</span><p><strong>Quick Sort's worst case is O(n²)</strong> — happens with a consistently bad pivot choice (e.g. already-sorted data with a naive first-element pivot). <strong>Merge Sort always needs O(n) extra space</strong> for the merge step, while <strong>Quick Sort and Heap Sort sort in-place</strong> (O(log n) and O(1) space respectively — the log n for Quick Sort is just recursion stack depth).</p></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p><strong>Stability</strong> means equal elements keep their original relative order. Stable: Bubble, Insertion, Merge, Counting, Radix, Bucket. <strong>Not stable: Selection, Quick, Heap</strong> — a frequently tested list to memorize both ways.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS12</span> Searching Algorithms <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th class="o">Time Complexity</th><th class="o">Space</th><th>Precondition</th></tr>
+          <tr><td>Linear Search</td><td class="o badc">O(n)</td><td class="o good">O(1)</td><td>None — works on unsorted data</td></tr>
+          <tr><td>Binary Search</td><td class="o good">O(log n)</td><td class="o good">O(1) iterative / O(log n) recursive</td><td>Data must be sorted</td></tr>
+          <tr><td>Jump Search</td><td class="o warnc">O(√n)</td><td class="o good">O(1)</td><td>Data must be sorted</td></tr>
+          <tr><td>Interpolation Search</td><td class="o good">O(log log n) avg, O(n) worst</td><td class="o good">O(1)</td><td>Sorted &amp; uniformly distributed data</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DS13</span> Recursion &amp; Divide-and-Conquer <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Problem</th><th class="o">Time</th><th class="o">Space</th></tr>
+          <tr><td>Fibonacci — naive recursion</td><td class="o badc">O(2ⁿ)</td><td class="o warnc">O(n)</td></tr>
+          <tr><td>Fibonacci — with memoization</td><td class="o good">O(n)</td><td class="o warnc">O(n)</td></tr>
+          <tr><td>Tower of Hanoi</td><td class="o badc">O(2ⁿ)</td><td class="o warnc">O(n)</td></tr>
+          <tr><td>Binary Search (recursive)</td><td class="o good">O(log n)</td><td class="o warnc">O(log n)</td></tr>
+        </table></div>
+        <p>The space complexity of any recursive algorithm includes the <strong>call stack depth</strong>, even when no extra data structure is explicitly created — a detail often missed. Naive Fibonacci's O(n) space is exactly this call-stack depth, despite its explosive O(2ⁿ) time from redundant repeated calls.</p>
+        <h4>Master Theorem (for divide-and-conquer recurrences)</h4>
+        <p>For a recurrence of the form <code>T(n) = a·T(n/b) + f(n)</code>, comparing <code>f(n)</code> against <code>n^(log_b a)</code> determines the overall complexity — this is how the O(n log n) bound for Merge Sort (a=2, b=2, f(n)=O(n)) is formally derived.</p>
+      </div>
+    </details>
+    <div class="master">
+      <div class="master-inner">
+        <h3>📋 Master Cheat-Sheet</h3>
+        <p class="note">Every complexity from this page in one consolidated table — the fastest way to revise the night before the exam.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Structure / Algorithm</th><th class="o">Time (typical/worst)</th><th class="o">Space</th></tr>
+          <tr><td>Array — access</td><td class="o good">O(1)</td><td class="o">O(n)</td></tr>
+          <tr><td>Array — search / insert-middle</td><td class="o badc">O(n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Linked List — access / search</td><td class="o badc">O(n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Linked List — insert/delete at head</td><td class="o good">O(1)</td><td class="o">O(n)</td></tr>
+          <tr><td>Stack — push/pop/peek</td><td class="o good">O(1)</td><td class="o">O(n)</td></tr>
+          <tr><td>Queue — enqueue/dequeue</td><td class="o good">O(1)</td><td class="o">O(n)</td></tr>
+          <tr><td>Priority Queue (heap) — insert/extract</td><td class="o warnc">O(log n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Hash Table — avg / worst</td><td class="o good">O(1)</td><td class="o">O(n)</td></tr>
+          <tr><td>BST — avg / worst (skewed)</td><td class="o good">O(log n)</td><td class="o">O(n)</td></tr>
+          <tr><td>AVL / Red-Black / B-Tree — guaranteed</td><td class="o good">O(log n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Heap — build from array</td><td class="o good">O(n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Heap — insert/delete</td><td class="o warnc">O(log n)</td><td class="o">O(n)</td></tr>
+          <tr><td>Graph — BFS / DFS</td><td class="o good">O(V+E)</td><td class="o">O(V)</td></tr>
+          <tr><td>Dijkstra's (min-heap)</td><td class="o warnc">O((V+E) log V)</td><td class="o">O(V)</td></tr>
+          <tr><td>Bellman-Ford</td><td class="o badc">O(V×E)</td><td class="o">O(V)</td></tr>
+          <tr><td>Floyd-Warshall</td><td class="o badc">O(V³)</td><td class="o">O(V²)</td></tr>
+          <tr><td>Kruskal's / Prim's MST</td><td class="o warnc">O(E log V)</td><td class="o">O(V+E)</td></tr>
+          <tr><td>Bubble / Selection / Insertion Sort</td><td class="o badc">O(n²)</td><td class="o good">O(1)</td></tr>
+          <tr><td>Merge Sort</td><td class="o warnc">O(n log n)</td><td class="o badc">O(n)</td></tr>
+          <tr><td>Quick Sort — avg / worst</td><td class="o warnc">O(n log n) / O(n²)</td><td class="o warnc">O(log n)</td></tr>
+          <tr><td>Heap Sort</td><td class="o warnc">O(n log n)</td><td class="o good">O(1)</td></tr>
+          <tr><td>Counting / Radix / Bucket Sort</td><td class="o good">O(n+k)</td><td class="o badc">O(n+k)</td></tr>
+          <tr><td>Linear Search</td><td class="o badc">O(n)</td><td class="o good">O(1)</td></tr>
+          <tr><td>Binary Search</td><td class="o good">O(log n)</td><td class="o good">O(1)</td></tr>
+          <tr><td>Jump Search</td><td class="o warnc">O(√n)</td><td class="o good">O(1)</td></tr>
+          <tr><td>Fibonacci — naive / memoized</td><td class="o badc">O(2ⁿ) / <span class="good">O(n)</span></td><td class="o">O(n)</td></tr>
+        </table></div>
+      </div>
+    </div>
+    <div class="quiz">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — DS &amp; Algorithm Complexity</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/12</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="q1">
+        <p class="q-text">1. What is the time complexity of accessing an element by index in an array?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(n)</button>
+          <button class="opt" data-correct="true">O(1)</button>
+          <button class="opt" data-correct="false">O(log n)</button>
+          <button class="opt" data-correct="false">O(n log n)</button>
+        </div>
+        <p class="explain" hidden>Arrays support <b>O(1)</b> direct address computation — their defining advantage over linked lists.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q2">
+        <p class="q-text">2. What is the worst-case time complexity of search, insert, and delete in a plain (unbalanced) Binary Search Tree?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(log n)</button>
+          <button class="opt" data-correct="true">O(n)</button>
+          <button class="opt" data-correct="false">O(1)</button>
+          <button class="opt" data-correct="false">O(n²)</button>
+        </div>
+        <p class="explain" hidden>A plain BST degrades to <b>O(n)</b> in the worst case when it becomes skewed (essentially a linked list) — this is exactly what AVL/Red-Black trees fix.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q3">
+        <p class="q-text">3. Building a binary heap from an unsorted array of n elements takes:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(n log n)</button>
+          <button class="opt" data-correct="true">O(n)</button>
+          <button class="opt" data-correct="false">O(log n)</button>
+          <button class="opt" data-correct="false">O(n²)</button>
+        </div>
+        <p class="explain" hidden>The bottom-up heapify construction is <b>O(n)</b>, not O(n log n) — a classic exam trap.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q4">
+        <p class="q-text">4. Which sorting algorithm has a worst-case time complexity of O(n²), despite an average-case of O(n log n)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Merge Sort</button>
+          <button class="opt" data-correct="true">Quick Sort</button>
+          <button class="opt" data-correct="false">Heap Sort</button>
+          <button class="opt" data-correct="false">Counting Sort</button>
+        </div>
+        <p class="explain" hidden><b>Quick Sort</b>'s worst case is O(n²), triggered by consistently poor pivot selection. Merge Sort and Heap Sort both guarantee O(n log n) even in the worst case.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q5">
+        <p class="q-text">5. Which of these sorting algorithms is NOT stable (does not preserve the relative order of equal elements)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Merge Sort</button>
+          <button class="opt" data-correct="false">Insertion Sort</button>
+          <button class="opt" data-correct="true">Quick Sort</button>
+          <button class="opt" data-correct="false">Bubble Sort</button>
+        </div>
+        <p class="explain" hidden><b>Quick Sort is not stable</b>. Selection Sort and Heap Sort are also unstable; Merge, Insertion, and Bubble Sort are all stable.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q6">
+        <p class="q-text">6. Which single-source shortest path algorithm can correctly handle graphs with negative edge weights (and detect negative cycles), unlike Dijkstra's?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">BFS</button>
+          <button class="opt" data-correct="true">Bellman-Ford</button>
+          <button class="opt" data-correct="false">Prim's</button>
+          <button class="opt" data-correct="false">Kruskal's</button>
+        </div>
+        <p class="explain" hidden><b>Bellman-Ford</b> handles negative weights (O(V×E)); Dijkstra's requires all non-negative weights.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q7">
+        <p class="q-text">7. What is the time complexity of Binary Search on a sorted array of n elements?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(n)</button>
+          <button class="opt" data-correct="true">O(log n)</button>
+          <button class="opt" data-correct="false">O(1)</button>
+          <button class="opt" data-correct="false">O(n log n)</button>
+        </div>
+        <p class="explain" hidden>Binary Search halves the search space each step, giving <b>O(log n)</b> — but it requires the data to already be sorted.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q8">
+        <p class="q-text">8. What is the space complexity used purely by the merge step of Merge Sort?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(1)</button>
+          <button class="opt" data-correct="false">O(log n)</button>
+          <button class="opt" data-correct="true">O(n)</button>
+          <button class="opt" data-correct="false">O(n²)</button>
+        </div>
+        <p class="explain" hidden>Merge Sort needs <b>O(n)</b> auxiliary space to merge sorted halves — unlike Quick Sort or Heap Sort, which sort in-place.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q9">
+        <p class="q-text">9. What is the time complexity of BFS or DFS traversal on a graph with V vertices and E edges?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(V²)</button>
+          <button class="opt" data-correct="true">O(V + E)</button>
+          <button class="opt" data-correct="false">O(E log V)</button>
+          <button class="opt" data-correct="false">O(V × E)</button>
+        </div>
+        <p class="explain" hidden>Both BFS and DFS visit every vertex and edge exactly once (with an adjacency list), giving <b>O(V + E)</b>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q10">
+        <p class="q-text">10. In the average case, what is the time complexity of search, insert, and delete operations in a hash table?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">O(1)</button>
+          <button class="opt" data-correct="false">O(log n)</button>
+          <button class="opt" data-correct="false">O(n)</button>
+          <button class="opt" data-correct="false">O(n log n)</button>
+        </div>
+        <p class="explain" hidden>Hash tables achieve <b>O(1)</b> average case, but degrade to O(n) worst case if many keys collide into the same bucket.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q11">
+        <p class="q-text">11. Which data structure representation is more space-efficient for a sparse graph (relatively few edges)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Adjacency Matrix — O(V²)</button>
+          <button class="opt" data-correct="true">Adjacency List — O(V + E)</button>
+          <button class="opt" data-correct="false">Both use identical space always</button>
+          <button class="opt" data-correct="false">Neither is used for graphs</button>
+        </div>
+        <p class="explain" hidden>An <b>Adjacency List</b> uses O(V+E) space — far better than O(V²) for sparse graphs where E is much smaller than V².</p>
+      </div>
+
+      <div class="quiz-q" data-qid="q12">
+        <p class="q-text">12. What is the time complexity of the naive (non-memoized) recursive Fibonacci algorithm?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">O(n)</button>
+          <button class="opt" data-correct="false">O(n log n)</button>
+          <button class="opt" data-correct="true">O(2ⁿ)</button>
+          <button class="opt" data-correct="false">O(n²)</button>
+        </div>
+        <p class="explain" hidden>Naive recursive Fibonacci recomputes the same subproblems repeatedly, giving exponential <b>O(2ⁿ)</b> time — memoization reduces this to O(n).</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>IBPS SO IT Officer · Professional Knowledge revision notes · scores stored locally to this tool</footer>
+</div>
+
+<script>
+(function(){
+  const quizState = {};
+  const timer = {start:null, elapsed:0, handle:null};
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60).toString().padStart(2,'0');
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function updateScoreDisplay(){
+    const quizEl = document.querySelector('.quiz');
+    if(!quizEl) return;
+    const total = quizEl.querySelectorAll('.quiz-q').length;
+    const correct = Object.values(quizState).filter(v=>v.correct).length;
+    const answered = Object.keys(quizState).length;
+    quizEl.querySelector('.score').textContent = 'Score: '+correct+'/'+total;
+    return {total, answered, correct};
+  }
+
+  function startTimer(){
+    if(timer.handle) return;
+    timer.start = Date.now() - timer.elapsed*1000;
+    timer.handle = setInterval(()=>{
+      timer.elapsed = (Date.now()-timer.start)/1000;
+      const quizEl = document.querySelector('.quiz');
+      if(quizEl) quizEl.querySelector('.timer').textContent = fmtTime(timer.elapsed);
+    }, 1000);
+  }
+  function stopTimer(){ if(timer.handle){ clearInterval(timer.handle); timer.handle=null; } }
+  function resetTimer(){
+    stopTimer();
+    timer.start=null; timer.elapsed=0;
+    const quizEl = document.querySelector('.quiz');
+    if(quizEl) quizEl.querySelector('.timer').textContent = '00:00';
+  }
+
+  async function saveProgress(){
+    try{ await window.storage.set('dsa-quiz', JSON.stringify(quizState), false); }catch(e){}
+  }
+
+  function applyAnswer(qEl, chosenIdx, isCorrect){
+    const opts = qEl.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      if(i===chosenIdx && isCorrect) o.classList.add('picked-correct');
+      else if(i===chosenIdx && !isCorrect) o.classList.add('picked-wrong');
+      else if(o.dataset.correct==='true') o.classList.add('reveal-correct');
+    });
+    qEl.classList.add('answered');
+    const ex = qEl.querySelector('.explain');
+    if(ex) ex.hidden = false;
+  }
+
+  function handleOptionClick(e){
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    const qEl = opt.closest('.quiz-q');
+    if(!qEl || qEl.classList.contains('answered')) return;
+    const qid = qEl.dataset.qid;
+    const opts = Array.from(qEl.querySelectorAll('.opt'));
+    const chosenIdx = opts.indexOf(opt);
+    const isCorrect = opt.dataset.correct === 'true';
+    applyAnswer(qEl, chosenIdx, isCorrect);
+    quizState[qid] = {chosenIndex:chosenIdx, correct:isCorrect};
+    startTimer();
+    const stats = updateScoreDisplay();
+    if(stats && stats.answered >= stats.total) stopTimer();
+    saveProgress();
+  }
+  document.addEventListener('click', handleOptionClick);
+
+  const resetBtn = document.querySelector('.reset-btn');
+  if(resetBtn){
+    resetBtn.addEventListener('click', async ()=>{
+      for(const k in quizState) delete quizState[k];
+      document.querySelectorAll('.quiz-q').forEach(qEl=>{
+        qEl.classList.remove('answered');
+        qEl.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked-correct','picked-wrong','reveal-correct'));
+        const ex = qEl.querySelector('.explain');
+        if(ex) ex.hidden = true;
+      });
+      updateScoreDisplay();
+      resetTimer();
+      try{ await window.storage.delete('dsa-quiz', false); }catch(e){}
+    });
+  }
+
+  function restoreState(){
+    Object.keys(quizState).forEach(qid=>{
+      const qEl = document.querySelector('.quiz-q[data-qid="'+qid+'"]');
+      if(!qEl) return;
+      const rec = quizState[qid];
+      applyAnswer(qEl, rec.chosenIndex, rec.correct);
+    });
+    updateScoreDisplay();
+  }
+
+  async function init(){
+    try{
+      const res = await window.storage.get('dsa-quiz', false);
+      if(res && res.value) Object.assign(quizState, JSON.parse(res.value));
+    }catch(e){}
+    restoreState();
+  }
+  init();
+})();
+</script>
+</body>
+</html>

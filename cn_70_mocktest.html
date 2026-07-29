@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Computer Networks Deep-Dive Mock (70Q)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --acc:#5eb3d6;
+    --ok:#5ecfa8; --ok-dim:#1e2c22; --bad:#e2707a; --bad-dim:#301f22; --marked:#e0a458; --marked-dim:#3a2c22;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, rgba(94,179,214,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,207,168,0.05), transparent 55%), var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:20px;}
+  h1,h2,h3{font-family:var(--display);margin:0;}
+  .hide{display:none !important;}
+  button{font-family:var(--sans);cursor:pointer;}
+  pre{font-family:var(--mono);background:#0b0f14;border:1px solid var(--border);padding:10px 12px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.6;color:#c9d6e0;margin:8px 0;}
+
+  #startScreen{max-width:760px;margin:40px auto;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);}
+  #startScreen h1{font-size:25px;margin-bottom:8px;}
+  #startScreen p.sub{color:var(--text-dim);font-size:14px;margin:0 0 20px 0;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .infogrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+  @media (max-width:640px){.infogrid{grid-template-columns:repeat(2,1fr);}}
+  .infochip{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:10px 6px;text-align:center;}
+  .infochip .n{font-family:var(--display);font-size:17px;font-weight:700;color:var(--acc);}
+  .infochip .l{font-family:var(--mono);font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.03em;margin-top:2px;}
+  .card h3{font-size:14px;margin-bottom:10px;color:var(--text);}
+  .card ul{margin:0;padding-left:20px;color:var(--text-dim);font-size:13.5px;}
+  .card li{margin:6px 0;}
+  .card li b{color:var(--text);}
+  #historyLine{font-family:var(--mono);font-size:12px;color:var(--text-faint);margin:10px 0 0 0;}
+  .startbtn{display:block;width:100%;background:var(--acc);color:#0e131a;border:none;border-radius:8px;padding:15px;font-family:var(--display);font-weight:700;font-size:15px;margin-top:8px;}
+  .startbtn:hover{filter:brightness(1.08);}
+
+  #testScreen{display:none;}
+  .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px;gap:12px;flex-wrap:wrap;}
+  .topbar .ttl{font-family:var(--display);font-weight:600;font-size:14px;color:var(--text-dim);}
+  .timerbox{font-family:var(--mono);font-size:16px;font-weight:600;background:var(--panel);border:1px solid var(--border);padding:6px 14px;border-radius:8px;color:var(--acc);}
+  .timerbox.low{color:var(--bad);border-color:var(--bad);}
+  .submitbtn{background:var(--bad);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;}
+
+  .testlayout{display:grid;grid-template-columns:1fr 300px;gap:18px;padding:18px 20px;}
+  @media (max-width:860px){.testlayout{grid-template-columns:1fr;}}
+
+  .qpanel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .topictag{font-family:var(--mono);font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:5px;color:#0e131a;background:var(--acc);}
+  .qnum{font-family:var(--mono);font-size:12px;color:var(--text-faint);}
+  .qtext{font-size:15.5px;color:var(--text);margin:0 0 12px 0;font-weight:500;}
+  .options{display:grid;gap:10px;margin-bottom:20px;}
+  .option{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:12px 14px;border-radius:8px;font-size:14px;display:flex;align-items:center;gap:10px;}
+  .option:hover{border-color:var(--text-faint);color:var(--text);}
+  .option.selected{border-color:var(--acc);background:rgba(94,179,214,0.14);color:var(--text);}
+  .option .lettercircle{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0;color:var(--text-faint);}
+  .option.selected .lettercircle{border-color:var(--acc);color:var(--acc);}
+  .ctrlbar{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border-soft);padding-top:16px;}
+  .ctrlbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:9px 14px;border-radius:7px;font-size:12.5px;font-family:var(--mono);}
+  .ctrlbtn:hover{color:var(--text);border-color:var(--text-faint);}
+  .ctrlbtn.primary{background:var(--ok);color:#0e131a;border-color:var(--ok);font-weight:600;}
+  .ctrlbtn.mark{background:var(--marked);color:#0e131a;border-color:var(--marked);font-weight:600;}
+  .ctrlbtn.spacer{margin-left:auto;}
+
+  .palette{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;height:fit-content;position:sticky;top:70px;max-height:80vh;overflow-y:auto;}
+  .palette h3{font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;color:var(--text-faint);margin-bottom:10px;}
+  .legend{display:grid;gap:5px;margin-bottom:14px;font-size:11px;color:var(--text-dim);}
+  .legend div{display:flex;align-items:center;gap:6px;}
+  .legend .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0;}
+  .sw.nv{background:var(--panel-alt);border:1px solid var(--border);} .sw.na{background:var(--bad);} .sw.an{background:var(--ok);}
+  .sw.mk{background:var(--marked);} .sw.am{background:var(--ok);border:2px solid var(--marked);}
+  .pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+  .pbtn{aspect-ratio:1;border-radius:6px;border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .pbtn.na{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .pbtn.an{background:var(--ok);color:#0e131a;border-color:var(--ok);}
+  .pbtn.mk{background:var(--marked);color:#0e131a;border-color:var(--marked);}
+  .pbtn.am{background:var(--ok);color:#0e131a;box-shadow:0 0 0 2px var(--marked) inset;}
+  .pbtn.current{outline:2px solid var(--acc);outline-offset:1px;}
+  .psectionlbl{font-family:var(--mono);font-size:9px;color:var(--text-faint);margin:8px 0 4px 0;text-transform:uppercase;}
+
+  #resultScreen{display:none;max-width:800px;margin:30px auto;}
+  .scorecard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:18px;}
+  .scorecard .bigscore{font-family:var(--display);font-size:44px;font-weight:700;color:var(--acc);}
+  .scorecard .bigscore span{font-size:20px;color:var(--text-faint);}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;}
+  .statrow .s{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:10px;}
+  .statrow .s .v{font-family:var(--display);font-size:18px;font-weight:700;}
+  .statrow .s .l{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;margin-top:2px;}
+  .sectable{width:100%;border-collapse:collapse;margin-top:10px;}
+  .sectable th,.sectable td{text-align:left;padding:6px 9px;border-bottom:1px solid var(--border-soft);font-size:12px;}
+  .sectable th{font-family:var(--mono);font-size:9.5px;color:var(--text-faint);text-transform:uppercase;}
+  .resultbtns{display:flex;gap:10px;margin-top:18px;}
+  .resultbtns button{flex:1;padding:13px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:14px;border:1px solid var(--border);}
+  .resultbtns .review{background:var(--acc);color:#0e131a;border-color:var(--acc);}
+  .resultbtns .retake{background:var(--panel-alt);color:var(--text);}
+
+  #reviewScreen{display:none;max-width:820px;margin:20px auto;padding-bottom:60px;}
+  .filterbar{display:flex;gap:8px;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:10;flex-wrap:wrap;}
+  .filterbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:7px 14px;border-radius:100px;font-size:12px;font-family:var(--mono);}
+  .filterbtn.active{background:var(--acc);color:#0e131a;border-color:var(--acc);}
+  .revq{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;}
+  .revq .qtext{font-size:14.5px;margin-bottom:12px;}
+  .revopt{padding:9px 12px;border-radius:7px;border:1px solid var(--border);margin-bottom:6px;font-size:13px;color:var(--text-dim);}
+  .revopt.correctAns{border-color:var(--ok);background:rgba(94,207,168,0.1);color:var(--text);}
+  .revopt.userWrong{border-color:var(--bad);background:rgba(226,112,122,0.1);color:var(--text);}
+  .revexp{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--acc);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .revexp b{color:var(--text);}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;margin-left:8px;}
+  .badge.correct{background:var(--ok-dim);color:var(--ok);border:1px solid var(--ok);}
+  .badge.wrong{background:var(--bad-dim);color:var(--bad);border:1px solid var(--bad);}
+  .badge.unattempted{background:var(--panel-alt);color:var(--text-faint);border:1px solid var(--border);}
+  .backbtn{background:var(--panel-alt);color:var(--text);border:1px solid var(--border);padding:10px 16px;border-radius:8px;font-family:var(--display);font-weight:600;margin-bottom:16px;}
+
+  .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .confirm-overlay.hide{display:none;}
+  .confirm-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:360px;text-align:center;}
+  .confirm-box p{color:var(--text);font-size:14px;margin:0 0 18px 0;}
+  .confirm-btns{display:flex;gap:10px;justify-content:center;}
+  .confirm-btns button{padding:10px 18px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;border:1px solid var(--border);cursor:pointer;}
+  .confirm-btns .cbtn-yes{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .confirm-btns .cbtn-cancel{background:var(--panel-alt);color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="startScreen">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER · COMPUTER NETWORKS DEEP-DIVE</div>
+    <h1>Computer Networks — 70-Question Deep-Dive Mock</h1>
+    <p class="sub">Every aspect of CN at medium-to-hard difficulty: OSI layers cross-referenced with devices, formula-based calculations, scenario identification, standalone standard facts, and TCP connection establishment/termination.</p>
+    <div class="infogrid">
+      <div class="infochip"><div class="n">18</div><div class="l">OSI &amp; Devices</div></div>
+      <div class="infochip"><div class="n">10</div><div class="l">IP &amp; Subnetting</div></div>
+      <div class="infochip"><div class="n">8</div><div class="l">TCP &amp; Connections</div></div>
+      <div class="infochip"><div class="n">8</div><div class="l">Protocols &amp; Ports</div></div>
+      <div class="infochip"><div class="n">8</div><div class="l">Routing</div></div>
+      <div class="infochip"><div class="n">6</div><div class="l">Switching &amp; Errors</div></div>
+      <div class="infochip"><div class="n">6</div><div class="l">Security</div></div>
+      <div class="infochip"><div class="n">6</div><div class="l">Wireless &amp; Standards</div></div>
+    </div>
+    <div class="card">
+      <h3>Instructions</h3>
+      <ul>
+        <li>Total <b>70 questions</b>, time limit <b>55 minutes</b> (extra time for formula-based questions).</li>
+        <li>Marking: <b>+1</b> correct, <b>&minus;0.25</b> wrong, <b>0</b> unattempted.</li>
+        <li>Select an option, then <b>Save &amp; Next</b> to lock it in — selecting alone does not save your answer.</li>
+        <li><b>Mark for Review &amp; Next</b> flags a question; <b>Clear Response</b> removes your selection.</li>
+        <li>Use the question palette (grouped by sub-topic) to jump to any question directly.</li>
+        <li>The test auto-submits when the timer hits zero.</li>
+      </ul>
+      <p id="historyLine"></p>
+    </div>
+    <button class="startbtn" id="startBtn">Start Test</button>
+  </div>
+
+  <div id="testScreen">
+    <div class="topbar">
+      <div class="ttl">CN Deep-Dive Mock · 70Q</div>
+      <div class="timerbox" id="timerBox">55:00</div>
+      <button class="submitbtn" id="submitBtn">Submit Test</button>
+    </div>
+    <div class="testlayout">
+      <div class="qpanel">
+        <div class="qmeta"><span class="topictag" id="qTopicTag">OSI &amp; Devices</span><span class="qnum" id="qNum">Question 1 of 70</span></div>
+        <p class="qtext" id="qText"></p>
+        <div class="options" id="qOptions"></div>
+        <div class="ctrlbar">
+          <button class="ctrlbtn" id="clearBtn">Clear Response</button>
+          <button class="ctrlbtn mark" id="markBtn">Mark for Review &amp; Next</button>
+          <button class="ctrlbtn spacer" id="prevBtn">◂ Previous</button>
+          <button class="ctrlbtn primary" id="saveBtn">Save &amp; Next ▸</button>
+        </div>
+      </div>
+      <div class="palette">
+        <h3>Question Palette</h3>
+        <div class="legend">
+          <div><span class="sw nv"></span> Not visited</div>
+          <div><span class="sw na"></span> Not answered</div>
+          <div><span class="sw an"></span> Answered</div>
+          <div><span class="sw mk"></span> Marked for review</div>
+          <div><span class="sw am"></span> Answered &amp; marked</div>
+        </div>
+        <div id="paletteContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultScreen">
+    <div class="scorecard">
+      <div class="eyebrow" style="justify-content:center;"><span class="dot"></span> TEST COMPLETE</div>
+      <div class="bigscore" id="bigScore">0<span>/70</span></div>
+      <div class="statrow">
+        <div class="s"><div class="v" id="statCorrect">0</div><div class="l">Correct</div></div>
+        <div class="s"><div class="v" id="statWrong">0</div><div class="l">Wrong</div></div>
+        <div class="s"><div class="v" id="statUnatt">0</div><div class="l">Unattempted</div></div>
+        <div class="s"><div class="v" id="statAcc">0%</div><div class="l">Accuracy</div></div>
+      </div>
+      <table class="sectable">
+        <tr><th>Sub-topic</th><th>Correct</th><th>Wrong</th><th>Unatt.</th><th>Score</th></tr>
+        <tbody id="sectionBody"></tbody>
+      </table>
+      <div class="resultbtns">
+        <button class="review" id="reviewBtn">Review Answers</button>
+        <button class="retake" id="retakeBtn">Retake Test</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reviewScreen">
+    <button class="backbtn" id="backBtn">◂ Back to Result</button>
+    <div class="filterbar">
+      <button class="filterbtn active" data-f="all">All 70</button>
+      <button class="filterbtn" data-f="correct">Correct</button>
+      <button class="filterbtn" data-f="wrong">Wrong</button>
+      <button class="filterbtn" data-f="unattempted">Unattempted</button>
+    </div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="confirmOverlay" class="confirm-overlay hide">
+  <div class="confirm-box">
+    <p>Submit the test? You cannot change answers after this.</p>
+    <div class="confirm-btns">
+      <button id="confirmCancel" class="cbtn-cancel">Cancel</button>
+      <button id="confirmYes" class="cbtn-yes">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const QUESTIONS = [
+{id:'q1',topic:'OSI & Devices',q:`Which OSI layer is responsible for establishing, managing, and terminating sessions between two communicating applications?`,options:[`Session`,`Transport`,`Presentation`,`Application`],correct:0,exp:`The <b>Session layer</b> (Layer 5) manages dialog control — establishing, maintaining, and terminating sessions.`},
+{id:'q2',topic:'OSI & Devices',q:`Data encryption/decryption and format translation (e.g., character encoding conversion) happen at which OSI layer?`,options:[`Application`,`Presentation`,`Session`,`Transport`],correct:1,exp:`The <b>Presentation layer</b> (Layer 6) handles translation, encryption, and compression.`},
+{id:'q3',topic:'OSI & Devices',q:`A repeater operates at which OSI layer, and what is its core function?`,options:[`Layer 1 — regenerates/amplifies signals`,`Layer 2 — filters frames by MAC address`,`Layer 3 — routes packets`,`Layer 7 — inspects content`],correct:0,exp:`A <b>repeater</b> works purely at the Physical layer, boosting a weakening signal with no awareness of addressing.`},
+{id:'q4',topic:'OSI & Devices',q:`Which OSI layer adds BOTH a header AND a trailer to its data unit, unlike most layers which add only a header?`,options:[`Network`,`Transport`,`Data Link`,`Application`],correct:2,exp:`The <b>Data Link layer</b> appends a trailer (the FCS/CRC) in addition to its header — used for error detection on that specific link.`},
+{id:'q5',topic:'OSI & Devices',q:`A switch running in "cut-through" mode begins forwarding a frame as soon as it reads the destination MAC address, without waiting for the full frame. At which layer does a switch fundamentally operate?`,options:[`Layer 1`,`Layer 2`,`Layer 3`,`Layer 4`],correct:1,exp:`Switches operate at <b>Layer 2 (Data Link)</b>, forwarding based on MAC addresses.`},
+{id:'q6',topic:'OSI & Devices',q:`Which OSI layer handles logical addressing and determines the best path across multiple interconnected networks?`,options:[`Data Link`,`Network`,`Transport`,`Session`],correct:1,exp:`The <b>Network layer</b> (Layer 3) handles IP addressing and routing decisions.`},
+{id:'q7',topic:'OSI & Devices',q:`A Layer 3 switch differs from a traditional Layer 2 switch primarily because it can additionally:`,options:[`Amplify signals over long distances`,`Perform routing decisions based on IP addresses, in addition to switching`,`Encrypt all traffic automatically`,`Assign MAC addresses to devices`],correct:1,exp:`A <b>Layer 3 switch</b> combines normal Layer 2 switching with IP-based routing capability.`},
+{id:'q8',topic:'OSI & Devices',q:`Which device operates at the Physical layer, used to extend the maximum distance a signal can travel by regenerating it?`,options:[`Router`,`Repeater`,`Bridge`,`Gateway`],correct:1,exp:`A <b>repeater</b> regenerates/amplifies a signal to extend transmission distance.`},
+{id:'q9',topic:'OSI & Devices',q:`A Gateway is unique among networking devices because it can operate:`,options:[`Only at Layer 1`,`Only at Layer 2`,`At any/all layers up to Layer 7, translating between fundamentally different protocol stacks`,`Only at Layer 4`],correct:2,exp:`A <b>gateway</b> can work across all layers, since its job is to translate between entirely different network architectures/protocols.`},
+{id:'q10',topic:'OSI & Devices',q:`Which of these correctly matches a PDU (Protocol Data Unit) name to its OSI layer?`,options:[`Layer 3 = Frame`,`Layer 2 = Packet`,`Layer 4 = Segment`,`Layer 1 = Frame`],correct:2,exp:`<b>Layer 4 (Transport) = Segment</b> is correct. Layer 3 is actually Packet, Layer 2 is Frame, and Layer 1 is Bit.`},
+{id:'q11',topic:'OSI & Devices',q:`A hub differs from a switch primarily because a hub:`,options:[`Filters traffic by MAC address`,`Broadcasts every incoming signal to ALL ports, creating a single shared collision domain`,`Operates at Layer 3`,`Can perform NAT`],correct:1,exp:`A <b>hub</b> is a dumb repeater-like device — every port shares one collision domain since there's no MAC-based filtering.`},
+{id:'q12',topic:'OSI & Devices',q:`Each port on a switch represents a separate:`,options:[`Broadcast domain`,`Collision domain`,`Subnet, automatically`,`VLAN, automatically`],correct:1,exp:`A switch breaks up <b>collision domains</b> per port — but the broadcast domain remains shared across all ports unless VLANs are configured.`},
+{id:'q13',topic:'OSI & Devices',q:`A bridge connects two LAN segments. Compared to a repeater, what additional intelligence does a bridge have?`,options:[`None — they are identical`,`A bridge filters traffic based on MAC address, forwarding only necessary frames between segments`,`A bridge assigns IP addresses`,`A bridge only works with fiber optic cable`],correct:1,exp:`A <b>bridge</b> reads MAC addresses and intelligently forwards only frames that need to cross between segments, reducing unnecessary traffic.`},
+{id:'q14',topic:'OSI & Devices',q:`A modem's core function is to:`,options:[`Filter malicious traffic`,`Convert digital signals to analog for transmission over telephone lines, and back (modulate/demodulate)`,`Assign private IP addresses`,`Provide wireless-only connectivity`],correct:1,exp:`<b>Modem</b> = MOdulator-DEModulator, converting between digital and analog signal forms.`},
+{id:'q15',topic:'OSI & Devices',q:`Which device connects a corporate LAN using TCP/IP to a legacy network using a completely different protocol stack?`,options:[`Switch`,`Router`,`Gateway`,`Repeater`],correct:2,exp:`A <b>gateway</b> is specifically built to translate between fundamentally incompatible protocol stacks.`},
+{id:'q16',topic:'OSI & Devices',q:`An Access Point (AP) primarily allows:`,options:[`Wireless devices to connect to a wired network`,`Encryption of all wired traffic`,`IP address translation`,`Amplification of wired signals only`],correct:0,exp:`An <b>Access Point</b> bridges wireless clients into an existing wired network infrastructure.`},
+{id:'q17',topic:'OSI & Devices',q:`A router forwards packets between networks based primarily on:`,options:[`MAC address`,`Destination IP address, using its routing table`,`Port number only`,`Physical cable length`],correct:1,exp:`Routers make forwarding decisions using the <b>destination IP address</b> against their routing table.`},
+{id:'q18',topic:'OSI & Devices',q:`Which statement about hubs and switches regarding BROADCAST domains is correct?`,options:[`Both hubs and switches break up broadcast domains`,`Neither hub nor switch breaks up broadcast domains — only a router (or VLANs) does`,`A hub breaks up broadcast domains but a switch doesn't`,`A switch breaks broadcast domains but a hub doesn't`],correct:1,exp:`Both hubs AND switches leave the broadcast domain unchanged — only a <b>router</b> (or VLAN segmentation) creates separate broadcast domains.`},
+
+{id:'q19',topic:'IP & Subnetting',q:`How many usable host addresses exist in a /25 subnet?`,options:[`128`,`126`,`124`,`127`],correct:1,exp:`/25 leaves 7 host bits: 2⁷=128 total addresses, minus 2 (network+broadcast) = <b>126</b>.`},
+{id:'q20',topic:'IP & Subnetting',q:`A network needs to accommodate at least 500 hosts. What is the minimum-size subnet (CIDR notation) required?`,options:[`/22`,`/23`,`/24`,`/21`],correct:1,exp:`/23 gives 2⁹−2=510 usable hosts (enough); /24 gives only 254 (not enough). <b>/23</b> is the smallest subnet that fits.`},
+{id:'q21',topic:'IP & Subnetting',q:`Network 172.16.0.0/16 is subnetted into /20 blocks. How many subnets are created?`,options:[`8`,`16`,`32`,`64`],correct:1,exp:`Borrowed bits = 20−16 = 4 → 2⁴ = <b>16</b> subnets.`},
+{id:'q22',topic:'IP & Subnetting',q:`What is the broadcast address for the subnet 192.168.5.64/26?`,options:[`192.168.5.95`,`192.168.5.127`,`192.168.5.128`,`192.168.5.63`],correct:1,exp:`/26 gives block size 64: this subnet spans .64–.127, so the broadcast address is <b>192.168.5.127</b>.`},
+{id:'q23',topic:'IP & Subnetting',q:`A file of 1,000,000 bits is transmitted over a 1 Mbps link. Ignoring propagation delay, what is the transmission time?`,options:[`0.1 s`,`1 s`,`10 s`,`100 s`],correct:1,exp:`Transmission time = data size ÷ bandwidth = 1,000,000 bits ÷ 1,000,000 bps = <b>1 second</b>.`},
+{id:'q24',topic:'IP & Subnetting',q:`A link has propagation speed 2×10⁸ m/s and length 2000 km. What is the propagation delay?`,options:[`1 ms`,`10 ms`,`100 ms`,`1 s`],correct:1,exp:`Delay = distance ÷ speed = 2×10⁶ m ÷ 2×10⁸ m/s = 0.01 s = <b>10 ms</b>.`},
+{id:'q25',topic:'IP & Subnetting',q:`Using Shannon's capacity formula C = B·log₂(1+SNR), a channel has bandwidth 3000 Hz, with log₂(1+SNR)=8. What is the channel capacity?`,options:[`3,000 bps`,`8,000 bps`,`24,000 bps`,`24,000,000 bps`],correct:2,exp:`C = 3000 × 8 = <b>24,000 bps</b>.`},
+{id:'q26',topic:'IP & Subnetting',q:`The Bandwidth-Delay Product of a link determines:`,options:[`The maximum throughput regardless of window size`,`The amount of data that can be "in transit" on the link at any moment, informing optimal TCP window size`,`The number of hops in a path`,`The MAC address range`],correct:1,exp:`Bandwidth × RTT gives the volume of data that can be in flight — directly informing how large a TCP window should be to keep the pipe full.`},
+{id:'q27',topic:'IP & Subnetting',q:`A Class B network address has which default subnet mask?`,options:[`255.0.0.0`,`255.255.0.0`,`255.255.255.0`,`255.255.255.128`],correct:1,exp:`Class B networks default to <b>255.255.0.0</b> (/16).`},
+{id:'q28',topic:'IP & Subnetting',q:`Given IP 10.20.35.200/22, what is the network address?`,options:[`10.20.32.0`,`10.20.34.0`,`10.20.0.0`,`10.20.36.0`],correct:0,exp:`/22 leaves 6 network bits inside the third octet, giving a block size of 4 there. 35 falls in the 32–35 range, so the network address is <b>10.20.32.0</b>.`},
+
+{id:'q29',topic:'TCP & Connections',q:`What is the correct sequence of the TCP three-way handshake used to establish a connection?`,options:[`SYN → SYN-ACK → ACK`,`ACK → SYN → SYN-ACK`,`SYN → ACK → SYN-ACK`,`SYN-ACK → SYN → ACK`],correct:0,exp:`The handshake is exactly <b>SYN → SYN-ACK → ACK</b>.`},
+{id:'q30',topic:'TCP & Connections',q:`TCP connection termination typically uses a four-step exchange. What is the correct sequence of flags (one side initiating closure)?`,options:[`FIN → ACK → FIN → ACK`,`FIN → FIN → ACK → ACK`,`SYN → FIN → ACK → ACK`,`ACK → FIN → SYN → ACK`],correct:0,exp:`Termination is <b>FIN → ACK → FIN → ACK</b> — each side closes its own half of the connection independently.`},
+{id:'q31',topic:'TCP & Connections',q:`Why does TCP termination require FOUR steps while establishment needs only THREE?`,options:[`Termination code is simply more complex for no functional reason`,`Because TCP is full-duplex — each side must independently close its own direction, and the ACK+FIN often can't be combined into one step`,`Four steps is arbitrary and could be changed freely`,`TCP termination actually only needs two steps`],correct:1,exp:`Since TCP is <b>full-duplex</b>, both directions of the connection must be closed — one side's ACK and its own subsequent FIN typically arrive separately, requiring the extra step.`},
+{id:'q32',topic:'TCP & Connections',q:`A TCP connection enters the TIME_WAIT state after closing. What is the primary purpose of this waiting period?`,options:[`To allow immediate reuse of the port`,`To ensure any delayed/duplicate packets from the old connection aren't mistakenly delivered to a new connection reusing the same socket pair`,`To renegotiate encryption keys`,`To perform a final data backup`],correct:1,exp:`<b>TIME_WAIT</b> guards against stray late-arriving packets from the old connection being misinterpreted by a new one on the same address/port pair.`},
+{id:'q33',topic:'TCP & Connections',q:`Which statement about TCP vs UDP header size is correct?`,options:[`TCP's header (20 bytes minimum) is larger than UDP's (8 bytes), due to TCP's added reliability/connection-management fields`,`UDP's header is larger than TCP's`,`Both headers are identical in size`,`Neither protocol uses a header`],correct:0,exp:`TCP's extra fields (sequence/ack numbers, window size, flags) make its minimum header <b>20 bytes</b> versus UDP's lean <b>8 bytes</b>.`},
+{id:'q34',topic:'TCP & Connections',q:`A client sends a SYN to a server, but no process is listening on that port. What does the server typically respond with?`,options:[`SYN-ACK`,`RST (Reset)`,`FIN`,`Nothing at all`],correct:1,exp:`The server replies with <b>RST</b>, immediately signaling that the port isn't open for connections.`},
+{id:'q35',topic:'TCP & Connections',q:`In TCP, an ACK number of 5000 sent by the receiver signifies:`,options:[`The receiver has sent 5000 bytes`,`The receiver has successfully received all bytes up to 4999 and expects byte 5000 next`,`The connection will close after 5000 bytes`,`The window size is exactly 5000`],correct:1,exp:`TCP acknowledgment numbers are <b>cumulative</b> — ACK=5000 means everything up to byte 4999 arrived, and 5000 is expected next.`},
+{id:'q36',topic:'TCP & Connections',q:`Which scenario is best suited to UDP rather than TCP?`,options:[`File transfer requiring perfect accuracy`,`DNS queries, needing a fast, lightweight, single-request/response exchange`,`Secure web browsing requiring guaranteed delivery`,`Email transmission via SMTP`],correct:1,exp:`<b>DNS</b> lookups favor UDP's speed and low overhead for a typical single quick query/response.`},
+
+{id:'q37',topic:'Protocols & Ports',q:`Which protocol/port combination provides secure, encrypted remote command-line access?`,options:[`Telnet, port 23`,`SSH, port 22`,`FTP, port 21`,`HTTP, port 80`],correct:1,exp:`<b>SSH on port 22</b> provides encrypted remote access, replacing insecure plaintext Telnet.`},
+{id:'q38',topic:'Protocols & Ports',q:`Which protocol translates a human-readable domain name into an IP address?`,options:[`DHCP`,`ARP`,`DNS`,`SNMP`],correct:2,exp:`<b>DNS</b> resolves domain names to IP addresses.`},
+{id:'q39',topic:'Protocols & Ports',q:`Which protocol automatically assigns a device an IP address, subnet mask, and default gateway upon connecting to a network?`,options:[`DNS`,`DHCP`,`ARP`,`ICMP`],correct:1,exp:`<b>DHCP</b> handles automatic IP configuration for connecting devices.`},
+{id:'q40',topic:'Protocols & Ports',q:`Which port does SMTP use for sending email by default?`,options:[`25`,`110`,`143`,`465`],correct:0,exp:`SMTP's standard default port is <b>25</b> (465/587 are secure variants).`},
+{id:'q41',topic:'Protocols & Ports',q:`FTP uses two separate port numbers. What are they used for respectively?`,options:[`Port 20 for control, Port 21 for data`,`Port 21 for control, Port 20 for data`,`Both ports do the same thing`,`FTP uses only one port`],correct:1,exp:`FTP uses <b>port 21 for control</b> (commands) and <b>port 20 for the actual data transfer</b>.`},
+{id:'q42',topic:'Protocols & Ports',q:`Which protocol lets an administrator monitor and manage network devices remotely, using ports 161 and 162?`,options:[`SNMP`,`SSH`,`Telnet`,`FTP`],correct:0,exp:`<b>SNMP</b> uses port 161 for manager-to-agent polling and port 162 for unsolicited traps.`},
+{id:'q43',topic:'Protocols & Ports',q:`A user wants to retrieve email while keeping a synchronized copy accessible from multiple devices. Which protocol supports this best?`,options:[`POP3`,`IMAP`,`SMTP`,`FTP`],correct:1,exp:`<b>IMAP</b> keeps mail synced on the server across devices; POP3 traditionally downloads and removes it.`},
+{id:'q44',topic:'Protocols & Ports',q:`NTP (Network Time Protocol) is used primarily to:`,options:[`Synchronize clocks across networked devices`,`Transfer files`,`Resolve domain names`,`Assign IP addresses`],correct:0,exp:`<b>NTP</b> keeps device clocks synchronized across a network — important for logging, security certificates, and distributed systems.`},
+
+{id:'q45',topic:'Routing',q:`Which routing protocol determines paths using only hop count, with a maximum of 15 hops?`,options:[`OSPF`,`RIP`,`BGP`,`EIGRP`],correct:1,exp:`<b>RIP</b> uses hop count as its sole metric, capped at 15 (16 = unreachable).`},
+{id:'q46',topic:'Routing',q:`Which algorithm does OSPF use to compute shortest paths after building its complete topology map?`,options:[`Bellman-Ford`,`Dijkstra's algorithm`,`Floyd-Warshall`,`Prim's algorithm`],correct:1,exp:`OSPF is a link-state protocol, using <b>Dijkstra's algorithm</b> once every router has the full topology.`},
+{id:'q47',topic:'Routing',q:`BGP is classified as a Path Vector protocol because it:`,options:[`Uses only hop count`,`Explicitly tracks the full sequence of Autonomous Systems a route has passed through, preventing loops`,`Floods link-state information to all routers`,`Uses Dijkstra's algorithm`],correct:1,exp:`BGP carries the entire <b>AS-path</b> in its advertisements, letting routers instantly detect and reject loops.`},
+{id:'q48',topic:'Routing',q:`A router has two routes to the same destination: one via OSPF (Administrative Distance 110) and one static route (AD 1). Which route is preferred?`,options:[`OSPF, since dynamic routing is always better`,`The static route, because LOWER administrative distance is preferred`,`Both are installed and load-balanced automatically`,`Neither is used`],correct:1,exp:`<b>Lower Administrative Distance wins</b> — the static route (AD 1) is preferred over OSPF (AD 110).`},
+{id:'q49',topic:'Routing',q:`Which routing technique is classified as Non-Adaptive, since routes don't change based on current network conditions?`,options:[`Distance Vector routing`,`Static routing`,`Link State routing`,`Path Vector routing`],correct:1,exp:`<b>Static routing</b> is fixed/manual and doesn't adapt to real-time conditions — the definition of non-adaptive.`},
+{id:'q50',topic:'Routing',q:`Which of these is an Exterior Gateway Protocol (EGP), used to route between different Autonomous Systems?`,options:[`RIP`,`OSPF`,`BGP`,`EIGRP`],correct:2,exp:`<b>BGP</b> is the standard protocol routing between Autonomous Systems (the actual internet backbone); the others are all IGPs.`},
+{id:'q51',topic:'Routing',q:`In distance vector routing, the "count-to-infinity" problem occurs because:`,options:[`Routers have unlimited memory`,`Routers only know a distance/direction from neighbors and can keep propagating stale, looping information after a link failure`,`Routers use Dijkstra's algorithm`,`This problem doesn't actually exist`],correct:1,exp:`Since distance vector routers only trust neighbor-reported distances ("routing by rumor"), a failure can cause stale info to loop, slowly incrementing the hop count toward infinity.`},
+{id:'q52',topic:'Routing',q:`Split Horizon reduces routing loops in distance vector protocols by:`,options:[`Never advertising a route back out the same interface it was learned from`,`Doubling the metric of every route`,`Ignoring all neighbor advertisements`,`Using only static routes`],correct:0,exp:`<b>Split Horizon</b> prevents a router from re-advertising a route back toward the neighbor it originally learned it from, cutting off a common loop source.`},
+
+{id:'q53',topic:'Switching & Errors',q:`Which switching technique reserves a dedicated end-to-end path for the ENTIRE duration of a call, as used in traditional telephone networks?`,options:[`Packet switching`,`Circuit switching`,`Message switching`,`Cell switching`],correct:1,exp:`<b>Circuit switching</b> dedicates a fixed path for the whole session — classic landline telephony.`},
+{id:'q54',topic:'Switching & Errors',q:`Which switching technique does the modern Internet use, breaking data into independently-routed units reassembled at the destination?`,options:[`Circuit switching`,`Packet switching`,`Message switching`,`None of these`],correct:1,exp:`<b>Packet switching</b> underlies the Internet — efficient and resilient compared to dedicating a fixed circuit.`},
+{id:'q55',topic:'Switching & Errors',q:`Which error detection method uses polynomial division, significantly more robust than a simple parity check, and is standard in Ethernet frames?`,options:[`Parity check`,`Checksum`,`CRC (Cyclic Redundancy Check)`,`Hamming code`],correct:2,exp:`<b>CRC</b> is polynomial-division based and forms the FCS in Ethernet frames.`},
+{id:'q56',topic:'Switching & Errors',q:`A simple parity check can reliably detect:`,options:[`Any number of bit errors`,`Only single-bit (or any odd number of) bit errors reliably`,`Only errors in the header`,`No errors at all`],correct:1,exp:`Parity flips with an odd number of bit errors but can miss an <b>even</b> number of errors entirely — a key limitation.`},
+{id:'q57',topic:'Switching & Errors',q:`Which technique allows a receiver to not just detect but actually CORRECT a single-bit error without requesting retransmission?`,options:[`CRC`,`Parity check`,`Hamming Code`,`Checksum`],correct:2,exp:`<b>Hamming Code</b> adds enough redundant bits to pinpoint and flip the exact bad bit — true forward error correction.`},
+{id:'q58',topic:'Switching & Errors',q:`Store-and-Forward switching differs from Cut-Through switching because Store-and-Forward:`,options:[`Never checks for errors`,`Receives the ENTIRE frame and checks it (via CRC) before forwarding, adding latency but avoiding forwarding corrupted frames`,`Ignores the destination address`,`Only works with fiber optics`],correct:1,exp:`<b>Store-and-Forward</b> buffers the whole frame and verifies its CRC before forwarding — safer but slower than cut-through.`},
+
+{id:'q59',topic:'Security',q:`A firewall that only checks source/destination IP addresses and port numbers, with no awareness of connection state, is called a:`,options:[`Stateful inspection firewall`,`Packet-filtering firewall`,`Application gateway`,`Circuit-level gateway`],correct:1,exp:`A <b>packet-filtering firewall</b> evaluates each packet in isolation against static rules, without tracking session state.`},
+{id:'q60',topic:'Security',q:`Which protocol suite provides encryption for web traffic, forming the basis of HTTPS?`,options:[`FTP`,`SSL/TLS`,`SNMP`,`ARP`],correct:1,exp:`<b>SSL/TLS</b> encrypts the HTTP session, producing HTTPS.`},
+{id:'q61',topic:'Security',q:`A VPN provides security primarily by:`,options:[`Blocking all traffic by default`,`Creating an encrypted tunnel over a public network, protecting data in transit`,`Assigning static IP addresses`,`Filtering spam email`],correct:1,exp:`A <b>VPN</b> encrypts traffic through a tunnel across a public network like the Internet.`},
+{id:'q62',topic:'Security',q:`An attacker intercepts and potentially alters communication between two parties who believe they're communicating directly with each other. This is called:`,options:[`Phishing`,`Man-in-the-Middle attack`,`DDoS`,`SQL Injection`],correct:1,exp:`A <b>Man-in-the-Middle</b> attack inserts the attacker invisibly between two communicating parties.`},
+{id:'q63',topic:'Security',q:`Which security mechanism verifies that a message was NOT altered in transit and genuinely came from the claimed sender?`,options:[`Encryption alone`,`Digital signature`,`Firewall`,`NAT`],correct:1,exp:`A <b>digital signature</b> proves both authenticity and integrity, using the sender's private key plus a hash of the message.`},
+{id:'q64',topic:'Security',q:`IPSec operates at which layer to secure IP communications, commonly used for VPNs?`,options:[`Application layer`,`Network layer`,`Data Link layer`,`Session layer`],correct:1,exp:`<b>IPSec</b> operates at the Network layer, securing IP packets directly — the basis of many site-to-site VPNs.`},
+
+{id:'q65',topic:'Wireless & Standards',q:`Which IEEE standard governs Ethernet (wired LAN) technology?`,options:[`802.11`,`802.3`,`802.15`,`802.16`],correct:1,exp:`<b>802.3</b> is the Ethernet standard. 802.11 is Wi-Fi; 802.15 is Bluetooth/PAN.`},
+{id:'q66',topic:'Wireless & Standards',q:`Wi-Fi uses CSMA/CA rather than the CSMA/CD used by wired Ethernet, primarily because:`,options:[`Wireless is always faster`,`A wireless transceiver can't reliably listen for collisions while transmitting on the same frequency`,`CSMA/CA is simply older technology`,`Wireless doesn't need collision handling`],correct:1,exp:`A radio transmitting on a frequency generally can't simultaneously detect a collision on that same frequency — so wireless AVOIDS collisions upfront instead of detecting them after the fact.`},
+{id:'q67',topic:'Wireless & Standards',q:`Which wireless security protocol is considered the MOST secure among these, using AES encryption?`,options:[`WEP`,`WPA`,`WPA2/WPA3`,`Open network`],correct:2,exp:`<b>WPA2/WPA3</b> use AES-based encryption, far stronger than the deprecated WEP or original WPA.`},
+{id:'q68',topic:'Wireless & Standards',q:`Bluetooth technology is governed by which IEEE standard?`,options:[`802.3`,`802.11`,`802.15`,`802.5`],correct:2,exp:`<b>802.15</b> covers Wireless Personal Area Networks, including Bluetooth.`},
+{id:'q69',topic:'Wireless & Standards',q:`What makes fiber optic cable preferable to copper for very long-distance, high-bandwidth links?`,options:[`Fiber suffers less signal attenuation and electromagnetic interference over long distances`,`Fiber is always cheaper to install`,`Copper doesn't support any distance at all`,`Fiber can't be used underground`],correct:0,exp:`Fiber's light-based transmission suffers much <b>less attenuation and EMI</b> than copper, letting signals travel far further without degradation.`},
+{id:'q70',topic:'Wireless & Standards',q:`A "collision domain" refers to a network segment where:`,options:[`Devices share the same IP subnet`,`Simultaneous transmissions by two or more devices can result in a collision, requiring CSMA/CD-style contention`,`Only broadcast traffic travels`,`Devices use different protocols`],correct:1,exp:`A <b>collision domain</b> is a segment where simultaneous transmissions can genuinely collide — historically managed via CSMA/CD on shared media like hubs.`}
+];
+
+const TOTAL = QUESTIONS.length;
+const TIME_LIMIT = 55*60;
+let answers = {};
+QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+let currentIdx = 0;
+let tempSelected = null;
+let remaining = TIME_LIMIT;
+let timerHandle = null;
+
+const el = id => document.getElementById(id);
+const TOPICS = [...new Set(QUESTIONS.map(q=>q.topic))];
+
+async function loadHistory(){
+  try{
+    const res = await window.storage.get('cn-70-history', false);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){}
+  return [];
+}
+async function saveAttempt(record){
+  try{
+    const hist = await loadHistory();
+    hist.push(record);
+    await window.storage.set('cn-70-history', JSON.stringify(hist), false);
+  }catch(e){}
+}
+async function renderHistoryLine(){
+  const hist = await loadHistory();
+  if(hist.length===0){ el('historyLine').textContent = 'No previous attempts yet — this will be attempt #1.'; return; }
+  const best = Math.max(...hist.map(h=>h.score));
+  el('historyLine').textContent = `Previous attempts: ${hist.length} · Best score so far: ${best.toFixed(2)}/70`;
+}
+
+function statusClass(st){
+  if(st==='not-answered') return 'na';
+  if(st==='answered') return 'an';
+  if(st==='marked') return 'mk';
+  if(st==='answered-marked') return 'am';
+  return '';
+}
+function renderPalette(){
+  const container = el('paletteContainer');
+  let html = '';
+  let lastTopic = null;
+  QUESTIONS.forEach((q,i)=>{
+    if(q.topic !== lastTopic){
+      html += `<div class="psectionlbl">${q.topic}</div><div class="pgrid" style="margin-bottom:8px;">`;
+      lastTopic = q.topic;
+    }
+    const st = answers[q.id].status;
+    const cls = statusClass(st) + (i===currentIdx ? ' current' : '');
+    html += `<button class="pbtn ${cls}" data-idx="${i}">${i+1}</button>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+  container.querySelectorAll('.pbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ goTo(parseInt(btn.dataset.idx,10)); });
+  });
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentIdx];
+  el('qTopicTag').textContent = q.topic;
+  el('qNum').textContent = `Question ${currentIdx+1} of ${TOTAL}`;
+  el('qText').innerHTML = q.q;
+  const saved = answers[q.id];
+  tempSelected = saved.selected;
+  const letters = ['A','B','C','D'];
+  el('qOptions').innerHTML = q.options.map((opt,i)=>
+    `<button class="option${tempSelected===i?' selected':''}" data-i="${i}"><span class="lettercircle">${letters[i]}</span>${opt}</button>`
+  ).join('');
+  el('qOptions').querySelectorAll('.option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tempSelected = parseInt(btn.dataset.i,10);
+      el('qOptions').querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  el('prevBtn').disabled = currentIdx===0;
+  renderPalette();
+}
+
+function goTo(idx){
+  if(idx<0 || idx>=TOTAL) return;
+  currentIdx = idx;
+  const qid = QUESTIONS[currentIdx].id;
+  if(answers[qid].status === 'not-visited') answers[qid].status = 'not-answered';
+  renderQuestion();
+}
+
+function commitAndAdvance(newStatusIfSelected, newStatusIfEmpty){
+  const qid = QUESTIONS[currentIdx].id;
+  if(tempSelected !== null){
+    answers[qid] = {selected:tempSelected, status:newStatusIfSelected};
+  } else {
+    answers[qid] = {selected:null, status:newStatusIfEmpty};
+  }
+  if(currentIdx < TOTAL-1) goTo(currentIdx+1); else renderPalette();
+}
+
+el('saveBtn').addEventListener('click', ()=> commitAndAdvance('answered','not-answered'));
+el('markBtn').addEventListener('click', ()=> commitAndAdvance('answered-marked','marked'));
+el('clearBtn').addEventListener('click', ()=>{
+  const qid = QUESTIONS[currentIdx].id;
+  answers[qid] = {selected:null, status:'not-answered'};
+  tempSelected = null;
+  renderQuestion();
+});
+el('prevBtn').addEventListener('click', ()=> goTo(currentIdx-1));
+
+function fmtTime(sec){
+  const m = Math.floor(sec/60).toString().padStart(2,'0');
+  const s = Math.floor(sec%60).toString().padStart(2,'0');
+  return m+':'+s;
+}
+function startTimer(){
+  timerHandle = setInterval(()=>{
+    remaining--;
+    el('timerBox').textContent = fmtTime(Math.max(remaining,0));
+    if(remaining <= 300) el('timerBox').classList.add('low');
+    if(remaining <= 0){
+      clearInterval(timerHandle);
+      submitTest(true);
+    }
+  }, 1000);
+}
+
+function computeResults(){
+  let correct=0, wrong=0, unatt=0;
+  const bySection = {};
+  TOPICS.forEach(t=> bySection[t] = {c:0,w:0,u:0,total:0});
+  QUESTIONS.forEach(q=>{
+    bySection[q.topic].total++;
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    if(!attempted){ unatt++; bySection[q.topic].u++; return; }
+    if(a.selected === q.correct){ correct++; bySection[q.topic].c++; }
+    else { wrong++; bySection[q.topic].w++; }
+  });
+  const score = correct*1 - wrong*0.25;
+  return {correct, wrong, unatt, score, bySection};
+}
+
+async function submitTest(auto){
+  if(timerHandle) clearInterval(timerHandle);
+  const results = computeResults();
+  el('testScreen').style.display='none';
+  el('resultScreen').style.display='block';
+  el('bigScore').innerHTML = `${results.score.toFixed(2)}<span>/70</span>`;
+  el('statCorrect').textContent = results.correct;
+  el('statWrong').textContent = results.wrong;
+  el('statUnatt').textContent = results.unatt;
+  const attempted = results.correct+results.wrong;
+  const acc = attempted>0 ? Math.round((results.correct/attempted)*100) : 0;
+  el('statAcc').textContent = acc+'%';
+  let rows = '';
+  TOPICS.forEach(t=>{
+    const s = results.bySection[t];
+    const secScore = (s.c*1 - s.w*0.25).toFixed(2);
+    rows += `<tr><td>${t}</td><td>${s.c}/${s.total}</td><td>${s.w}</td><td>${s.u}</td><td>${secScore}</td></tr>`;
+  });
+  el('sectionBody').innerHTML = rows;
+  await saveAttempt({date:new Date().toISOString(), score:results.score, correct:results.correct, wrong:results.wrong, unatt:results.unatt});
+}
+
+el('submitBtn').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.remove('hide');
+});
+el('confirmCancel').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+});
+el('confirmYes').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+  submitTest(false);
+});
+
+let reviewFilter = 'all';
+function renderReview(){
+  const list = el('reviewList');
+  const letters = ['A','B','C','D'];
+  let html = '';
+  QUESTIONS.forEach((q,i)=>{
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    let state = 'unattempted';
+    if(attempted) state = (a.selected===q.correct) ? 'correct' : 'wrong';
+    if(reviewFilter!=='all' && reviewFilter!==state) return;
+    const badgeText = state==='correct' ? 'Correct' : state==='wrong' ? 'Wrong' : 'Unattempted';
+    let optsHtml = '';
+    q.options.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.correct) cls+=' correctAns';
+      else if(attempted && oi===a.selected) cls+=' userWrong';
+      optsHtml += `<div class="${cls}">${letters[oi]}. ${opt}</div>`;
+    });
+    html += `<div class="revq">
+      <span class="badge ${state}">${badgeText}</span>
+      <span class="badge unattempted">${q.topic}</span>
+      <p class="qtext">Q${i+1}. ${q.q}</p>
+      ${optsHtml}
+      <div class="revexp">${q.exp}</div>
+    </div>`;
+  });
+  list.innerHTML = html || '<p style="color:var(--text-faint);font-family:var(--mono);font-size:13px;">No questions in this filter.</p>';
+}
+document.querySelectorAll('.filterbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    reviewFilter = btn.dataset.f;
+    renderReview();
+  });
+});
+el('reviewBtn').addEventListener('click', ()=>{
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='block';
+  reviewFilter='all';
+  document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filterbtn[data-f="all"]').classList.add('active');
+  renderReview();
+});
+el('backBtn').addEventListener('click', ()=>{
+  el('reviewScreen').style.display='none';
+  el('resultScreen').style.display='block';
+});
+
+el('retakeBtn').addEventListener('click', ()=>{
+  answers = {};
+  QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+  currentIdx = 0; tempSelected = null; remaining = TIME_LIMIT;
+  el('timerBox').classList.remove('low');
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='none';
+  el('startScreen').style.display='block';
+  renderHistoryLine();
+});
+
+el('startBtn').addEventListener('click', ()=>{
+  el('startScreen').style.display='none';
+  el('testScreen').style.display='block';
+  goTo(0);
+  startTimer();
+});
+
+renderHistoryLine();
+})();
+</script>
+</body>
+</html>

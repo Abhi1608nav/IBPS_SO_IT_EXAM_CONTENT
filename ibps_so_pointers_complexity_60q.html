@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer — Pointers, Complexity & Addressing (60Q)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+  :root{
+    --base:#1e1e2e; --mantle:#181825; --crust:#11111b;
+    --text:#cdd6f4; --sub:#a6adc8; --sub0:#6c7086;
+    --surface0:#313244; --surface1:#45475a; --surface2:#585b70;
+    --blue:#89b4fa; --green:#a6e3a1; --red:#f38ba8; --yellow:#f9e2af;
+    --mauve:#cba6f7; --peach:#fab387; --teal:#94e2d5; --pink:#f5c2e7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'JetBrains Mono',monospace; background:var(--crust); color:var(--text);
+    min-height:100vh;
+  }
+  #app{max-width:900px; margin:0 auto; padding:16px;}
+  .card{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  h1{font-size:1.2rem; margin:0 0 4px; color:var(--mauve);}
+  .sub{color:var(--sub); font-size:.85rem; margin-bottom:16px;}
+  .meta{display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--sub); margin-bottom:16px;}
+  .meta span{background:var(--surface0); padding:4px 10px; border-radius:20px;}
+  .badge-hard{background:#3a1e26 !important; color:var(--red) !important; font-weight:700;}
+  .topics{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:8px; margin:14px 0;}
+  .topics div{background:var(--mantle); border:1px solid var(--surface0); border-radius:8px; padding:8px 10px; font-size:.75rem; color:var(--sub);}
+  button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:10px; font-weight:700;
+    padding:12px 20px; font-size:.9rem; transition:.15s;
+  }
+  .start-btn{background:var(--mauve); color:var(--crust); width:100%; margin-top:8px;}
+  .start-btn:hover{opacity:.9;}
+  #quizScreen{display:none;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  #timer{background:var(--surface0); padding:8px 14px; border-radius:10px; font-weight:700; color:var(--yellow);}
+  #timer.low{color:var(--red); animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .progress-track{background:var(--surface0); height:6px; border-radius:4px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{background:var(--mauve); height:100%; width:0%; transition:.3s;}
+  .qtopic{display:inline-block; background:var(--surface0); color:var(--teal); font-size:.7rem; padding:3px 10px; border-radius:12px; margin-bottom:10px;}
+  .qtext{font-size:1rem; line-height:1.55; margin-bottom:16px; white-space:pre-wrap;}
+  .option{
+    display:flex; align-items:center; gap:10px; background:var(--mantle); border:1.5px solid var(--surface0);
+    border-radius:10px; padding:12px 14px; margin-bottom:10px; cursor:pointer; font-size:.88rem; transition:.15s;
+  }
+  .option:hover{border-color:var(--mauve);}
+  .option.selected{border-color:var(--mauve); background:#3b2f4d;}
+  .optlabel{
+    width:24px; height:24px; border-radius:50%; background:var(--surface1); display:flex; align-items:center;
+    justify-content:center; font-size:.75rem; flex-shrink:0;
+  }
+  .option.selected .optlabel{background:var(--mauve); color:var(--crust);}
+  .navrow{display:flex; justify-content:space-between; margin-top:18px; gap:10px;}
+  .navbtn{background:var(--surface1); color:var(--text); flex:1;}
+  .navbtn:hover{background:var(--surface2);}
+  .navbtn:disabled{opacity:.35; cursor:not-allowed;}
+  .submitbtn{background:var(--red); color:var(--crust); flex:1;}
+  #navigator{display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin:16px 0;}
+  .navdot{
+    aspect-ratio:1; border-radius:6px; background:var(--surface0); color:var(--sub); display:flex;
+    align-items:center; justify-content:center; font-size:.7rem; cursor:pointer; border:1px solid var(--surface1);
+  }
+  .navdot.answered{background:var(--green); color:var(--crust); border-color:var(--green);}
+  .navdot.current{outline:2px solid var(--blue);}
+  #resultScreen{display:none;}
+  .scorebox{text-align:center; padding:20px 0;}
+  .scorebox .big{font-size:2.6rem; font-weight:800; color:var(--mauve);}
+  .statsrow{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .statchip{background:var(--mantle); border:1px solid var(--surface0); border-radius:10px; padding:10px 16px; font-size:.85rem; text-align:center;}
+  .statchip .n{font-size:1.3rem; font-weight:700; display:block;}
+  .review{margin-top:24px;}
+  .revcard{background:var(--mantle); border:1px solid var(--surface0); border-radius:12px; padding:16px; margin-bottom:14px; border-left:4px solid var(--surface2);}
+  .revcard.correct{border-left-color:var(--green);}
+  .revcard.wrong{border-left-color:var(--red);}
+  .revcard.skipped{border-left-color:var(--yellow);}
+  .revq{font-size:.9rem; margin-bottom:8px; font-weight:600; white-space:pre-wrap;}
+  .revopt{font-size:.8rem; padding:6px 10px; border-radius:6px; margin-bottom:4px;}
+  .revopt.rightans{background:#1e3a2a; color:var(--green);}
+  .revopt.userwrong{background:#3a1e26; color:var(--red);}
+  .explain{margin-top:10px; font-size:.8rem; color:var(--sub); background:var(--base); padding:10px 12px; border-radius:8px; line-height:1.5;}
+  .explain b{color:var(--teal);}
+  .tag{font-size:.66rem; padding:2px 8px; border-radius:10px; background:var(--surface0); color:var(--sub); margin-left:6px;}
+
+  #modalOverlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  #modalOverlay.show{display:flex;}
+  .modalbox{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:22px; max-width:380px; width:100%; text-align:center;}
+  .modalbox p{font-size:.92rem; margin-bottom:18px; color:var(--text); line-height:1.5;}
+  .modalbtns{display:flex; gap:10px;}
+  .modalbtns button{flex:1;}
+  .btn-cancel{background:var(--surface1); color:var(--text);}
+  .btn-confirm{background:var(--red); color:var(--crust);}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="startScreen" class="card">
+    <h1>IBPS SO IT Officer — Pointers, Complexity &amp; Addressing (60Q)</h1>
+    <div class="sub">Focused set: pointers &amp; unary operators, output-based code tracing, time &amp; space complexity, row/column-major addressing, and OOP constructor/destructor execution order</div>
+    <div class="meta">
+      <span>60 Questions</span>
+      <span>+1 / −0.25 marking</span>
+      <span>45 min</span>
+      <span class="badge-hard">Advanced Level</span>
+    </div>
+    <div class="topics" id="topicList"></div>
+    <button class="start-btn" onclick="startQuiz()">Start Test</button>
+  </div>
+
+  <div id="quizScreen" class="card">
+    <div class="topbar">
+      <div id="qcounter" style="color:var(--sub); font-size:.85rem;"></div>
+      <div id="timer">45:00</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="qtopic" class="qtopic"></div>
+    <div id="qtext" class="qtext"></div>
+    <div id="options"></div>
+    <div class="navrow">
+      <button class="navbtn" id="prevBtn" onclick="prevQ()">← Previous</button>
+      <button class="navbtn" id="nextBtn" onclick="nextQ()">Next →</button>
+    </div>
+    <div id="navigator"></div>
+    <button class="submitbtn" style="width:100%;" onclick="confirmSubmit()">Submit Test</button>
+  </div>
+
+  <div id="resultScreen" class="card">
+    <h1>Result</h1>
+    <div class="scorebox">
+      <div class="big" id="scoreBig">0</div>
+      <div class="sub">out of 60 marks</div>
+    </div>
+    <div class="statsrow">
+      <div class="statchip"><span class="n" id="statCorrect" style="color:var(--green);">0</span>Correct</div>
+      <div class="statchip"><span class="n" id="statWrong" style="color:var(--red);">0</span>Wrong</div>
+      <div class="statchip"><span class="n" id="statSkip" style="color:var(--yellow);">0</span>Skipped</div>
+      <div class="statchip"><span class="n" id="statAcc">0%</span>Accuracy</div>
+    </div>
+    <div class="review" id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="modalOverlay">
+  <div class="modalbox">
+    <p id="modalMsg"></p>
+    <div class="modalbtns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="modalConfirmed()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+
+/* ---------- POINTERS, ADDRESS & UNARY OPERATORS (10) ---------- */
+{t:"Pointers & Address", q:"What does this print?\n\nint a = 10;\nint *p = &a;\nint **pp = &p;\nprintf(\"%d\", **pp);", o:["Garbage value","Address of a","10","Compilation error"], c:2, e:"pp holds the address of p (a pointer to a pointer). *pp dereferences once to get p (the address of a), and **pp dereferences again to get the actual value stored in a, which is 10."},
+{t:"Pointers & Address", q:"What does this print?\n\nint a[5] = {1,2,3,4,5};\nint *p = a;\np++;\nprintf(\"%d\", *p);", o:["1","2","3","Address of a[1]"], c:1, e:"p initially points to a[0]. p++ advances the pointer by one int-sized step (not one byte), moving it to a[1], whose value is 2."},
+{t:"Pointers & Address", q:"What does this print?\n\nint a = 5, b = 10;\nint *p = &a;\n*p = *p + b;\nprintf(\"%d %d\", a, b);", o:["5 10","15 10","15 15","5 15"], c:1, e:"*p dereferences p to access a directly. *p + b = 5 + 10 = 15 is stored back into a via the pointer, so a becomes 15, while b remains untouched at 10."},
+{t:"Pointers & Address", q:"What does this print?\n\nint a = 4;\nint *p = &a;\nint *q = p;\n*q = *q * *q;\nprintf(\"%d\", a);", o:["4","8","16","Compilation error"], c:2, e:"q is copied from p, so both point to a. *q * *q computes 4*4=16, and assigning it back through *q modifies a directly (since q points to a), making a equal to 16."},
+{t:"Pointers & Address", q:"What does this print?\n\nchar arr[4] = {'a','b','c','d'};\nchar *p = arr;\np = p + 2;\nprintf(\"%c\", *p);", o:["a","b","c","d"], c:2, e:"Since a char occupies 1 byte, p+2 moves exactly 2 elements forward from arr[0], landing on arr[2], which holds 'c'."},
+{t:"Pointers & Address", q:"What does this print?\n\nint a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};\nprintf(\"%d\", *(*(a+1)+2));", o:["3","5","6","9"], c:2, e:"a+1 points to row 1 ({4,5,6}); *(a+1) is equivalent to a[1], a pointer to that row's first element. Adding 2 and dereferencing gives a[1][2], which is 6."},
+{t:"Pointers & Address", q:"On a typical 64-bit system, what does the following print?\n\nint a = 10;\nprintf(\"%zu\", sizeof(&a));", o:["2","4","8","Same as sizeof(a)"], c:2, e:"&a is a pointer (an address), and on a typical 64-bit system all pointers are 8 bytes regardless of the type they point to — sizeof(&a) does not depend on the size of int."},
+{t:"Pointers & Address", q:"What does this print?\n\nint *p = NULL;\nif(p == 0)\n    printf(\"Null\");\nelse\n    printf(\"Not Null\");", o:["Null","Not Null","Compilation error","Garbage output"], c:0, e:"NULL is conventionally defined as the integer constant 0 (cast to a pointer type), so comparing a NULL pointer with the literal 0 evaluates to true, printing \"Null\"."},
+{t:"Pointers & Address", q:"What does this print?\n\nvoid greet(){ printf(\"Hello\"); }\nvoid (*fp)() = greet;\nfp();", o:["Hello","Compilation error, since functions can't be assigned to pointers","Address of greet","Nothing is printed"], c:0, e:"fp is a function pointer holding the address of greet. Calling fp() through the pointer invokes greet exactly as if greet() had been called directly, printing \"Hello\"."},
+{t:"Pointers & Address", q:"What does this print?\n\nint a = 5;\nprintf(\"%d %d %d\", -a, !a, ~a);", o:["-5 0 -6","-5 1 -6","5 0 6","-5 0 6"], c:0, e:"-a is arithmetic negation (-5). !a is logical NOT; since a is non-zero, !a evaluates to 0. ~a is the bitwise complement, which for 5 (two's complement) gives -(5+1) = -6."},
+
+/* ---------- OUTPUT-BASED (CODE TRACE) (10) ---------- */
+{t:"Output-Based", q:"What does this print? (Java)\n\nString s1 = \"Hello\";\nString s2 = s1.concat(\" World\");\nSystem.out.println(s1);", o:["Hello","Hello World","Error: strings are immutable","World"], c:0, e:"Java Strings are immutable — concat() returns a brand-new String object (assigned to s2) rather than modifying s1 in place, so s1 still holds its original value, \"Hello\"."},
+{t:"Output-Based", q:"What does this print? (C)\n\nint x = 2;\nswitch(x){\n  case 1: printf(\"One\");\n  case 2: printf(\"Two\");\n  case 3: printf(\"Three\"); break;\n  default: printf(\"Default\");\n}", o:["Two","TwoThree","Default","OneTwoThree"], c:1, e:"With no break after case 2, execution falls through into case 3 as well, printing \"Two\" then \"Three\", before the break in case 3 stops further fall-through into default."},
+{t:"Output-Based", q:"What does this print? (C)\n\nint a = 7, b = 2;\nfloat c = a / b;\nprintf(\"%f\", c);", o:["3.500000","3.000000","4.000000","Compilation error"], c:1, e:"a/b is evaluated first as integer division (since both operands are int), giving 3 — the fractional part is discarded before the result is ever converted to float, so c becomes 3.000000, not 3.5."},
+{t:"Output-Based", q:"What does this print? (Java)\n\nint i = 1;\ni = i++ + 1;\nSystem.out.println(i);", o:["1","2","3","Undefined behavior"], c:1, e:"Java (unlike C) has strictly defined left-to-right evaluation. i++ yields i's original value (1) for use in the expression, then increments i to 2 as a side effect. The expression becomes 1+1=2, which is then assigned back to i, giving a final value of 2."},
+{t:"Output-Based", q:"What does this print? (Python)\n\nlst = [1,2,3,4,5]\nprint(lst[1:4])", o:["[1, 2, 3, 4]","[2, 3, 4]","[2, 3, 4, 5]","[1, 2, 3]"], c:1, e:"Python slicing lst[1:4] is start-inclusive, stop-exclusive, so it returns indices 1, 2, and 3 — the values 2, 3, and 4."},
+{t:"Output-Based", q:"What does this print? (C)\n\nchar str[] = \"Bank\";\nprintf(\"%s\", str+1);", o:["Bank","ank","Ban","Address of str"], c:1, e:"str+1 is a pointer that has been advanced past the first character ('B'), so printing the string starting from that pointer prints \"ank\"."},
+{t:"Output-Based", q:"What does this print? (Java)\n\nclass A {\n  void show(int x){ System.out.println(\"int:\"+x); }\n  void show(double x){ System.out.println(\"double:\"+x); }\n}\n... \nA obj = new A();\nobj.show(5);", o:["int:5","double:5.0","Compilation error due to ambiguity","double:5"], c:0, e:"Since 5 is an int literal, Java's overload resolution matches it exactly to show(int) without requiring any widening conversion, so show(int) is called."},
+{t:"Output-Based", q:"What does this print? (C++)\n\nint a = 10;\nint &b = a;\nb = 20;\nprintf(\"%d\", a);", o:["10","20","Compilation error","Garbage value"], c:1, e:"b is declared as a reference to a, making it an alias for the same memory location — not a copy. Assigning to b directly changes a as well, so a becomes 20."},
+{t:"Output-Based", q:"What does this print? (Python)\n\nt = (1, [2,3], 4)\nt[1].append(5)\nprint(t)", o:["Error: tuples are immutable","(1, [2, 3, 5], 4)","(1, [2, 3], 4, 5)","(1, [2, 3], 5, 4)"], c:1, e:"A tuple's immutability only prevents reassigning its elements (e.g., t[1] = ...); it does not prevent mutating a mutable object (like a list) that is stored inside it. So t[1].append(5) is allowed and modifies the inner list in place."},
+{t:"Output-Based", q:"What does this print? (Java)\n\nString s1 = \"test\";\nString s2 = \"test\";\nString s3 = new String(\"test\");\nSystem.out.println((s1==s2) + \" \" + (s1==s3));", o:["true true","false false","true false","false true"], c:2, e:"String literals s1 and s2 are interned and refer to the same object in the string pool, so s1==s2 is true. s3 is explicitly created with 'new', forcing a separate heap object, so s1==s3 (a reference comparison) is false."},
+
+/* ---------- TIME COMPLEXITY (10) ---------- */
+{t:"Time Complexity", q:"What is the time complexity of the following code?\n\nfor(int i=0;i<n;i++){\n  for(int j=0;j<n;j++){\n    // O(1) work\n  }\n}", o:["O(n)","O(n log n)","O(n²)","O(2^n)"], c:2, e:"Two nested loops, each running n times independently of the other, perform n × n = n² constant-time operations in total, giving O(n²)."},
+{t:"Time Complexity", q:"What is the time complexity of the following loop?\n\nfor(int i=1;i<n;i*=2){\n  // O(1) work\n}", o:["O(n)","O(log n)","O(n log n)","O(1)"], c:1, e:"Since i is multiplied by 2 each iteration, the loop runs only about log₂(n) times before i exceeds n, giving logarithmic time complexity."},
+{t:"Time Complexity", q:"What is the time complexity of the following code?\n\nfor(int i=0;i<n;i++){\n  for(int j=0;j<i;j++){\n    // O(1) work\n  }\n}", o:["O(n)","O(n log n)","O(n²)","O(n³)"], c:2, e:"The inner loop runs 0,1,2,...,n-1 times across iterations, totaling n(n-1)/2 operations — still O(n²) after dropping constants and lower-order terms, despite the triangular (not full square) iteration pattern."},
+{t:"Time Complexity", q:"A recursive function is defined as T(n) = T(n-1) + O(1), with T(1) = O(1). What is its overall time complexity?", o:["O(1)","O(log n)","O(n)","O(n²)"], c:2, e:"Each call does constant work and reduces the problem by 1, requiring n such calls in total before reaching the base case — a classic linear recursion, giving O(n), as seen in a simple iterative-style factorial or sum function."},
+{t:"Time Complexity", q:"Using the Master Theorem, what is the time complexity of the recurrence T(n) = 2T(n/2) + O(1)?", o:["O(n)","O(n log n)","O(log n)","O(√n)"], c:0, e:"Here a=2, b=2, and f(n)=O(1)=O(n⁰). Comparing the exponent 0 to log_b(a) = log₂2 = 1: since 0 < 1, this falls under Master Theorem Case 1, giving T(n) = O(n^log_b(a)) = O(n)."},
+{t:"Time Complexity", q:"What is the time complexity of recursive binary search, defined by T(n) = T(n/2) + O(1)?", o:["O(n)","O(log n)","O(n log n)","O(1)"], c:1, e:"Binary search halves the search space with only constant extra work per call, matching Master Theorem Case 2 (a=1, b=2, f(n)=O(1)), which resolves to O(log n)."},
+{t:"Time Complexity", q:"What is the time complexity of the following nested loop?\n\nfor(int i=1;i<=n;i++){\n  for(int j=1;j<=n;j*=2){\n    // O(1) work\n  }\n}", o:["O(n)","O(log n)","O(n log n)","O(n²)"], c:2, e:"The outer loop runs n times, and for each outer iteration, the inner loop (doubling j) runs O(log n) times independently — giving a total of O(n log n)."},
+{t:"Time Complexity", q:"What is the time complexity of searching for a value in a balanced Binary Search Tree with n nodes?", o:["O(1)","O(log n)","O(n)","O(n log n)"], c:1, e:"A balanced BST has height O(log n), and each comparison during search eliminates roughly half the remaining nodes, giving logarithmic search time — unlike a degenerate (skewed) BST, which degrades to O(n)."},
+{t:"Time Complexity", q:"What is the best-case time complexity of Bubble Sort on an already-sorted array, assuming the optimized version that stops early when no swaps occur in a pass?", o:["O(1)","O(n)","O(n log n)","O(n²)"], c:1, e:"With the early-exit optimization, a single pass through an already-sorted array detects zero swaps and terminates immediately, requiring only one O(n) pass — this is the best case, distinct from the O(n²) worst/average case."},
+{t:"Time Complexity", q:"What is the time complexity of multiplying two n×n matrices using the standard triple-nested-loop algorithm?", o:["O(n)","O(n²)","O(n³)","O(n² log n)"], c:2, e:"Computing each of the n² entries of the result matrix requires summing n products, giving n² × n = n³ total scalar operations — the standard cubic complexity of naive matrix multiplication."},
+
+/* ---------- SPACE COMPLEXITY (10) ---------- */
+{t:"Space Complexity", q:"What is the space complexity of an iterative (loop-based, non-recursive) factorial function?", o:["O(1)","O(n)","O(log n)","O(n²)"], c:0, e:"An iterative implementation uses only a fixed, constant number of variables (counter, accumulator) regardless of n, requiring no additional memory that scales with input size."},
+{t:"Space Complexity", q:"What is the space complexity of a recursive factorial function (using the call stack, with no memoization)?", o:["O(1)","O(log n)","O(n)","O(n²)"], c:2, e:"Each recursive call adds a new stack frame that isn't popped until the base case is reached, so the maximum call stack depth — and hence space used — grows linearly with n."},
+{t:"Space Complexity", q:"What is the auxiliary space complexity of the standard Merge Sort algorithm (excluding the input array itself)?", o:["O(1)","O(log n)","O(n)","O(n²)"], c:2, e:"Merge Sort needs a temporary array of size proportional to the input to merge two sorted halves at each level, giving O(n) auxiliary space — unlike an in-place algorithm such as Heapsort."},
+{t:"Space Complexity", q:"Considering only the recursion call stack (with in-place partitioning), what is the average-case space complexity of Quicksort?", o:["O(1)","O(log n)","O(n)","O(n²)"], c:1, e:"With balanced partitioning (the average case), the recursion tree has depth O(log n), so the call stack uses O(log n) space — though this can degrade to O(n) in the worst case with highly unbalanced partitions."},
+{t:"Space Complexity", q:"What is the space complexity of an iterative binary search implementation (using a while loop, not recursion)?", o:["O(1)","O(log n)","O(n)","O(n log n)"], c:0, e:"An iterative binary search only needs a fixed set of variables (low, high, mid) regardless of array size, so it requires constant extra space, unlike the recursive version which uses O(log n) stack space."},
+{t:"Space Complexity", q:"What is the space complexity of storing a graph with V vertices as an adjacency matrix?", o:["O(V)","O(V + E)","O(V²)","O(E²)"], c:2, e:"An adjacency matrix always allocates a V×V grid regardless of how many edges actually exist, giving O(V²) space — inefficient for sparse graphs compared to an adjacency list."},
+{t:"Space Complexity", q:"What is the space complexity of storing a graph with V vertices and E edges as an adjacency list?", o:["O(V)","O(E)","O(V + E)","O(V × E)"], c:2, e:"An adjacency list stores one entry per vertex (for the list headers) plus one entry per edge (in the corresponding lists), giving a combined O(V + E) — much more efficient than O(V²) for sparse graphs."},
+{t:"Space Complexity", q:"What is the overall space complexity of Dijkstra's algorithm implemented with an adjacency list and a priority queue, for a graph with V vertices and E edges?", o:["O(1)","O(V)","O(V + E)","O(V²)"], c:2, e:"Space is needed for the adjacency list itself (O(V+E)) plus auxiliary structures like the distance array and priority queue (bounded by O(V) or O(E) entries), so the combined space complexity is O(V + E)."},
+{t:"Space Complexity", q:"What is the space complexity of a top-down memoized (dynamic programming) Fibonacci implementation that stores results for all n subproblems?", o:["O(1)","O(log n)","O(n)","O(n²)"], c:2, e:"The memo table stores one entry per unique subproblem from 0 to n, requiring O(n) space (in addition to O(n) recursion stack depth in the worst case, which doesn't change the overall order)."},
+{t:"Space Complexity", q:"What is the space complexity of a dynamic programming algorithm (e.g., edit distance between two strings of length n) that builds a full n×n 2D table?", o:["O(n)","O(n log n)","O(n²)","O(2^n)"], c:2, e:"Allocating a full n×n table to store intermediate subproblem results requires space proportional to the number of cells, which is n², giving O(n²) space complexity."},
+
+/* ---------- ROW-MAJOR / COLUMN-MAJOR ADDRESSING (10) ---------- */
+{t:"Array Addressing", q:"A 2D array A[1..10][1..15] is stored in row-major order, each element occupying 4 bytes, with base address 1000. Find the address of A[4][6].", o:["1180","1196","1200","1212"], c:2, e:"Row-major formula: Base + [(i−LR)×NumCols + (j−LC)]×size. NumCols = 15. Offset = (4−1)×15 + (6−1) = 45+5 = 50. Address = 1000 + 50×4 = 1200."},
+{t:"Array Addressing", q:"The same array A[1..10][1..15] (element size 4 bytes, base address 1000) is instead stored in column-major order. Find the address of A[4][6].", o:["1200","1208","1212","1220"], c:2, e:"Column-major formula: Base + [(j−LC)×NumRows + (i−LR)]×size. NumRows = 10. Offset = (6−1)×10 + (4−1) = 50+3 = 53. Address = 1000 + 53×4 = 1212."},
+{t:"Array Addressing", q:"A 2D array A[0..9][0..9], each element 2 bytes, base address 2000, stored in row-major order. Find the address of A[5][5].", o:["2100","2110","2120","2055"], c:1, e:"NumCols = 10, with 0-based indices so LR=LC=0. Offset = 5×10 + 5 = 55. Address = 2000 + 55×2 = 2110."},
+{t:"Array Addressing", q:"A 2D array A[1..20][1..10], each element 8 bytes, base address 5000, stored in column-major order. Find the address of A[10][5].", o:["5624","5680","5712","5760"], c:2, e:"NumRows = 20. Offset = (j−LC)×NumRows + (i−LR) = (5−1)×20 + (10−1) = 80+9 = 89. Address = 5000 + 89×8 = 5712."},
+{t:"Array Addressing", q:"In a row-major array A[1..10][1..10] with element size 2 bytes, the address of A[2][2] is found to be 1050. What is the base address?", o:["1020","1024","1028","1032"], c:2, e:"Offset for A[2][2] = (2−1)×10 + (2−1) = 10+1 = 11. So 1050 = Base + 11×2 = Base + 22, giving Base = 1050 − 22 = 1028."},
+{t:"Array Addressing", q:"For a 2D array with a very large number of columns relative to rows, which storage order allows faster sequential (cache-friendly) access when processing all elements of a single row one after another?", o:["Row-major order","Column-major order","Both are identical in access speed","Neither — access speed doesn't depend on storage order"], c:0, e:"In row-major order, all elements of a given row are stored in contiguous memory locations, so iterating across a row accesses adjacent memory — ideal for CPU cache locality. Column-major order would instead scatter a row's elements far apart in memory."},
+{t:"Array Addressing", q:"A 2D array A[1..8][1..8], element size 4 bytes, base address 4000, stored in row-major order. Find the address of A[6][3].", o:["4160","4164","4168","4172"], c:2, e:"NumCols = 8. Offset = (6−1)×8 + (3−1) = 40+2 = 42. Address = 4000 + 42×4 = 4168."},
+{t:"Array Addressing", q:"A 2D array A[0..4][0..6], element size 4 bytes, base address 6000, stored in column-major order. Find the address of A[3][4].", o:["6088","6092","6096","6100"], c:1, e:"NumRows = 5 (indices 0 to 4). Offset = (j−LC)×NumRows + (i−LR) = (4−0)×5 + (3−0) = 20+3 = 23. Address = 6000 + 23×4 = 6092."},
+{t:"Array Addressing", q:"For a 0-indexed 2D array with R rows and C columns stored in row-major order, how many elements are stored in memory before element A[i][j]?", o:["i × R + j","j × C + i","i × C + j","i + j"], c:2, e:"In row-major order, all C elements of each preceding row are stored before the current row begins, so i full rows (i×C elements) come first, plus j elements within the current row before reaching column j — giving i×C + j elements before A[i][j]."},
+{t:"Array Addressing", q:"When computing the address of A[i][j] in column-major order, the column index offset (j−LC) is multiplied by which quantity?", o:["The total number of columns","The total number of rows","The size of a single element only","The base address"], c:1, e:"Column-major order stores entire columns contiguously, so moving to the next column requires skipping over an entire column's worth of elements — i.e., NumRows elements — before then adjusting for the row offset within the target column."},
+
+/* ---------- OOP: CONSTRUCTOR / DESTRUCTOR EXECUTION ORDER (10) ---------- */
+{t:"OOP Execution Order", q:"What does this print? (C++)\n\nclass Base {\npublic:\n    Base(){ cout << \"Base Constructor \"; }\n};\nclass Derived : public Base {\npublic:\n    Derived(){ cout << \"Derived Constructor \"; }\n};\nint main(){\n    Derived d;\n}", o:["Derived Constructor Base Constructor","Base Constructor Derived Constructor","Base Constructor only","Derived Constructor only"], c:1, e:"When a derived object is created, the base class subobject must be fully constructed first (since the derived class may depend on it), so Base's constructor always runs before Derived's constructor body executes."},
+{t:"OOP Execution Order", q:"What does this print at the end of main? (C++)\n\nclass Base {\npublic:\n    ~Base(){ cout << \"Base Destructor \"; }\n};\nclass Derived : public Base {\npublic:\n    ~Derived(){ cout << \"Derived Destructor \"; }\n};\nint main(){\n    Derived d;\n}", o:["Base Destructor Derived Destructor","Derived Destructor Base Destructor","Base Destructor only","Derived Destructor only"], c:1, e:"Destruction happens in the exact reverse order of construction: the most-derived class's destructor runs first, cleaning up its own resources, followed by the base class destructor cleaning up the inherited part."},
+{t:"OOP Execution Order", q:"What does this print? (C++, multilevel inheritance)\n\nclass A { public: A(){ cout<<\"A \"; } };\nclass B : public A { public: B(){ cout<<\"B \"; } };\nclass C : public B { public: C(){ cout<<\"C \"; } };\nint main(){ C obj; }", o:["C B A","A B C","A C B","C A B"], c:1, e:"For multilevel inheritance A→B→C, construction always proceeds from the topmost base class down to the most derived class, so A's constructor runs first, then B's, then C's."},
+{t:"OOP Execution Order", q:"Using the same classes A, B, C from the previous question (each with a matching destructor printing \"~A \", \"~B \", \"~C \"), what is printed when the object goes out of scope?", o:["~A ~B ~C","~C ~B ~A","~C ~A ~B","~A ~C ~B"], c:1, e:"Destructors always run in the exact reverse order of constructors: since construction went A→B→C, destruction goes C→B→A."},
+{t:"OOP Execution Order", q:"What does this print? (C++, multiple inheritance)\n\nclass A { public: A(){cout<<\"A \";} };\nclass B { public: B(){cout<<\"B \";} };\nclass C : public A, public B {\npublic: C(){ cout<<\"C \"; }\n};\nint main(){ C obj; }", o:["A B C","B A C","C A B","Order is compiler-dependent and unpredictable"], c:0, e:"With multiple inheritance, base classes are constructed strictly in the order they appear in the derived class's inheritance list (here, A then B) — regardless of the order they might be listed in a constructor initializer list."},
+{t:"OOP Execution Order", q:"What does this print? (Java)\n\nclass Animal {\n    Animal(){ System.out.println(\"Animal created\"); }\n}\nclass Dog extends Animal {\n    Dog(){ System.out.println(\"Dog created\"); }\n}\n...\nnew Dog();", o:["Dog created\\nAnimal created","Animal created\\nDog created","Animal created only","Dog created only"], c:1, e:"Java implicitly inserts a call to super() as the very first statement of Dog's constructor if it isn't written explicitly, ensuring the parent class (Animal) is fully constructed before Dog's own constructor body runs."},
+{t:"OOP Execution Order", q:"What does this print? (C++, member object construction order)\n\nclass Inner {\npublic:\n    Inner(int x){ cout << \"Inner(\" << x << \") \"; }\n};\nclass Outer {\n    Inner a;\n    Inner b;\npublic:\n    Outer() : b(2), a(1) { cout << \"Outer \"; }\n};\nint main(){ Outer o; }", o:["Inner(2) Inner(1) Outer","Inner(1) Inner(2) Outer","Outer Inner(1) Inner(2)","Compilation error"], c:1, e:"Member objects are always constructed in the order they are declared within the class (a before b here), regardless of the order they appear in the constructor's initializer list — so despite b(2) being listed first, a(1) still constructs first."},
+{t:"OOP Execution Order", q:"What does this print? (C++, virtual destructor)\n\nclass Base {\npublic:\n    virtual ~Base(){ cout << \"Base destructor \"; }\n};\nclass Derived : public Base {\npublic:\n    ~Derived(){ cout << \"Derived destructor \"; }\n};\nint main(){\n    Base *b = new Derived();\n    delete b;\n}", o:["Base destructor only","Derived destructor Base destructor","Base destructor Derived destructor","Nothing is printed"], c:1, e:"Because Base's destructor is declared virtual, deleting through a Base pointer correctly triggers dynamic dispatch: Derived's destructor runs first (cleaning up derived-specific resources), followed by Base's destructor."},
+{t:"OOP Execution Order", q:"What does this print? (C++, missing virtual destructor — contrast with the previous question)\n\nclass Base {\npublic:\n    ~Base(){ cout << \"Base destructor \"; }\n};\nclass Derived : public Base {\npublic:\n    ~Derived(){ cout << \"Derived destructor \"; }\n};\nint main(){\n    Base *b = new Derived();\n    delete b;\n}", o:["Derived destructor Base destructor","Base destructor only","Derived destructor only","Compilation error"], c:1, e:"Without a virtual destructor, deleting a derived object through a Base pointer only calls Base's destructor at compile time (static binding) — Derived's destructor is skipped, which is a classic source of resource leaks in polymorphic code."},
+{t:"OOP Execution Order", q:"What does this print? (Java, static initializer blocks with inheritance)\n\nclass Parent {\n    static { System.out.println(\"Parent static block\"); }\n    Parent(){ System.out.println(\"Parent constructor\"); }\n}\nclass Child extends Parent {\n    static { System.out.println(\"Child static block\"); }\n    Child(){ System.out.println(\"Child constructor\"); }\n}\n...\nnew Child();", o:["Child static block, Parent static block, Child constructor, Parent constructor","Parent static block, Child static block, Parent constructor, Child constructor","Parent constructor, Child constructor, Parent static block, Child static block","Child constructor, Parent constructor, Child static block, Parent static block"], c:1, e:"Static blocks run once, at class-loading time, and the parent class must be loaded before the child, so Parent's static block runs before Child's. Then, for the actual object construction, Parent's constructor still runs before Child's, following the usual super-first rule."}
+];
+
+let current=0, answers=new Array(QUESTIONS.length).fill(null), timeLeft=45*60, timerInterval=null, submitted=false;
+
+function renderTopics(){
+  const topics=[...new Set(QUESTIONS.map(q=>q.t))];
+  document.getElementById('topicList').innerHTML = topics.map(t=>{
+    const n=QUESTIONS.filter(q=>q.t===t).length;
+    return `<div>${t} <span style="color:var(--mauve);float:right;">${n}Q</span></div>`;
+  }).join('');
+}
+renderTopics();
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  buildNavigator();
+  renderQuestion();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInterval); doSubmit(); }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('low', timeLeft<=60);
+}
+
+function buildNavigator(){
+  const nav=document.getElementById('navigator');
+  nav.innerHTML='';
+  QUESTIONS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='navdot';
+    d.textContent=i+1;
+    d.onclick=()=>{ current=i; renderQuestion(); };
+    nav.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[current];
+  document.getElementById('qcounter').textContent = `Question ${current+1} of ${QUESTIONS.length}`;
+  document.getElementById('qtopic').textContent = q.t;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+
+  const optsDiv=document.getElementById('options');
+  optsDiv.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');
+    d.className='option'+(answers[current]===i?' selected':'');
+    d.innerHTML = `<div class="optlabel">${String.fromCharCode(65+i)}</div><div>${opt}</div>`;
+    d.onclick=()=>{ answers[current]=i; renderQuestion(); };
+    optsDiv.appendChild(d);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===QUESTIONS.length-1;
+
+  document.querySelectorAll('.navdot').forEach((d,i)=>{
+    d.classList.toggle('answered', answers[i]!==null);
+    d.classList.toggle('current', i===current);
+  });
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; renderQuestion(); } }
+function prevQ(){ if(current>0){ current--; renderQuestion(); } }
+
+function confirmSubmit(){
+  const unanswered = answers.filter(a=>a===null).length;
+  document.getElementById('modalMsg').textContent = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+function modalConfirmed(){
+  closeModal();
+  doSubmit();
+}
+
+function doSubmit(){
+  if(submitted) return;
+  submitted=true;
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skipped=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===null) skipped++;
+    else if(answers[i]===q.c) correct++;
+    else wrong++;
+  });
+  const score = (correct*1) - (wrong*0.25);
+  const attempted = correct+wrong;
+  const accuracy = attempted>0 ? Math.round((correct/attempted)*100) : 0;
+
+  document.getElementById('scoreBig').textContent = score.toFixed(2);
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skipped;
+  document.getElementById('statAcc').textContent = accuracy+'%';
+
+  const reviewDiv=document.getElementById('reviewList');
+  reviewDiv.innerHTML = '<h1 style="margin-top:24px;">Answers & Explanations</h1>';
+  QUESTIONS.forEach((q,i)=>{
+    const userAns=answers[i];
+    const status = userAns===null ? 'skipped' : (userAns===q.c ? 'correct' : 'wrong');
+    const statusLabel = status==='skipped'?'Skipped':(status==='correct'?'Correct':'Wrong');
+    let optsHtml='';
+    q.o.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.c) cls+=' rightans';
+      else if(oi===userAns) cls+=' userwrong';
+      optsHtml += `<div class="${cls}">${String.fromCharCode(65+oi)}. ${opt}${oi===q.c?' ✓ (Correct answer)':''}${(oi===userAns && oi!==q.c)?' ✗ (Your answer)':''}</div>`;
+    });
+    reviewDiv.innerHTML += `
+      <div class="revcard ${status}">
+        <div class="revq">Q${i+1}. ${q.q} <span class="tag">${q.t}</span> <span class="tag">${statusLabel}</span></div>
+        ${optsHtml}
+        <div class="explain"><b>Explanation:</b> ${q.e}</div>
+      </div>`;
+  });
+}
+</script>
+</body>
+</html>

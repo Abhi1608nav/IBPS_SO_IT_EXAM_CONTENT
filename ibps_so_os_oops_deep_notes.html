@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — OS &amp; OOPs Deep Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121320; --bg-alt:#0d0e18; --panel:#1b1d2e; --panel-alt:#232538;
+    --border:#2d3049; --border-soft:#262941;
+    --text:#e6e7f2; --text-muted:#9498b5; --text-faint:#666a8a;
+    --accent-purple:#a78bfa; --accent-blue:#5aa9f2; --accent-mint:#5fe0b3;
+    --accent-amber:#f2b35a; --accent-red:#f2685a;
+    --os:#5aa9f2; --oop:#ef9b52;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--accent-purple); color:#12121f;}
+  a{color:var(--accent-blue);}
+
+  .tabbar{position:sticky; top:0; z-index:100; display:flex; align-items:stretch; background:var(--bg-alt); border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar .brand{display:flex; align-items:center; gap:8px; padding:0 16px; font-family:var(--mono); font-weight:700; font-size:13px; color:var(--text-muted); border-right:1px solid var(--border); white-space:nowrap;}
+  .brand .dots{display:flex; gap:5px;} .brand .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.red{background:#f2685a;} .dot.amber{background:#f2b35a;} .dot.green{background:#5fe0b3;}
+  .tabbar nav{display:flex;}
+  .tabbar a.tab{font-family:var(--mono); font-size:12.5px; font-weight:500; color:var(--text-faint); padding:14px 16px; white-space:nowrap; border-right:1px solid var(--border); text-decoration:none; display:flex; align-items:center; gap:7px; transition:color .15s, background .15s;}
+  .tabbar a.tab .ext{opacity:.7;}
+  .tabbar a.tab:hover{color:var(--text); background:var(--panel);}
+  .tabbar a.tab.active{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--accent-purple);}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .eyebrow::before{content:''; width:16px; height:1px; opacity:.6;}
+  .eyebrow.os{color:var(--os);} .eyebrow.os::before{background:var(--os);}
+  .eyebrow.oop{color:var(--oop);} .eyebrow.oop::before{background:var(--oop);}
+
+  h1,h2,h3,h4{font-family:var(--mono); font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:28px; margin-bottom:8px; color:#fff;}
+  h3{font-size:17.5px; margin:26px 0 10px; color:#fff;}
+  .subtitle{color:var(--text-muted); font-size:15px; max-width:660px; margin-bottom:30px;}
+  p{color:var(--text-muted); font-size:14.6px;}
+  strong{color:var(--text); font-weight:600;}
+  code, .mono{font-family:var(--mono);}
+
+  .term{background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+  .term .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .term .term-head .dot{width:10px; height:10px; border-radius:50%;}
+  .term .term-title{margin-left:8px; font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .term .term-body{padding:18px 20px; font-family:var(--mono); font-size:13px; overflow-x:auto;}
+
+  .hero{padding:64px 0 44px;}
+  .hero h1{font-size:32px; line-height:1.25; color:#fff; margin-bottom:14px;}
+  .hero h1 .hl{color:var(--accent-purple);}
+  .hero p.lead{color:var(--text-muted); font-size:15.5px; max-width:520px;}
+  .hero-tags{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+  .tag{font-family:var(--mono); font-size:12px; padding:6px 12px; border:1px solid var(--border); border-radius:20px; color:var(--text-muted); display:flex; align-items:center; gap:6px;}
+  .tag .sw{width:8px;height:8px;border-radius:50%;}
+
+  .def-box{background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent-purple); border-radius:8px; padding:14px 18px; margin:16px 0;}
+  .def-box .lbl{font-family:var(--mono); font-size:11px; color:var(--accent-purple); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+  .def-box p{margin:0; font-size:14px; color:var(--text);}
+
+  .trap-box{background:rgba(242,104,90,.08); border:1px solid var(--border); border-left:3px solid var(--accent-red); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .trap-box strong{color:var(--accent-red);}
+
+  .tip-box{background:rgba(95,224,179,.08); border:1px solid var(--border); border-left:3px solid var(--accent-mint); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .tip-box strong{color:var(--accent-mint);}
+
+  .acc-item{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; background:var(--panel);}
+  .acc-head{display:flex; justify-content:space-between; align-items:center; padding:15px 20px; cursor:pointer; user-select:none;}
+  .acc-head:hover{background:var(--panel-alt);}
+  .acc-head .left{display:flex; align-items:center; gap:12px;}
+  .acc-num{font-family:var(--mono); font-size:12px; opacity:.7;}
+  .acc-title{font-family:var(--mono); font-size:14px; color:#fff; font-weight:600;}
+  .acc-arrow{color:var(--text-faint); transition:transform .2s; font-size:13px;}
+  .acc-item.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:900px;}
+  .acc-inner{padding:0 20px 20px; font-size:13.6px; color:var(--text-muted);}
+  .acc-inner ul{margin:8px 0 0 18px;}
+  .acc-inner li{margin-bottom:6px;}
+  .acc-inner code{color:var(--accent-mint); background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12.3px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.4px; margin:16px 0;}
+  th{text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--accent-purple); padding:9px 12px; border-bottom:1px solid var(--border);}
+  td{padding:10px 12px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  td.strongcell{color:var(--text);}
+
+  .state-flow{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:20px 0;}
+  .state-box{font-family:var(--mono); font-size:12.5px; padding:10px 16px; border-radius:8px; border:1px solid var(--border); background:var(--panel-alt); color:var(--text);}
+  .state-box.new{border-color:var(--accent-mint); color:var(--accent-mint);}
+  .state-box.term{border-color:var(--accent-red); color:var(--accent-red);}
+  .state-arrow{color:var(--text-faint); font-size:14px;}
+
+  .gantt{display:flex; margin:16px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border);}
+  .gantt-seg{padding:14px 0; text-align:center; font-family:var(--mono); font-size:12.5px; font-weight:700; color:#0d0e18; border-right:1px solid rgba(0,0,0,.2);}
+  .gantt-seg:last-child{border-right:none;}
+  .gantt-times{display:flex; font-family:var(--mono); font-size:11px; color:var(--text-faint); margin-top:4px;}
+  .gantt-times span{flex-shrink:0;}
+
+  .oop-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:14px;}
+  .oop-card h4{color:#fff; font-size:15px; margin-bottom:6px;}
+  .oop-card p{font-size:13.6px; margin-bottom:10px;}
+  .oop-card .snippet{background:var(--bg-alt); border:1px solid var(--border-soft); border-radius:8px; padding:12px 14px; font-family:var(--mono); font-size:12.2px; color:var(--text-muted); overflow-x:auto;}
+  .oop-card .snippet .kw{color:var(--accent-purple);} .oop-card .snippet .tp{color:var(--accent-blue);}
+  .oop-card .snippet .cm{color:var(--text-faint); font-style:italic;} .oop-card .snippet .st{color:var(--accent-mint);}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+
+  .quiz-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:14px;}
+  .quiz-q{font-size:14px; color:#fff; margin-bottom:14px; font-weight:600;}
+  .quiz-q .qn{font-family:var(--mono); margin-right:6px;}
+  .quiz-q .qn.os{color:var(--os);} .quiz-q .qn.oop{color:var(--oop);}
+  .quiz-opts{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .quiz-opt{text-align:left; font-family:var(--sans); font-size:13px; background:var(--panel-alt); border:1px solid var(--border); color:var(--text-muted); padding:10px 14px; border-radius:7px; cursor:pointer; transition:all .12s;}
+  .quiz-opt:hover{border-color:var(--accent-purple); color:var(--text);}
+  .quiz-opt.correct{background:rgba(95,224,179,.12); border-color:var(--accent-mint); color:var(--accent-mint);}
+  .quiz-opt.incorrect{background:rgba(242,104,90,.12); border-color:var(--accent-red); color:var(--accent-red);}
+  .quiz-opt[disabled]{cursor:default;}
+  .quiz-explain{display:none; margin-top:12px; font-size:12.6px; color:var(--text-muted); background:var(--bg-alt); border-left:3px solid var(--accent-mint); padding:10px 14px; border-radius:6px;}
+  .quiz-explain.show{display:block;}
+  .quiz-score{position:sticky; bottom:16px; margin-top:20px; background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:13px; color:var(--text-muted); box-shadow:0 10px 30px -10px rgba(0,0,0,.6);}
+  .quiz-score strong{color:var(--accent-mint); font-size:16px;}
+
+  footer{padding:36px 0 56px; text-align:center;}
+  footer p{font-size:12px; color:var(--text-faint); max-width:600px; margin:0 auto;}
+
+  @media (max-width:760px){
+    .grid-2{grid-template-columns:1fr;}
+    .quiz-opts{grid-template-columns:1fr;}
+    h2{font-size:22px;}
+    .state-flow{gap:4px;}
+    .state-box{font-size:11px; padding:8px 10px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="brand">
+    <div class="dots"><div class="dot red"></div><div class="dot amber"></div><div class="dot green"></div></div>
+    <span>os_oops_deep_notes/</span>
+  </div>
+  <nav id="tabnav">
+    <a href="#process" class="tab active">process_thread<span class="ext">.txt</span></a>
+    <a href="#scheduling" class="tab">scheduling<span class="ext">.txt</span></a>
+    <a href="#deadlock" class="tab">deadlock_sync<span class="ext">.txt</span></a>
+    <a href="#memory" class="tab">memory_files<span class="ext">.txt</span></a>
+    <a href="#oops" class="tab">oops_deep<span class="ext">.java</span></a>
+    <a href="#quiz" class="tab">practice<span class="ext">.md</span></a>
+  </nav>
+</div>
+
+<div class="wrap hero">
+  <h1>Operating System &amp; OOPs — <span class="hl">deep notes</span> for IBPS SO IT Officer</h1>
+  <p class="lead">Both topics sit in <strong>Tier 1 (highest priority)</strong> alongside DBMS and Networking — together the Tier‑1 cluster accounts for roughly 80% of the Professional Knowledge paper. Mapped to the exact subtopics on your syllabus sheet: Process, Scheduling, Thread, Multithreading, Deadlock, Synchronization, Memory Management, Paging, Segmentation, File System, System Protection, and Classes/Encapsulation/Abstraction/Polymorphism/Inheritance.</p>
+  <div class="hero-tags">
+    <span class="tag"><span class="sw" style="background:var(--os)"></span>Operating System</span>
+    <span class="tag"><span class="sw" style="background:var(--oop)"></span>OOPs</span>
+    <span class="tag">Tier 1 · ~80% weightage cluster</span>
+  </div>
+</div>
+
+<!-- ===================== PROCESS & THREAD ===================== -->
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow os">process_thread.txt</div>
+    <h2>Process Concept, Thread &amp; Multithreading</h2>
+    <p class="subtitle">Start here — every scheduling and synchronization question assumes you're fluent in what a process and a thread actually are.</p>
+
+    <h3>Process vs Program</h3>
+    <div class="def-box"><div class="lbl">Definition</div><p><strong>Program</strong> = passive entity, just code sitting on disk. <strong>Process</strong> = active entity — a program in execution, with its own memory (text, data, heap, stack), CPU registers, and resources.</p></div>
+
+    <h3>Process states</h3>
+    <div class="state-flow">
+      <div class="state-box new">New</div><span class="state-arrow">→</span>
+      <div class="state-box">Ready</div><span class="state-arrow">⇄</span>
+      <div class="state-box">Running</div><span class="state-arrow">⇄</span>
+      <div class="state-box">Waiting</div>
+    </div>
+    <div class="state-flow">
+      <span style="font-family:var(--mono); font-size:12.5px; color:var(--text-faint);">Running →</span>
+      <div class="state-box term">Terminated</div>
+    </div>
+    <table>
+      <tr><th>State</th><th>Meaning</th><th>Moves to next state when</th></tr>
+      <tr><td class="strongcell">New</td><td>Process is being created</td><td>Admitted → Ready</td></tr>
+      <tr><td class="strongcell">Ready</td><td>Waiting to be assigned the CPU</td><td>Scheduler dispatches it → Running</td></tr>
+      <tr><td class="strongcell">Running</td><td>Instructions are being executed</td><td>I/O request → Waiting; time-slice ends/preempted → Ready; finishes → Terminated</td></tr>
+      <tr><td class="strongcell">Waiting</td><td>Blocked, waiting on an event (e.g. I/O)</td><td>Event completes → Ready</td></tr>
+      <tr><td class="strongcell">Terminated</td><td>Finished execution</td><td>—</td></tr>
+    </table>
+
+    <h3>Process Control Block (PCB)</h3>
+    <p>The kernel data structure holding everything the OS needs to manage a process. Frequently tested as a "which of these is NOT stored in the PCB" question.</p>
+    <div class="acc-item open">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">PCB fields to memorise</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ul>
+          <li>Process ID (PID), Process state</li>
+          <li>Program Counter (PC) — address of next instruction</li>
+          <li>CPU registers (accumulator, stack pointer, general registers)</li>
+          <li>CPU scheduling info — priority, pointers to scheduling queues</li>
+          <li>Memory management info — base/limit registers, page/segment tables</li>
+          <li>Accounting info — CPU used, time limits, process number</li>
+          <li>I/O status info — list of open files, allocated devices</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="trap-box"><strong>Exam trap:</strong> A <strong>Context Switch</strong> (saving the old process's PCB, loading the new one's) is pure overhead — no useful computation happens during it. Higher context-switch frequency ⇒ more overhead, not more throughput.</div>
+
+    <h3>Thread</h3>
+    <div class="def-box"><div class="lbl">Definition</div><p>A <strong>thread</strong> is the basic unit of CPU utilisation — a "lightweight process". It has its own Program Counter, register set, and stack, but <strong>shares</strong> code, data, and OS resources (open files) with other threads of the same process.</p></div>
+    <p><strong>Why threads matter (benefits):</strong> Responsiveness, Resource sharing, Economy (cheaper to create/switch than a full process), Scalability (uses multiple cores).</p>
+
+    <h3>Multithreading models</h3>
+    <table>
+      <tr><th>Model</th><th>Mapping</th><th>Limitation / Benefit</th></tr>
+      <tr><td class="strongcell">Many-to-One</td><td>Many user threads → 1 kernel thread</td><td>Simple, but one blocking syscall blocks all threads; no true parallelism</td></tr>
+      <tr><td class="strongcell">One-to-One</td><td>Each user thread → its own kernel thread</td><td>More concurrency, but thread creation is costlier (Windows, Linux use this)</td></tr>
+      <tr><td class="strongcell">Many-to-Many</td><td>Many user threads → smaller/equal kernel threads</td><td>Flexible — best of both, developer isn't limited by kernel thread count</td></tr>
+    </table>
+    <p style="margin-top:10px;"><strong>Multithreading vs Multiprocessing:</strong> multithreading runs multiple threads inside <em>one</em> process sharing memory space; multiprocessing runs multiple independent processes with separate memory — heavier, but more isolated/fault-tolerant.</p>
+  </div>
+</section>
+
+<!-- ===================== SCHEDULING ===================== -->
+<section id="scheduling">
+  <div class="wrap">
+    <div class="eyebrow os">scheduling.txt</div>
+    <h2>Process Scheduling</h2>
+    <p class="subtitle">The single most numerically-tested OS topic — expect both concept MCQs and Gantt-chart-style waiting/turnaround time calculations.</p>
+
+    <h3>Schedulers — three types</h3>
+    <table>
+      <tr><th>Scheduler</th><th>Role</th><th>Frequency</th></tr>
+      <tr><td class="strongcell">Long-term (Job Scheduler)</td><td>Selects which processes are admitted into the ready queue; controls degree of multiprogramming</td><td>Runs infrequently (seconds/minutes)</td></tr>
+      <tr><td class="strongcell">Short-term (CPU Scheduler)</td><td>Selects which ready process runs next on the CPU</td><td>Runs very frequently (milliseconds)</td></tr>
+      <tr><td class="strongcell">Medium-term</td><td>Swaps processes in/out of main memory to manage load</td><td>Runs occasionally</td></tr>
+    </table>
+
+    <h3>Scheduling criteria (know the formulas)</h3>
+    <div class="def-box">
+      <div class="lbl">Key formulas</div>
+      <p><strong>Turnaround Time</strong> = Completion Time − Arrival Time<br>
+      <strong>Waiting Time</strong> = Turnaround Time − Burst Time<br>
+      <strong>Response Time</strong> = Time of first CPU allocation − Arrival Time</p>
+    </div>
+    <p>Goals: maximise CPU utilisation &amp; throughput; minimise turnaround time, waiting time, and response time.</p>
+
+    <h3>CPU scheduling algorithms</h3>
+    <table>
+      <tr><th>Algorithm</th><th>Preemptive?</th><th>Key idea</th><th>Weakness</th></tr>
+      <tr><td class="strongcell">FCFS</td><td>No</td><td>Runs processes strictly in arrival order</td><td><strong>Convoy effect</strong> — short jobs stuck behind one long job</td></tr>
+      <tr><td class="strongcell">SJF</td><td>Optional (SRTF if preemptive)</td><td>Shortest burst time runs first — provably minimises average waiting time</td><td>Needs burst time prediction; can starve long jobs</td></tr>
+      <tr><td class="strongcell">Priority Scheduling</td><td>Either</td><td>Highest priority process runs first</td><td>Can starve low-priority processes (fixed via <strong>aging</strong>)</td></tr>
+      <tr><td class="strongcell">Round Robin</td><td>Yes</td><td>Fixed time quantum, cycles through ready queue</td><td>Quantum too small → excess context switching; too large → behaves like FCFS</td></tr>
+      <tr><td class="strongcell">Multilevel Queue</td><td>Varies</td><td>Separate queues per process type (e.g. foreground/background), each with its own algorithm</td><td>Rigid — a process can't move between queues</td></tr>
+      <tr><td class="strongcell">Multilevel Feedback Queue</td><td>Yes</td><td>Like above, but processes can move between queues based on behaviour/aging</td><td>Most flexible, but complex to configure</td></tr>
+    </table>
+
+    <h3>Worked example — FCFS Gantt chart</h3>
+    <p>P1 (burst 5), P2 (burst 3), P3 (burst 8), all arriving at time 0:</p>
+    <div class="gantt">
+      <div class="gantt-seg" style="width:31.25%; background:var(--os);">P1</div>
+      <div class="gantt-seg" style="width:18.75%; background:var(--accent-mint);">P2</div>
+      <div class="gantt-seg" style="width:50%; background:var(--accent-amber);">P3</div>
+    </div>
+    <div class="gantt-times"><span style="width:0%">0</span><span style="width:31.25%">5</span><span style="width:18.75%">8</span><span>16</span></div>
+    <p style="margin-top:10px;">Waiting time: P1 = 0, P2 = 5, P3 = 8 → <strong>Average waiting time = (0+5+8)/3 = 4.33</strong>. This is the exact style of numerical the exam asks — practice this pattern for SJF and Round Robin too.</p>
+
+    <div class="tip-box"><strong>Quick recall:</strong> "Optimal average waiting time" in objective questions almost always points to <strong>SJF</strong>. "Fairness / equal CPU share" points to <strong>Round Robin</strong>.</div>
+  </div>
+</section>
+
+<!-- ===================== DEADLOCK & SYNC ===================== -->
+<section id="deadlock">
+  <div class="wrap">
+    <div class="eyebrow os">deadlock_sync.txt</div>
+    <h2>Deadlock &amp; Synchronization</h2>
+    <p class="subtitle">Two of the most conceptually rich OS topics — and a reliable source of "which of these is/isn't a condition" style questions.</p>
+
+    <h3>Deadlock — the four Coffman conditions</h3>
+    <p>A deadlock can occur only if <strong>all four</strong> of these hold at once:</p>
+    <div class="grid-2">
+      <div class="oop-card"><h4>1. Mutual Exclusion</h4><p>At least one resource must be held in a non-shareable mode.</p></div>
+      <div class="oop-card"><h4>2. Hold and Wait</h4><p>A process holds at least one resource while waiting to acquire more.</p></div>
+      <div class="oop-card"><h4>3. No Preemption</h4><p>A resource can only be released voluntarily — it can't be forcibly taken away.</p></div>
+      <div class="oop-card"><h4>4. Circular Wait</h4><p>A closed chain of processes exists, each waiting for a resource held by the next.</p></div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> "Preemption" itself is NOT a deadlock condition — the actual condition is <strong>No Preemption</strong>. Watch for this exact wording flip in options.</div>
+
+    <h3>Handling deadlocks</h3>
+    <table>
+      <tr><th>Strategy</th><th>Approach</th></tr>
+      <tr><td class="strongcell">Prevention</td><td>Design the system to negate at least one of the four conditions</td></tr>
+      <tr><td class="strongcell">Avoidance</td><td><strong>Banker's Algorithm</strong> — before granting a request, check if the resulting state is "safe" (a completion order exists for all processes)</td></tr>
+      <tr><td class="strongcell">Detection &amp; Recovery</td><td>Allow deadlock to occur, detect it (wait-for graph / resource-allocation graph), then recover by terminating a process or preempting a resource</td></tr>
+      <tr><td class="strongcell">Ignorance</td><td><strong>Ostrich algorithm</strong> — assume it won't happen; used by most general-purpose OSes (e.g. UNIX) since deadlocks are rare in practice</td></tr>
+    </table>
+    <p style="margin-top:6px;">Banker's Algorithm needs three matrices: <strong>Max</strong> (max demand), <strong>Allocation</strong> (currently held), and derives <strong>Need = Max − Allocation</strong>, checked against the <strong>Available</strong> vector.</p>
+
+    <h3>Synchronization</h3>
+    <div class="def-box"><div class="lbl">Definition</div><p><strong>Race condition:</strong> the final outcome depends on the timing/interleaving of concurrent access to shared data — the classic bug synchronization prevents.</p></div>
+
+    <h3>Critical Section — three requirements</h3>
+    <div class="acc-item">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">Mutual Exclusion, Progress, Bounded Waiting</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ul>
+          <li><strong>Mutual Exclusion</strong> — only one process may execute in its critical section at a time</li>
+          <li><strong>Progress</strong> — if no process is in the critical section, one of the processes waiting to enter must be allowed to, without indefinite postponement</li>
+          <li><strong>Bounded Waiting</strong> — there's a limit on how many times other processes can enter before a waiting process gets its turn</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <h3>Tools for synchronization</h3>
+    <table>
+      <tr><th>Tool</th><th>Detail</th></tr>
+      <tr><td class="strongcell">Peterson's Solution</td><td>Software-only solution for 2 processes using a <code>turn</code> variable and a <code>flag[]</code> array</td></tr>
+      <tr><td class="strongcell">Binary Semaphore</td><td>Value restricted to 0 or 1 — behaves like a mutex lock</td></tr>
+      <tr><td class="strongcell">Counting Semaphore</td><td>Can take any non-negative integer — controls access to a resource with multiple instances</td></tr>
+      <tr><td class="strongcell">Mutex Lock</td><td>Simple lock/unlock mechanism; ownership is tied to the locking thread</td></tr>
+    </table>
+    <p>Semaphore operations: <code>wait()</code> / <code>P()</code> decrements the value (blocks if it goes negative); <code>signal()</code> / <code>V()</code> increments it (wakes a waiting process).</p>
+
+    <h3>Classic synchronization problems</h3>
+    <ul style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;"><strong>Producer-Consumer (Bounded Buffer)</strong> — producers add items, consumers remove them, from a fixed-size shared buffer</li>
+      <li style="margin-bottom:6px;"><strong>Readers-Writers</strong> — multiple readers can access shared data simultaneously, but writers need exclusive access</li>
+      <li><strong>Dining Philosophers</strong> — 5 philosophers, 5 forks; the textbook illustration of how naive resource-locking causes deadlock</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== MEMORY & FILES ===================== -->
+<section id="memory">
+  <div class="wrap">
+    <div class="eyebrow os">memory_files.txt</div>
+    <h2>Memory Management, Paging, Segmentation, File System &amp; Protection</h2>
+    <p class="subtitle">Five syllabus topics that all revolve around one question: how does the OS give each process the illusion of its own private memory and files?</p>
+
+    <h3>Memory management basics</h3>
+    <div class="def-box"><div class="lbl">Logical vs Physical address</div><p>The CPU generates a <strong>logical (virtual) address</strong>; the <strong>MMU (Memory Management Unit)</strong> translates it into a <strong>physical address</strong> — the actual location in RAM.</p></div>
+    <table>
+      <tr><th>Fragmentation type</th><th>Cause</th></tr>
+      <tr><td class="strongcell">Internal</td><td>Allocated block is slightly bigger than needed — wasted space sits <em>inside</em> the partition</td></tr>
+      <tr><td class="strongcell">External</td><td>Enough total free memory exists, but not as one contiguous block — fixed via <strong>compaction</strong></td></tr>
+    </table>
+    <p><strong>Swapping</strong> — temporarily moving a process out of main memory to a backing store (disk) and back, to free up space for other processes.</p>
+
+    <h3>Paging vs Segmentation</h3>
+    <table>
+      <tr><th>Feature</th><th>Paging</th><th>Segmentation</th></tr>
+      <tr><td class="strongcell">Division basis</td><td>Fixed-size blocks (pages/frames)</td><td>Variable-size, logical program divisions (code, data, stack)</td></tr>
+      <tr><td class="strongcell">Address form</td><td>Page number + Offset</td><td>Segment number + Offset</td></tr>
+      <tr><td class="strongcell">Table used</td><td>Page table (page → frame)</td><td>Segment table (base + limit per segment)</td></tr>
+      <tr><td class="strongcell">External fragmentation</td><td>None</td><td>Possible (variable sizes)</td></tr>
+      <tr><td class="strongcell">Internal fragmentation</td><td>Possible (last page)</td><td>None</td></tr>
+      <tr><td class="strongcell">Speed-up hardware</td><td><strong>TLB</strong> (Translation Lookaside Buffer) caches recent page-table lookups</td><td>—</td></tr>
+    </table>
+    <div class="trap-box"><strong>Exam trap:</strong> Paging avoids external fragmentation; Segmentation avoids internal fragmentation. These get swapped in options constantly — memorise the pairing, not just the words.</div>
+
+    <h3>File System</h3>
+    <p><strong>File allocation methods:</strong></p>
+    <table>
+      <tr><th>Method</th><th>Access</th><th>Trade-off</th></tr>
+      <tr><td class="strongcell">Contiguous</td><td>Sequential + direct</td><td>Fast, but external fragmentation and hard for a file to grow</td></tr>
+      <tr><td class="strongcell">Linked</td><td>Sequential only</td><td>No external fragmentation, but pointer overhead and a broken pointer corrupts the rest of the chain</td></tr>
+      <tr><td class="strongcell">Indexed</td><td>Direct + sequential</td><td>Uses an index block of pointers — no external fragmentation, small overhead per file</td></tr>
+    </table>
+    <p><strong>Directory structures:</strong> Single-level → Two-level → Tree-structured → Acyclic-graph → General graph (increasing flexibility, increasing complexity).</p>
+    <p><strong>Free space management:</strong> Bit vector (bitmap, 1 bit per block), Linked list of free blocks, Grouping, Counting.</p>
+
+    <h3>System Protection</h3>
+    <div class="def-box"><div class="lbl">Goal</div><p>Ensure every process accesses only the resources it's authorised for, per a defined policy — protection is about <em>enforcing</em> correct use, distinct from security's focus on external threats.</p></div>
+    <p><strong>Access Matrix:</strong> rows = domains, columns = objects, cells = permitted operations. Implemented practically as either:</p>
+    <ul style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;"><strong>Access Control List (ACL)</strong> — stored per object: which domains can access it and how</li>
+      <li><strong>Capability List</strong> — stored per domain: which objects it can access and how</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== OOPs DEEP ===================== -->
+<section id="oops">
+  <div class="wrap">
+    <div class="eyebrow oop">oops_deep.java</div>
+    <h2>OOPs — deep dive</h2>
+    <p class="subtitle">Exactly the five pillars on your syllabus sheet — Classes/Objects/Methods, Encapsulation, Abstraction, Polymorphism, Inheritance — covered with the distinctions the exam actually probes.</p>
+
+    <h3>Classes, Objects &amp; Methods</h3>
+    <div class="oop-card">
+      <h4>Class</h4>
+      <p>A blueprint/template that defines what attributes (data) and behaviours (methods) its instances will have. A class itself occupies no memory for object data until instantiated.</p>
+      <div class="snippet"><span class="kw">class</span> Car {
+  <span class="tp">String</span> model;      <span class="cm">// attribute</span>
+  <span class="tp">void</span> drive() { }   <span class="cm">// method</span>
+}</div>
+    </div>
+    <div class="oop-card">
+      <h4>Object</h4>
+      <p>A concrete instance of a class, with its own <strong>state</strong> (attribute values), <strong>behaviour</strong> (methods it can perform), and <strong>identity</strong> (a unique reference/address distinguishing it from other objects of the same class).</p>
+      <div class="snippet">Car myCar = <span class="kw">new</span> Car();   <span class="cm">// myCar is an object of class Car</span>
+myCar.model = <span class="st">"Sedan"</span>;</div>
+    </div>
+    <div class="oop-card">
+      <h4>Methods &amp; self / this</h4>
+      <p>Functions defined inside a class that operate on that object's data. C++/Java use the implicit keyword <code>this</code> to refer to the current instance; Python requires it explicitly as the first parameter, conventionally named <code>self</code>.</p>
+    </div>
+
+    <h3>Encapsulation vs Abstraction — the most-confused pair</h3>
+    <div class="grid-2">
+      <div class="oop-card">
+        <h4>Encapsulation — the "how"</h4>
+        <p>Bundles data and the methods that act on it into one unit, restricting direct outside access via access modifiers. It's an <strong>implementation-level</strong> hiding technique — "data hiding".</p>
+        <div class="snippet"><span class="kw">private</span> <span class="tp">double</span> balance;
+<span class="kw">public</span> <span class="tp">double</span> getBalance() { <span class="kw">return</span> balance; }</div>
+      </div>
+      <div class="oop-card">
+        <h4>Abstraction — the "what"</h4>
+        <p>Hides implementation complexity, exposing only essential features. It's a <strong>design-level</strong> hiding technique, achieved via abstract classes and interfaces — "complexity hiding".</p>
+        <div class="snippet"><span class="kw">abstract class</span> Shape {
+  <span class="kw">abstract</span> <span class="tp">double</span> area(); <span class="cm">// what, not how</span>
+}</div>
+      </div>
+    </div>
+    <div class="tip-box"><strong>Memory trick:</strong> Encapsulation = wrapping a capsule around data (hides <em>data</em>). Abstraction = an architect's blueprint (hides <em>complexity</em>). Both "hide" something, but not the same thing.</div>
+
+    <h3>Inheritance — all five types</h3>
+    <table>
+      <tr><th>Type</th><th>Structure</th><th>Support</th></tr>
+      <tr><td class="strongcell">Single</td><td>One parent → one child</td><td>C++, Java, Python</td></tr>
+      <tr><td class="strongcell">Multilevel</td><td>Grandparent → Parent → Child chain</td><td>C++, Java, Python</td></tr>
+      <tr><td class="strongcell">Hierarchical</td><td>One parent → multiple children</td><td>C++, Java, Python</td></tr>
+      <tr><td class="strongcell">Multiple</td><td>One child ← multiple parents</td><td>C++, Python (direct); <strong>Java only via interfaces</strong></td></tr>
+      <tr><td class="strongcell">Hybrid</td><td>A combination of the above</td><td>C++, Python; Java approximates via interfaces</td></tr>
+    </table>
+    <div class="trap-box"><strong>Exam trap — the Diamond Problem:</strong> when a class inherits from two classes that share a common ancestor, it's ambiguous which version of an inherited method to use. Java sidesteps this entirely by disallowing multiple inheritance through classes; C++ resolves it with <strong>virtual inheritance</strong>.</div>
+
+    <h3>Polymorphism — compile-time vs runtime</h3>
+    <div class="oop-card">
+      <h4>Compile-time (Static) Polymorphism</h4>
+      <p>Resolved by the compiler based on method signature — <strong>Method Overloading</strong> and <strong>Operator Overloading</strong>.</p>
+      <div class="snippet"><span class="tp">int</span> add(<span class="tp">int</span> a, <span class="tp">int</span> b);
+<span class="tp">double</span> add(<span class="tp">double</span> a, <span class="tp">double</span> b); <span class="cm">// same name, different signature</span></div>
+    </div>
+    <div class="oop-card">
+      <h4>Runtime (Dynamic) Polymorphism</h4>
+      <p>Resolved at runtime via dynamic dispatch — <strong>Method Overriding</strong>, which requires an inheritance relationship. This is what lets a parent-type reference call the correct child-specific behaviour.</p>
+      <div class="snippet"><span class="tp">Shape</span> s = <span class="kw">new</span> Circle();  <span class="cm">// parent reference, child object</span>
+s.area();               <span class="cm">// runs Circle's overridden area(), decided at runtime</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUIZ ===================== -->
+<section id="quiz">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--accent-purple);">practice.md</div>
+    <h2>Practice set — 20 questions</h2>
+    <p class="subtitle">12 Operating System + 8 OOPs, in the exact recurring formats — terminology, "which is NOT", and applied scenario questions. Click an option to check.</p>
+    <div id="quizWrap"></div>
+    <div class="quiz-score"><span>Score</span><span><strong id="scoreVal">0</strong> / <span id="scoreTotal">20</span></span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Covers the exact OS and OOPs subtopics listed on your syllabus breakdown. Standard operating-systems concepts (process/thread/scheduling/deadlock/memory) are drawn from established CS fundamentals; always cross-check exact weightage against the current-year official notification.</p>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('#tabnav .tab');
+  const sections = Array.from(tabs).map(t => document.querySelector(t.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
+  });
+
+  const quiz = [
+    { tag:'os', q:"Which state does a ready process enter immediately after being dispatched to the CPU?", opts:["Waiting","New","Running","Terminated"], a:2, ex:"The short-term scheduler dispatches a Ready process into the Running state." },
+    { tag:'os', q:"The kernel structure storing a process's PID, program counter, and registers is the:", opts:["Page Table","Process Control Block (PCB)","Segment Table","TLB"], a:1, ex:"The PCB holds all bookkeeping information the OS needs to manage a process, including PC and registers." },
+    { tag:'os', q:"Which scheduler controls the degree of multiprogramming?", opts:["Short-term scheduler","Medium-term scheduler","Long-term scheduler","I/O scheduler"], a:2, ex:"The Long-term (job) scheduler decides which processes are admitted into the ready queue, controlling multiprogramming level." },
+    { tag:'os', q:"Which CPU scheduling algorithm is known for causing the 'convoy effect'?", opts:["Round Robin","FCFS","SJF","Priority Scheduling"], a:1, ex:"FCFS lets short jobs get stuck behind one long job that arrived first — the convoy effect." },
+    { tag:'os', q:"Which algorithm gives the theoretically minimum average waiting time?", opts:["FCFS","Round Robin","SJF","Multilevel Queue"], a:2, ex:"Shortest Job First is provably optimal for minimising average waiting time (given known burst times)." },
+    { tag:'os', q:"If the Round Robin time quantum is set very large, its behaviour approaches:", opts:["SJF","FCFS","Priority Scheduling","Multilevel Feedback Queue"], a:1, ex:"A very large quantum means each process runs to completion before the next gets a turn — essentially FCFS." },
+    { tag:'os', q:"Which of these is NOT one of the four necessary conditions for deadlock?", opts:["Mutual Exclusion","Hold and Wait","Preemption","Circular Wait"], a:2, ex:"The actual condition is 'No Preemption' — the presence of preemption prevents deadlock, it isn't a cause of it." },
+    { tag:'os', q:"Which algorithm avoids deadlock by checking for a 'safe state' before granting a resource request?", opts:["Round Robin", "Banker's Algorithm","FCFS","LRU"], a:1, ex:"Banker's Algorithm simulates the allocation and only grants it if the system remains in a safe state." },
+    { tag:'os', q:"A semaphore that can take any non-negative integer value, used for resources with multiple instances, is a:", opts:["Binary semaphore","Mutex lock","Counting semaphore","Spinlock"], a:2, ex:"A Counting Semaphore isn't restricted to 0/1 — it tracks how many instances of a resource are free." },
+    { tag:'os', q:"The hardware cache that speeds up page-table lookups during address translation is the:", opts:["TLB","PCB","MMU cache","Segment table"], a:0, ex:"The Translation Lookaside Buffer (TLB) caches recent logical-to-physical address translations." },
+    { tag:'os', q:"Which memory management scheme divides memory based on logical program divisions (code, data, stack) rather than fixed size?", opts:["Paging","Segmentation","Swapping","Compaction"], a:1, ex:"Segmentation splits memory into variable-sized segments matching the program's logical structure." },
+    { tag:'os', q:"Which file allocation method only supports sequential access and risks a broken chain if a pointer is corrupted?", opts:["Contiguous","Indexed","Linked","Direct"], a:2, ex:"Linked allocation chains blocks via pointers — only sequential access is possible, and one broken link corrupts the rest." },
+    { tag:'oop', q:"A blueprint defining attributes and behaviours, occupying no memory for data until instantiated, is a:", opts:["Object","Class","Method","Interface only"], a:1, ex:"A Class is the template; memory for actual data is allocated only when an Object is created from it." },
+    { tag:'oop', q:"Restricting direct access to an object's internal data, exposing it only through methods, is:", opts:["Abstraction","Inheritance","Encapsulation","Polymorphism"], a:2, ex:"Encapsulation bundles data with its methods and hides the data itself behind access modifiers." },
+    { tag:'oop', q:"Showing only essential features while hiding implementation complexity describes:", opts:["Encapsulation","Abstraction","Overloading","Overriding"], a:1, ex:"Abstraction hides *how* something works, exposing only *what* it does — via abstract classes/interfaces." },
+    { tag:'oop', q:"Which type of inheritance causes the 'Diamond Problem' and is disallowed through classes in Java?", opts:["Single","Hierarchical","Multiple","Multilevel"], a:2, ex:"Multiple inheritance (one child, multiple parent classes) creates ambiguity when parents share an ancestor — Java disallows it via classes." },
+    { tag:'oop', q:"A parent-type reference pointing to different child objects, correctly calling each one's overridden method, is:", opts:["Compile-time polymorphism","Runtime polymorphism","Encapsulation","Abstraction"], a:1, ex:"This is runtime (dynamic) polymorphism — resolved via dynamic dispatch based on the actual object type, not the reference type." },
+    { tag:'oop', q:"Which of these is resolved at compile time rather than runtime?", opts:["Method Overriding","Method Overloading","Dynamic binding","Virtual function calls"], a:1, ex:"Method Overloading is matched to a signature by the compiler itself — no runtime lookup needed." },
+    { tag:'oop', q:"The keyword Python uses to refer to the current instance inside a method is:", opts:["this","self","me","current"], a:1, ex:"Python requires the instance reference to be an explicit first parameter, conventionally named self." },
+    { tag:'oop', q:"Which OOP pillar is achieved primarily through abstract classes and interfaces?", opts:["Encapsulation","Inheritance","Abstraction","None of these"], a:2, ex:"Abstraction is implemented via abstract classes/interfaces that declare *what* must be done, leaving *how* to subclasses." },
+  ];
+
+  const quizWrap = document.getElementById('quizWrap');
+  let score = 0;
+  document.getElementById('scoreTotal').textContent = quiz.length;
+
+  quiz.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-q"><span class="qn ${item.tag}">Q${qi+1}.</span>${item.q}</div>
+      <div class="quiz-opts">
+        ${item.opts.map((o,i) => `<button class="quiz-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explain"></div>
+    `;
+    quizWrap.appendChild(card);
+
+    const buttons = card.querySelectorAll('.quiz-opt');
+    const explain = card.querySelector('.quiz-explain');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(card.dataset.answered) return;
+        card.dataset.answered = 'true';
+        const chosen = parseInt(btn.dataset.i);
+        buttons.forEach(b => b.disabled = true);
+        if(chosen === item.a){ btn.classList.add('correct'); score++; }
+        else { btn.classList.add('incorrect'); buttons[item.a].classList.add('correct'); }
+        explain.textContent = item.ex;
+        explain.classList.add('show');
+        document.getElementById('scoreVal').textContent = score;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

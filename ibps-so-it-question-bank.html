@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer — Question Bank</title>
+<style>
+  :root{
+    --bg:#0f1720; --card:#16212c; --card2:#1c2a37; --border:#2a3a48;
+    --text:#e8edf2; --muted:#8fa3b3; --accent:#3d8bfd; --accent2:#2a6fd6;
+    --correct:#1f8f5f; --correct-bg:#123d2c; --wrong:#d64545; --wrong-bg:#3a1c1c;
+    --amber:#e0a52f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  .wrap{max-width:820px;margin:0 auto;padding:24px 16px 80px;}
+  h1{font-size:20px;font-weight:600;margin:0 0 4px;}
+  .subtitle{color:var(--muted);font-size:13px;margin:0 0 20px;}
+  .statbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;}
+  .stat b{font-size:16px;display:block;color:var(--text);}
+  .stat span{color:var(--muted);}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  .tab{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:20px;font-size:13px;cursor:pointer;user-select:none;}
+  .tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .tab .count{opacity:.7;font-size:11px;}
+  .qcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+  .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .qnum{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.03em;}
+  .qtext{font-size:15px;line-height:1.5;margin:0 0 12px;}
+  .qtext pre{background:var(--card2);padding:8px 10px;border-radius:6px;overflow-x:auto;font-size:13px;margin:8px 0;}
+  .opt{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:14px;cursor:pointer;transition:background .12s;}
+  .opt:hover{border-color:var(--accent);}
+  .opt.correct{background:var(--correct-bg);border-color:var(--correct);color:#a7e8c8;}
+  .opt.wrong{background:var(--wrong-bg);border-color:var(--wrong);color:#f3b0b0;}
+  .opt.disabled{cursor:default;pointer-events:none;}
+  .opt.reveal-correct{background:var(--correct-bg);border-color:var(--correct);color:#a7e8c8;}
+  .feedback{font-size:12px;margin-top:6px;font-weight:600;}
+  .feedback.right{color:var(--correct);}
+  .feedback.wrongf{color:var(--wrong);}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .btn{background:var(--card2);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer;}
+  .btn:hover{border-color:var(--accent);}
+  .progress-track{height:5px;background:var(--card2);border-radius:3px;overflow:hidden;margin-bottom:20px;}
+  .progress-fill{height:100%;background:var(--accent);transition:width .2s;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>IBPS SO IT Officer — Question Bank</h1>
+  <p class="subtitle">Tap an option to check your answer. Categories below.</p>
+
+  <div class="statbar">
+    <div class="stat"><b id="stat-answered">0</b><span>Answered</span></div>
+    <div class="stat"><b id="stat-correct">0</b><span>Correct</span></div>
+    <div class="stat"><b id="stat-accuracy">—</b><span>Accuracy</span></div>
+  </div>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="toolbar">
+    <span style="color:var(--muted);font-size:13px;" id="cat-label"></span>
+    <button class="btn" id="reset-btn">Reset progress</button>
+  </div>
+
+  <div id="questions"></div>
+</div>
+
+<script>
+const DATA = {
+  "Emerging Tech (AI/IoT/Blockchain)": [
+    {q:"Which of the following is NOT generally considered a characteristic of an AI system?",o:["Learning from data","Reasoning and decision-making","Perception and pattern recognition","Always requiring manual instructions for every decision"],a:3},
+    {q:"Which of the following is the correct basic IoT data flow?",o:["Sensor → Network → Processing → Application","Application → Sensor → Keyboard → Printer","Database → Monitor → Sensor → Router","Actuator → Keyboard → Compiler → Sensor"],a:0},
+    {q:"A model performs extremely well on training data but poorly on unseen test data. This is most likely:",o:["Overfitting","Underfitting","Clustering","Reinforcement"],a:0},
+    {q:"Which technology is most directly associated with maintaining a tamper-evident distributed transaction ledger?",o:["IoT","CNN","Blockchain","Expert System"],a:2},
+    {q:"The perception layer in a basic IoT architecture is mainly responsible for:",o:["Sensing and collecting data from the physical environment","Performing business-level decision-making only","Managing banking regulations","Creating software licenses"],a:0},
+    {q:"A blockchain is operated by a single bank, and only authorized employees or systems can access it. This is best classified as:",o:["Public Blockchain","Private Blockchain","Consortium Blockchain","Permissionless Blockchain"],a:1},
+    {q:"Which of the following correctly represents the relationship between AI, ML, and Deep Learning?",o:["AI is a subset of Deep Learning","Deep Learning is a subset of ML, and ML is a subset of AI","ML and AI are completely unrelated","AI is a subset of ML, and ML is a subset of Deep Learning"],a:1},
+    {q:"Artificial Narrow Intelligence (ANI) is designed to:",o:["Possess human consciousness","Perform a specific task or a limited set of tasks","Perform every intellectual task a human can perform","Replace all human intelligence"],a:1},
+    {q:"Artificial General Intelligence (AGI) refers to a system that:",o:["Performs only one specific task","Has intelligence comparable to humans across a wide range of tasks","Only classifies emails as spam or non-spam","Only recognizes faces"],a:1},
+    {q:"Which of the following is generally considered a hypothetical or future level of AI?",o:["Narrow AI","General AI","Super AI","Rule-based AI"],a:2},
+    {q:"A reactive machine AI system:",o:["Stores complete human memories","Uses only current input and does not retain past experiences","Has self-awareness","Understands human emotions perfectly"],a:1},
+    {q:"Which property of cryptographic hashing makes it difficult to derive the original input from the hash?",o:["One-way nature","Compression only","Centralization","Reversibility"],a:0},
+    {q:"The primary feature of a distributed ledger in Blockchain is:",o:["It works only without computers","Copies of the ledger may be maintained across multiple participating nodes","No transaction records are maintained","The record is maintained only on one central computer"],a:1},
+    {q:"In supervised learning, the training dataset generally contains:",o:["Only input data with no known output","Input data along with corresponding target labels","Only random numbers","No data at all"],a:1},
+    {q:"Which of the following is an example of supervised learning?",o:["Grouping customers without predefined categories","Predicting whether a loan applicant will default using labelled historical data","Finding hidden groups in transaction data without labels","Randomly selecting customers"],a:1},
+    {q:"Unsupervised learning is mainly used when:",o:["Data has predefined output labels","The system receives rewards for actions","The algorithm discovers hidden patterns or structures in unlabeled data","A teacher manually provides every answer"],a:2},
+    {q:"A bank uses historical labelled transaction data to predict whether a new transaction is fraudulent. Which combination is most appropriate?",o:["Supervised Learning + Classification","Unsupervised Learning + Clustering","Reinforcement Learning + Reward only","Blockchain + PoW"],a:0},
+    {q:"Customer segmentation based on transaction behavior without predefined customer categories is an example of:",o:["Supervised Learning","Compilation","Reinforcement Learning","Unsupervised Learning"],a:3},
+    {q:"In Reinforcement Learning, an agent learns primarily through:",o:["Labels provided for every input","Manual programming of every possible action","Static database tables","Rewards and penalties received from interactions with an environment"],a:3},
+    {q:"In reinforcement learning, the entity that takes actions is called:",o:["Agent","Dataset","Label","Cluster"],a:0},
+    {q:"If the contents of a blockchain block are changed, its hash will generally:",o:["Remain exactly the same","Change, potentially breaking the chain relationship","Automatically become a password","Convert into an IP address"],a:1},
+    {q:"A smart ATM that sends an alert when cash is running low is an example of:",o:["A blockchain consensus algorithm","Only a word-processing application","IoT-based monitoring","A compiler optimization"],a:2},
+    {q:"Which algorithm is commonly used for clustering?",o:["k-Means","Linear Regression","Decision Tree","SVM only"],a:0}
+  ],
+  "Linux / Unix Commands": [
+    {q:"Which command compares two files and reports their differences?",o:["compare","diff","check","cmpfile"],a:1},
+    {q:"Which command is primarily used to test basic network reachability using ICMP Echo Request messages?",o:["traceroute","ping","route","netstat"],a:1},
+    {q:"Consider: cd /var/log then cd ../tmp — which directory will be the final current working directory?",o:["/var/log/tmp","/var/tmp","/tmp/log","/var/log/../tmp"],a:1},
+    {q:"What is the major danger of the command: rm -rf directory_name",o:["It only removes empty directories","It recursively and forcefully removes the specified directory and its contents","It moves the directory to the recycle bin","It changes the directory ownership"],a:1},
+    {q:"What does chmod 755 script.sh accomplish?",o:["Owner: read/write/execute; Group: read/execute; Others: read/execute","Owner: read/execute; Group: read/write; Others: execute","Owner: full permissions; Group and Others: no permissions","Owner: read/write; Group: read; Others: execute"],a:0},
+    {q:"Which command is commonly used to download files from the Internet?",o:["wget","getfile","download","fetchhttp"],a:0},
+    {q:"Which command displays the absolute path of the current working directory?",o:["ls -p","pwd","path","locate"],a:1},
+    {q:"Which command is specifically used to display hidden files along with regular files in a directory?",o:["ls -h","ls -l","ls -a","ls -r"],a:2},
+    {q:"Which command searches for files based on conditions such as name, size, type, and modification time?",o:["locate","find","search","grep"],a:1},
+    {q:"Which statement correctly differentiates find and locate?",o:["find searches only directories, while locate searches only files","find generally searches the filesystem in real time, while locate commonly uses a prebuilt database","locate searches in real time, while find uses a database","Both always use exactly the same search mechanism"],a:1},
+    {q:"Which command can both create an empty file and update the access/modification timestamp of an existing file?",o:["mkdir","touch","create","file"],a:1},
+    {q:"Which command changes the permissions associated with a file?",o:["chown","chgrp","chmod","perm"],a:2},
+    {q:"Which command is most appropriate for searching for a specific pattern recursively across files in a directory?",o:["find -text","grep -r","search -r","awk -r"],a:1},
+    {q:"What is the effect of: grep -i \"error\" logfile.txt",o:["Searches only for the exact lowercase word error","Searches for error without considering letter case","Replaces all occurrences of error","Counts the number of errors"],a:1},
+    {q:"Which command generally provides more detailed DNS query information than a basic nslookup query?",o:["dig","trace","dnsinfo","hostroute"],a:0},
+    {q:"Which command is used to securely log in to a remote system over an encrypted connection?",o:["ftp","telnet","ssh","rlogin"],a:2},
+    {q:"What does wc -l file.txt display?",o:["Number of words","Number of characters","Number of lines","Number of files"],a:2},
+    {q:"Which command combination searches for the word \"failed\" in all files under /var/log, ignoring case?",o:["find /var/log -name failed -i","grep -ri \"failed\" /var/log","search -r -case failed /var/log","awk -i failed /var/log"],a:1}
+  ],
+  "DBMS": [
+    {q:"A transaction reads a data item twice; in between, another transaction updates and commits it, causing the first to read a different value. Which isolation level allows this?",o:["Serializable","Repeatable Read","Read Committed","Read Uncommitted"],a:2},
+    {q:"Relation R(A,B,C,D,E) with FDs A→BC, CD→E, B→D. Highest normal form of R?",o:["1NF","2NF","3NF","BCNF"],a:0},
+    {q:"Which DBMS component ensures Durability and Atomicity during a crash using Write-Ahead Logging (WAL)?",o:["Query Optimizer","Transaction Manager","Recovery Manager","Buffer Manager"],a:2},
+    {q:"In a B+ Tree index of order n, minimum number of keys a non-root internal node can contain?",o:["⌈n/2⌉","⌈n/2⌉ - 1","n/2 - 1","⌊n/2⌋"],a:1},
+    {q:"Strict Two-Phase Locking (Strict 2PL) prevents which anomaly?",o:["Deadlocks","Cascading Aborts","Lost Updates only","View Non-serializability"],a:1},
+    {q:"Which SQL isolation level completely eliminates the Phantom Read anomaly?",o:["Read Uncommitted","Read Committed","Repeatable Read","Serializable"],a:3},
+    {q:"Natural Join of R(r rows) and S(s rows), no FK constraints — min/max possible resulting rows?",o:["Minimum = 0, Maximum = r * s","Minimum = r, Maximum = s","Minimum = 0, Maximum = r + s","All of the above"],a:0},
+    {q:"In 2PC, what happens if a participant crashes while in the \"Ready\" state?",o:["The coordinator aborts the transaction immediately","The participant safely aborts locally without asking","The participant must block and wait to recover and query the coordinator","The transaction automatically commits"],a:2},
+    {q:"MVCC primarily helps database engines to:",o:["Prevent deadlocks entirely","Allow readers to read consistent older versions without blocking writers","Achieve BCNF compliance automatically","Reduce disk storage requirements"],a:1},
+    {q:"Theta Join (⋈) is structurally equivalent to which sequence of operations?",o:["Projection followed by Selection","Cartesian Product followed by Selection","Selection followed by Projection","Cartesian Product followed by Projection"],a:1},
+    {q:"Fundamental difference between View Serializable and Conflict Serializable schedules?",o:["View serializability is a strict subset of conflict serializability","Every view serializable schedule is conflict serializable","Conflict serializability handles blind writes, view serializability does not","Every conflict serializable schedule is view serializable, but the reverse is not true"],a:3},
+    {q:"Which join algorithm is preferred for joining two huge tables already indexed and sorted on the join key?",o:["Block Nested Loop Join","Hash Join","Merge Join","Index Nested Loop Join"],a:2},
+    {q:"In CAP Theorem, traditional RDBMS with synchronous replication prioritize which two during a network partition?",o:["C and A","C and P","A and P","Only P"],a:1},
+    {q:"Which constraint mechanism triggers automatically to delete all child rows when a parent row is deleted?",o:["ON DELETE RESTRICT","ON DELETE SET NULL","ON DELETE CASCADE","ON DELETE SET DEFAULT"],a:2},
+    {q:"R(X,Y,Z), (X,Y) is primary key, and Y→Z holds. Which highest normal form does R violate?",o:["2NF","3NF","BCNF","All of the above"],a:1},
+    {q:"A Sparse Index can only be implemented if the data file is:",o:["Ordered on the indexing key (Clustered)","Completely un-ordered","Stored in a NoSQL database","Hashed using a dense hash function"],a:0},
+    {q:"Which SQL command manages fine-grained security by revoking access from a user?",o:["DENY","REVOKE","REMOVE","DROP"],a:1},
+    {q:"R - (R - S) is logically equivalent to:",o:["R ∪ S","R ∩ S","R - S","R ⋈ S (Natural Join)"],a:1},
+    {q:"When can a relationship set in an ER diagram be merged into a participating entity table without violating 3NF?",o:["When the relationship is Many-to-Many (M:N)","When 1:N and the many-side has total participation","When the relationship has attributes of its own","When both entities have weak participation constraints"],a:1},
+    {q:"Main structural disadvantage of a Hash Index over a B+ Tree index?",o:["Point queries are significantly slower","It requires double the memory overhead","Range queries cannot use the index efficiently","It cannot handle string columns"],a:2},
+    {q:"Purpose of a self-referencing foreign key?",o:["To reference another table in the database","To reference the same table to represent hierarchical relationships","To ensure uniqueness within a table","More than one of the above"],a:1},
+    {q:"Can a foreign key reference a composite primary key?",o:["No, only single-column primary keys","Yes, if it consists of the same columns","No, foreign keys cannot reference primary keys in other tables","Yes, but only if defined as a unique key in the referencing table"],a:1},
+    {q:"Effect of ON DELETE SET NULL in a foreign key constraint?",o:["The foreign key column is set to null when the referenced record is deleted","The entire record is deleted from the referencing table","The foreign key value is set to a default value","None of the above"],a:0},
+    {q:"Which of the following is false?",o:["A relation in BCNF is always in 3NF","A relation in 3NF is always in BCNF","BCNF and 3NF are same","More than one of the above"],a:1},
+    {q:"Which level of abstraction describes how data are stored in the database?",o:["Physical level","View level","Abstraction level","All of the above"],a:0},
+    {q:"Rigorous Two-Phase Locking (Rigorous 2PL) strictly guarantees:",o:["The schedule is guaranteed to be deadlock-free","The schedule is guaranteed to be strict and cascade-less","Locks can be released in the shrinking phase before commit","All of the above"],a:1},
+    {q:"Which command modifies the structure of an existing table (adding, deleting, altering columns)?",o:["UPDATE","ALTER","MODIFY","CHANGE"],a:1},
+    {q:"Which statement is correct about a Weak Entity Set in an ER model?",o:["It does not have a primary key of its own and depends on an identifying owner entity set","It is represented by a single rectangle","It can exist independently without any owner entity","It uses a single underline to mark its partial discriminator key"],a:0},
+    {q:"Why are columnar formats like Apache Parquet efficient for analytical queries in Big Data?",o:["They optimize column-wise compression and allow skipping unreferenced columns","They allow faster single-row point lookups than relational storage","They completely eliminate the need for schema definitions","They process data linearly without using blocks"],a:0},
+    {q:"Executing log operations in reverse order to clear uncommitted changes of an aborted transaction is called:",o:["Redo processing","Undo processing","Shadow paging","Log forwarding"],a:1},
+    {q:"Which SQL constraint ensures no duplicate value in a column but still allows NULL values?",o:["PRIMARY KEY","FOREIGN KEY","UNIQUE","DEFAULT"],a:2},
+    {q:"Which join returns all rows from the left table and matched rows from the right, filling NULL where no match is found?",o:["Inner Join","Right Outer Join","Left Outer Join","Full Outer Join"],a:2},
+    {q:"Which normal form addresses multi-valued dependencies?",o:["2NF","3NF","BCNF","4NF"],a:3},
+    {q:"Which unary relational algebra operator filters out specific columns while eliminating duplicate rows?",o:["Selection","Projection","Cartesian Product","Join"],a:1},
+    {q:"Which transaction property ensures either all operations are reflected, or none are?",o:["Durability","Isolation","Consistency","Atomicity"],a:3},
+    {q:"Difference between a Candidate Key and a Primary Key?",o:["Primary key can have null values, but candidate key cannot","A relation can have multiple candidate keys; one chosen becomes the primary key","Candidate keys are created automatically by the OS","Candidate keys are only used in distributed databases"],a:1},
+    {q:"Which SQL commands belong strictly to Data Control Language (DCL)?",o:["ALTER and DROP","COMMIT and ROLLBACK","GRANT and REVOKE","SELECT and UPDATE"],a:2},
+    {q:"What is a Sparse Index?",o:["An index with an entry for every search key value","An index with entries for only some search-key values (usually one per data block)","An index constructed purely over encrypted data values","An index that doesn't consume any disk space"],a:1},
+    {q:"Which normal form relies on removing Transitive Functional Dependency?",o:["1NF","2NF","3NF","BCNF"],a:2},
+    {q:"Primary structural difference between a Star Schema and a Snowflake Schema?",o:["Star schema uses multiple fact tables, Snowflake uses only one","Snowflake schema eliminates redundancy by fully normalizing dimension tables into sub-dimensions","Star schema is highly normalized compared to Snowflake schema","Snowflake schema cannot support numeric keys"],a:1},
+    {q:"A technique that tracks historical data by creating a new record with unique surrogate keys when a dimension attribute changes:",o:["SCD Type 1","SCD Type 2","SCD Type 3","SCD Type 0"],a:1},
+    {q:"Navigating from summarized quarterly sales down into itemized daily transactions is which OLAP operation?",o:["Roll-up","Slice","Drill-down","Pivot"],a:2},
+    {q:"What is a Factless Fact Table?",o:["A fact table containing only text descriptions instead of keys","A fact table containing dimension keys but no numeric metrics","A table completely deprecated from production","A dimension table acting as a dummy placeholder"],a:1},
+    {q:"T1 holds a Shared Lock on R1. T2 wishes to modify R1. Lock Manager's response?",o:["T2 is immediately granted an Exclusive lock","T2 waits, since a Write requires an Exclusive lock incompatible with the Shared lock","T1's lock is forcefully deleted to help T2","The system creates a new duplicate database copy for T2"],a:1},
+    {q:"Extendible Hashing uses which structural element to track bucket addresses as they split?",o:["A binary search tree","A single-level sequential index file","A directory of pointers to buckets","A B+ Tree internal structure"],a:2},
+    {q:"A referential integrity constraint is specified with the help of which of the following?",o:["Primary Key","Foreign Key","Unique Key","Super Key"],a:1},
+    {q:"Which preprocessing technique smooths noisy data by sorting into contiguous intervals and using interval means?",o:["Data Normalization","Principal Component Analysis","Binning","Attribute Subset Selection"],a:2},
+    {q:"Why is standard K-Means exceptionally sensitive to statistical outliers?",o:["It uses a voting classifier to define labels","It averages distances using squared error, distorting the mean with extreme values","It relies on a hierarchical tree-building paradigm","It cannot handle multi-dimensional numerical inputs"],a:1},
+    {q:"Which metrics are typically used in Decision Trees to select the optimal splitting attribute?",o:["Euclidean Distance and Cosine Similarity","Information Gain (Entropy) or Gini Index","Support and Confidence values","R-squared error and Mean Absolute Deviation"],a:1},
+    {q:"What is a Data Dictionary primarily used for?",o:["To store the actual data records of users","To store metadata about database structure, definitions, and constraints","To automatically backup the database on transaction failure","To handle encryption keys for database passwords"],a:1}
+  ],
+  "Misc: Data Mining, Big Data, SE, Web": [
+    {q:"Classification uses predefined classes; clustering works without predefined labels; association rule mining discovers item relationships. Which statement(s) is/are correct?",o:["Only 1","Only 2","1 and 2 only","1, 2 and 3"],a:3},
+    {q:"Which of the following is NOT traditionally one of the core 5Vs of Big Data?",o:["Volume","Velocity","Veracity","Virtualization"],a:3},
+    {q:"Which technology is primarily associated with distributed storage and parallel processing of massive datasets?",o:["Apache Hadoop","Apache Kafka","Apache Spark","Apache Hive"],a:0},
+    {q:"In the Hadoop ecosystem, which component is primarily responsible for distributed storage?",o:["YARN","HDFS","MapReduce","Hive"],a:1},
+    {q:"Predicting whether a loan applicant is likely to default is an example of:",o:["Clustering","Classification","Association mining","Data cleaning"],a:1},
+    {q:"Which of the following is NOT generally considered a data mining task?",o:["Classification","Clustering","Association analysis","CPU instruction decoding"],a:3},
+    {q:"The process of removing noise and correcting inconsistent data is called:",o:["Data cleaning","Data encryption","Data indexing","Data fragmentation"],a:0},
+    {q:"A transaction at an unusual location/time vs. a customer's historical behaviour is an example of:",o:["Anomaly detection","Data compression","Syntax analysis","Load balancing"],a:0},
+    {q:"A Transaction Processing System (TPS) is primarily designed to:",o:["Support routine day-to-day business transactions","Make long-term strategic decisions only","Replace senior management","Design computer hardware"],a:0},
+    {q:"Combining data from multiple sources into a unified dataset is known as:",o:["Data integration","Data partitioning","Data encryption","Data compilation"],a:0},
+    {q:"Which best represents a digital ecosystem?",o:["A standalone calculator","A connected ecosystem of banks, fintechs, APIs, users and digital payment platforms","A disconnected offline computer","A printer driver"],a:1},
+    {q:"Which principle requires collecting only the data necessary for a specified purpose?",o:["Data minimization","Data duplication","Data fragmentation","Data inflation"],a:0},
+    {q:"Which technique groups similar data objects without predefined class labels?",o:["Classification","Clustering","Regression","Prediction"],a:1}
+  ],
+  "IT Prelims Sectional (Mixed)": [
+    {q:"Which testing is referred to as \"testing in the large\"? (I. Unit II. System III. Integration)",o:["Only I","Only II","Both I and II","Both II and III"],a:3},
+    {q:"A processor supports max memory of 32TB, memory is word addressable, word = 8 bytes. Minimum address bus size in bits?",o:["45","42","35","32"],a:2},
+    {q:"Number of nodes in a complete binary tree of level 5?",o:["64","67","32","63"],a:3},
+    {q:"In compilers, a lexical analyser generates:",o:["Syntax tree","Token stream","Regular expression","Intermediate code"],a:1},
+    {q:"Which is not a machine independent phase of a compiler?",o:["Code generation","Lexical Analysis","Syntax Analysis","Intermediate code generation"],a:0},
+    {q:"Which of the following is a lazy swapper?",o:["Demand paging","Segment paging","Fragmentation","Buddy system"],a:0},
+    {q:"Time to move read/write head to desired track is called ___ time; time for desired sector to reach the head is called ___ time.",o:["Seek, Latency","Latency, Seek","Access, Latency","Access, Seek"],a:0},
+    {q:"Which is NOT a valid storage class in C language?",o:["static","dynamic","register","auto"],a:1},
+    {q:"float size = 4 bytes, table base address 100. Address of the fourth cell?",o:["113","400","116","104"],a:0},
+    {q:"Dynamic memory is made up of:",o:["flip flop","MOS transistor gate","magnetic core","magnetic bubbles"],a:1},
+    {q:"In which addressing mode is the operand specified in the instruction itself?",o:["Direct Mode","Immediate Mode","Register Mode","Register Indirect Mode"],a:1},
+    {q:"Which input device converts scanned images of typed/handwritten text into digital format?",o:["Light pen","OCR","Digitizer","Barcode Reader"],a:1}
+  ]
+};
+
+const state = { current: Object.keys(DATA)[0], answered: {} };
+const tabsEl = document.getElementById('tabs');
+const qEl = document.getElementById('questions');
+const catLabel = document.getElementById('cat-label');
+
+function totalQuestions(){
+  return Object.values(DATA).reduce((s,arr)=>s+arr.length,0);
+}
+
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  Object.keys(DATA).forEach(cat=>{
+    const t = document.createElement('div');
+    t.className = 'tab' + (cat===state.current ? ' active' : '');
+    t.innerHTML = cat + ' <span class="count">(' + DATA[cat].length + ')</span>';
+    t.onclick = ()=>{ state.current = cat; render(); };
+    tabsEl.appendChild(t);
+  });
+}
+
+function renderQuestions(){
+  qEl.innerHTML = '';
+  catLabel.textContent = state.current;
+  DATA[state.current].forEach((item, idx)=>{
+    const key = state.current + '-' + idx;
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    const answeredIdx = state.answered[key];
+
+    let optsHtml = '';
+    item.o.forEach((opt, oi)=>{
+      let cls = 'opt';
+      if(answeredIdx !== undefined){
+        cls += ' disabled';
+        if(oi === item.a) cls += ' reveal-correct';
+        else if(oi === answeredIdx) cls += ' wrong';
+      }
+      optsHtml += '<button class="'+cls+'" data-key="'+key+'" data-oi="'+oi+'" data-cat="'+state.current+'" data-idx="'+idx+'">'+String.fromCharCode(65+oi)+'. '+opt+'</button>';
+    });
+
+    let feedback = '';
+    if(answeredIdx !== undefined){
+      if(answeredIdx === item.a) feedback = '<div class="feedback right">Correct</div>';
+      else feedback = '<div class="feedback wrongf">Incorrect — correct answer highlighted above</div>';
+    }
+
+    card.innerHTML =
+      '<div class="qmeta"><span class="qnum">Q'+(idx+1)+'</span></div>'+
+      '<p class="qtext">'+item.q+'</p>'+
+      optsHtml + feedback;
+    qEl.appendChild(card);
+  });
+
+  qEl.querySelectorAll('.opt:not(.disabled)').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.key;
+      const oi = parseInt(btn.dataset.oi);
+      state.answered[key] = oi;
+      render();
+    });
+  });
+}
+
+function renderStats(){
+  const answeredCount = Object.keys(state.answered).length;
+  const correctCount = Object.entries(state.answered).filter(([key, oi])=>{
+    const [cat, idxStr] = key.split(/-(?=[^-]+$)/);
+    return DATA[cat][parseInt(idxStr)].a === oi;
+  }).length;
+  document.getElementById('stat-answered').textContent = answeredCount + ' / ' + totalQuestions();
+  document.getElementById('stat-correct').textContent = correctCount;
+  document.getElementById('stat-accuracy').textContent = answeredCount ? Math.round(100*correctCount/answeredCount)+'%' : '—';
+  document.getElementById('progress-fill').style.width = (100*answeredCount/totalQuestions())+'%';
+}
+
+function render(){
+  renderTabs();
+  renderQuestions();
+  renderStats();
+}
+
+document.getElementById('reset-btn').addEventListener('click', ()=>{
+  state.answered = {};
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

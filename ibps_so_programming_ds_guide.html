@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Programming &amp; Data Structures Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121320;
+    --bg-alt:#0d0e18;
+    --panel:#1b1d2e;
+    --panel-alt:#232538;
+    --border:#2d3049;
+    --border-soft:#262941;
+    --text:#e6e7f2;
+    --text-muted:#9498b5;
+    --text-faint:#666a8a;
+    --accent-purple:#a78bfa;
+    --accent-blue:#5aa9f2;
+    --accent-mint:#5fe0b3;
+    --accent-amber:#f2b35a;
+    --accent-red:#f2685a;
+    --cpp:#5da8f2;
+    --java:#ef9b52;
+    --py-yellow:#f5d76e;
+    --py-blue:#4b8bd4;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-purple); color:#12121f;}
+
+  a{color:var(--accent-blue);}
+
+  /* ===== Top file-tab nav ===== */
+  .tabbar{
+    position:sticky; top:0; z-index:100;
+    display:flex; align-items:stretch;
+    background:var(--bg-alt);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar .brand{
+    display:flex; align-items:center; gap:8px;
+    padding:0 16px;
+    font-family:var(--mono); font-weight:700; font-size:13px;
+    color:var(--text-muted);
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+  }
+  .brand .dots{display:flex; gap:5px;}
+  .brand .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.red{background:#f2685a;} .dot.amber{background:#f2b35a;} .dot.green{background:#5fe0b3;}
+
+  .tabbar nav{display:flex;}
+  .tabbar a.tab{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    color:var(--text-faint);
+    padding:14px 18px;
+    white-space:nowrap;
+    border-right:1px solid var(--border);
+    text-decoration:none;
+    display:flex; align-items:center; gap:7px;
+    transition:color .15s, background .15s;
+  }
+  .tabbar a.tab .ext{color:var(--accent-purple); opacity:.7;}
+  .tabbar a.tab:hover{color:var(--text); background:var(--panel);}
+  .tabbar a.tab.active{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--accent-purple);}
+  .tabbar a.tab .unsaved{width:6px; height:6px; border-radius:50%; background:var(--accent-amber); display:inline-block;}
+
+  /* ===== Layout helpers ===== */
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.08em;
+    color:var(--accent-purple); text-transform:uppercase;
+    display:flex; align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent-purple); opacity:.6;}
+
+  h1,h2,h3,h4{font-family:var(--mono); font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:30px; margin-bottom:8px; color:#fff;}
+  h3{font-size:19px; margin:28px 0 12px; color:#fff;}
+  .subtitle{color:var(--text-muted); font-size:15.5px; max-width:640px; margin-bottom:36px;}
+  p{color:var(--text-muted); font-size:15px;}
+  strong{color:var(--text); font-weight:600;}
+
+  code, .mono{font-family:var(--mono);}
+
+  /* ===== Terminal window chrome ===== */
+  .term{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  }
+  .term .term-head{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 14px;
+    background:var(--panel-alt);
+    border-bottom:1px solid var(--border);
+  }
+  .term .term-head .dot{width:10px; height:10px; border-radius:50%;}
+  .term .term-title{
+    margin-left:8px; font-family:var(--mono); font-size:12px; color:var(--text-faint);
+  }
+  .term .term-body{padding:20px 22px; font-family:var(--mono); font-size:13.5px; overflow-x:auto;}
+  .term .term-body pre{white-space:pre-wrap; color:var(--text);}
+
+  /* ===== Hero ===== */
+  .hero{padding:70px 0 50px;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:center;}
+  .hero h1{font-size:34px; line-height:1.25; color:#fff; margin-bottom:14px;}
+  .hero h1 .hl{color:var(--accent-purple);}
+  .hero p.lead{color:var(--text-muted); font-size:16px; max-width:480px;}
+  .hero-tags{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;}
+  .tag{
+    font-family:var(--mono); font-size:12px; padding:6px 12px;
+    border:1px solid var(--border); border-radius:20px; color:var(--text-muted);
+    display:flex; align-items:center; gap:6px;
+  }
+  .tag .sw{width:8px;height:8px;border-radius:50%;}
+
+  .type-cursor::after{
+    content:'▍'; color:var(--accent-mint); animation:blink 1s step-start infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ===== Cards / grids ===== */
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px;
+  }
+  .card h4{font-size:15px; color:#fff; margin-bottom:8px; display:flex; align-items:center; gap:8px;}
+  .card p{font-size:13.8px; margin:0;}
+  .pill{
+    font-family:var(--mono); font-size:10.5px; padding:2px 8px; border-radius:20px;
+    background:var(--panel-alt); color:var(--accent-purple); border:1px solid var(--border);
+  }
+
+  /* ===== Table ===== */
+  table{width:100%; border-collapse:collapse; font-size:13.8px; margin:18px 0;}
+  th{
+    text-align:left; font-family:var(--mono); font-size:11.5px; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--accent-purple);
+    padding:10px 14px; border-bottom:1px solid var(--border);
+  }
+  td{padding:11px 14px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  td strong, td.strongcell{color:var(--text);}
+
+  /* ===== Weightage bars ===== */
+  .bar-row{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+  .bar-label{width:190px; font-size:13.5px; color:var(--text); flex-shrink:0; font-family:var(--mono);}
+  .bar-track{flex:1; background:var(--panel-alt); border-radius:6px; height:20px; overflow:hidden; border:1px solid var(--border);}
+  .bar-fill{height:100%; border-radius:6px 0 0 6px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px;}
+  .bar-fill span{font-size:11px; font-family:var(--mono); color:#0d0e18; font-weight:700;}
+  .bar-note{width:90px; font-size:12px; color:var(--text-faint); font-family:var(--mono);}
+
+  /* ===== Accordion (Data Structures) ===== */
+  .acc-item{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; background:var(--panel);}
+  .acc-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 20px; cursor:pointer; user-select:none;
+  }
+  .acc-head:hover{background:var(--panel-alt);}
+  .acc-head .left{display:flex; align-items:center; gap:12px;}
+  .acc-num{font-family:var(--mono); font-size:12px; color:var(--accent-purple); opacity:.7;}
+  .acc-title{font-family:var(--mono); font-size:14.5px; color:#fff; font-weight:600;}
+  .acc-arrow{color:var(--text-faint); transition:transform .2s; font-size:13px;}
+  .acc-item.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .acc-item.open .acc-body{max-height:600px;}
+  .acc-inner{padding:0 20px 20px; font-size:13.8px; color:var(--text-muted);}
+  .acc-inner ul{margin:8px 0 0 18px;}
+  .acc-inner li{margin-bottom:5px;}
+  .acc-inner code{color:var(--accent-mint); background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12.5px;}
+
+  /* ===== OOP concept cards ===== */
+  .oop-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:14px;}
+  .oop-card h4{color:#fff; font-size:15px; margin-bottom:6px;}
+  .oop-card p{font-size:13.6px; margin-bottom:10px;}
+  .oop-card .snippet{
+    background:var(--bg-alt); border:1px solid var(--border-soft); border-radius:8px;
+    padding:12px 14px; font-family:var(--mono); font-size:12.3px; color:var(--text-muted); overflow-x:auto;
+  }
+  .oop-card .snippet .kw{color:var(--accent-purple);}
+  .oop-card .snippet .tp{color:var(--accent-blue);}
+  .oop-card .snippet .cm{color:var(--text-faint); font-style:italic;}
+  .oop-card .snippet .st{color:var(--accent-mint);}
+
+  /* ===== Language tabs ===== */
+  .lang-switch{display:flex; gap:8px; margin-bottom:16px;}
+  .lang-btn{
+    font-family:var(--mono); font-size:13px; font-weight:600; padding:9px 18px;
+    border-radius:8px; border:1px solid var(--border); background:var(--panel);
+    color:var(--text-muted); cursor:pointer; display:flex; align-items:center; gap:8px;
+    transition:all .15s;
+  }
+  .lang-btn .dot{width:8px; height:8px; border-radius:50%;}
+  .lang-btn.active{color:#fff; border-color:currentColor;}
+  .lang-panel{display:none;}
+  .lang-panel.active{display:block;}
+
+  .compare-note{
+    display:flex; gap:10px; align-items:flex-start; background:var(--panel-alt);
+    border:1px solid var(--border); border-left:3px solid var(--accent-amber);
+    border-radius:8px; padding:14px 16px; margin-top:18px; font-size:13.5px; color:var(--text-muted);
+  }
+
+  /* ===== Question types ===== */
+  .qtype{
+    display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--border-soft);
+  }
+  .qtype:last-child{border-bottom:none;}
+  .qtype .num{font-family:var(--mono); font-size:20px; font-weight:800; color:var(--accent-purple); opacity:.5; width:32px; flex-shrink:0;}
+  .qtype h4{color:#fff; font-size:14.5px; margin-bottom:4px;}
+  .qtype p{font-size:13.5px; margin:0;}
+  .qtype .example{
+    margin-top:8px; font-family:var(--mono); font-size:12.3px; color:var(--accent-mint);
+    background:var(--bg-alt); border:1px solid var(--border-soft); border-radius:6px; padding:8px 12px;
+    display:inline-block;
+  }
+
+  /* ===== Quiz ===== */
+  .quiz-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .quiz-q{font-size:14.3px; color:#fff; margin-bottom:14px; font-weight:600;}
+  .quiz-q .qn{color:var(--accent-purple); font-family:var(--mono); margin-right:6px;}
+  .quiz-opts{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .quiz-opt{
+    text-align:left; font-family:var(--sans); font-size:13.3px;
+    background:var(--panel-alt); border:1px solid var(--border); color:var(--text-muted);
+    padding:10px 14px; border-radius:7px; cursor:pointer; transition:all .12s;
+  }
+  .quiz-opt:hover{border-color:var(--accent-purple); color:var(--text);}
+  .quiz-opt.correct{background:rgba(95,224,179,.12); border-color:var(--accent-mint); color:var(--accent-mint);}
+  .quiz-opt.incorrect{background:rgba(242,104,90,.12); border-color:var(--accent-red); color:var(--accent-red);}
+  .quiz-opt[disabled]{cursor:default;}
+  .quiz-explain{
+    display:none; margin-top:12px; font-size:12.8px; color:var(--text-muted);
+    background:var(--bg-alt); border-left:3px solid var(--accent-mint); padding:10px 14px; border-radius:6px;
+  }
+  .quiz-explain.show{display:block;}
+  .quiz-score{
+    position:sticky; bottom:16px; margin-top:20px;
+    background:var(--panel-alt); border:1px solid var(--border); border-radius:10px;
+    padding:14px 20px; display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--mono); font-size:13px; color:var(--text-muted);
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.6);
+  }
+  .quiz-score strong{color:var(--accent-mint); font-size:16px;}
+
+  /* ===== Strategy list ===== */
+  .strategy-item{display:flex; gap:16px; margin-bottom:20px;}
+  .strategy-item .marker{
+    width:34px; height:34px; border-radius:8px; background:var(--panel-alt); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    font-family:var(--mono); font-size:13px; color:var(--accent-purple); font-weight:700;
+  }
+  .strategy-item h4{color:#fff; font-size:14.5px; margin-bottom:4px;}
+  .strategy-item p{font-size:13.6px; margin:0;}
+
+  footer{padding:40px 0 60px; text-align:center;}
+  footer p{font-size:12.5px; color:var(--text-faint); max-width:620px; margin:0 auto 8px;}
+  footer .sources{font-size:11.5px; color:var(--text-faint); margin-top:16px;}
+  footer .sources a{color:var(--text-faint); text-decoration:underline;}
+
+  @media (max-width:760px){
+    .hero-grid{grid-template-columns:1fr;}
+    .grid-2, .grid-3{grid-template-columns:1fr;}
+    .quiz-opts{grid-template-columns:1fr;}
+    h2{font-size:24px;}
+    .bar-label{width:120px; font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="brand">
+    <div class="dots"><div class="dot red"></div><div class="dot amber"></div><div class="dot green"></div></div>
+    <span>ibps_so_it_officer/</span>
+  </div>
+  <nav id="tabnav">
+    <a href="#overview" class="tab active">overview<span class="ext">.md</span></a>
+    <a href="#datastructures" class="tab">data_structures<span class="ext">.cpp</span></a>
+    <a href="#oop" class="tab">oop_concepts<span class="ext">.java</span></a>
+    <a href="#languages" class="tab">language_compare<span class="ext">.py</span></a>
+    <a href="#questions" class="tab">question_bank<span class="ext">.md</span></a>
+    <a href="#strategy" class="tab">strategy<span class="ext">.txt</span></a>
+  </nav>
+</div>
+
+<!-- ============ HERO ============ -->
+<div class="wrap hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Professional Knowledge · Programming Section</div>
+      <h1>Programming &amp; Data Structures for <span class="hl">IBPS SO — IT Officer</span></h1>
+      <p class="lead">Everything the Professional Knowledge paper actually tests from C++, Java and Python — Data Structures, OOP concepts, language differences, and the question patterns examiners reuse year after year.</p>
+      <div class="hero-tags">
+        <span class="tag"><span class="sw" style="background:var(--cpp)"></span>C++</span>
+        <span class="tag"><span class="sw" style="background:var(--java)"></span>Java</span>
+        <span class="tag"><span class="sw" style="background:var(--py-yellow)"></span>Python</span>
+        <span class="tag">Data Structures</span>
+        <span class="tag">OOP Concepts</span>
+      </div>
+    </div>
+    <div class="term">
+      <div class="term-head">
+        <div class="dot" style="background:#f2685a"></div>
+        <div class="dot" style="background:#f2b35a"></div>
+        <div class="dot" style="background:#5fe0b3"></div>
+        <div class="term-title">zsh — professional_knowledge</div>
+      </div>
+      <div class="term-body">
+<pre>$ ibps_so --load professional_knowledge \
+           --focus programming,data_structures
+
+<span style="color:#5fe0b3">✓</span> Data Structures ......... syllabus loaded
+<span style="color:#5fe0b3">✓</span> OOP Concepts ............ syllabus loaded
+<span style="color:#5fe0b3">✓</span> C++ / Java / Python ..... compared
+<span style="color:#5fe0b3">✓</span> Question bank ........... 15 MCQs ready
+
+<span style="color:#9498b5">note: tested conceptually, not as raw code-writing</span><span class="type-cursor"></span></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview">
+  <div class="wrap">
+    <div class="eyebrow">overview.md</div>
+    <h2>Where Programming actually sits in the exam</h2>
+    <p class="subtitle">IBPS SO IT Officer has three stages — Prelims (qualifying), Mains (merit-deciding), and Interview. Programming, OOP, and Data Structures live entirely inside the <strong>Professional Knowledge</strong> paper, alongside DBMS, Networking, OS and Software Engineering.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h4>📝 Prelims <span class="pill">qualifying</span></h4>
+        <p>English, Reasoning, Quantitative Aptitude — and as of the 2026 revised pattern, a <strong>Professional Knowledge</strong> section too, each sectionally timed. Prelims marks are <strong>not</strong> counted toward final merit.</p>
+      </div>
+      <div class="card">
+        <h4>🎯 Mains <span class="pill">merit</span></h4>
+        <p>Entirely Professional Knowledge — objective + a couple of descriptive questions from IT/CS subjects. This is where Programming and Data Structures questions carry real weight.</p>
+      </div>
+      <div class="card">
+        <h4>🗣️ Interview <span class="pill">20%</span></h4>
+        <p>Technical questions on OOP, DS, DBMS and networking are common follow-ups — final merit is Mains 80% + Interview 20%.</p>
+      </div>
+    </div>
+
+    <h3>Professional Knowledge — approximate topic emphasis</h3>
+    <p style="margin-bottom:18px;">DBMS and Networking have historically carried the heaviest weightage, but Data Structures and OOP/Programming together reliably contribute a solid, scorable chunk — and are easier to master quickly since they reward <em>conceptual clarity</em> over memorisation.</p>
+
+    <div class="bar-row">
+      <div class="bar-label">DBMS &amp; SQL</div>
+      <div class="bar-track"><div class="bar-fill" style="width:92%; background:var(--accent-purple);"><span>High</span></div></div>
+      <div class="bar-note">Highest</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Networking</div>
+      <div class="bar-track"><div class="bar-fill" style="width:85%; background:var(--accent-blue);"><span>High</span></div></div>
+      <div class="bar-note">Highest</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Operating Systems</div>
+      <div class="bar-track"><div class="bar-fill" style="width:62%; background:var(--accent-mint);"><span>Med</span></div></div>
+      <div class="bar-note">Moderate</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Data Structures</div>
+      <div class="bar-track"><div class="bar-fill" style="width:58%; background:var(--cpp);"><span>Med</span></div></div>
+      <div class="bar-note">Moderate</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">OOP / Programming</div>
+      <div class="bar-track"><div class="bar-fill" style="width:52%; background:var(--java);"><span>Med</span></div></div>
+      <div class="bar-note">Moderate</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Software Engg.</div>
+      <div class="bar-track"><div class="bar-fill" style="width:38%; background:var(--py-yellow);"><span>Low</span></div></div>
+      <div class="bar-note">Lower</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Comp. Org. / Security</div>
+      <div class="bar-track"><div class="bar-fill" style="width:34%; background:var(--accent-amber);"><span>Low</span></div></div>
+      <div class="bar-note">Lower</div>
+    </div>
+
+    <div class="compare-note">
+      ⚠️ <div><strong>Good to know:</strong> examiners consistently note that Programming questions test <em>fundamentals</em> — what a concept means, what a snippet outputs, which structure fits a scenario — not writing full programs from scratch. Prioritise concept clarity over syntax memorisation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DATA STRUCTURES ============ -->
+<section id="datastructures">
+  <div class="wrap">
+    <div class="eyebrow">data_structures.cpp</div>
+    <h2>Data Structures syllabus</h2>
+    <p class="subtitle">The core DS syllabus is language-agnostic — the same tree, stack or sort question could be phrased using C, C++, Java or plain pseudocode. Click each topic to expand.</p>
+
+    <div id="accordion">
+      <div class="acc-item open">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">01</span><span class="acc-title">Arrays &amp; Basic Terminology</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Data types &amp; classification, single and multi-dimensional array representation, address calculation for row-major / column-major order, sparse matrices.
+          <ul>
+            <li>Row-major address formula: <code>Base + W × (i × N + j)</code></li>
+            <li>Common trap: off-by-one errors in index-based questions</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">02</span><span class="acc-title">Stack</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          LIFO structure — array &amp; linked implementation, <code>push</code>/<code>pop</code>/<code>peek</code>, overflow &amp; underflow conditions.
+          <ul>
+            <li>Applications: expression evaluation (infix→postfix), recursion, backtracking, undo operations, balanced-parenthesis checking</li>
+            <li>Frequently asked: "which structure is used internally for function calls / recursion?" → Stack</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">03</span><span class="acc-title">Queue</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          FIFO structure — array &amp; linked implementation.
+          <ul>
+            <li><strong>Circular Queue</strong> — avoids wasted space by wrapping REAR back to index 0</li>
+            <li><strong>Deque</strong> — insertion/deletion at both ends</li>
+            <li><strong>Priority Queue</strong> — element with highest priority served first (often implemented via heaps)</li>
+            <li>Applications: CPU scheduling, BFS traversal, print spooling</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">04</span><span class="acc-title">Linked List</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Singly, doubly, circular, and generalized linked lists.
+          <ul>
+            <li>Key advantage over arrays: dynamic size, easy insertion/deletion (no shifting)</li>
+            <li>Key disadvantage: no random access (O(n) to reach the k-th node), extra pointer memory</li>
+            <li>Doubly linked list trades extra memory (back-pointer) for O(1) reverse traversal</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">05</span><span class="acc-title">Searching &amp; Sorting</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Linear search O(n), Binary search O(log n) — requires a sorted array.
+          <ul>
+            <li><strong>Bubble / Selection / Insertion Sort</strong> — O(n²), simple, stable (bubble &amp; insertion), used for small/near-sorted data</li>
+            <li><strong>Quick Sort</strong> — average O(n log n), worst O(n²), in-place, not stable</li>
+            <li><strong>Merge Sort</strong> — guaranteed O(n log n), stable, needs extra space</li>
+            <li><strong>Heap Sort</strong> — O(n log n), in-place, not stable, built on a binary heap</li>
+            <li><strong>Radix Sort</strong> — non-comparison based, O(nk) for k-digit numbers</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">06</span><span class="acc-title">Hashing</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Hash tables, hash functions, and collision resolution.
+          <ul>
+            <li>Collision handling: chaining (linked lists at each bucket) vs open addressing (linear/quadratic probing, double hashing)</li>
+            <li>Performance degrades as the <strong>load factor</strong> (n/table size) rises</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">07</span><span class="acc-title">Trees</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Binary Tree, Complete Binary Tree, Extended (2-tree), array &amp; linked representation, Binary Search Tree, AVL Tree (self-balancing, rotation-based).
+          <ul>
+            <li><strong>Inorder</strong> (L-Root-R) on a BST → elements in sorted order — a favourite exam fact</li>
+            <li><strong>Preorder</strong> (Root-L-R) — used to clone/serialize a tree</li>
+            <li><strong>Postorder</strong> (L-R-Root) — used to safely delete a tree</li>
+            <li>Height of a balanced binary tree with n nodes: O(log n)</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head">
+          <div class="left"><span class="acc-num">08</span><span class="acc-title">Graphs</span></div>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body"><div class="acc-inner">
+          Representation via adjacency matrix (O(V²) space) or adjacency list (O(V+E) space).
+          <ul>
+            <li><strong>BFS</strong> — uses a Queue, finds shortest path in unweighted graphs</li>
+            <li><strong>DFS</strong> — uses a Stack (or recursion), used for topological sort, cycle detection</li>
+            <li><strong>Minimum Spanning Tree</strong> — Prim's and Kruskal's algorithms, both greedy</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OOP CONCEPTS ============ -->
+<section id="oop">
+  <div class="wrap">
+    <div class="eyebrow">oop_concepts.java</div>
+    <h2>Object-Oriented Programming concepts</h2>
+    <p class="subtitle">This is the single most-repeated theme in the Programming section — usually as terminology-matching or "which concept does this describe" questions, framed around any of the three languages.</p>
+
+    <div class="oop-card">
+      <h4>Encapsulation</h4>
+      <p>Bundling data (attributes) and the methods that operate on it into a single unit (a class), while restricting direct outside access — usually via access specifiers.</p>
+      <div class="snippet"><span class="kw">class</span> Account {
+  <span class="kw">private</span> <span class="tp">double</span> balance; <span class="cm">// hidden from outside</span>
+  <span class="kw">public</span> <span class="tp">double</span> getBalance() { <span class="kw">return</span> balance; }
+}</div>
+    </div>
+
+    <div class="oop-card">
+      <h4>Abstraction</h4>
+      <p>Showing only essential features while hiding implementation detail. Achieved via abstract classes or interfaces — the user knows <em>what</em> a method does, not <em>how</em>.</p>
+      <div class="snippet"><span class="kw">abstract class</span> Shape {
+  <span class="kw">abstract</span> <span class="tp">double</span> area(); <span class="cm">// what, not how</span>
+}</div>
+    </div>
+
+    <div class="oop-card">
+      <h4>Inheritance</h4>
+      <p>A class (child) acquires properties and behaviour of another class (parent) — promotes code reuse. Types: single, multiple, multilevel, hierarchical, hybrid.</p>
+      <div class="snippet"><span class="kw">class</span> SavingsAccount <span class="kw">extends</span> Account {
+  <span class="cm">// inherits balance-handling behaviour</span>
+}</div>
+      <p style="margin-top:10px;"><strong>Exam trap:</strong> Java does not allow multiple inheritance through classes (only via interfaces) — C++ and Python both allow it directly through classes.</p>
+    </div>
+
+    <div class="oop-card">
+      <h4>Polymorphism</h4>
+      <p>"Many forms" — a single interface, multiple behaviours.</p>
+      <div class="snippet"><span class="cm">// Compile-time (overloading)</span>
+<span class="tp">int</span> add(<span class="tp">int</span> a, <span class="tp">int</span> b);
+<span class="tp">double</span> add(<span class="tp">double</span> a, <span class="tp">double</span> b);
+
+<span class="cm">// Run-time (overriding, via virtual/base methods)</span>
+<span class="kw">class</span> Animal { <span class="kw">void</span> sound() {} }
+<span class="kw">class</span> Dog <span class="kw">extends</span> Animal { <span class="kw">void</span> sound() { <span class="cm">/* barks */</span> } }</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="oop-card">
+        <h4>Constructor vs Destructor</h4>
+        <p>A <strong>constructor</strong> shares the class name, has no return type, and runs automatically on object creation (can be overloaded). A <strong>destructor</strong> (C++: <code>~ClassName()</code>) runs when the object is destroyed — Java/Python instead rely on garbage collection, so there's no explicit destructor call.</p>
+      </div>
+      <div class="oop-card">
+        <h4>Static vs Dynamic Binding</h4>
+        <p><strong>Static binding</strong> resolves a call at compile time (overloading, non-virtual calls). <strong>Dynamic binding</strong> resolves it at runtime based on the actual object type (overriding, virtual functions) — this is what enables runtime polymorphism.</p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="oop-card">
+        <h4>Access Specifiers</h4>
+        <p><code>public</code> — accessible everywhere. <code>private</code> — only within the class. <code>protected</code> — class + subclasses. Java additionally has a package-private default; Python uses naming convention (<code>_protected</code>, <code>__private</code>) rather than true enforcement.</p>
+      </div>
+      <div class="oop-card">
+        <h4>Overloading vs Overriding</h4>
+        <p><strong>Overloading</strong> — same method name, different parameter list, same class, resolved at compile time. <strong>Overriding</strong> — same signature, subclass redefines parent's method, resolved at runtime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LANGUAGE COMPARISON ============ -->
+<section id="languages">
+  <div class="wrap">
+    <div class="eyebrow">language_compare.py</div>
+    <h2>C++ vs Java vs Python</h2>
+    <p class="subtitle">The exam doesn't commit to one language — it borrows syntax cues from all three and expects you to recognise which feature belongs to which. This is the highest-yield "quick win" topic in Programming.</p>
+
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="cpp" style="color:var(--cpp);"><span class="dot" style="background:var(--cpp)"></span>C++</button>
+      <button class="lang-btn" data-lang="java" style="color:var(--java);"><span class="dot" style="background:var(--java)"></span>Java</button>
+      <button class="lang-btn" data-lang="py" style="color:var(--py-yellow);"><span class="dot" style="background:var(--py-yellow)"></span>Python</button>
+    </div>
+
+    <div class="term lang-panel active" id="panel-cpp">
+      <div class="term-head"><div class="dot" style="background:var(--cpp)"></div><div class="term-title">account.cpp</div></div>
+      <div class="term-body"><pre><span class="cm" style="color:#666a8a">// Compiled to native machine code · manual memory (new/delete) · pointers</span>
+#include &lt;iostream&gt;
+<span style="color:#a78bfa">using namespace</span> std;
+
+<span style="color:#a78bfa">class</span> <span style="color:#5aa9f2">Account</span> {
+<span style="color:#a78bfa">private</span>:
+    <span style="color:#5aa9f2">double</span> balance;
+<span style="color:#a78bfa">public</span>:
+    <span style="color:#5aa9f2">Account</span>(<span style="color:#5aa9f2">double</span> b) { balance = b; }   <span class="cm" style="color:#666a8a">// constructor</span>
+    <span style="color:#5aa9f2">~Account</span>() { }                       <span class="cm" style="color:#666a8a">// destructor (explicit)</span>
+    <span style="color:#5aa9f2">double</span> getBalance() { <span style="color:#a78bfa">return</span> balance; }
+};
+
+<span style="color:#5aa9f2">int</span> main() {
+    <span style="color:#5aa9f2">Account</span>* acc = <span style="color:#a78bfa">new</span> Account(500.0);   <span class="cm" style="color:#666a8a">// pointer + heap alloc</span>
+    cout &lt;&lt; acc-&gt;getBalance();
+    <span style="color:#a78bfa">delete</span> acc;                          <span class="cm" style="color:#666a8a">// manual free — no GC</span>
+    <span style="color:#a78bfa">return</span> 0;
+}</pre></div>
+    </div>
+
+    <div class="term lang-panel" id="panel-java">
+      <div class="term-head"><div class="dot" style="background:var(--java)"></div><div class="term-title">Account.java</div></div>
+      <div class="term-body"><pre><span class="cm" style="color:#666a8a">// Compiled to bytecode → runs on JVM (JIT) · Garbage Collected · no pointers</span>
+<span style="color:#a78bfa">import</span> java.util.*;
+
+<span style="color:#a78bfa">public class</span> <span style="color:#5aa9f2">Account</span> {
+    <span style="color:#a78bfa">private</span> <span style="color:#5aa9f2">double</span> balance;
+
+    <span style="color:#a78bfa">public</span> <span style="color:#5aa9f2">Account</span>(<span style="color:#5aa9f2">double</span> b) { balance = b; }   <span class="cm" style="color:#666a8a">// constructor</span>
+    <span class="cm" style="color:#666a8a">// no destructor — GC reclaims memory automatically</span>
+
+    <span style="color:#a78bfa">public</span> <span style="color:#5aa9f2">double</span> getBalance() { <span style="color:#a78bfa">return</span> balance; }
+
+    <span style="color:#a78bfa">public static void</span> main(<span style="color:#5aa9f2">String</span>[] args) {
+        <span style="color:#5aa9f2">Account</span> acc = <span style="color:#a78bfa">new</span> Account(500.0);
+        System.out.println(acc.getBalance());
+    }
+}</pre></div>
+    </div>
+
+    <div class="term lang-panel" id="panel-py">
+      <div class="term-head"><div class="dot" style="background:var(--py-yellow)"></div><div class="term-title">account.py</div></div>
+      <div class="term-body"><pre><span class="cm" style="color:#666a8a"># Interpreted (CPython) · dynamically typed · indentation defines blocks</span>
+<span style="color:#a78bfa">class</span> <span style="color:#5aa9f2">Account</span>:
+    <span style="color:#a78bfa">def</span> <span style="color:#5aa9f2">__init__</span>(<span style="color:#a78bfa">self</span>, balance):   <span class="cm" style="color:#666a8a"># constructor</span>
+        <span style="color:#a78bfa">self</span>.balance = balance
+
+    <span style="color:#a78bfa">def</span> get_balance(<span style="color:#a78bfa">self</span>):
+        <span style="color:#a78bfa">return</span> <span style="color:#a78bfa">self</span>.balance
+
+<span style="color:#a78bfa">if</span> __name__ == <span style="color:#5fe0b3">"__main__"</span>:
+    acc = Account(500.0)
+    print(acc.get_balance())</pre></div>
+    </div>
+
+    <h3>Feature-by-feature comparison</h3>
+    <table>
+      <tr><th>Feature</th><th style="color:var(--cpp)">C++</th><th style="color:var(--java)">Java</th><th style="color:var(--py-yellow)">Python</th></tr>
+      <tr><td class="strongcell">Typing</td><td>Statically typed</td><td>Statically typed</td><td>Dynamically typed</td></tr>
+      <tr><td class="strongcell">Execution</td><td>Compiled → native machine code</td><td>Compiled → bytecode, run on JVM (JIT)</td><td>Interpreted (CPython)</td></tr>
+      <tr><td class="strongcell">Memory management</td><td>Manual (<code>new</code>/<code>delete</code>)</td><td>Automatic — Garbage Collector</td><td>Automatic — Garbage Collector</td></tr>
+      <tr><td class="strongcell">Pointers</td><td>Explicit pointers &amp; references</td><td>No explicit pointers (object references only)</td><td>No pointers</td></tr>
+      <tr><td class="strongcell">Multiple inheritance</td><td>Supported directly (classes)</td><td>Not via classes — only via interfaces</td><td>Supported directly (classes)</td></tr>
+      <tr><td class="strongcell">Platform dependency</td><td>Platform-dependent (recompile per OS)</td><td>Platform-independent ("write once, run anywhere")</td><td>Platform-independent</td></tr>
+      <tr><td class="strongcell">Entry point</td><td><code>int main()</code></td><td><code>public static void main(String[] args)</code></td><td><code>if __name__ == "__main__":</code></td></tr>
+      <tr><td class="strongcell">Operator overloading</td><td>Supported</td><td>Not supported (except <code>+</code> for Strings)</td><td>Supported (via dunder methods, e.g. <code>__add__</code>)</td></tr>
+      <tr><td class="strongcell">Structs</td><td><code>struct</code> and <code>class</code> both exist</td><td>No struct — only classes</td><td>No struct — only classes</td></tr>
+      <tr><td class="strongcell">Comment syntax</td><td><code>//</code> or <code>/* */</code></td><td><code>//</code> or <code>/* */</code></td><td><code>#</code> or <code>''' '''</code></td></tr>
+    </table>
+
+    <div class="compare-note">
+      💡 <div><strong>High-frequency terms:</strong> <strong>JVM/JRE/JDK</strong> (Java's execution stack), <strong>PEP 8</strong> (Python's style guide), <strong>GIL</strong> — Global Interpreter Lock (Python, restricts true multi-threading), <strong>friend function</strong> (C++ — non-member function with class access), <code>final</code> keyword (Java — restricts overriding/inheritance/reassignment), <code>self</code> vs <code>this</code> (Python's explicit instance reference vs C++/Java's implicit one).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUESTION BANK ============ -->
+<section id="questions">
+  <div class="wrap">
+    <div class="eyebrow">question_bank.md</div>
+    <h2>How questions actually get asked</h2>
+    <p class="subtitle">Programming/DS questions in IBPS SO rarely ask you to write code from scratch. They cluster into a handful of recurring formats:</p>
+
+    <div class="qtype">
+      <div class="num">01</div>
+      <div><h4>Terminology fill-in-the-blank</h4><p>A definition is given; you identify the matching OOP/DS term.</p>
+      <div class="example">"____ is the OOP feature by which one class acquires the properties of another." → Inheritance</div></div>
+    </div>
+    <div class="qtype">
+      <div class="num">02</div>
+      <div><h4>Odd-one-out / classification</h4><p>Pick the item that doesn't belong to a given group (e.g., which of these is not a sorting algorithm / not a linear data structure).</p>
+      <div class="example">Array, Stack, Tree, Queue — which is NOT linear? → Tree</div></div>
+    </div>
+    <div class="qtype">
+      <div class="num">03</div>
+      <div><h4>Complexity / Big-O identification</h4><p>Time or space complexity of a named algorithm or operation — usually a direct recall, not a derivation.</p>
+      <div class="example">Time complexity of Binary Search on a sorted array of n elements → O(log n)</div></div>
+    </div>
+    <div class="qtype">
+      <div class="num">04</div>
+      <div><h4>"Which structure fits this scenario" application</h4><p>Maps a real use-case (recursion, undo, BFS, scheduling) to the correct underlying data structure.</p>
+      <div class="example">Which structure is used internally to implement function-call recursion? → Stack</div></div>
+    </div>
+    <div class="qtype">
+      <div class="num">05</div>
+      <div><h4>Cross-language feature comparison</h4><p>Tests whether a specific language supports a given feature — a common trap around multiple inheritance, pointers, and operator overloading.</p>
+      <div class="example">Which language does NOT support multiple inheritance through classes? → Java</div></div>
+    </div>
+    <div class="qtype">
+      <div class="num">06</div>
+      <div><h4>Traversal / output-based</h4><p>A small tree or short snippet is shown, and you determine an output — inorder/preorder sequence, loop output, or final variable value.</p>
+      <div class="example">Which traversal of a BST returns elements in sorted order? → Inorder</div></div>
+    </div>
+
+    <h3 style="margin-top:36px;">Practice set — 15 questions</h3>
+    <p style="margin-bottom:18px;">Click an option to check your answer.</p>
+    <div id="quiz"></div>
+    <div class="quiz-score">
+      <span>Score</span>
+      <span><strong id="scoreVal">0</strong> / <span id="scoreTotal">15</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRATEGY ============ -->
+<section id="strategy">
+  <div class="wrap">
+    <div class="eyebrow">strategy.txt</div>
+    <h2>Preparation strategy</h2>
+    <p class="subtitle">Programming/DS is one of the fastest sections to become reliably strong in — it rewards concept clarity far more than depth of coding practice.</p>
+
+    <div class="strategy-item">
+      <div class="marker">1</div>
+      <div><h4>Concepts over syntax</h4><p>You won't be asked to write a working program. Focus on definitions, comparisons, and "what does this achieve" style understanding across all three languages rather than memorising exact syntax in any one.</p></div>
+    </div>
+    <div class="strategy-item">
+      <div class="marker">2</div>
+      <div><h4>Don't skip any one language</h4><p>Since questions borrow syntax cues from C++, Java, and Python interchangeably, build baseline familiarity with all three rather than mastering just the one you already know.</p></div>
+    </div>
+    <div class="strategy-item">
+      <div class="marker">3</div>
+      <div><h4>Drill the comparison table until it's automatic</h4><p>Memory management, pointers, multiple inheritance, and platform dependency are the four traps that reappear most often across past papers.</p></div>
+    </div>
+    <div class="strategy-item">
+      <div class="marker">4</div>
+      <div><h4>Data Structures: know the "why", not just the "what"</h4><p>For every structure, be able to answer: what's it good at, what's it bad at, and what's the go-to real-world use case (stack→recursion, queue→BFS, hash table→lookups).</p></div>
+    </div>
+    <div class="strategy-item">
+      <div class="marker">5</div>
+      <div><h4>Weight your remaining time correctly</h4><p>DBMS and Networking still carry the most marks in Professional Knowledge — treat Programming/DS as a high-ROI section to lock in fully, not the sole focus of your prep.</p></div>
+    </div>
+    <div class="strategy-item">
+      <div class="marker">6</div>
+      <div><h4>Always check the current-year notification</h4><p>IBPS revises exam patterns fairly often (Professional Knowledge was added to Prelims in the 2026 cycle) — confirm section-wise weightage and question counts against the latest official notification before finalising your plan.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>This guide compiles publicly available syllabus and previous-paper information from banking-exam prep sources as of July 2026. Exam patterns and question counts can change year to year — always cross-check against the official IBPS notification for the cycle you're appearing in.</p>
+    <p class="sources">Sources referenced: adda247.com · oliveboard.in · careerpower.in · ixambee.com · practicemock.com</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Tab nav active state on scroll ----
+  const tabs = document.querySelectorAll('#tabnav .tab');
+  const sections = Array.from(tabs).map(t => document.querySelector(t.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+
+  // ---- Accordion ----
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => {
+      head.parentElement.classList.toggle('open');
+    });
+  });
+
+  // ---- Language tab switch ----
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.lang).classList.add('active');
+    });
+  });
+
+  // ---- Quiz data ----
+  const quiz = [
+    { q:"Which data structure follows LIFO (Last In First Out) order?", opts:["Queue","Stack","Linked List","Tree"], a:1, ex:"A Stack allows insertion and removal only from one end (the top), giving Last-In-First-Out behaviour." },
+    { q:"Which structure is used internally to implement recursive function calls?", opts:["Queue","Array","Stack","Graph"], a:2, ex:"Each recursive call is pushed onto the call stack; it's popped off when that call returns." },
+    { q:"In a circular queue, when REAR reaches the last index, the next element is inserted at:", opts:["REAR+1 (out of bounds)","Index 0 (wraps around)","It always overflows","None of these"], a:1, ex:"A circular queue wraps REAR back to index 0 to reuse freed space instead of wasting it." },
+    { q:"Which traversal of a Binary Search Tree returns elements in ascending sorted order?", opts:["Preorder","Postorder","Inorder","Level-order"], a:2, ex:"Inorder (Left → Root → Right) visits a BST's nodes in ascending sorted order." },
+    { q:"What is the time complexity of Binary Search on a sorted array of n elements?", opts:["O(n)","O(log n)","O(n log n)","O(n²)"], a:1, ex:"Binary search halves the search space each step, giving O(log n)." },
+    { q:"Which sort guarantees O(n log n) time complexity in the worst case?", opts:["Quick Sort","Bubble Sort","Merge Sort","Selection Sort"], a:2, ex:"Merge Sort's divide-and-conquer split always guarantees O(n log n), unlike Quick Sort's O(n²) worst case." },
+    { q:"A hash table's lookup performance degrades mainly due to a rising:", opts:["Load factor / collisions","Array size","Number of pointers","Number of classes"], a:0, ex:"As the load factor (entries / table size) rises, more collisions occur, slowing lookups." },
+    { q:"Wrapping data and the methods that act on it into a single unit is called:", opts:["Abstraction","Encapsulation","Inheritance","Overloading"], a:1, ex:"Encapsulation bundles related data and behaviour together, typically restricting outside access." },
+    { q:"A single function/method name behaving differently depending on input is:", opts:["Encapsulation","Inheritance","Polymorphism","Abstraction"], a:2, ex:"This is Polymorphism — 'many forms' — seen via overloading (compile-time) or overriding (run-time)." },
+    { q:"Which of these languages does NOT support multiple inheritance directly through classes?", opts:["C++","Python","Java","None of these"], a:2, ex:"Java disallows multiple inheritance through classes to avoid ambiguity — it uses interfaces instead." },
+    { q:"A method with the same name as its class and no return type is a:", opts:["Destructor","Constructor","Static method","Friend function"], a:1, ex:"A constructor initialises a new object and shares the class's name, with no return type." },
+    { q:"In Java, source code is first compiled into:", opts:["Machine code","Bytecode","Assembly code","Object code"], a:1, ex:"Java compiles to platform-independent bytecode, which the JVM then interprets/JIT-compiles." },
+    { q:"Python is best classified as a/an ______ language.", opts:["Compiled","Interpreted","Assembly","Markup"], a:1, ex:"Python code runs through the CPython interpreter rather than compiling to native machine code." },
+    { q:"Which of the following is NOT a linear data structure?", opts:["Array","Stack","Tree","Queue"], a:2, ex:"A Tree is hierarchical/non-linear; Array, Stack and Queue all store elements in sequence." },
+    { q:"Redefining a base class method in a derived class with the same signature, resolved at runtime, is:", opts:["Overloading","Overriding","Templating","Encapsulating"], a:1, ex:"This is Overriding — enabled by dynamic (runtime) binding, the basis of runtime polymorphism." },
+  ];
+
+  const quizEl = document.getElementById('quiz');
+  let score = 0;
+  document.getElementById('scoreTotal').textContent = quiz.length;
+
+  quiz.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-q"><span class="qn">Q${qi+1}.</span>${item.q}</div>
+      <div class="quiz-opts">
+        ${item.opts.map((o,i) => `<button class="quiz-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explain"></div>
+    `;
+    quizEl.appendChild(card);
+
+    const buttons = card.querySelectorAll('.quiz-opt');
+    const explain = card.querySelector('.quiz-explain');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(card.dataset.answered) return;
+        card.dataset.answered = 'true';
+        const chosen = parseInt(btn.dataset.i);
+        buttons.forEach(b => b.disabled = true);
+        if(chosen === item.a){
+          btn.classList.add('correct');
+          score++;
+        } else {
+          btn.classList.add('incorrect');
+          buttons[item.a].classList.add('correct');
+        }
+        explain.textContent = item.ex;
+        explain.classList.add('show');
+        document.getElementById('scoreVal').textContent = score;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

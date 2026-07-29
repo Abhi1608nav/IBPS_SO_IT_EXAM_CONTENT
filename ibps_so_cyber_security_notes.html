@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Cyber Security Deep Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121320; --bg-alt:#0d0e18; --panel:#1b1d2e; --panel-alt:#232538;
+    --border:#2d3049; --border-soft:#262941;
+    --text:#e6e7f2; --text-muted:#9498b5; --text-faint:#666a8a;
+    --accent-purple:#a78bfa; --accent-blue:#5aa9f2; --accent-mint:#5fe0b3;
+    --accent-amber:#f2b35a; --accent-red:#f2685a;
+    --sym:#5fe0b3; --asym:#f2b35a;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--accent-red); color:#12121f;}
+  a{color:var(--accent-blue);}
+
+  .tabbar{position:sticky; top:0; z-index:100; display:flex; align-items:stretch; background:var(--bg-alt); border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar .brand{display:flex; align-items:center; gap:8px; padding:0 16px; font-family:var(--mono); font-weight:700; font-size:13px; color:var(--text-muted); border-right:1px solid var(--border); white-space:nowrap;}
+  .brand .dots{display:flex; gap:5px;} .brand .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.red{background:#f2685a;} .dot.amber{background:#f2b35a;} .dot.green{background:#5fe0b3;}
+  .tabbar nav{display:flex;}
+  .tabbar a.tab{font-family:var(--mono); font-size:12.5px; font-weight:500; color:var(--text-faint); padding:14px 16px; white-space:nowrap; border-right:1px solid var(--border); text-decoration:none; display:flex; align-items:center; gap:7px; transition:color .15s, background .15s;}
+  .tabbar a.tab .ext{opacity:.7;}
+  .tabbar a.tab:hover{color:var(--text); background:var(--panel);}
+  .tabbar a.tab.active{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--accent-red);}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px; margin-bottom:14px; color:var(--accent-red);}
+  .eyebrow::before{content:''; width:16px; height:1px; opacity:.6; background:var(--accent-red);}
+
+  h1,h2,h3,h4{font-family:var(--mono); font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:28px; margin-bottom:8px; color:#fff;}
+  h3{font-size:17.5px; margin:26px 0 10px; color:#fff;}
+  .subtitle{color:var(--text-muted); font-size:15px; max-width:660px; margin-bottom:30px;}
+  p{color:var(--text-muted); font-size:14.6px;}
+  strong{color:var(--text); font-weight:600;}
+  code, .mono{font-family:var(--mono);}
+
+  .term{background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+  .term .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .term .term-head .dot{width:10px; height:10px; border-radius:50%;}
+  .term .term-title{margin-left:8px; font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .term .term-body{padding:18px 20px; font-family:var(--mono); font-size:13px; overflow-x:auto;}
+
+  .hero{padding:64px 0 44px;}
+  .hero h1{font-size:32px; line-height:1.25; color:#fff; margin-bottom:14px;}
+  .hero h1 .hl{color:var(--accent-red);}
+  .hero p.lead{color:var(--text-muted); font-size:15.5px; max-width:560px;}
+  .hero-tags{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+  .tag{font-family:var(--mono); font-size:12px; padding:6px 12px; border:1px solid var(--border); border-radius:20px; color:var(--text-muted); display:flex; align-items:center; gap:6px;}
+  .tag .sw{width:8px;height:8px;border-radius:50%;}
+
+  .def-box{background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent-purple); border-radius:8px; padding:14px 18px; margin:16px 0;}
+  .def-box .lbl{font-family:var(--mono); font-size:11px; color:var(--accent-purple); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+  .def-box p{margin:0; font-size:14px; color:var(--text);}
+
+  .trap-box{background:rgba(242,104,90,.08); border:1px solid var(--border); border-left:3px solid var(--accent-red); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .trap-box strong{color:var(--accent-red);}
+
+  .tip-box{background:rgba(95,224,179,.08); border:1px solid var(--border); border-left:3px solid var(--accent-mint); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .tip-box strong{color:var(--accent-mint);}
+
+  .cia-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:20px 0;}
+  .cia-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px; text-align:center;}
+  .cia-card .letter{font-family:var(--mono); font-size:32px; font-weight:800; margin-bottom:8px;}
+  .cia-card.c .letter{color:var(--accent-blue);}
+  .cia-card.i .letter{color:var(--accent-mint);}
+  .cia-card.a .letter{color:var(--accent-amber);}
+  .cia-card h4{font-size:14px; color:#fff; margin-bottom:8px;}
+  .cia-card p{font-size:12.8px; margin:0;}
+  .cia-card .control{margin-top:10px; font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:20px; background:var(--panel-alt); display:inline-block; color:var(--text-muted);}
+
+  .acc-item{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; background:var(--panel);}
+  .acc-head{display:flex; justify-content:space-between; align-items:center; padding:15px 20px; cursor:pointer; user-select:none;}
+  .acc-head:hover{background:var(--panel-alt);}
+  .acc-head .left{display:flex; align-items:center; gap:12px;}
+  .acc-num{font-family:var(--mono); font-size:12px; opacity:.7;}
+  .acc-title{font-family:var(--mono); font-size:14px; color:#fff; font-weight:600;}
+  .acc-arrow{color:var(--text-faint); transition:transform .2s; font-size:13px;}
+  .acc-item.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:700px;}
+  .acc-inner{padding:0 20px 20px; font-size:13.6px; color:var(--text-muted);}
+  .acc-inner ul{margin:8px 0 0 18px;}
+  .acc-inner li{margin-bottom:6px;}
+  .acc-inner code{color:var(--accent-mint); background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12.3px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.4px; margin:16px 0;}
+  th{text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--accent-purple); padding:9px 12px; border-bottom:1px solid var(--border);}
+  td{padding:10px 12px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  td.strongcell{color:var(--text);}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+
+  .crypto-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px;}
+  .crypto-card.sym{border-top:3px solid var(--sym);}
+  .crypto-card.asym{border-top:3px solid var(--asym);}
+  .crypto-card h4{font-size:16px; color:#fff; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .crypto-card .sw{width:10px; height:10px; border-radius:50%;}
+  .crypto-card ol, .crypto-card ul{margin-left:18px; font-size:13.4px; color:var(--text-muted);}
+  .crypto-card li{margin-bottom:6px;}
+  .crypto-card .algos{margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;}
+  .algo-pill{font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:6px; background:var(--panel-alt); border:1px solid var(--border); color:var(--text);}
+
+  .flow-step{display:flex; gap:14px; margin-bottom:14px; align-items:flex-start;}
+  .flow-num{width:26px; height:26px; border-radius:50%; background:var(--panel-alt); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:12px; color:var(--accent-red); flex-shrink:0; font-weight:700;}
+  .flow-step p{margin:0; font-size:13.8px;}
+
+  .quiz-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:14px;}
+  .quiz-q{font-size:14px; color:#fff; margin-bottom:14px; font-weight:600;}
+  .quiz-q .qn{font-family:var(--mono); margin-right:6px; color:var(--accent-red);}
+  .quiz-opts{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .quiz-opt{text-align:left; font-family:var(--sans); font-size:13px; background:var(--panel-alt); border:1px solid var(--border); color:var(--text-muted); padding:10px 14px; border-radius:7px; cursor:pointer; transition:all .12s;}
+  .quiz-opt:hover{border-color:var(--accent-red); color:var(--text);}
+  .quiz-opt.correct{background:rgba(95,224,179,.12); border-color:var(--accent-mint); color:var(--accent-mint);}
+  .quiz-opt.incorrect{background:rgba(242,104,90,.12); border-color:var(--accent-red); color:var(--accent-red);}
+  .quiz-opt[disabled]{cursor:default;}
+  .quiz-explain{display:none; margin-top:12px; font-size:12.6px; color:var(--text-muted); background:var(--bg-alt); border-left:3px solid var(--accent-mint); padding:10px 14px; border-radius:6px;}
+  .quiz-explain.show{display:block;}
+  .quiz-score{position:sticky; bottom:16px; margin-top:20px; background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:13px; color:var(--text-muted); box-shadow:0 10px 30px -10px rgba(0,0,0,.6);}
+  .quiz-score strong{color:var(--accent-mint); font-size:16px;}
+
+  footer{padding:36px 0 56px; text-align:center;}
+  footer p{font-size:12px; color:var(--text-faint); max-width:600px; margin:0 auto;}
+
+  @media (max-width:760px){
+    .grid-2, .cia-grid{grid-template-columns:1fr;}
+    .quiz-opts{grid-template-columns:1fr;}
+    h2{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="brand">
+    <div class="dots"><div class="dot red"></div><div class="dot amber"></div><div class="dot green"></div></div>
+    <span>cyber_security/</span>
+  </div>
+  <nav id="tabnav">
+    <a href="#cia" class="tab active">cia_auth<span class="ext">.txt</span></a>
+    <a href="#attacks" class="tab">attacks_malware<span class="ext">.txt</span></a>
+    <a href="#defense" class="tab">defense_tools<span class="ext">.txt</span></a>
+    <a href="#crypto" class="tab">cryptography<span class="ext">.py</span></a>
+    <a href="#quiz" class="tab">practice<span class="ext">.md</span></a>
+  </nav>
+</div>
+
+<div class="wrap hero">
+  <h1>Cyber Security — deep notes for <span class="hl">IBPS SO IT Officer</span></h1>
+  <p class="lead">Tier 1 topic, mapped to your exact syllabus sheet: Cyber Attacks, Firewall Types, Antivirus, CIA Triad, Cryptography, Malware, IDS, Authentication, Digital Signature, Information Security — with Symmetric vs Asymmetric cryptography covered in full depth with worked examples.</p>
+  <div class="hero-tags">
+    <span class="tag"><span class="sw" style="background:var(--accent-red)"></span>Cyber Security</span>
+    <span class="tag"><span class="sw" style="background:var(--sym)"></span>Symmetric Key</span>
+    <span class="tag"><span class="sw" style="background:var(--asym)"></span>Asymmetric Key</span>
+  </div>
+</div>
+
+<!-- ===================== CIA + AUTH ===================== -->
+<section id="cia">
+  <div class="wrap">
+    <div class="eyebrow">cia_auth.txt</div>
+    <h2>CIA Triad, Information Security &amp; Authentication</h2>
+    <p class="subtitle">Every cyber security question ultimately traces back to one of these three goals — start here before anything else.</p>
+
+    <div class="cia-grid">
+      <div class="cia-card c">
+        <div class="letter">C</div>
+        <h4>Confidentiality</h4>
+        <p>Data is not disclosed to unauthorized parties.</p>
+        <div class="control">Achieved via Encryption</div>
+      </div>
+      <div class="cia-card i">
+        <div class="letter">I</div>
+        <h4>Integrity</h4>
+        <p>Data has not been altered by unauthorized parties.</p>
+        <div class="control">Achieved via Hashing / Checksums</div>
+      </div>
+      <div class="cia-card a">
+        <div class="letter">A</div>
+        <h4>Availability</h4>
+        <p>Authorized users can access data/systems when needed.</p>
+        <div class="control">Achieved via Redundancy / Backups</div>
+      </div>
+    </div>
+
+    <div class="tip-box"><strong>The pairing to memorise:</strong> Confidentiality→Encryption, Integrity→Hashing, Availability→Redundancy/Backup. When a question maps a "combination of controls" to CIA, check each control against this pairing individually rather than guessing the whole option at once.</div>
+
+    <h3>Information Security — beyond CIA</h3>
+    <p>Some questions extend the triad with two more pillars:</p>
+    <ul style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;"><strong>Authenticity</strong> — confirming data/identity genuinely comes from the claimed source</li>
+      <li><strong>Non-repudiation</strong> — the sender cannot later deny having sent a message (enabled by digital signatures)</li>
+    </ul>
+
+    <h3>Authentication</h3>
+    <div class="trap-box"><strong>Exam trap:</strong> <strong>Authentication</strong> = verifying <em>who you are</em>. <strong>Authorization</strong> = verifying <em>what you're allowed to do</em>, and always happens after authentication. These two are swapped constantly in options.</div>
+
+    <table>
+      <tr><th>Factor</th><th>Category</th><th>Example</th></tr>
+      <tr><td class="strongcell">Something you know</td><td>Knowledge factor</td><td>Password, PIN, security question</td></tr>
+      <tr><td class="strongcell">Something you have</td><td>Possession factor</td><td>OTP token, smart card, authenticator app</td></tr>
+      <tr><td class="strongcell">Something you are</td><td>Inherence factor</td><td>Fingerprint, retina scan, face recognition</td></tr>
+    </table>
+    <p><strong>Multi-Factor Authentication (MFA)</strong> combines two or more of these factors — e.g. password + OTP — significantly harder to compromise than any single factor alone.</p>
+  </div>
+</section>
+
+<!-- ===================== ATTACKS + MALWARE ===================== -->
+<section id="attacks">
+  <div class="wrap">
+    <div class="eyebrow">attacks_malware.txt</div>
+    <h2>Cyber Attacks &amp; Malware</h2>
+    <p class="subtitle">Two overlapping lists — attacks are the *techniques*, malware is a *category of malicious software* often used to carry them out.</p>
+
+    <h3>Common cyber attacks</h3>
+    <div class="acc-item open">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">Attack types to know</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ul>
+          <li><strong>Phishing</strong> — fraudulent communication (usually email) tricking a user into revealing sensitive information</li>
+          <li><strong>DoS / DDoS</strong> — flooding a system with traffic to make it unavailable to legitimate users (a direct attack on <em>Availability</em>)</li>
+          <li><strong>Man-in-the-Middle (MITM)</strong> — attacker secretly intercepts, and possibly alters, communication between two parties</li>
+          <li><strong>SQL Injection</strong> — malicious SQL code inserted through an input field to manipulate a database</li>
+          <li><strong>Brute Force</strong> — systematically trying every possible password/key combination</li>
+          <li><strong>Social Engineering</strong> — manipulating people (not systems) into breaking normal security procedures</li>
+          <li><strong>Spoofing</strong> — impersonating a trusted source (IP spoofing, email spoofing, DNS spoofing)</li>
+          <li><strong>Zero-day attack</strong> — exploits a vulnerability before a patch/fix exists for it</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <h3>Malware types</h3>
+    <table>
+      <tr><th>Malware</th><th>Behaviour</th></tr>
+      <tr><td class="strongcell">Virus</td><td>Attaches to a host program/file; needs a host and user action to spread</td></tr>
+      <tr><td class="strongcell">Worm</td><td>Self-replicating; spreads independently across a network, no host file or user action needed</td></tr>
+      <tr><td class="strongcell">Trojan Horse</td><td>Disguised as legitimate software; does <strong>not</strong> self-replicate</td></tr>
+      <tr><td class="strongcell">Ransomware</td><td>Encrypts victim's files, demands payment for the decryption key</td></tr>
+      <tr><td class="strongcell">Spyware</td><td>Secretly monitors and collects user activity/data</td></tr>
+      <tr><td class="strongcell">Adware</td><td>Displays unwanted advertisements, often bundled with free software</td></tr>
+      <tr><td class="strongcell">Rootkit</td><td>Gains privileged (root/admin) access while actively hiding its own presence</td></tr>
+      <tr><td class="strongcell">Keylogger</td><td>Records keystrokes to steal credentials and sensitive input</td></tr>
+    </table>
+    <div class="trap-box"><strong>The single most repeated exam distinction:</strong> a <strong>Virus</strong> needs a host file + user action to spread; a <strong>Worm</strong> is self-replicating and spreads on its own across a network. If the question says "spreads without any user intervention" → it's a Worm.</div>
+  </div>
+</section>
+
+<!-- ===================== DEFENSE TOOLS ===================== -->
+<section id="defense">
+  <div class="wrap">
+    <div class="eyebrow">defense_tools.txt</div>
+    <h2>Firewalls, Antivirus &amp; IDS/IPS</h2>
+    <p class="subtitle">The defensive counterparts — what actually stands between an attack and your system.</p>
+
+    <h3>Firewall types</h3>
+    <table>
+      <tr><th>Type</th><th>How it works</th></tr>
+      <tr><td class="strongcell">Packet-filtering</td><td>Inspects only packet headers (IP address, port) — fast, but no awareness of connection context</td></tr>
+      <tr><td class="strongcell">Stateful Inspection</td><td>Tracks the state of active connections for more context-aware filtering decisions</td></tr>
+      <tr><td class="strongcell">Proxy / Application-level gateway</td><td>Acts as an intermediary, inspecting traffic at the application layer</td></tr>
+      <tr><td class="strongcell">Circuit-level gateway</td><td>Verifies the TCP handshake is legitimate without inspecting the packet content itself</td></tr>
+      <tr><td class="strongcell">Next-Generation Firewall (NGFW)</td><td>Combines traditional filtering with deep packet inspection and intrusion prevention</td></tr>
+    </table>
+
+    <h3>Antivirus detection methods</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Signature-based</div><p>Matches files against a database of known malware signatures. Fast and reliable for known threats, but blind to brand-new (zero-day) malware.</p></div>
+      <div class="def-box"><div class="lbl">Heuristic-based</div><p>Analyses behaviour and code structure to catch previously unseen malware. Can catch zero-days, but risks more false positives.</p></div>
+    </div>
+
+    <h3>IDS vs IPS</h3>
+    <div class="trap-box"><strong>Exam trap:</strong> An <strong>IDS (Intrusion Detection System)</strong> only monitors and <em>alerts</em> — it does not block anything, exactly as its name says. An <strong>IPS (Intrusion Prevention System)</strong> goes further and actively <em>blocks</em> the detected threat. If an option implies an IDS "stops" or "prevents" an attack, it's incorrect.</div>
+    <table>
+      <tr><th>Type</th><th>Scope</th></tr>
+      <tr><td class="strongcell">NIDS</td><td>Network-based — monitors traffic across the network</td></tr>
+      <tr><td class="strongcell">HIDS</td><td>Host-based — monitors activity on a single system/host</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== CRYPTOGRAPHY ===================== -->
+<section id="crypto">
+  <div class="wrap">
+    <div class="eyebrow">cryptography.py</div>
+    <h2>Symmetric vs Asymmetric Key Cryptography</h2>
+    <p class="subtitle">The highest-yield sub-topic in Cyber Security — nearly every paper has at least one direct question here. Covered in full depth with worked examples.</p>
+
+    <div class="grid-2">
+      <div class="crypto-card sym">
+        <h4><span class="sw" style="background:var(--sym)"></span>Symmetric Key Cryptography</h4>
+        <p style="font-size:13.4px; color:var(--text-muted); margin-bottom:10px;">The <strong>same key</strong> is used for both encryption and decryption.</p>
+        <ul>
+          <li><strong>Fast</strong> — ideal for encrypting large volumes of data</li>
+          <li><strong>Key Distribution Problem</strong> — both parties must securely share the one secret key beforehand; if it's intercepted, everything is compromised</li>
+        </ul>
+        <div class="algos">
+          <span class="algo-pill">DES</span><span class="algo-pill">3DES</span><span class="algo-pill">AES</span><span class="algo-pill">RC4</span><span class="algo-pill">Blowfish</span>
+        </div>
+      </div>
+      <div class="crypto-card asym">
+        <h4><span class="sw" style="background:var(--asym)"></span>Asymmetric Key Cryptography</h4>
+        <p style="font-size:13.4px; color:var(--text-muted); margin-bottom:10px;">Uses a mathematically linked <strong>key pair</strong>: a Public key (shared openly) and a Private key (kept secret).</p>
+        <ul>
+          <li>What one key encrypts, <strong>only the other key</strong> can decrypt</li>
+          <li><strong>Slower</strong> — 100-1000× more computationally expensive than symmetric, so not used for bulk data</li>
+          <li>Solves the key distribution problem entirely — no secret ever needs to be shared</li>
+        </ul>
+        <div class="algos">
+          <span class="algo-pill">RSA</span><span class="algo-pill">DSA</span><span class="algo-pill">ECC</span><span class="algo-pill">Diffie-Hellman</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Worked example — Symmetric encryption</h3>
+    <div class="term">
+      <div class="term-head"><div class="dot" style="background:var(--sym)"></div><div class="term-title">symmetric_example.txt</div></div>
+      <div class="term-body">
+        <div class="flow-step"><div class="flow-num">1</div><p>Alice and Bob agree on a shared secret key <strong>K</strong> over a secure channel (e.g. in person, or via a pre-shared setup).</p></div>
+        <div class="flow-step"><div class="flow-num">2</div><p>Alice encrypts her message <strong>M = "MEET AT 5PM"</strong> using AES with key K → produces ciphertext <strong>C</strong>.</p></div>
+        <div class="flow-step"><div class="flow-num">3</div><p>Alice sends C to Bob over an ordinary, possibly insecure, network.</p></div>
+        <div class="flow-step"><div class="flow-num">4</div><p>Bob decrypts C using the <strong>same key K</strong> → recovers the original message M.</p></div>
+        <div class="flow-step"><div class="flow-num">⚠</div><p style="color:var(--accent-red);">Risk: if key K is intercepted at step 1, an attacker can decrypt every future message — this is exactly the key distribution problem.</p></div>
+      </div>
+    </div>
+
+    <h3>Worked example — Asymmetric encryption (confidentiality)</h3>
+    <div class="term">
+      <div class="term-head"><div class="dot" style="background:var(--asym)"></div><div class="term-title">asymmetric_example.txt</div></div>
+      <div class="term-body">
+        <div class="flow-step"><div class="flow-num">1</div><p>Bob generates a key pair: Public key <strong>Kpub-B</strong> and Private key <strong>Kpriv-B</strong>, and publishes Kpub-B openly for anyone to see.</p></div>
+        <div class="flow-step"><div class="flow-num">2</div><p>Alice wants to send Bob a confidential message M. She encrypts it using <strong>Bob's public key</strong>: C = Encrypt(M, Kpub-B).</p></div>
+        <div class="flow-step"><div class="flow-num">3</div><p>Alice sends C to Bob over the open network — no secret needed to be shared in advance.</p></div>
+        <div class="flow-step"><div class="flow-num">4</div><p>Only Bob's matching <strong>private key</strong> can decrypt it: M = Decrypt(C, Kpriv-B).</p></div>
+        <div class="flow-step"><div class="flow-num">✓</div><p style="color:var(--accent-mint);">Even if an attacker intercepts C, it's useless without Bob's private key — which never travelled anywhere.</p></div>
+      </div>
+    </div>
+
+    <h3>Digital Signature — the reverse use of asymmetric keys</h3>
+    <p>For confidentiality, the sender encrypts with the <em>receiver's public key</em>. For a <strong>digital signature</strong> (authenticity + integrity + non-repudiation), the direction flips — the sender signs with their <em>own private key</em>:</p>
+    <div class="term">
+      <div class="term-head"><div class="dot" style="background:var(--accent-purple)"></div><div class="term-title">digital_signature.txt</div></div>
+      <div class="term-body">
+        <div class="flow-step"><div class="flow-num">1</div><p>Alice computes a hash of her message: H = Hash(M).</p></div>
+        <div class="flow-step"><div class="flow-num">2</div><p>Alice encrypts that hash with <strong>her own private key</strong>: Signature S = Encrypt(H, Kpriv-A). This is the "signing" step.</p></div>
+        <div class="flow-step"><div class="flow-num">3</div><p>Alice sends both M and S to Bob.</p></div>
+        <div class="flow-step"><div class="flow-num">4</div><p>Bob decrypts S using <strong>Alice's public key</strong> to recover H, and independently computes Hash(M) himself.</p></div>
+        <div class="flow-step"><div class="flow-num">✓</div><p style="color:var(--accent-mint);">If the two hashes match: the message is authentic (only Alice's private key could produce a valid signature) and unaltered (integrity) — and Alice cannot later deny sending it (non-repudiation).</p></div>
+      </div>
+    </div>
+
+    <h3>Comparison table</h3>
+    <table>
+      <tr><th>Feature</th><th style="color:var(--sym)">Symmetric</th><th style="color:var(--asym)">Asymmetric</th></tr>
+      <tr><td class="strongcell">Keys used</td><td>1 shared key</td><td>2 keys (public + private)</td></tr>
+      <tr><td class="strongcell">Speed</td><td>Fast</td><td>Slow (100-1000× slower)</td></tr>
+      <tr><td class="strongcell">Best for</td><td>Bulk data encryption</td><td>Key exchange, digital signatures, small data</td></tr>
+      <tr><td class="strongcell">Key distribution</td><td>Problem — needs a secure channel</td><td>Solved — public key can be shared openly</td></tr>
+      <tr><td class="strongcell">Examples</td><td>AES, DES, 3DES, RC4, Blowfish</td><td>RSA, DSA, ECC, Diffie-Hellman</td></tr>
+    </table>
+
+    <h3>Hybrid cryptography — how HTTPS/TLS actually works</h3>
+    <div class="def-box"><div class="lbl">Real-world application</div><p>Every HTTPS website uses <strong>both</strong>: asymmetric cryptography runs <em>once</em>, at the start of the connection, purely to securely exchange a random <strong>symmetric session key</strong>. From then on, the much faster symmetric cryptography (using that session key) handles all the actual data transfer for the rest of the session — combining asymmetric's secure key exchange with symmetric's speed.</p></div>
+
+    <div class="tip-box">
+      <strong>How RSA actually works (simplified textbook example):</strong> Pick two primes p=3, q=11 → n = p×q = 33, φ(n) = (p−1)(q−1) = 20. Choose public exponent e=7 (coprime with 20) → public key (7, 33). Find d such that e×d ≡ 1 (mod 20) → d=3 → private key (3, 33). To encrypt M=2: C = M<sup>e</sup> mod n = 2<sup>7</sup> mod 33 = <strong>29</strong>. To decrypt: M = C<sup>d</sup> mod n = 29<sup>3</sup> mod 33 = <strong>2</strong> ✓. RSA's real-world security comes from using primes hundreds of digits long — factoring their product back into p and q is computationally infeasible.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUIZ ===================== -->
+<section id="quiz">
+  <div class="wrap">
+    <div class="eyebrow">practice.md</div>
+    <h2>Practice set — 30 questions</h2>
+    <p class="subtitle">Covering CIA, authentication, attacks, malware, firewalls, antivirus, IDS/IPS, and symmetric/asymmetric cryptography. Click an option to check.</p>
+    <div id="quizWrap"></div>
+    <div class="quiz-score"><span>Score</span><span><strong id="scoreVal">0</strong> / <span id="scoreTotal">30</span></span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Covers the exact Cyber Security subtopics on your syllabus sheet. Standard information-security concepts are drawn from established fundamentals; always cross-check exact weightage against the current-year official notification.</p>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('#tabnav .tab');
+  const sections = Array.from(tabs).map(t => document.querySelector(t.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
+  });
+
+  const quiz = [
+    { q:"Which component of the CIA triad ensures data is not disclosed to unauthorized parties?", opts:["Integrity","Confidentiality","Availability","Authentication"], a:1, ex:"Confidentiality is about preventing unauthorized disclosure — typically achieved via encryption." },
+    { q:"Which component of the CIA triad ensures data has not been altered by unauthorized parties?", opts:["Confidentiality","Availability","Integrity","Authorization"], a:2, ex:"Integrity ensures data remains accurate and unmodified — typically achieved via hashing/checksums." },
+    { q:"Which component of the CIA triad ensures systems remain accessible to authorized users when needed?", opts:["Confidentiality","Integrity","Non-repudiation","Availability"], a:3, ex:"Availability is about uptime and access — typically achieved via redundancy and backups." },
+    { q:"Which security control is most directly associated with ensuring Confidentiality?", opts:["Redundancy","Encryption","Load balancing","Backup servers"], a:1, ex:"Encryption scrambles data so only authorized parties with the key can read it." },
+    { q:"Which security control is most directly associated with ensuring Availability?", opts:["Hashing","Digital signature","Redundancy / backups","Encryption"], a:2, ex:"Redundant systems and regular backups keep services accessible even during failures or attacks." },
+    { q:"Verifying 'who a user is' is called ______, while verifying 'what they're allowed to do' is called ______.", opts:["Authorization; Authentication","Authentication; Authorization","Encryption; Hashing","Hashing; Encryption"], a:1, ex:"Authentication confirms identity; Authorization (which happens after) confirms permissions." },
+    { q:"A fingerprint scan belongs to which authentication factor category?", opts:["Something you know","Something you have","Something you are","Something you did"], a:2, ex:"Biometrics like fingerprints fall under the 'inherence' factor — something you are." },
+    { q:"An OTP sent to your registered mobile number belongs to which authentication factor category?", opts:["Something you know","Something you have","Something you are","Somewhere you are"], a:1, ex:"An OTP relies on possessing a specific device — the 'possession' factor." },
+    { q:"A cyberattack that floods a server with traffic to make it unavailable to legitimate users is a:", opts:["Phishing attack","SQL Injection","DoS/DDoS attack","Man-in-the-Middle attack"], a:2, ex:"Denial-of-Service attacks directly target the Availability pillar of the CIA triad." },
+    { q:"An attack where the attacker secretly intercepts communication between two parties is:", opts:["Man-in-the-Middle attack","Brute force attack","Zero-day attack","Phishing"], a:0, ex:"MITM attacks position the attacker between two communicating parties, often undetected." },
+    { q:"Inserting malicious code into a database query through an input field is called:", opts:["Cross-site scripting","SQL Injection","Spoofing","Social engineering"], a:1, ex:"SQL Injection exploits unsanitized input fields to manipulate backend database queries." },
+    { q:"Fraudulent communication designed to trick a user into revealing sensitive information is:", opts:["Ransomware","Phishing","Spyware","A rootkit"], a:1, ex:"Phishing relies on deceptive communication (often email) rather than a technical exploit." },
+    { q:"Malware that requires a host program and user action to spread is a:", opts:["Worm","Trojan Horse","Virus","Rootkit"], a:2, ex:"A Virus attaches to a host file and needs the user to run it in order to spread." },
+    { q:"Malware that self-replicates and spreads independently across a network without needing a host file is a:", opts:["Virus","Worm","Adware","Trojan Horse"], a:1, ex:"A Worm spreads on its own across networks — no host file or user action required." },
+    { q:"Malware disguised as legitimate software, which does NOT self-replicate, is a:", opts:["Worm","Virus","Trojan Horse","Keylogger"], a:2, ex:"A Trojan Horse tricks users into installing it by posing as legitimate software, but doesn't self-replicate like a virus or worm." },
+    { q:"Malware that encrypts a victim's files and demands payment for the decryption key is:", opts:["Spyware","Adware","Ransomware","Rootkit"], a:2, ex:"Ransomware holds data hostage via encryption until a ransom is paid." },
+    { q:"A firewall that inspects only packet headers (IP/port) without tracking connection state is a:", opts:["Stateful inspection firewall","Packet-filtering firewall","Proxy firewall","NGFW"], a:1, ex:"Packet-filtering firewalls check header info only — fast, but with no awareness of connection context." },
+    { q:"A firewall that tracks the state of active connections for context-aware filtering is a:", opts:["Packet-filtering firewall","Circuit-level gateway","Stateful inspection firewall","None of these"], a:2, ex:"Stateful inspection firewalls maintain a table of active connections to make smarter filtering decisions." },
+    { q:"Antivirus detection that matches files against a database of known malware patterns is called:", opts:["Heuristic-based detection","Signature-based detection","Behavioral detection","Sandbox detection"], a:1, ex:"Signature-based detection is fast and reliable for known threats but can miss brand-new malware." },
+    { q:"Antivirus detection that analyses behaviour/code structure to catch previously unknown malware is:", opts:["Signature-based detection","Heuristic-based detection","Static detection","None of these"], a:1, ex:"Heuristic detection can catch zero-day malware but risks more false positives." },
+    { q:"Which system monitors and alerts on suspicious activity but does NOT block it?", opts:["IPS","Firewall","IDS","Antivirus"], a:2, ex:"An Intrusion Detection System only detects and alerts — exactly as its name implies. It does not block traffic." },
+    { q:"Which system both detects AND actively blocks malicious activity?", opts:["IDS","IPS","NIDS only","HIDS only"], a:1, ex:"An Intrusion Prevention System goes a step further than IDS by actively blocking detected threats." },
+    { q:"In symmetric key cryptography, encryption and decryption use:", opts:["Two different keys","The same key","No key at all","A public key only"], a:1, ex:"Symmetric cryptography uses one shared secret key for both operations." },
+    { q:"In asymmetric cryptography, what a public key encrypts can only be decrypted by:", opts:["The same public key","Any private key","The corresponding private key","A shared session key"], a:2, ex:"Public and private keys are mathematically linked as a pair — only the matching private key can decrypt." },
+    { q:"Which cryptography type is significantly faster and better suited for encrypting large volumes of data?", opts:["Asymmetric","Symmetric","Both are equal","Neither"], a:1, ex:"Symmetric cryptography is far faster computationally, making it ideal for bulk data." },
+    { q:"Which of these is an asymmetric key algorithm?", opts:["AES","DES","RSA","3DES"], a:2, ex:"RSA is a classic asymmetric (public-key) algorithm; the other three are symmetric." },
+    { q:"Which of these is a symmetric key algorithm?", opts:["RSA","ECC","AES","Diffie-Hellman"], a:2, ex:"AES (Advanced Encryption Standard) uses a single shared key — the current symmetric standard." },
+    { q:"The main problem that asymmetric cryptography solves, which plagues symmetric cryptography, is:", opts:["Slow speed","Secure key distribution","Data corruption","Limited storage"], a:1, ex:"Asymmetric cryptography lets the public key be shared openly, eliminating the need to secretly transmit a shared key." },
+    { q:"In HTTPS/TLS, asymmetric cryptography is used once to exchange a ______, after which ______ cryptography handles the actual data transfer.", opts:["symmetric session key; symmetric","private key; asymmetric","hash value; hashing","digital certificate; certificate-based"], a:0, ex:"This hybrid approach combines asymmetric's secure key exchange with symmetric's speed for bulk data." },
+    { q:"A digital signature is created by encrypting a message's hash with the sender's:", opts:["Public key","Private key","Session key","Symmetric key"], a:1, ex:"Signing uses the sender's private key; anyone can then verify it using the sender's public key." },
+  ];
+
+  const quizWrap = document.getElementById('quizWrap');
+  let score = 0;
+  document.getElementById('scoreTotal').textContent = quiz.length;
+
+  quiz.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-q"><span class="qn">Q${qi+1}.</span>${item.q}</div>
+      <div class="quiz-opts">
+        ${item.opts.map((o,i) => `<button class="quiz-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explain"></div>
+    `;
+    quizWrap.appendChild(card);
+
+    const buttons = card.querySelectorAll('.quiz-opt');
+    const explain = card.querySelector('.quiz-explain');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(card.dataset.answered) return;
+        card.dataset.answered = 'true';
+        const chosen = parseInt(btn.dataset.i);
+        buttons.forEach(b => b.disabled = true);
+        if(chosen === item.a){ btn.classList.add('correct'); score++; }
+        else { btn.classList.add('incorrect'); buttons[item.a].classList.add('correct'); }
+        explain.textContent = item.ex;
+        explain.classList.add('show');
+        document.getElementById('scoreVal').textContent = score;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Programming, OOPs &amp; Web Dev — IBPS/SBI SO IT Officer Quiz</title>
+<style>
+  :root{
+    --bg:#0f1729;
+    --panel:#141d35;
+    --panel2:#1a2544;
+    --border:#2a3660;
+    --text:#e8ecf7;
+    --muted:#8b95b8;
+    --accent:#4f6df5;
+    --accent2:#7c8ff9;
+    --green:#22b876;
+    --red:#e5484d;
+    --amber:#e5a12b;
+    --purple:#9b6bf2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .topbar .title{font-size:16px;font-weight:700;letter-spacing:.3px;}
+  .topbar .title span{color:var(--accent2);}
+  .timer{background:var(--panel2);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--amber);}
+
+  #startScreen{max-width:660px;margin:50px auto;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:36px;text-align:center;}
+  #startScreen h1{font-size:22px;margin-bottom:6px;}
+  #startScreen p.sub{color:var(--muted);margin-top:0;margin-bottom:26px;}
+  .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:20px;}
+  .infoCard{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .infoCard .num{font-size:20px;font-weight:800;color:var(--accent2);}
+  .infoCard .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+  .catBreakdown{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;}
+  .catChip{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--muted);}
+  .catChip b{color:var(--text);}
+  .instructions{text-align:left;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:26px;}
+  .instructions b{color:var(--text);}
+  .legend-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0;}
+
+  button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:13px 34px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.3px;}
+  .btn-primary:hover{filter:brightness(1.08);}
+
+  #quizScreen{display:none;}
+  .quizWrap{display:flex;max-width:1200px;margin:20px auto;gap:18px;padding:0 16px;align-items:flex-start;}
+  .mainPanel{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px;min-height:420px;}
+  .qMeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .qNumBadge{background:var(--panel2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;color:var(--accent2);}
+  .catBadge{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .qStatusBadge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .qText{font-size:16px;line-height:1.6;margin:16px 0 22px;white-space:pre-wrap;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{display:flex;align-items:flex-start;gap:12px;background:var(--panel2);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;transition:.15s;}
+  .option:hover{border-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:rgba(79,109,245,.14);}
+  .option input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+  .option label{cursor:pointer;flex:1;line-height:1.5;font-size:14.5px;}
+  .optLetter{font-weight:800;color:var(--accent2);margin-right:4px;}
+
+  .actionRow{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+  .leftActions,.rightActions{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{padding:10px 18px;border-radius:8px;font-size:13.5px;font-weight:700;background:var(--panel2);color:var(--text);border:1px solid var(--border);}
+  .btn:hover{border-color:var(--accent2);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn-clear{color:var(--red);}
+  .btn-mark{color:var(--purple);}
+  .btn-save{background:var(--green);color:#fff;border:none;}
+  .btn-save:hover{filter:brightness(1.08);}
+  .btn-submit{background:var(--red);color:#fff;border:none;}
+  .btn-submit:hover{filter:brightness(1.1);}
+
+  .sidePanel{width:280px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;flex-shrink:0;}
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:16px;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .qGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .qBtn{aspect-ratio:1;border-radius:7px;font-weight:700;font-size:12.5px;background:var(--panel2);border:1.5px solid var(--border);color:var(--text);}
+  .qBtn.current{outline:2px solid #fff;outline-offset:1px;}
+  .qBtn.notvisited{background:var(--panel2);color:var(--muted);}
+  .qBtn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+  .qBtn.notanswered{background:var(--red);color:#fff;border-color:var(--red);}
+  .qBtn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .qBtn.markedanswered{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:inset 0 0 0 2px var(--green);}
+  .submitBig{width:100%;margin-top:18px;padding:12px;border-radius:9px;background:var(--red);color:#fff;font-weight:800;font-size:14px;}
+  .submitBig:hover{filter:brightness(1.1);}
+
+  #resultScreen{display:none;max-width:900px;margin:30px auto;padding:0 16px;}
+  .scoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;text-align:center;margin-bottom:20px;}
+  .scoreCard h2{margin-top:0;font-size:20px;}
+  .scoreBig{font-size:44px;font-weight:800;color:var(--accent2);margin:8px 0;}
+  .statsRow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;}
+  .statBox{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .statBox .n{font-size:22px;font-weight:800;}
+  .statBox .l{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .statBox.green .n{color:var(--green);}
+  .statBox.red .n{color:var(--red);}
+  .statBox.amber .n{color:var(--amber);}
+  .statBox.grey .n{color:var(--muted);}
+
+  .catScoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:20px;}
+  .catScoreCard h3{margin-top:0;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+  .catRow{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .catRow .catName{width:150px;font-size:13px;font-weight:700;flex-shrink:0;}
+  .catBarBg{flex:1;height:10px;background:var(--panel2);border-radius:6px;overflow:hidden;}
+  .catBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;}
+  .catRow .catNum{width:56px;text-align:right;font-size:12.5px;color:var(--muted);flex-shrink:0;}
+
+  .reviewList{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+  .reviewItem{border-bottom:1px solid var(--border);padding:16px 0;}
+  .reviewItem:last-child{border-bottom:none;}
+  .reviewQ{font-size:14.5px;margin-bottom:10px;font-weight:600;}
+  .reviewOpt{font-size:13.5px;padding:8px 12px;border-radius:7px;margin-bottom:6px;background:var(--panel2);border:1px solid var(--border);}
+  .reviewOpt.correct{border-color:var(--green);background:rgba(34,184,118,.12);color:var(--green);}
+  .reviewOpt.wrong{border-color:var(--red);background:rgba(229,72,77,.12);color:var(--red);}
+  .tagRight{float:right;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;}
+  .tagRight.ok{background:rgba(34,184,118,.18);color:var(--green);}
+  .tagRight.no{background:rgba(229,72,77,.18);color:var(--red);}
+  .tagRight.skip{background:rgba(139,149,184,.18);color:var(--muted);}
+  .catTagSmall{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:1px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:8px;text-transform:uppercase;}
+
+  .restartBtn{display:block;margin:24px auto 10px;padding:12px 30px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:14px;}
+
+  .modalOverlay{display:none;position:fixed;inset:0;background:rgba(5,8,20,.65);z-index:1000;align-items:center;justify-content:center;}
+  .modalOverlay.show{display:flex;}
+  .modalBox{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px 28px;max-width:380px;width:90%;text-align:center;}
+  .modalBox p{font-size:14.5px;line-height:1.6;margin-bottom:22px;}
+  .modalBtns{display:flex;gap:10px;justify-content:center;}
+  .modalBtns .btn{padding:10px 22px;}
+
+  @media(max-width:860px){
+    .quizWrap{flex-direction:column;}
+    .sidePanel{width:100%;order:-1;}
+    .qGrid{grid-template-columns:repeat(8,1fr);}
+    .statsRow{grid-template-columns:repeat(2,1fr);}
+    .infoGrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">Programming, OOPs &amp; <span>Web Dev</span> — IT Officer PK Quiz</div>
+  <div class="timer" id="timerBox" style="display:none;">⏱ <span id="timerText">00:00</span></div>
+</div>
+
+<div id="startScreen">
+  <h1>Programming, OOPs &amp; Web Development</h1>
+  <p class="sub">IBPS SO / SBI SO IT Officer — Professional Knowledge Practice Set</p>
+
+  <div class="infoGrid">
+    <div class="infoCard"><div class="num">60</div><div class="lab">Total Questions</div></div>
+    <div class="infoCard"><div class="num">+1 / −0.25</div><div class="lab">Marking Scheme</div></div>
+  </div>
+
+  <div class="catBreakdown">
+    <span class="catChip"><b>20</b> Programming &amp; OOP</span>
+    <span class="catChip"><b>10</b> HTML</span>
+    <span class="catChip"><b>10</b> CSS</span>
+    <span class="catChip"><b>10</b> JavaScript</span>
+    <span class="catChip"><b>10</b> Backend</span>
+  </div>
+
+  <div class="instructions">
+    <b>Instructions:</b><br>
+    • Click <b>Start Quiz</b> to begin the timer.<br>
+    • Use <b>Save &amp; Next</b> to record your response and move on, or navigate freely using the question panel on the right.<br>
+    • Use <b>Mark for Review</b> to flag a question and revisit it later.<br>
+    • Use <b>Clear Response</b> to remove your selected answer for the current question.<br>
+    • Click <b>Submit Test</b> anytime to end the quiz and view your detailed score report with a category-wise breakdown.<br><br>
+    <b>Status legend:</b>
+    <div class="legend-row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+    <div class="legend-row"><span class="dot" style="background:var(--red)"></span> Visited, Not Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--purple)"></span> Marked for Review</div>
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quizScreen">
+  <div class="quizWrap">
+    <div class="mainPanel">
+      <div class="qMeta">
+        <div class="qNumBadge" id="qNumBadge">Question 1 / 60</div>
+        <div class="catBadge" id="catBadge">Category</div>
+        <div class="qStatusBadge" id="qStatusBadge" style="background:var(--panel2);color:var(--muted);">Not Answered</div>
+      </div>
+      <div class="qText" id="qText"></div>
+      <div class="options" id="optionsBox"></div>
+
+      <div class="actionRow">
+        <div class="leftActions">
+          <button class="btn btn-clear" onclick="clearResponse()">✕ Clear Response</button>
+          <button class="btn btn-mark" onclick="markForReview()">★ Mark for Review &amp; Next</button>
+        </div>
+        <div class="rightActions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+          <button class="btn btn-save" id="nextBtn" onclick="saveAndNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidePanel">
+      <div class="legend">
+        <div class="row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+        <div class="row"><span class="dot" style="background:var(--red)"></span> Not Answered</div>
+        <div class="row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+        <div class="row"><span class="dot" style="background:var(--purple)"></span> Marked</div>
+      </div>
+      <div class="qGrid" id="qGrid"></div>
+      <button class="submitBig" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="scoreCard">
+    <h2>Your Result</h2>
+    <div class="scoreBig" id="scoreBig">0 / 60</div>
+    <div id="scoreSub" style="color:var(--muted);font-size:13.5px;"></div>
+    <div class="statsRow">
+      <div class="statBox green"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+      <div class="statBox red"><div class="n" id="statWrong">0</div><div class="l">Incorrect</div></div>
+      <div class="statBox grey"><div class="n" id="statSkip">0</div><div class="l">Unattempted</div></div>
+      <div class="statBox amber"><div class="n" id="statNet">0</div><div class="l">Net Score</div></div>
+    </div>
+  </div>
+
+  <div class="catScoreCard">
+    <h3>Category-wise Breakdown</h3>
+    <div id="catBars"></div>
+  </div>
+
+  <div class="reviewList" id="reviewList"></div>
+
+  <button class="restartBtn" onclick="location.reload()">↻ Restart Quiz</button>
+</div>
+
+<div class="modalOverlay" id="confirmModal">
+  <div class="modalBox">
+    <p id="confirmModalText">Submit the test now?</p>
+    <div class="modalBtns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+// ===== PROGRAMMING & OOP (20) =====
+{cat:"Programming & OOP",q:"Which OOP concept allows a subclass to provide a specific implementation of a method already defined in its superclass?",opts:["Encapsulation","Abstraction","Method Overriding","Method Overloading","Aggregation"],ans:2,exp:"Overriding lets a subclass redefine a method inherited from its parent class with the same signature."},
+{cat:"Programming & OOP",q:"Which pillar of OOP restricts direct access to some of an object's components and bundles data with the methods that operate on it?",opts:["Inheritance","Encapsulation","Polymorphism","Abstraction","Composition"],ans:1,exp:"Encapsulation wraps data and methods together and controls access via access specifiers (private/protected)."},
+{cat:"Programming & OOP",q:"What is it called when two or more methods in the same class share the same name but have different parameter lists?",opts:["Overriding","Overloading","Encapsulation","Abstraction","Inheritance"],ans:1,exp:"This is compile-time (static) polymorphism, resolved based on the method signature."},
+{cat:"Programming & OOP",q:"Which type of inheritance involves a class inheriting from more than one base class simultaneously?",opts:["Single","Multilevel","Multiple","Hierarchical","Hybrid"],ans:2,exp:"Multiple inheritance means one derived class has more than one direct base class (supported in C++, not in Java classes)."},
+{cat:"Programming & OOP",q:"In Java, which keyword is used to prevent a class from being inherited by any other class?",opts:["static","private","final","protected","abstract"],ans:2,exp:"A 'final' class cannot be extended/subclassed."},
+{cat:"Programming & OOP",q:"Which access specifier makes a class member accessible only within the same class, and not even in its derived classes?",opts:["public","protected","private","default","friend"],ans:2,exp:"'private' members are accessible only inside the class in which they are declared."},
+{cat:"Programming & OOP",q:"What is the term for a special method that has the same name as its class and is invoked automatically when an object is created?",opts:["Destructor","Constructor","Accessor","Mutator","Finalizer"],ans:1,exp:"A constructor initializes an object at the time of its creation."},
+{cat:"Programming & OOP",q:"Which OOP concept involves hiding implementation details and exposing only the essential features of an object?",opts:["Encapsulation","Abstraction","Inheritance","Polymorphism","Aggregation"],ans:1,exp:"Abstraction focuses on 'what' an object does rather than 'how' it does it (e.g., abstract classes, interfaces)."},
+{cat:"Programming & OOP",q:"Which of the following is NOT one of the four main pillars of Object-Oriented Programming?",opts:["Inheritance","Polymorphism","Encapsulation","Compilation","Abstraction"],ans:3,exp:"Compilation is a language-processing step, not an OOP pillar."},
+{cat:"Programming & OOP",q:"What is the time complexity of binary search on a sorted array of n elements?",opts:["O(n)","O(n²)","O(log n)","O(n log n)","O(1)"],ans:2,exp:"Binary search halves the search space every step, giving logarithmic time complexity."},
+{cat:"Programming & OOP",q:"Which sorting algorithm generally has the best average-case time complexity among Bubble Sort, Selection Sort, and Merge Sort?",opts:["Bubble Sort","Selection Sort","Merge Sort","All are equal","None of these"],ans:2,exp:"Merge Sort runs in O(n log n) average case, better than Bubble/Selection Sort's O(n²)."},
+{cat:"Programming & OOP",q:"In C, which operator is used to access the value stored at the address held by a pointer variable?",opts:["&","*","->","."," %"],ans:1,exp:"The '*' (dereference) operator accesses the value pointed to by a pointer."},
+{cat:"Programming & OOP",q:"Which data structure follows the LIFO (Last In, First Out) principle?",opts:["Queue","Stack","Linked List","Array","Tree"],ans:1,exp:"A Stack allows insertion and removal only from one end (the top), following LIFO order."},
+{cat:"Programming & OOP",q:"What is the term for a function that calls itself, either directly or indirectly, to solve a problem?",opts:["Iteration","Recursion","Looping","Nesting","Overloading"],ans:1,exp:"Recursion breaks a problem into smaller sub-problems of the same type, solved via repeated self-calls."},
+{cat:"Programming & OOP",q:"In object-oriented programming, which relationship represents a 'has-a' association between two classes?",opts:["Inheritance","Composition","Overriding","Polymorphism","Abstraction"],ans:1,exp:"Composition models a 'has-a' relationship, e.g., a Car 'has-a' Engine, as opposed to inheritance's 'is-a' relationship."},
+{cat:"Programming & OOP",q:"Which of the following is an example of compile-time (static) polymorphism?",opts:["Method Overriding","Method Overloading","Virtual Functions","Dynamic Binding","Late Binding"],ans:1,exp:"Overloading is resolved at compile time based on the method signature; overriding/virtual functions are runtime (dynamic) polymorphism."},
+{cat:"Programming & OOP",q:"The space complexity of an algorithm is primarily concerned with which of the following?",opts:["Time taken to execute","Amount of memory used","Number of lines of code","CPU clock cycles","Number of variables declared"],ans:1,exp:"Space complexity measures the total memory an algorithm needs relative to its input size."},
+{cat:"Programming & OOP",q:"Which keyword in Java (or C++) is used to explicitly call the parent class's constructor from within a child class?",opts:["this","super","base","parent","extends"],ans:1,exp:"'super' refers to the immediate parent class and is used to invoke its constructor or methods."},
+{cat:"Programming & OOP",q:"What is an abstract class?",opts:["A class that cannot have any methods at all","A class that cannot be instantiated directly and may contain abstract methods","A class with only static methods","A class used only for defining interfaces","A class that has no constructor"],ans:1,exp:"Abstract classes act as blueprints — they cannot be instantiated and may include unimplemented (abstract) methods that subclasses must define."},
+{cat:"Programming & OOP",q:"Which of the following best defines 'polymorphism' in OOP?",opts:["Ability of a class to hide its internal data","Ability of an object/method to take many forms depending on context","Ability to inherit from multiple classes only","Ability to overload constructors exclusively","Ability to create multiple objects of a class"],ans:1,exp:"Polymorphism allows the same interface (method/operator) to behave differently based on the object or arguments involved."},
+
+// ===== HTML (10) =====
+{cat:"HTML",q:"Which HTML tag is used to define an internal (embedded) style sheet within an HTML document?",opts:["<css>","<script>","<style>","<link>","<format>"],ans:2,exp:"The <style> tag is placed in the <head> to define CSS rules directly inside the HTML document."},
+{cat:"HTML",q:"Which attribute is used to make an HTML form input field mandatory before submission?",opts:["mandatory","required","validate","must","essential"],ans:1,exp:"The 'required' attribute forces the browser to prevent form submission until that field is filled."},
+{cat:"HTML",q:"Which HTML5 element is used to draw graphics dynamically via scripting (typically JavaScript)?",opts:["<graphic>","<canvas>","<svg-draw>","<drawing>","<figure>"],ans:1,exp:"<canvas> provides a drawable region controlled entirely through JavaScript (e.g., the Canvas API)."},
+{cat:"HTML",q:"Which tag is used to create a numbered (ordered) list in HTML?",opts:["<ul>","<ol>","<dl>","<list>","<nl>"],ans:1,exp:"<ol> creates an ordered (numbered) list, while <ul> creates an unordered (bulleted) list."},
+{cat:"HTML",q:"Which HTML5 semantic tag is used to define independent, self-contained content that could stand alone (e.g., a blog post)?",opts:["<section>","<article>","<aside>","<div>","<main>"],ans:1,exp:"<article> represents self-contained, independently distributable content, unlike the generic <div> or <section>."},
+{cat:"HTML",q:"What is the correct HTML element for inserting a line break within text?",opts:["<break>","<lb>","<br>","<newline>","<line>"],ans:2,exp:"<br> is a self-closing void element used to force a line break without starting a new paragraph."},
+{cat:"HTML",q:"Which attribute specifies alternate text for an image if it cannot be displayed?",opts:["title","alt","src","longdesc","caption"],ans:1,exp:"'alt' text is also important for accessibility (screen readers) and SEO, not just fallback display."},
+{cat:"HTML",q:"Which HTML5 input type restricts user entry to numeric values only, along with providing increment/decrement controls?",opts:["text","numeric","number","digit","int"],ans:2,exp:"type=\"number\" restricts input to numeric values and typically shows spinner controls in browsers."},
+{cat:"HTML",q:"Which HTML tag is used to embed a video file directly, without needing third-party plugins (HTML5 native support)?",opts:["<media>","<video>","<embed>","<object>","<film>"],ans:1,exp:"The <video> tag provides native browser support for embedding and controlling video playback."},
+{cat:"HTML",q:"What does the attribute target=\"_blank\" do when used in an anchor (<a>) tag?",opts:["Opens the link in the same window","Opens the link in a new window or tab","Disables the hyperlink","Forces the linked file to download","Makes the link invisible"],ans:1,exp:"target=\"_blank\" instructs the browser to open the linked document in a new browsing context (tab/window)."},
+
+// ===== CSS (10) =====
+{cat:"CSS",q:"Which CSS property is used to change the text color of an element?",opts:["font-color","text-color","color","background-color","fg-color"],ans:2,exp:"The 'color' property sets the foreground (text) color of an element."},
+{cat:"CSS",q:"Which CSS positioning value removes an element from the normal document flow and positions it relative to its nearest positioned ancestor?",opts:["static","relative","absolute","inherit","initial"],ans:2,exp:"'absolute' positioning removes the element from normal flow, positioning it relative to the nearest ancestor with position other than static."},
+{cat:"CSS",q:"Which of the following is NOT part of the CSS Box Model?",opts:["Margin","Border","Padding","Content","Position"],ans:4,exp:"The Box Model consists of Content, Padding, Border, and Margin — 'Position' is a separate CSS property, not part of the box model itself."},
+{cat:"CSS",q:"Which CSS property is used to make text appear bold?",opts:["font-style","text-decoration","font-weight","text-style","font-bold"],ans:2,exp:"'font-weight' controls the thickness/boldness of text (e.g., font-weight: bold or 700)."},
+{cat:"CSS",q:"In CSS Flexbox, which property is used to define the direction of the main axis (row or column)?",opts:["flex-flow","flex-direction","justify-content","align-items","flex-wrap"],ans:1,exp:"'flex-direction' sets whether flex items are laid out in a row or column, forming the container's main axis."},
+{cat:"CSS",q:"Which CSS selector is used to select an HTML element based on its unique id attribute?",opts:[".id",  "#id","*id","@id","id{}"],ans:1,exp:"The '#' symbol is used to select elements by id, e.g., #header selects the element with id=\"header\"."},
+{cat:"CSS",q:"Which value of the CSS 'display' property removes an element completely from the page, without reserving any space for it?",opts:["hidden","invisible","none","collapse","inline"],ans:2,exp:"display: none removes the element entirely from the rendered layout, unlike visibility: hidden which still occupies space."},
+{cat:"CSS",q:"Responsive web design primarily relies on which CSS feature to adapt layouts to different screen sizes?",opts:["JavaScript alerts","Media queries","Cookies","Server-side scripting","XML"],ans:1,exp:"Media queries apply different CSS rules based on device characteristics like screen width, enabling responsive layouts."},
+{cat:"CSS",q:"Which CSS property is used to create space between an element's border and its content?",opts:["margin","padding","spacing","border-space","gap"],ans:1,exp:"'padding' adds internal spacing between the content and the border, while 'margin' adds external spacing outside the border."},
+{cat:"CSS",q:"In CSS Grid layout, which property defines the number and size of columns in a grid container?",opts:["grid-template-rows","grid-template-columns","grid-column","grid-area","grid-gap"],ans:1,exp:"'grid-template-columns' explicitly defines the column tracks (their number and sizing) of a grid container."},
+
+// ===== JAVASCRIPT (10) =====
+{cat:"JavaScript",q:"Which keyword is used in modern JavaScript (ES6+) to declare a variable that cannot be reassigned after initialization?",opts:["var","let","const","static","final"],ans:2,exp:"'const' creates a binding that cannot be reassigned (though objects/arrays it references can still be mutated)."},
+{cat:"JavaScript",q:"What does typeof NaN return in JavaScript?",opts:["\"NaN\"","\"undefined\"","\"number\"","\"object\"","\"string\""],ans:2,exp:"NaN (Not-a-Number) is, perhaps counterintuitively, of type 'number' in JavaScript."},
+{cat:"JavaScript",q:"Which method is used to convert a JSON string into a JavaScript object?",opts:["JSON.stringify()","JSON.parse()","JSON.convert()","Object.parse()","eval()"],ans:1,exp:"JSON.parse() converts a JSON-formatted string into a native JavaScript object; JSON.stringify() does the reverse."},
+{cat:"JavaScript",q:"Which of the following correctly adds an element to the END of an array in JavaScript?",opts:["array.push()","array.pop()","array.shift()","array.unshift()","array.remove()"],ans:0,exp:"push() adds to the end; pop() removes from the end; shift()/unshift() operate on the beginning of the array."},
+{cat:"JavaScript",q:"What is the output of console.log(2 + \"2\") in JavaScript?",opts:["4","\"22\"","NaN","Error","undefined"],ans:1,exp:"The '+' operator triggers string concatenation when one operand is a string, so 2 is coerced to \"2\", giving \"22\"."},
+{cat:"JavaScript",q:"Which JavaScript method is used to select an HTML element using its id attribute?",opts:["getElementById()","querySelectorId()","getById()","selectElement()","findById()"],ans:0,exp:"document.getElementById() returns the element with the matching id, or null if none exists."},
+{cat:"JavaScript",q:"What does the '===' (strict equality) operator check in JavaScript, as opposed to '=='?",opts:["Only value equality","Only reference equality","Both value and type equality","Nothing different from ==","Only type equality"],ans:2,exp:"'===' checks both value and type without type coercion, while '==' performs type coercion before comparing."},
+{cat:"JavaScript",q:"Which of the following is used to handle asynchronous operations in modern JavaScript, typically alongside Promises?",opts:["async/await","try/catch only","for loops","switch statements","callback removal"],ans:0,exp:"async/await provides a cleaner, synchronous-looking syntax for working with Promise-based asynchronous code."},
+{cat:"JavaScript",q:"In JavaScript, what does DOM stand for?",opts:["Data Object Model","Document Object Model","Display Output Method","Document Order Model","Data Order Model"],ans:1,exp:"The DOM is a programming interface representing the HTML/XML document as a tree of objects that JavaScript can manipulate."},
+{cat:"JavaScript",q:"Which event is triggered when a user clicks a button in JavaScript?",opts:["onchange","onclick","onhover","onsubmit","onfocus"],ans:1,exp:"'onclick' fires when the user clicks the element it's attached to."},
+
+// ===== BACKEND (10) =====
+{cat:"Backend",q:"Which of the following is a server-side scripting language commonly used with MySQL for dynamic web pages?",opts:["HTML","CSS","PHP","JSON","XML"],ans:2,exp:"PHP is a widely used server-side scripting language, often paired with MySQL in the LAMP stack."},
+{cat:"Backend",q:"What does REST stand for in the context of web APIs?",opts:["Remote End State Transfer","Representational State Transfer","Reliable Server Transfer","Rapid End State Transaction","Request State Transfer"],ans:1,exp:"REST (Representational State Transfer) is an architectural style for designing networked/web APIs, typically over HTTP."},
+{cat:"Backend",q:"Which HTTP method is typically used to submit data to be processed by a server, often creating a new resource/record?",opts:["GET","POST","HEAD","OPTIONS","TRACE"],ans:1,exp:"POST sends data in the request body to create or process a resource, unlike GET which only retrieves data."},
+{cat:"Backend",q:"Which of the following is a widely used open-source web server software?",opts:["MySQL","Apache","Node","Redis","Git"],ans:1,exp:"Apache HTTP Server is one of the most widely used web server software programs, alongside Nginx and IIS."},
+{cat:"Backend",q:"What is the default port number used for unencrypted HTTP traffic?",opts:["21","443","80","8080","25"],ans:2,exp:"Port 80 is the default for HTTP; port 443 is the default for HTTPS (secure/encrypted)."},
+{cat:"Backend",q:"In a typical client-server web architecture, what is the primary role of the backend?",opts:["Rendering the visual layout in the browser","Handling business logic, database interaction, and server-side processing","Styling web pages with CSS","Managing browser cookies only","Displaying images to the user"],ans:1,exp:"The backend handles server-side logic, database operations, authentication, and API responses — the frontend handles presentation."},
+{cat:"Backend",q:"Which of the following is a popular JavaScript runtime environment used for server-side (backend) development?",opts:["jQuery","Node.js","Bootstrap","AngularJS","React"],ans:1,exp:"Node.js allows JavaScript to run outside the browser, commonly used to build backend servers and APIs."},
+{cat:"Backend",q:"What is the primary purpose of a 'session' in web applications?",opts:["To style the webpage","To store user-specific data on the server across multiple requests","To compile JavaScript code","To render HTML faster","To encrypt CSS files"],ans:1,exp:"Sessions let a server remember information about a user (like login state) across multiple HTTP requests, since HTTP itself is stateless."},
+{cat:"Backend",q:"Which HTTP status code indicates that a requested resource could not be found on the server?",opts:["200","301","404","500","403"],ans:2,exp:"404 Not Found is returned when the server cannot locate the requested resource; 200 is success, 500 is server error, 403 is forbidden."},
+{cat:"Backend",q:"Which of the following best describes an API (Application Programming Interface) in web development?",opts:["A styling framework for webpages","A set of rules/protocols that allows different software applications to communicate with each other","A database management tool","A type of web browser","A programming language"],ans:1,exp:"An API defines how software components should interact — e.g., how a frontend requests and receives data from a backend server."}
+];
+
+const N = questions.length;
+let current = 0;
+let responses = new Array(N).fill(null);
+let visited = new Array(N).fill(false);
+let marked = new Array(N).fill(false);
+let timerInterval, seconds = 0;
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerBox').style.display='inline-block';
+  buildGrid();
+  renderQuestion();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerText').textContent = m+':'+s;
+  },1000);
+}
+
+function buildGrid(){
+  const grid = document.getElementById('qGrid');
+  grid.innerHTML='';
+  for(let i=0;i<N;i++){
+    const b = document.createElement('button');
+    b.className='qBtn notvisited';
+    b.id='qBtn'+i;
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(); };
+    grid.appendChild(b);
+  }
+}
+
+function updateGridStatus(){
+  for(let i=0;i<N;i++){
+    const b = document.getElementById('qBtn'+i);
+    b.classList.remove('current','notvisited','answered','notanswered','marked','markedanswered');
+    let cls='notvisited';
+    if(marked[i] && responses[i]!==null) cls='markedanswered';
+    else if(marked[i]) cls='marked';
+    else if(responses[i]!==null) cls='answered';
+    else if(visited[i]) cls='notanswered';
+    b.classList.add(cls);
+    if(i===current) b.classList.add('current');
+  }
+}
+
+function renderQuestion(){
+  visited[current]=true;
+  const q = questions[current];
+  document.getElementById('qNumBadge').textContent = `Question ${current+1} / ${N}`;
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('qText').textContent = q.q;
+
+  const statusBadge = document.getElementById('qStatusBadge');
+  if(responses[current]!==null){
+    statusBadge.textContent='Answered';
+    statusBadge.style.background='rgba(34,184,118,.18)';
+    statusBadge.style.color='var(--green)';
+  } else {
+    statusBadge.textContent='Not Answered';
+    statusBadge.style.background='rgba(229,72,77,.18)';
+    statusBadge.style.color='var(--red)';
+  }
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((opt,idx)=>{
+    const div = document.createElement('div');
+    div.className='option'+(responses[current]===idx?' selected':'');
+    div.onclick = ()=>selectOption(idx);
+    div.innerHTML = `<input type="radio" name="opt" ${responses[current]===idx?'checked':''} onclick="selectOption(${idx})">
+      <label><span class="optLetter">${letters[idx]}.</span> ${escapeHtml(opt)}</label>`;
+    box.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').textContent = current===N-1 ? 'Save' : 'Save & Next →';
+
+  updateGridStatus();
+}
+
+function selectOption(idx){
+  responses[current]=idx;
+  renderQuestion();
+}
+
+function clearResponse(){
+  responses[current]=null;
+  renderQuestion();
+}
+
+function markForReview(){
+  marked[current]=true;
+  goNext();
+}
+
+function saveAndNext(){
+  goNext();
+}
+
+function goNext(){
+  if(current<N-1){
+    current++;
+    renderQuestion();
+  } else {
+    updateGridStatus();
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function confirmSubmit(){
+  const unanswered = responses.filter(r=>r===null).length;
+  const msg = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('confirmModalText').textContent = msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('timerBox').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skip=0;
+  const letters=['A','B','C','D','E'];
+  const catStats={};
+
+  questions.forEach((q)=>{
+    if(!catStats[q.cat]) catStats[q.cat]={correct:0,total:0};
+    catStats[q.cat].total++;
+  });
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+
+  questions.forEach((q,i)=>{
+    const userAns = responses[i];
+    let tag, tagClass;
+    if(userAns===null){ skip++; tag='SKIPPED'; tagClass='skip'; }
+    else if(userAns===q.ans){ correct++; tag='CORRECT'; tagClass='ok'; catStats[q.cat].correct++; }
+    else { wrong++; tag='INCORRECT'; tagClass='no'; }
+
+    const item = document.createElement('div');
+    item.className='reviewItem';
+    let optsHtml='';
+    q.opts.forEach((opt,idx)=>{
+      let cls='reviewOpt';
+      if(idx===q.ans) cls+=' correct';
+      else if(idx===userAns && idx!==q.ans) cls+=' wrong';
+      optsHtml += `<div class="${cls}">${letters[idx]}. ${escapeHtml(opt)}${idx===q.ans?' ✓ Correct Answer':''}${(idx===userAns && idx!==q.ans)?' ✕ Your Answer':''}</div>`;
+    });
+
+    item.innerHTML = `<div class="reviewQ"><span class="catTagSmall">${escapeHtml(q.cat)}</span>Q${i+1}. ${escapeHtml(q.q)} <span class="tagRight ${tagClass}">${tag}</span></div>${optsHtml}
+      <div style="font-size:12.5px;color:var(--muted);margin-top:8px;"><b style="color:var(--accent2);">Explanation:</b> ${escapeHtml(q.exp)}</div>`;
+    reviewList.appendChild(item);
+  });
+
+  const net = (correct*1 - wrong*0.25).toFixed(2);
+  document.getElementById('scoreBig').textContent = `${correct} / ${N}`;
+  document.getElementById('scoreSub').textContent = `Time taken: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statNet').textContent = net;
+
+  const catBars = document.getElementById('catBars');
+  catBars.innerHTML='';
+  Object.keys(catStats).forEach(cat=>{
+    const s = catStats[cat];
+    const pct = Math.round((s.correct/s.total)*100);
+    const row = document.createElement('div');
+    row.className='catRow';
+    row.innerHTML = `<div class="catName">${cat}</div>
+      <div class="catBarBg"><div class="catBarFill" style="width:${pct}%;"></div></div>
+      <div class="catNum">${s.correct}/${s.total}</div>`;
+    catBars.appendChild(row);
+  });
+
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

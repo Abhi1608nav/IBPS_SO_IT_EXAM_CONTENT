@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Computer Architecture Deep Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121320; --bg-alt:#0d0e18; --panel:#1b1d2e; --panel-alt:#232538;
+    --border:#2d3049; --border-soft:#262941;
+    --text:#e6e7f2; --text-muted:#9498b5; --text-faint:#666a8a;
+    --accent-purple:#a78bfa; --accent-blue:#5aa9f2; --accent-mint:#5fe0b3;
+    --accent-amber:#f2b35a; --accent-red:#f2685a; --accent-cyan:#4dd0e1;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--accent-cyan); color:#12121f;}
+  a{color:var(--accent-blue);}
+
+  .tabbar{position:sticky; top:0; z-index:100; display:flex; align-items:stretch; background:var(--bg-alt); border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar .brand{display:flex; align-items:center; gap:8px; padding:0 16px; font-family:var(--mono); font-weight:700; font-size:13px; color:var(--text-muted); border-right:1px solid var(--border); white-space:nowrap;}
+  .brand .dots{display:flex; gap:5px;} .brand .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.red{background:#f2685a;} .dot.amber{background:#f2b35a;} .dot.green{background:#5fe0b3;}
+  .tabbar nav{display:flex;}
+  .tabbar a.tab{font-family:var(--mono); font-size:12.5px; font-weight:500; color:var(--text-faint); padding:14px 16px; white-space:nowrap; border-right:1px solid var(--border); text-decoration:none; display:flex; align-items:center; gap:7px; transition:color .15s, background .15s;}
+  .tabbar a.tab .ext{opacity:.7;}
+  .tabbar a.tab:hover{color:var(--text); background:var(--panel);}
+  .tabbar a.tab.active{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--accent-cyan);}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px; margin-bottom:14px; color:var(--accent-cyan);}
+  .eyebrow::before{content:''; width:16px; height:1px; opacity:.6; background:var(--accent-cyan);}
+
+  h1,h2,h3,h4{font-family:var(--mono); font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:28px; margin-bottom:8px; color:#fff;}
+  h3{font-size:17.5px; margin:26px 0 10px; color:#fff;}
+  .subtitle{color:var(--text-muted); font-size:15px; max-width:660px; margin-bottom:30px;}
+  p{color:var(--text-muted); font-size:14.6px;}
+  strong{color:var(--text); font-weight:600;}
+  code, .mono{font-family:var(--mono);}
+
+  .term{background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+  .term .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .term .term-head .dot{width:10px; height:10px; border-radius:50%;}
+  .term .term-title{margin-left:8px; font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .term .term-body{padding:18px 20px; font-family:var(--mono); font-size:13px; overflow-x:auto;}
+
+  .hero{padding:64px 0 44px;}
+  .hero h1{font-size:32px; line-height:1.25; color:#fff; margin-bottom:14px;}
+  .hero h1 .hl{color:var(--accent-cyan);}
+  .hero p.lead{color:var(--text-muted); font-size:15.5px; max-width:560px;}
+  .hero-tags{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+  .tag{font-family:var(--mono); font-size:12px; padding:6px 12px; border:1px solid var(--border); border-radius:20px; color:var(--text-muted); display:flex; align-items:center; gap:6px;}
+  .tag .sw{width:8px;height:8px;border-radius:50%;}
+
+  .def-box{background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent-purple); border-radius:8px; padding:14px 18px; margin:16px 0;}
+  .def-box .lbl{font-family:var(--mono); font-size:11px; color:var(--accent-purple); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+  .def-box p{margin:0; font-size:14px; color:var(--text);}
+
+  .trap-box{background:rgba(242,104,90,.08); border:1px solid var(--border); border-left:3px solid var(--accent-red); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .trap-box strong{color:var(--accent-red);}
+
+  .tip-box{background:rgba(95,224,179,.08); border:1px solid var(--border); border-left:3px solid var(--accent-mint); border-radius:8px; padding:14px 18px; margin:16px 0; font-size:13.6px; color:var(--text-muted);}
+  .tip-box strong{color:var(--accent-mint);}
+
+  .flow-step{display:flex; gap:14px; margin-bottom:14px; align-items:flex-start;}
+  .flow-num{width:26px; height:26px; border-radius:50%; background:var(--panel-alt); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:12px; color:var(--accent-cyan); flex-shrink:0; font-weight:700;}
+  .flow-step p{margin:0; font-size:13.8px;}
+
+  .mem-hierarchy{display:flex; flex-direction:column; gap:6px; margin:20px 0;}
+  .mem-tier{display:flex; align-items:center; gap:14px; padding:12px 18px; border-radius:8px; border:1px solid var(--border); background:var(--panel);}
+  .mem-tier .bar{height:8px; border-radius:4px;}
+  .mem-tier .lbl{font-family:var(--mono); font-size:13px; color:#fff; width:150px; flex-shrink:0;}
+  .mem-tier .desc{font-size:12.5px; color:var(--text-faint); flex:1;}
+
+  .acc-item{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; background:var(--panel);}
+  .acc-head{display:flex; justify-content:space-between; align-items:center; padding:15px 20px; cursor:pointer; user-select:none;}
+  .acc-head:hover{background:var(--panel-alt);}
+  .acc-head .left{display:flex; align-items:center; gap:12px;}
+  .acc-num{font-family:var(--mono); font-size:12px; opacity:.7;}
+  .acc-title{font-family:var(--mono); font-size:14px; color:#fff; font-weight:600;}
+  .acc-arrow{color:var(--text-faint); transition:transform .2s; font-size:13px;}
+  .acc-item.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:700px;}
+  .acc-inner{padding:0 20px 20px; font-size:13.6px; color:var(--text-muted);}
+  .acc-inner ul{margin:8px 0 0 18px;}
+  .acc-inner li{margin-bottom:6px;}
+  .acc-inner code{color:var(--accent-mint); background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12.3px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.4px; margin:16px 0;}
+  th{text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--accent-purple); padding:9px 12px; border-bottom:1px solid var(--border);}
+  td{padding:10px 12px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  td.strongcell{color:var(--text);}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .reg-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;}
+  .reg-card .abbr{font-family:var(--mono); font-size:15px; color:var(--accent-cyan); font-weight:700; margin-bottom:4px;}
+  .reg-card .name{font-size:11.5px; color:var(--text-faint); margin-bottom:8px;}
+  .reg-card p{font-size:13px; margin:0;}
+
+  .pipeline-row{display:flex; gap:4px; margin:16px 0;}
+  .pipe-stage{flex:1; text-align:center; padding:12px 6px; border-radius:6px; font-family:var(--mono); font-size:12px; font-weight:700; color:#0d0e18;}
+
+  .quiz-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:14px;}
+  .quiz-q{font-size:14px; color:#fff; margin-bottom:14px; font-weight:600;}
+  .quiz-q .qn{font-family:var(--mono); margin-right:6px; color:var(--accent-cyan);}
+  .quiz-opts{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .quiz-opt{text-align:left; font-family:var(--sans); font-size:13px; background:var(--panel-alt); border:1px solid var(--border); color:var(--text-muted); padding:10px 14px; border-radius:7px; cursor:pointer; transition:all .12s;}
+  .quiz-opt:hover{border-color:var(--accent-cyan); color:var(--text);}
+  .quiz-opt.correct{background:rgba(95,224,179,.12); border-color:var(--accent-mint); color:var(--accent-mint);}
+  .quiz-opt.incorrect{background:rgba(242,104,90,.12); border-color:var(--accent-red); color:var(--accent-red);}
+  .quiz-opt[disabled]{cursor:default;}
+  .quiz-explain{display:none; margin-top:12px; font-size:12.6px; color:var(--text-muted); background:var(--bg-alt); border-left:3px solid var(--accent-mint); padding:10px 14px; border-radius:6px;}
+  .quiz-explain.show{display:block;}
+  .quiz-score{position:sticky; bottom:16px; margin-top:20px; background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:13px; color:var(--text-muted); box-shadow:0 10px 30px -10px rgba(0,0,0,.6);}
+  .quiz-score strong{color:var(--accent-mint); font-size:16px;}
+
+  footer{padding:36px 0 56px; text-align:center;}
+  footer p{font-size:12px; color:var(--text-faint); max-width:600px; margin:0 auto;}
+
+  @media (max-width:760px){
+    .grid-2, .grid-3{grid-template-columns:1fr;}
+    .quiz-opts{grid-template-columns:1fr;}
+    h2{font-size:22px;}
+    .mem-tier .lbl{width:100px; font-size:11px;}
+    .pipeline-row{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="brand">
+    <div class="dots"><div class="dot red"></div><div class="dot amber"></div><div class="dot green"></div></div>
+    <span>computer_architecture/</span>
+  </div>
+  <nav id="tabnav">
+    <a href="#cpu" class="tab active">cpu_basics<span class="ext">.txt</span></a>
+    <a href="#isa" class="tab">isa_addressing<span class="ext">.txt</span></a>
+    <a href="#memory" class="tab">memory_hierarchy<span class="ext">.txt</span></a>
+    <a href="#io" class="tab">io_pipelining<span class="ext">.txt</span></a>
+    <a href="#quiz" class="tab">practice<span class="ext">.md</span></a>
+  </nav>
+</div>
+
+<div class="wrap hero">
+  <h1>Computer Architecture — deep notes for <span class="hl">IBPS SO IT Officer</span></h1>
+  <p class="lead">Tier 1 topic — CPU components, instruction cycle &amp; registers, CISC vs RISC, addressing modes, memory hierarchy &amp; cache, I/O techniques, and pipelining. The topic most likely to show up as short numerical/definitional MCQs.</p>
+  <div class="hero-tags">
+    <span class="tag"><span class="sw" style="background:var(--accent-cyan)"></span>CPU &amp; Registers</span>
+    <span class="tag"><span class="sw" style="background:var(--accent-purple)"></span>Memory Hierarchy</span>
+    <span class="tag"><span class="sw" style="background:var(--accent-amber)"></span>Pipelining</span>
+  </div>
+</div>
+
+<!-- ===================== CPU BASICS ===================== -->
+<section id="cpu">
+  <div class="wrap">
+    <div class="eyebrow">cpu_basics.txt</div>
+    <h2>CPU Organization, Architecture &amp; Instruction Cycle</h2>
+    <p class="subtitle">The foundation everything else builds on — what's inside the CPU, how instructions actually get executed, and the registers that make it happen.</p>
+
+    <h3>Basic components</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">ALU</div><p><strong>Arithmetic Logic Unit</strong> — performs all arithmetic (add, subtract) and logical (AND, OR, NOT, comparisons) operations.</p></div>
+      <div class="def-box"><div class="lbl">CU</div><p><strong>Control Unit</strong> — directs and coordinates the operations of the entire CPU, generating control signals for fetch/decode/execute.</p></div>
+    </div>
+    <p style="margin-top:14px;"><strong>System Bus</strong> connects CPU, memory, and I/O — three distinct lines:</p>
+    <table>
+      <tr><th>Bus</th><th>Carries</th><th>Direction</th></tr>
+      <tr><td class="strongcell">Data Bus</td><td>Actual data being transferred</td><td>Bidirectional</td></tr>
+      <tr><td class="strongcell">Address Bus</td><td>Memory addresses to access</td><td>Unidirectional (CPU → memory)</td></tr>
+      <tr><td class="strongcell">Control Bus</td><td>Control signals (read/write, clock, interrupts)</td><td>Both directions</td></tr>
+    </table>
+    <div class="tip-box"><strong>Numerical trap:</strong> an <strong>n-bit address bus</strong> can directly address <strong>2ⁿ</strong> memory locations. A 32-bit address bus → 2³² = 4 GB of addressable memory — a very frequently recycled question.</div>
+
+    <h3>Von Neumann vs Harvard architecture</h3>
+    <table>
+      <tr><th>Feature</th><th>Von Neumann</th><th>Harvard</th></tr>
+      <tr><td class="strongcell">Memory</td><td>Single shared memory for instructions + data</td><td>Separate memory for instructions and data</td></tr>
+      <tr><td class="strongcell">Bus</td><td>Single shared bus</td><td>Separate buses — parallel access possible</td></tr>
+      <tr><td class="strongcell">Bottleneck</td><td>Can't fetch instruction and access data at the same time (the "Von Neumann bottleneck")</td><td>No such bottleneck — faster</td></tr>
+      <tr><td class="strongcell">Complexity</td><td>Simpler, cheaper</td><td>More complex, costlier</td></tr>
+    </table>
+
+    <h3>The Instruction Cycle</h3>
+    <div class="term">
+      <div class="term-head"><div class="dot" style="background:var(--accent-cyan)"></div><div class="term-title">instruction_cycle.txt</div></div>
+      <div class="term-body">
+        <div class="flow-step"><div class="flow-num">1</div><p><strong>Fetch</strong> — the instruction at the address held in PC is fetched from memory into the IR; the PC is then incremented to point to the next instruction.</p></div>
+        <div class="flow-step"><div class="flow-num">2</div><p><strong>Decode</strong> — the Control Unit decodes the instruction in IR to determine the operation and the operands involved.</p></div>
+        <div class="flow-step"><div class="flow-num">3</div><p><strong>Execute</strong> — the ALU (or relevant unit) actually performs the operation.</p></div>
+        <div class="flow-step"><div class="flow-num">4</div><p><strong>Store</strong> — the result, if any, is written back to a register or memory.</p></div>
+      </div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> the PC is incremented during the <strong>Fetch</strong> step — before execution even happens — not after Execute. This trips up a lot of "what happens when" questions.</div>
+
+    <h3>Key registers</h3>
+    <div class="grid-3">
+      <div class="reg-card"><div class="abbr">PC</div><div class="name">Program Counter</div><p>Holds the address of the next instruction to fetch.</p></div>
+      <div class="reg-card"><div class="abbr">IR</div><div class="name">Instruction Register</div><p>Holds the instruction currently being decoded/executed.</p></div>
+      <div class="reg-card"><div class="abbr">MAR</div><div class="name">Memory Address Register</div><p>Holds the address of the memory location about to be accessed.</p></div>
+      <div class="reg-card"><div class="abbr">MDR</div><div class="name">Memory Data Register</div><p>Holds data being transferred to or from memory (also called MBR).</p></div>
+      <div class="reg-card"><div class="abbr">ACC</div><div class="name">Accumulator</div><p>Stores intermediate results of arithmetic/logic operations.</p></div>
+      <div class="reg-card"><div class="abbr">SP</div><div class="name">Stack Pointer</div><p>Points to the top of the stack — critical for function calls/returns.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ISA + ADDRESSING ===================== -->
+<section id="isa">
+  <div class="wrap">
+    <div class="eyebrow">isa_addressing.txt</div>
+    <h2>Instruction Set Architecture &amp; Addressing Modes</h2>
+    <p class="subtitle">How a CPU's instruction set is designed, and how instructions locate their operands.</p>
+
+    <h3>CISC vs RISC</h3>
+    <table>
+      <tr><th>Feature</th><th>CISC</th><th>RISC</th></tr>
+      <tr><td class="strongcell">Instruction set</td><td>Large, complex, variable-length</td><td>Small, simple, fixed-length</td></tr>
+      <tr><td class="strongcell">Execution</td><td>Instructions can take multiple cycles</td><td>Mostly single-cycle execution</td></tr>
+      <tr><td class="strongcell">Memory access</td><td>Instructions can directly access memory</td><td>Load/Store architecture — only Load/Store instructions touch memory; the rest operate on registers</td></tr>
+      <tr><td class="strongcell">Control unit</td><td>Complex, often microcoded</td><td>Simpler, hardwired control</td></tr>
+      <tr><td class="strongcell">Compiler role</td><td>Simpler compiler — hardware does more</td><td>Compiler does more optimisation work</td></tr>
+      <tr><td class="strongcell">Examples</td><td>x86 (Intel, AMD)</td><td>ARM, MIPS, RISC-V</td></tr>
+    </table>
+
+    <h3>Addressing modes</h3>
+    <div class="acc-item open">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">All addressing modes to know</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ul>
+          <li><strong>Immediate</strong> — the operand value is embedded directly in the instruction itself. Fastest — no memory access needed to fetch the operand.</li>
+          <li><strong>Direct</strong> — the instruction contains the actual memory address of the operand.</li>
+          <li><strong>Indirect</strong> — the instruction contains the address of a memory location that itself holds the address of the operand ("address of an address"). Slowest — needs two memory references.</li>
+          <li><strong>Register</strong> — the operand sits directly in a CPU register.</li>
+          <li><strong>Register Indirect</strong> — a register holds the address of the operand (in memory).</li>
+          <li><strong>Indexed</strong> — effective address = base address + index register value; ideal for stepping through arrays.</li>
+          <li><strong>Base Register</strong> — effective address = base register value + offset.</li>
+          <li><strong>Relative</strong> — effective address = Program Counter + offset; the standard mode for branch/jump instructions.</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> Immediate addressing is the <strong>fastest</strong> (zero extra memory accesses); Indirect addressing is the <strong>slowest</strong> (needs an extra memory access just to resolve the operand's address). This speed ranking gets tested directly.</div>
+  </div>
+</section>
+
+<!-- ===================== MEMORY HIERARCHY ===================== -->
+<section id="memory">
+  <div class="wrap">
+    <div class="eyebrow">memory_hierarchy.txt</div>
+    <h2>Memory Hierarchy &amp; Cache</h2>
+    <p class="subtitle">Why computers use several layers of memory instead of just one — and how cache bridges the speed gap.</p>
+
+    <h3>The hierarchy</h3>
+    <div class="mem-hierarchy">
+      <div class="mem-tier"><div class="lbl">Registers</div><div class="bar" style="width:20%; background:var(--accent-cyan);"></div><div class="desc">Fastest, smallest, most expensive per byte</div></div>
+      <div class="mem-tier"><div class="lbl">Cache (L1/L2/L3)</div><div class="bar" style="width:35%; background:var(--accent-blue);"></div><div class="desc">Very fast, small, bridges CPU–RAM speed gap</div></div>
+      <div class="mem-tier"><div class="lbl">Main Memory (RAM)</div><div class="bar" style="width:55%; background:var(--accent-purple);"></div><div class="desc">Moderate speed, moderate cost, volatile</div></div>
+      <div class="mem-tier"><div class="lbl">Secondary Storage</div><div class="bar" style="width:80%; background:var(--accent-amber);"></div><div class="desc">SSD/HDD — slow, large, cheap, non-volatile</div></div>
+      <div class="mem-tier"><div class="lbl">Tertiary / Backup</div><div class="bar" style="width:100%; background:var(--accent-red);"></div><div class="desc">Slowest, largest, cheapest — tapes, archives</div></div>
+    </div>
+    <p>As you move down: <strong>speed decreases</strong>, <strong>capacity increases</strong>, and <strong>cost per byte decreases</strong>.</p>
+
+    <h3>Cache memory &amp; Locality of Reference</h3>
+    <div class="def-box"><div class="lbl">Why cache works</div><p>Cache exploits <strong>Locality of Reference</strong> — programs tend to access a small set of memory locations repeatedly over short periods.</p></div>
+    <div class="grid-2">
+      <div class="reg-card"><div class="abbr">Temporal</div><div class="name">Locality</div><p>Recently accessed data is likely to be accessed again soon.</p></div>
+      <div class="reg-card"><div class="abbr">Spatial</div><div class="name">Locality</div><p>Data near recently accessed data is likely to be accessed soon too.</p></div>
+    </div>
+
+    <h3>Cache mapping techniques</h3>
+    <table>
+      <tr><th>Technique</th><th>How it works</th><th>Trade-off</th></tr>
+      <tr><td class="strongcell">Direct Mapping</td><td>Each memory block maps to exactly one specific cache line</td><td>Simple &amp; fast, but more conflict misses</td></tr>
+      <tr><td class="strongcell">Fully Associative</td><td>A memory block can go into any cache line</td><td>Fewer conflicts, but expensive/slower to search</td></tr>
+      <tr><td class="strongcell">Set-Associative</td><td>Cache divided into sets; a block maps to one set but can sit anywhere within it</td><td>A practical middle ground — most real CPUs use this</td></tr>
+    </table>
+
+    <h3>Cache write policies</h3>
+    <table>
+      <tr><th>Policy</th><th>Behaviour</th></tr>
+      <tr><td class="strongcell">Write-through</td><td>Every write updates both cache and main memory simultaneously — consistent, but slower</td></tr>
+      <tr><td class="strongcell">Write-back</td><td>Writes update only the cache; main memory is updated later when the block is evicted — faster, but risks inconsistency on a crash</td></tr>
+    </table>
+
+    <h3>RAM vs ROM types</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">SRAM</div><p>Static RAM — uses flip-flops, faster, more expensive, needs no periodic refresh. Used for <strong>cache</strong>.</p></div>
+      <div class="def-box"><div class="lbl">DRAM</div><p>Dynamic RAM — uses capacitors, cheaper, slower, needs periodic refreshing. Used for <strong>main memory</strong>.</p></div>
+    </div>
+    <table>
+      <tr><th>ROM type</th><th>Behaviour</th></tr>
+      <tr><td class="strongcell">PROM</td><td>Programmable once, cannot be changed afterward</td></tr>
+      <tr><td class="strongcell">EPROM</td><td>Erasable using ultraviolet light, then reprogrammable</td></tr>
+      <tr><td class="strongcell">EEPROM</td><td>Electrically erasable and reprogrammable — the basis of modern flash memory</td></tr>
+    </table>
+
+    <h3>Virtual Memory</h3>
+    <p>A technique that uses secondary storage to give programs the illusion of more main memory than physically exists — implemented via paging/segmentation, allowing programs larger than physical RAM to run.</p>
+  </div>
+</section>
+
+<!-- ===================== I/O + PIPELINING ===================== -->
+<section id="io">
+  <div class="wrap">
+    <div class="eyebrow">io_pipelining.txt</div>
+    <h2>I/O Organization &amp; Pipelining</h2>
+    <p class="subtitle">How the CPU talks to the outside world, and how it executes more than one instruction "at once".</p>
+
+    <h3>I/O techniques</h3>
+    <table>
+      <tr><th>Technique</th><th>How it works</th><th>Trade-off</th></tr>
+      <tr><td class="strongcell">Programmed I/O</td><td>CPU repeatedly checks (polls) device status in a busy-wait loop</td><td>Simple, but wastes CPU cycles</td></tr>
+      <tr><td class="strongcell">Interrupt-driven I/O</td><td>Device signals the CPU via an interrupt only when it's ready</td><td>CPU is free to do other work meanwhile — more efficient</td></tr>
+      <tr><td class="strongcell">DMA</td><td>A dedicated DMA controller transfers data directly between device and memory</td><td>CPU is involved only at the start/end — fastest, minimal CPU overhead</td></tr>
+    </table>
+
+    <h3>Pipelining</h3>
+    <div class="def-box"><div class="lbl">Concept</div><p>Overlaps execution of multiple instructions — like an assembly line, different stages of different instructions run simultaneously to improve throughput.</p></div>
+    <p>Classic 5-stage instruction pipeline:</p>
+    <div class="pipeline-row">
+      <div class="pipe-stage" style="background:var(--accent-cyan);">IF</div>
+      <div class="pipe-stage" style="background:var(--accent-blue);">ID</div>
+      <div class="pipe-stage" style="background:var(--accent-purple);">EX</div>
+      <div class="pipe-stage" style="background:var(--accent-amber);">MEM</div>
+      <div class="pipe-stage" style="background:var(--accent-mint);">WB</div>
+    </div>
+    <p style="text-align:center; font-size:12.5px; color:var(--text-faint); margin-top:-8px;">Instruction Fetch → Instruction Decode → Execute → Memory Access → Write Back</p>
+
+    <h3>Pipeline hazards</h3>
+    <table>
+      <tr><th>Hazard</th><th>Cause</th></tr>
+      <tr><td class="strongcell">Structural Hazard</td><td>Two instructions need the same hardware resource at the same time (e.g. one memory unit for both instructions and data)</td></tr>
+      <tr><td class="strongcell">Data Hazard</td><td>An instruction depends on the result of a previous instruction that hasn't completed yet</td></tr>
+      <tr><td class="strongcell">Control Hazard</td><td>Caused by branch instructions — the pipeline doesn't know which instruction to fetch next until the branch is resolved</td></tr>
+    </table>
+    <div class="tip-box"><strong>Quick recall:</strong> Structural = hardware resource clash. Data = waiting on a previous result. Control = branching uncertainty. If a question mentions "branch" or "jump", it's a control hazard.</div>
+  </div>
+</section>
+
+<!-- ===================== QUIZ ===================== -->
+<section id="quiz">
+  <div class="wrap">
+    <div class="eyebrow">practice.md</div>
+    <h2>Practice set — 40 questions</h2>
+    <p class="subtitle">Covering CPU basics, instruction cycle, registers, CISC/RISC, addressing modes, memory hierarchy, cache, I/O, and pipelining. Click an option to check.</p>
+    <div id="quizWrap"></div>
+    <div class="quiz-score"><span>Score</span><span><strong id="scoreVal">0</strong> / <span id="scoreTotal">40</span></span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Covers standard Computer Organization &amp; Architecture fundamentals as tested in IBPS SO IT Officer's Professional Knowledge paper. Always cross-check exact weightage against the current-year official notification.</p>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('#tabnav .tab');
+  const sections = Array.from(tabs).map(t => document.querySelector(t.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
+  });
+
+  const quiz = [
+    { q:"Which CPU unit performs arithmetic and logical operations?", opts:["Control Unit","ALU","Cache","MAR"], a:1, ex:"The Arithmetic Logic Unit (ALU) executes all arithmetic and logical computations." },
+    { q:"Which unit directs and coordinates all operations of the CPU?", opts:["ALU","Control Unit (CU)","Accumulator","Bus"], a:1, ex:"The Control Unit generates the signals that direct fetch, decode, and execute." },
+    { q:"In Von Neumann architecture, instructions and data:", opts:["Use completely separate memories","Share the same memory and bus","Are stored only in cache","Never coexist in memory"], a:1, ex:"Von Neumann architecture uses a single shared memory and bus for both instructions and data." },
+    { q:"Which architecture uses separate memory and buses for instructions and data?", opts:["Von Neumann","Harvard","RISC","CISC"], a:1, ex:"Harvard architecture separates instruction and data pathways, allowing parallel access." },
+    { q:"The limitation where a CPU can't fetch an instruction and access data simultaneously (shared bus) is called:", opts:["Pipeline hazard","Von Neumann bottleneck","Cache miss","Deadlock"], a:1, ex:"This shared-resource limitation of Von Neumann architecture is known as the Von Neumann bottleneck." },
+    { q:"Which bus carries actual data and is bidirectional?", opts:["Address bus","Control bus","Data bus","Clock bus"], a:2, ex:"The data bus physically carries data and works in both directions." },
+    { q:"Which bus is unidirectional, carrying memory addresses from CPU to memory?", opts:["Data bus","Address bus","Control bus","I/O bus"], a:1, ex:"The address bus only carries addresses outward from the CPU to memory/devices." },
+    { q:"A system with a 32-bit address bus can directly address how much memory?", opts:["32 MB","2 GB","4 GB","32 GB"], a:2, ex:"An n-bit address bus addresses 2ⁿ locations; 2³² bytes = 4 GB." },
+    { q:"In the instruction cycle, which step happens first?", opts:["Execute","Decode","Fetch","Store"], a:2, ex:"Fetch retrieves the instruction from memory before it can be decoded or executed." },
+    { q:"During the Fetch step, what happens to the Program Counter?", opts:["It resets to zero","It's incremented to point to the next instruction","It's decremented","It's copied into MAR permanently"], a:1, ex:"PC is incremented right after fetching, before the instruction is even decoded." },
+    { q:"Which register holds the address of the next instruction to be executed?", opts:["IR","MDR","PC","Accumulator"], a:2, ex:"The Program Counter (PC) always points to the next instruction to fetch." },
+    { q:"Which register holds the instruction currently being decoded/executed?", opts:["PC","IR","MAR","SP"], a:1, ex:"The Instruction Register (IR) holds the instruction fetched from memory for decoding." },
+    { q:"Which register holds the address of a memory location about to be accessed?", opts:["MDR","MAR","ACC","IR"], a:1, ex:"The Memory Address Register (MAR) holds the address, while MDR holds the actual data." },
+    { q:"Which register stores intermediate results of arithmetic/logic operations?", opts:["Stack Pointer","Accumulator","MAR","PC"], a:1, ex:"The Accumulator is used to hold intermediate results during ALU operations." },
+    { q:"Which register points to the top of the stack, critical for function calls and returns?", opts:["PC","MAR","Stack Pointer (SP)","IR"], a:2, ex:"The Stack Pointer tracks the current top of the call stack." },
+    { q:"Which type of instruction set architecture uses a large number of complex, variable-length instructions?", opts:["RISC","CISC","Hybrid","Load/Store"], a:1, ex:"CISC (Complex Instruction Set Computer) favours a rich, variable-length instruction set." },
+    { q:"Which type of instruction set architecture follows a Load/Store model with simple, fixed-length instructions?", opts:["CISC","RISC","Microcoded","Segmented"], a:1, ex:"RISC (Reduced Instruction Set Computer) keeps instructions simple, uniform, and mostly single-cycle." },
+    { q:"Which of these is a classic example of RISC architecture?", opts:["x86","ARM","8086","Pentium"], a:1, ex:"ARM follows RISC principles; x86 (Intel/AMD) is the classic CISC example." },
+    { q:"In which addressing mode is the operand value embedded directly in the instruction?", opts:["Direct","Indirect","Immediate","Indexed"], a:2, ex:"Immediate addressing carries the constant value right inside the instruction — fastest to access." },
+    { q:"Which addressing mode requires two memory accesses to resolve the operand (address of an address)?", opts:["Register","Immediate","Direct","Indirect"], a:3, ex:"Indirect addressing stores the address of the operand's address — needing an extra memory reference." },
+    { q:"Which addressing mode computes address = base + index register, commonly used for arrays?", opts:["Relative","Indexed","Immediate","Register Indirect"], a:1, ex:"Indexed addressing is designed exactly for iterating through array elements." },
+    { q:"Which addressing mode is typically used for branch/jump instructions, based on the Program Counter?", opts:["Direct","Relative","Register","Indirect"], a:1, ex:"Relative addressing computes the target as PC + offset — the standard for branches." },
+    { q:"Which addressing mode is generally the fastest, since it needs no extra memory access for the operand?", opts:["Indirect","Immediate","Indexed","Base Register"], a:1, ex:"Immediate addressing carries the value in the instruction itself — no memory lookup needed." },
+    { q:"Which is the correct order of memory hierarchy from fastest/smallest to slowest/largest?", opts:["Cache → Registers → RAM → Disk","Registers → Cache → RAM → Secondary Storage","RAM → Cache → Registers → Disk","Disk → RAM → Cache → Registers"], a:1, ex:"Registers are fastest/smallest, followed by cache, then main memory (RAM), then secondary storage." },
+    { q:"Cache memory improves performance mainly by exploiting:", opts:["Round Robin scheduling","Locality of Reference","Multithreading","Virtual memory"], a:1, ex:"Cache relies on temporal and spatial locality — programs tend to reuse nearby, recent data." },
+    { q:"Accessing the same data repeatedly within a short time span is called:", opts:["Spatial locality","Temporal locality","Sequential locality","Cache locality"], a:1, ex:"Temporal locality means recently used data is likely to be reused soon." },
+    { q:"Accessing data located near recently accessed memory addresses is called:", opts:["Temporal locality","Spatial locality","Segment locality","Page locality"], a:1, ex:"Spatial locality means nearby data is likely to be accessed soon after." },
+    { q:"In which cache mapping technique does each memory block map to exactly one specific cache line?", opts:["Fully Associative","Set-Associative","Direct Mapping","Sector Mapping"], a:2, ex:"Direct mapping assigns each memory block a single, fixed cache line — simple but prone to conflicts." },
+    { q:"Which cache mapping technique allows a memory block to be placed in any available cache line?", opts:["Direct Mapping","Fully Associative Mapping","Segment Mapping","Page Mapping"], a:1, ex:"Fully associative mapping offers maximum flexibility but is costlier to search." },
+    { q:"Which cache write policy updates both cache and main memory on every single write?", opts:["Write-back","Write-through","Write-once","Write-around"], a:1, ex:"Write-through keeps cache and memory consistent immediately, at the cost of speed." },
+    { q:"Which cache write policy updates main memory only when the block is evicted from cache?", opts:["Write-through","Write-back","Write-once","Write-first"], a:1, ex:"Write-back is faster but risks data loss/inconsistency if a crash occurs before the write-back happens." },
+    { q:"Which type of RAM uses capacitors and needs periodic refreshing?", opts:["SRAM","DRAM","ROM","Flash memory"], a:1, ex:"DRAM (Dynamic RAM) stores bits as charge in capacitors, which leak and need periodic refreshing." },
+    { q:"Which type of RAM is faster, costlier, and used for cache since it needs no refreshing?", opts:["DRAM","SRAM","EEPROM","EPROM"], a:1, ex:"SRAM (Static RAM) uses flip-flops, making it faster than DRAM, hence its use in cache." },
+    { q:"Which type of ROM can be erased using ultraviolet light and then reprogrammed?", opts:["PROM","EPROM","EEPROM","Mask ROM"], a:1, ex:"EPROM (Erasable Programmable ROM) is erased by exposing it to UV light." },
+    { q:"Which memory technique lets programs larger than physical RAM run, using secondary storage?", opts:["Caching","Virtual Memory","Paging only","Segmentation only"], a:1, ex:"Virtual memory extends apparent RAM using secondary storage, typically implemented via paging/segmentation." },
+    { q:"Which I/O technique involves the CPU repeatedly checking a device's status in a busy-wait loop?", opts:["Interrupt-driven I/O","DMA","Programmed I/O","Buffered I/O"], a:2, ex:"Programmed I/O wastes CPU cycles by continuously polling the device." },
+    { q:"Which I/O technique lets a device notify the CPU when it's ready, instead of polling?", opts:["Programmed I/O","Interrupt-driven I/O","DMA","Spooling"], a:1, ex:"Interrupt-driven I/O frees the CPU to do other work until the device signals readiness." },
+    { q:"Which I/O technique transfers data directly between device and memory with minimal CPU involvement?", opts:["Programmed I/O","Interrupt-driven I/O","DMA (Direct Memory Access)","Polling"], a:2, ex:"DMA uses a dedicated controller, involving the CPU only at the start and end of the transfer." },
+    { q:"The technique of overlapping execution of multiple instructions across different stages is called:", opts:["Multithreading","Pipelining","Caching","Virtualization"], a:1, ex:"Pipelining works like an assembly line, executing different stages of different instructions simultaneously." },
+    { q:"A pipeline hazard caused by an instruction depending on a previous instruction's not-yet-ready result is a:", opts:["Structural hazard","Control hazard","Data hazard","Memory hazard"], a:2, ex:"Data hazards occur when an instruction needs a value that a prior instruction hasn't produced yet." },
+  ];
+
+  const quizWrap = document.getElementById('quizWrap');
+  let score = 0;
+  document.getElementById('scoreTotal').textContent = quiz.length;
+
+  quiz.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-q"><span class="qn">Q${qi+1}.</span>${item.q}</div>
+      <div class="quiz-opts">
+        ${item.opts.map((o,i) => `<button class="quiz-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explain"></div>
+    `;
+    quizWrap.appendChild(card);
+
+    const buttons = card.querySelectorAll('.quiz-opt');
+    const explain = card.querySelector('.quiz-explain');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(card.dataset.answered) return;
+        card.dataset.answered = 'true';
+        const chosen = parseInt(btn.dataset.i);
+        buttons.forEach(b => b.disabled = true);
+        if(chosen === item.a){ btn.classList.add('correct'); score++; }
+        else { btn.classList.add('incorrect'); buttons[item.a].classList.add('correct'); }
+        explain.textContent = item.ex;
+        explain.classList.add('show');
+        document.getElementById('scoreVal').textContent = score;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

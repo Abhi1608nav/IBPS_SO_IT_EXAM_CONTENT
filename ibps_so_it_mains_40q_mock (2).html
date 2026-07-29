@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer Mains — 40Q Advanced Mock</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+  :root{
+    --base:#1e1e2e; --mantle:#181825; --crust:#11111b;
+    --text:#cdd6f4; --sub:#a6adc8; --sub0:#6c7086;
+    --surface0:#313244; --surface1:#45475a; --surface2:#585b70;
+    --blue:#89b4fa; --green:#a6e3a1; --red:#f38ba8; --yellow:#f9e2af;
+    --mauve:#cba6f7; --peach:#fab387; --teal:#94e2d5; --pink:#f5c2e7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'JetBrains Mono',monospace; background:var(--crust); color:var(--text);
+    min-height:100vh;
+  }
+  #app{max-width:900px; margin:0 auto; padding:16px;}
+  .card{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  h1{font-size:1.25rem; margin:0 0 4px; color:var(--mauve);}
+  .sub{color:var(--sub); font-size:.85rem; margin-bottom:16px;}
+  .meta{display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--sub); margin-bottom:16px;}
+  .meta span{background:var(--surface0); padding:4px 10px; border-radius:20px;}
+  .badge-hard{background:#3a1e26 !important; color:var(--red) !important; font-weight:700;}
+  .topics{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin:14px 0;}
+  .topics div{background:var(--mantle); border:1px solid var(--surface0); border-radius:8px; padding:8px 10px; font-size:.75rem; color:var(--sub);}
+  button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:10px; font-weight:700;
+    padding:12px 20px; font-size:.9rem; transition:.15s;
+  }
+  .start-btn{background:var(--mauve); color:var(--crust); width:100%; margin-top:8px;}
+  .start-btn:hover{opacity:.9;}
+  #quizScreen{display:none;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  #timer{background:var(--surface0); padding:8px 14px; border-radius:10px; font-weight:700; color:var(--yellow);}
+  #timer.low{color:var(--red); animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .progress-track{background:var(--surface0); height:6px; border-radius:4px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{background:var(--mauve); height:100%; width:0%; transition:.3s;}
+  .qtopic{display:inline-block; background:var(--surface0); color:var(--teal); font-size:.7rem; padding:3px 10px; border-radius:12px; margin-bottom:10px;}
+  .qtext{font-size:1.02rem; line-height:1.55; margin-bottom:16px; white-space:pre-wrap;}
+  .qtext code, .codeblock{
+    display:block; background:var(--crust); border:1px solid var(--surface0); border-radius:8px;
+    padding:12px 14px; margin-top:8px; font-size:.85rem; color:var(--peach); white-space:pre; overflow-x:auto;
+  }
+  .option{
+    display:flex; align-items:center; gap:10px; background:var(--mantle); border:1.5px solid var(--surface0);
+    border-radius:10px; padding:12px 14px; margin-bottom:10px; cursor:pointer; font-size:.9rem; transition:.15s;
+  }
+  .option:hover{border-color:var(--mauve);}
+  .option.selected{border-color:var(--mauve); background:#3b2f4d;}
+  .optlabel{
+    width:24px; height:24px; border-radius:50%; background:var(--surface1); display:flex; align-items:center;
+    justify-content:center; font-size:.75rem; flex-shrink:0;
+  }
+  .option.selected .optlabel{background:var(--mauve); color:var(--crust);}
+  .navrow{display:flex; justify-content:space-between; margin-top:18px; gap:10px;}
+  .navbtn{background:var(--surface1); color:var(--text); flex:1;}
+  .navbtn:hover{background:var(--surface2);}
+  .navbtn:disabled{opacity:.35; cursor:not-allowed;}
+  .submitbtn{background:var(--red); color:var(--crust); flex:1;}
+  #navigator{display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin:16px 0;}
+  .navdot{
+    aspect-ratio:1; border-radius:6px; background:var(--surface0); color:var(--sub); display:flex;
+    align-items:center; justify-content:center; font-size:.72rem; cursor:pointer; border:1px solid var(--surface1);
+  }
+  .navdot.answered{background:var(--green); color:var(--crust); border-color:var(--green);}
+  .navdot.current{outline:2px solid var(--blue);}
+  #resultScreen{display:none;}
+  .scorebox{text-align:center; padding:20px 0;}
+  .scorebox .big{font-size:2.6rem; font-weight:800; color:var(--mauve);}
+  .statsrow{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .statchip{background:var(--mantle); border:1px solid var(--surface0); border-radius:10px; padding:10px 16px; font-size:.85rem; text-align:center;}
+  .statchip .n{font-size:1.3rem; font-weight:700; display:block;}
+  .review{margin-top:24px;}
+  .revcard{background:var(--mantle); border:1px solid var(--surface0); border-radius:12px; padding:16px; margin-bottom:14px; border-left:4px solid var(--surface2);}
+  .revcard.correct{border-left-color:var(--green);}
+  .revcard.wrong{border-left-color:var(--red);}
+  .revcard.skipped{border-left-color:var(--yellow);}
+  .revq{font-size:.92rem; margin-bottom:8px; font-weight:600; white-space:pre-wrap;}
+  .revopt{font-size:.82rem; padding:6px 10px; border-radius:6px; margin-bottom:4px;}
+  .revopt.rightans{background:#1e3a2a; color:var(--green);}
+  .revopt.userwrong{background:#3a1e26; color:var(--red);}
+  .explain{margin-top:10px; font-size:.82rem; color:var(--sub); background:var(--base); padding:10px 12px; border-radius:8px; line-height:1.5;}
+  .explain b{color:var(--teal);}
+  .tag{font-size:.68rem; padding:2px 8px; border-radius:10px; background:var(--surface0); color:var(--sub); margin-left:6px;}
+
+  /* custom modal (replaces native confirm/alert, which are blocked in sandboxed frames) */
+  #modalOverlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  #modalOverlay.show{display:flex;}
+  .modalbox{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:22px; max-width:380px; width:100%; text-align:center;}
+  .modalbox p{font-size:.92rem; margin-bottom:18px; color:var(--text); line-height:1.5;}
+  .modalbtns{display:flex; gap:10px;}
+  .modalbtns button{flex:1;}
+  .btn-cancel{background:var(--surface1); color:var(--text);}
+  .btn-confirm{background:var(--red); color:var(--crust);}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="startScreen" class="card">
+    <h1>IBPS SO IT Officer — Mains Advanced Mock (40Q)</h1>
+    <div class="sub">Difficult, exam-realistic questions: scenario-based, code-trace, and calculation-based — across all 9 Professional Knowledge topics</div>
+    <div class="meta">
+      <span>40 Questions</span>
+      <span>+1 / −0.25 marking</span>
+      <span>35 min</span>
+      <span class="badge-hard">Advanced Level</span>
+    </div>
+    <div class="topics" id="topicList"></div>
+    <button class="start-btn" onclick="startQuiz()">Start Test</button>
+  </div>
+
+  <div id="quizScreen" class="card">
+    <div class="topbar">
+      <div id="qcounter" style="color:var(--sub); font-size:.85rem;"></div>
+      <div id="timer">35:00</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="qtopic" class="qtopic"></div>
+    <div id="qtext" class="qtext"></div>
+    <div id="options"></div>
+    <div class="navrow">
+      <button class="navbtn" id="prevBtn" onclick="prevQ()">← Previous</button>
+      <button class="navbtn" id="nextBtn" onclick="nextQ()">Next →</button>
+    </div>
+    <div id="navigator"></div>
+    <button class="submitbtn" style="width:100%;" onclick="confirmSubmit()">Submit Test</button>
+  </div>
+
+  <div id="resultScreen" class="card">
+    <h1>Result</h1>
+    <div class="scorebox">
+      <div class="big" id="scoreBig">0</div>
+      <div class="sub">out of 40 marks</div>
+    </div>
+    <div class="statsrow">
+      <div class="statchip"><span class="n" id="statCorrect" style="color:var(--green);">0</span>Correct</div>
+      <div class="statchip"><span class="n" id="statWrong" style="color:var(--red);">0</span>Wrong</div>
+      <div class="statchip"><span class="n" id="statSkip" style="color:var(--yellow);">0</span>Skipped</div>
+      <div class="statchip"><span class="n" id="statAcc">0%</span>Accuracy</div>
+    </div>
+    <div class="review" id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="modalOverlay">
+  <div class="modalbox">
+    <p id="modalMsg"></p>
+    <div class="modalbtns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="modalConfirmed()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+{t:"DBMS", q:"Consider relation R(A,B,C,D) with functional dependencies A→B, B→C, C→D, and A is the only candidate key. What is the highest normal form R satisfies?", o:["1NF","2NF","3NF","BCNF"], c:1, e:"Since the key is a single attribute (A), no partial dependency is possible, so 2NF is automatically satisfied. But B→C creates a transitive dependency (C depends on non-key B, which depends on key A), violating 3NF. So the highest normal form satisfied is 2NF."},
+{t:"DBMS", q:"Transaction T1 reads a row. Transaction T2 then updates and commits that row. T1 reads the same row again within its own transaction and gets a different value. This phenomenon is called:", o:["Dirty read","Non-repeatable read","Phantom read","Lost update"], c:1, e:"A non-repeatable read occurs when a transaction re-reads the same row and finds it changed because another committed transaction modified it in between. A dirty read involves reading uncommitted data; a phantom read involves new rows appearing in a range query."}, 
+{t:"DBMS", q:"A B+ tree has an order (max children per node) of 100 and must index 1,000,000 records, with nodes assumed to be nearly full. What is the approximate height of the tree?", o:["2","3","6","10"], c:1, e:"With branching factor b=100, the number of leaf-level entries reachable is roughly b^h. Solving 100^h ≈ 1,000,000 gives h=3 (since 100³ = 1,000,000), illustrating why B+ trees keep disk-based lookups to only a handful of levels even for huge datasets."},
+{t:"DBMS", q:"What does this correlated subquery return?\n\nSELECT name FROM Employees e\nWHERE salary > (SELECT AVG(salary) FROM Employees WHERE dept_id = e.dept_id);", o:["Employees earning more than the average salary of their own department","Employees earning more than the average salary of the entire company","A syntax error, since subqueries cannot reference the outer query","The average salary of each department"], c:0, e:"Because the inner query filters by e.dept_id (a column from the outer query), it recomputes the average separately for each employee's department — a classic correlated subquery, not a company-wide average."},
+{t:"DBMS", q:"A cost-based query optimizer differs from a rule-based optimizer mainly because it:", o:["Applies fixed heuristic rules regardless of the actual data","Uses table statistics such as cardinality and selectivity to estimate and pick the cheapest execution plan","Ignores available indexes entirely","Always minimizes the number of joins, regardless of table size"], c:1, e:"Cost-based optimizers rely on statistics (row counts, index selectivity, data distribution) to estimate the resource cost of alternative plans and pick the cheapest — unlike rule-based optimizers, which apply a fixed priority of heuristics."},
+{t:"DBMS", q:"A weak entity in an ER diagram is best described as one that:", o:["Has its own primary key, independent of any other entity","Cannot be uniquely identified without a foreign/partial key borrowed from an owning entity, and depends on it for existence","Always participates in a many-to-many relationship","Is used only to store derived (computed) attributes"], c:1, e:"A weak entity lacks a sufficient key of its own; it borrows part of its identifier from a related 'owner' entity via an identifying relationship (e.g., a Dependent entity tied to an Employee)."},
+
+{t:"Operating Systems", q:"In the Banker's Algorithm, a system is said to be in a 'safe state' if:", o:["No process currently holds any resources","There exists at least one ordering in which every process can complete without leading to deadlock","All resources in the system are fully allocated","Only one process is active at a time"], c:1, e:"Safety doesn't mean no deadlock will ever occur unconditionally — it means at least one safe sequence exists in which every process's maximum need can eventually be satisfied using available and to-be-released resources."},
+{t:"Operating Systems", q:"Belady's Anomaly describes a counter-intuitive situation where:", o:["Increasing the number of available page frames actually increases the number of page faults, notably under FIFO replacement","Increasing page frames always decreases page faults, with no exceptions","The OS crashes whenever a page fault happens in kernel mode","Two processes deadlock while competing for the same page frame"], c:0, e:"Belady's Anomaly shows that for some reference strings under FIFO, adding more frames can paradoxically increase page faults — a key reason algorithms like LRU or optimal replacement (which don't exhibit this anomaly) are often preferred."},
+{t:"Operating Systems", q:"The 'convoy effect,' where several short processes get stuck waiting behind one long-running process, is a classic drawback of which scheduling algorithm?", o:["Shortest Job First","Round Robin","First-Come-First-Served (FCFS)","Priority scheduling with aging"], c:2, e:"FCFS processes jobs strictly in arrival order with no preemption, so a single long CPU-bound job at the front can force many short jobs behind it to wait disproportionately long — the convoy effect."},
+{t:"Operating Systems", q:"To strictly enforce mutual exclusion in a critical section, where exactly one thread may hold the lock at any time, which primitive is the correct choice?", o:["A counting semaphore initialized to N > 1","A mutex (binary semaphore, initialized to 1)","A message queue with unbounded capacity","A read-write lock permitting multiple simultaneous readers"], c:1, e:"A mutex (or a semaphore initialized to 1) allows only one thread to enter the critical section at a time. A counting semaphore initialized above 1 would permit multiple threads in simultaneously, defeating strict mutual exclusion."},
+{t:"Operating Systems", q:"Compared to plain SCAN, the C-SCAN (Circular SCAN) disk scheduling algorithm primarily improves:", o:["Total seek distance in every possible case","Uniformity of wait times, by treating the disk as circular so requests near the 'far end' aren't penalized twice", "Elimination of seek time altogether","Guaranteed strict FCFS ordering of service"], c:1, e:"SCAN reverses direction at the disk's edges, which means requests just serviced near an edge wait almost a full sweep again. C-SCAN instead jumps back to the start after reaching one end, giving more uniform wait times across all requests."},
+
+{t:"Networking", q:"Given the network 192.168.10.0/24, you need subnets that each support at least 30 usable hosts, while maximizing the total number of subnets created. Which mask should you use?", o:["/26","/27","/28","/25"], c:1, e:"/27 leaves 5 host bits, giving 2⁵−2 = 30 usable hosts — exactly meeting the requirement while creating 8 subnets, more than /26 (4 subnets) or /25 (2 subnets). /28 gives only 14 hosts, which is insufficient."},
+{t:"Networking", q:"During TCP's 'slow start' phase of congestion control, the congestion window:", o:["Stays constant until a timeout occurs","Grows exponentially (roughly doubling each RTT) until it hits a threshold, after which congestion avoidance takes over","Decreases linearly with every acknowledgment received","Is fixed permanently by the receiver's advertised window"], c:1, e:"Slow start increases the congestion window exponentially to quickly probe available bandwidth, switching to linear growth (congestion avoidance) once the window reaches the slow-start threshold (ssthresh)."},
+{t:"Networking", q:"The Address Resolution Protocol (ARP) is used primarily to:", o:["Resolve a domain name into an IP address","Resolve a known IP address into its corresponding MAC address on the local network","Route packets between different autonomous systems on the internet","Encrypt data at the transport layer"], c:1, e:"ARP maps a Layer-3 IP address to a Layer-2 MAC address within the same local network segment, which is essential before a frame can actually be delivered on Ethernet — this is distinct from DNS, which resolves names to IPs."},
+{t:"Networking", q:"An HTTP response with status code 429 indicates:", o:["The requested resource has permanently moved to a new URL","The server encountered an unexpected internal error","The client has sent too many requests in a given time window ('rate limited')","The request succeeded but returned no content"], c:2, e:"429 Too Many Requests signals rate limiting. 301 indicates a permanent redirect, 500 an internal server error, and 204 a successful request with no response body."},
+{t:"Networking", q:"OSPF, a link-state routing protocol, differs fundamentally from a distance-vector protocol like RIP because OSPF routers:", o:["Only operate within a single physical network segment","Build a complete map of the network topology and independently compute shortest paths (e.g., via Dijkstra's algorithm)","Broadcast their entire routing table to neighbors periodically with no hop-count limit","Cannot be divided into multiple areas for scalability"], c:1, e:"Link-state protocols like OSPF flood topology information so every router builds an identical map of the network and computes shortest paths independently, whereas distance-vector protocols like RIP only share hop-count distances learned from neighbors."},
+
+{t:"Data Structures & Algorithms", q:"When a node is inserted into the right subtree of the left child of an unbalanced AVL node (an 'LR' imbalance case), which rotation restores balance?", o:["A single left rotation","A single right rotation","A left rotation followed by a right rotation (double rotation)","No rotation is required"], c:2, e:"The LR case requires a left rotation on the child first (converting it into an LL-shaped imbalance), followed by a right rotation on the unbalanced node itself — a double rotation, mirrored by the RL case using right-then-left rotations."},
+{t:"Data Structures & Algorithms", q:"Building a binary heap from an unsorted array of n elements using the bottom-up 'heapify' method has a time complexity of:", o:["O(n log n)","O(n)","O(log n)","O(n²)"], c:1, e:"Although a naive analysis suggests O(n log n), a tighter amortized analysis (accounting for the fact that most nodes are near the bottom and need very few swaps) shows bottom-up heap construction actually runs in O(n) time — a well-known surprising result."},
+{t:"Data Structures & Algorithms", q:"Dijkstra's shortest path algorithm produces incorrect results when a graph contains:", o:["Cycles","Disconnected components","Negative edge weights","Multiple edges between the same pair of nodes"], c:2, e:"Dijkstra's greedy approach assumes that once a node's shortest distance is finalized, it cannot be improved later — an assumption that breaks down with negative weights, where a later negative edge could still shorten a path. Bellman-Ford is used instead in such cases."},
+{t:"Data Structures & Algorithms", q:"By the Master Theorem, the recurrence T(n) = 2T(n/2) + O(n) resolves to a time complexity of:", o:["O(n)","O(n log n)","O(n²)","O(log n)"], c:1, e:"This recurrence matches the Master Theorem's Case 2 (a=2, b=2, f(n)=O(n^(log_b a)) exactly), giving O(n log n) — the well-known complexity of algorithms like Merge Sort that split work in half and do linear-time combining."},
+{t:"Data Structures & Algorithms", q:"What is the auxiliary (extra) space complexity of the standard Merge Sort algorithm?", o:["O(1), since it sorts in place","O(log n)","O(n)","O(n²)"], c:2, e:"Merge Sort requires an auxiliary array proportional to the input size to merge sorted halves, giving O(n) extra space — unlike Quicksort, which (excluding recursion stack) sorts in place with O(1) auxiliary space."},
+{t:"Data Structures & Algorithms", q:"In a hash table using separate chaining, as the load factor (n/m) grows significantly larger than 1, the average-case time for a search operation:", o:["Remains O(1) regardless of load factor","Degrades towards O(n/m) — i.e., it grows roughly linearly with the average chain length","Improves to O(log n) automatically","Becomes undefined and cannot be analyzed"], c:1, e:"As more keys collide into the same buckets, each bucket's linked list grows longer, so average search time approaches O(n/m) rather than the ideal O(1) — this is exactly why hash tables are resized (rehashed) once the load factor crosses a threshold."},
+
+{t:"Software Engineering", q:"The COCOMO (Constructive Cost Model) is primarily used to:", o:["Estimate software development effort, cost, and schedule based on estimated project size","Test software for security vulnerabilities","Design UML class diagrams from requirements","Manage version control branching strategies"], c:0, e:"COCOMO uses project size (often in KLOC) along with cost drivers (team experience, complexity, etc.) to estimate effort in person-months, development time, and staffing needs."},
+{t:"Software Engineering", q:"McCabe's Cyclomatic Complexity of a program's control flow graph is calculated as:", o:["Number of nodes minus number of edges","E − N + 2P, where E = edges, N = nodes, and P = number of connected components","The total number of loops in the program only","Total lines of code divided by the number of functions"], c:1, e:"Cyclomatic complexity (V(G) = E − N + 2P) measures the number of linearly independent paths through a program's control flow graph, giving a concrete metric for testing effort and code complexity — higher values indicate more paths that need test coverage."},
+{t:"Software Engineering", q:"A design pattern that ensures a class has exactly one instance throughout the application and provides a single global access point to it is:", o:["Factory Pattern","Observer Pattern","Singleton Pattern","Decorator Pattern"], c:2, e:"The Singleton pattern restricts instantiation of a class to a single object (commonly used for things like configuration managers or connection pools), unlike Factory (object creation abstraction), Observer (event notification), or Decorator (dynamically adding behavior)."},
+{t:"Software Engineering", q:"In Agile estimation, a team's 'velocity' refers to:", o:["The speed of the CI/CD deployment pipeline","The average amount of work (typically measured in story points) a team completes per sprint","The number of production bugs fixed per day","The total lines of code written per sprint"], c:1, e:"Velocity is a historical, empirical measure of a team's throughput per sprint, used to forecast how much work can realistically be planned in future sprints — it is not a measure of code volume or deployment speed."},
+
+{t:"Programming Languages", q:"What does the following C code print?\n\nint arr[5] = {10,20,30,40,50};\nint *p = arr;\nprintf(\"%d\", *(p+2) + *(arr+3));", o:["50","60","70","80"], c:2, e:"*(p+2) is equivalent to arr[2] = 30, and *(arr+3) is equivalent to arr[3] = 40 (pointer arithmetic on an array name behaves the same as on a pointer to its first element). Their sum is 30 + 40 = 70."},
+{t:"Programming Languages", q:"In C++, if a base class function is declared virtual and overridden in a derived class, invoking that function through a base class pointer pointing to a derived object will call:", o:["The base class version always, due to static (compile-time) binding","The derived class version, due to dynamic (runtime) binding via the vtable","Neither version — it causes a compilation error","Both versions in sequence, base first then derived"], c:1, e:"Declaring a function virtual enables dynamic dispatch: the actual object's type (not the pointer's declared type) determines which override executes, resolved at runtime through the virtual function table (vtable)."},
+{t:"Programming Languages", q:"What is the output/behavior of the following Java code?\n\ntry {\n    return 1;\n} finally {\n    System.out.println(\"finally\");\n}", o:["Nothing is printed; only 1 is returned","\"finally\" is printed first, and then 1 is returned","A compilation error occurs because finally cannot follow a return statement","1 is returned immediately and the finally block is skipped entirely"], c:1, e:"Java guarantees that a finally block executes before control actually returns to the caller, even when the try block contains a return statement — so 'finally' is printed, and then the method returns 1."},
+{t:"Programming Languages", q:"What potential problem exists in this Python function?\n\ndef add_item(item, my_list=[]):\n    my_list.append(item)\n    return my_list", o:["It raises a TypeError on the second call","The default mutable list is created only once at function definition time, so items silently accumulate across separate, unrelated calls","It always returns an empty list regardless of input","Python does not permit default argument values in function definitions"], c:1, e:"Default argument values in Python are evaluated only once, at function definition time — not on every call. Since lists are mutable, using one as a default causes it to persist and accumulate state across calls unless a fresh list (e.g., None, then create inside the function) is used instead."},
+{t:"Programming Languages", q:"In JavaScript, a closure allows an inner function to:", o:["Execute faster than an equivalent non-nested function","Retain access to variables from its enclosing lexical scope even after the outer function has finished executing","Automatically run in a separate parallel thread","Bypass the event loop and execute synchronously with I/O"], c:1, e:"A closure is formed when an inner function 'remembers' the variables of its enclosing scope at the time it was created, allowing continued access to them even after the outer function has returned — commonly used for data privacy and factory functions."},
+
+{t:"Cybersecurity", q:"The Diffie-Hellman algorithm is primarily used for:", o:["Efficiently encrypting large volumes of bulk data, like AES does","Securely establishing a shared secret key over an insecure channel, without ever transmitting the key itself","Creating and signing digital certificates","Compressing already-encrypted data to save bandwidth"], c:1, e:"Diffie-Hellman is a key-exchange protocol: both parties independently compute the same shared secret using exchanged public values and their own private values, without the secret ever traveling over the network — it's not an encryption algorithm for bulk data itself."},
+{t:"Cybersecurity", q:"Passwords are typically stored as a salted cryptographic hash rather than the plaintext or a reversible encryption, primarily because:", o:["It makes the password recoverable if the user forgets it","Salting prevents precomputed rainbow-table attacks and ensures identical passwords produce different stored hash values","It significantly speeds up the login verification process","It encrypts the password so the server can decrypt it later if needed"], c:1, e:"A salt is random data added to a password before hashing, so two users with the same password get different hash outputs — defeating rainbow-table lookups and making bulk cracking far more expensive. Hashing is deliberately one-way, unlike encryption."},
+{t:"Cybersecurity", q:"A Man-in-the-Middle (MITM) attack, where an attacker secretly intercepts and possibly alters communication between two parties, is primarily mitigated by:", o:["Relying solely on symmetric encryption with a fixed shared key","Mutual authentication combined with an encrypted channel (e.g., TLS) that includes proper certificate validation","Simply increasing available network bandwidth","Disabling the network firewall"], c:1, e:"TLS with proper certificate validation ensures each party can verify the other's identity before establishing an encrypted session, so an attacker positioned in the middle cannot impersonate either side without being detected."},
+{t:"Cybersecurity", q:"In a Public Key Infrastructure (PKI), a Certificate Authority (CA) is primarily responsible for:", o:["Generating a fresh random session key for every single HTTP request","Issuing and digitally signing certificates that bind public keys to verified identities, forming a chain of trust","Storing every user's private key in a central, shared repository","Blocking known malicious IP addresses at the network layer"], c:1, e:"A CA vouches for the authenticity of a public key by signing a certificate that binds it to a verified identity; browsers and systems trust certificates by validating the CA's signature up a 'chain of trust' to a trusted root CA."},
+
+{t:"Cloud & Emerging Tech", q:"'Horizontal scaling' in cloud computing refers to:", o:["Upgrading a single server's CPU and RAM capacity","Adding more machine instances to distribute load across them", "Reducing the number of running servers to cut cost","Increasing only the network bandwidth available to a server"], c:1, e:"Horizontal scaling ('scaling out') adds more instances to share load, improving fault tolerance and elasticity, whereas vertical scaling ('scaling up') increases the resources of a single existing machine, which has hard physical limits."},
+{t:"Cloud & Emerging Tech", q:"The key difference between Proof of Work (PoW) and Proof of Stake (PoS) blockchain consensus mechanisms is that PoS:", o:["Requires miners to solve computationally expensive puzzles to validate new blocks","Selects validators based on the amount of cryptocurrency they hold/stake, rather than computational effort expended","Avoids using cryptographic hashing altogether","Can only be used in private, permissioned blockchain networks"], c:1, e:"PoS replaces energy-intensive mining with a system where validators are chosen (often semi-randomly) in proportion to their staked holdings, significantly reducing the computational and energy cost compared to PoW."},
+{t:"Cloud & Emerging Tech", q:"Compared to traditional virtual machines, containers (e.g., Docker) are more lightweight primarily because they:", o:["Each bundle a full, separate guest operating system","Share the host machine's OS kernel and package only the application with its dependencies, avoiding a full OS per instance","Are limited to running exactly one process ever, with no exceptions","Require a dedicated hypervisor to be installed for every single container"], c:1, e:"Containers virtualize at the OS level, sharing the host kernel across all containers, which avoids the overhead of booting a separate guest OS per instance — unlike VMs, which each run their own full OS atop a hypervisor."},
+
+{t:"Computer Organization", q:"Amdahl's Law is used to determine:", o:["The maximum theoretical speedup achievable when only part of a task is parallelized or improved","The total power consumption of a CPU under load","The cache hit ratio of a given memory hierarchy","The minimum clock frequency required for an instruction set"], c:0, e:"Amdahl's Law shows that overall speedup is fundamentally limited by the fraction of a task that cannot be parallelized/improved — even infinite speedup on the parallel portion leaves the serial portion as a hard ceiling on total performance gain."},
+{t:"Computer Organization", q:"In a direct-mapped cache, a given main memory block can be placed:", o:["In any available cache line, chosen by the replacement policy","Only in one specific cache line, determined by (block address) mod (number of cache lines)","In exactly two possible cache lines, chosen alternately","Only in whichever cache line was least recently used"], c:1, e:"Direct mapping assigns each memory block to exactly one fixed cache line based on its address modulo the number of lines — simple and fast, but prone to conflict misses when multiple frequently-used blocks map to the same line. Set-associative caches relax this by allowing a block into any line within a set."}
+];
+
+let current=0, answers=new Array(QUESTIONS.length).fill(null), timeLeft=35*60, timerInterval=null, submitted=false;
+
+function renderTopics(){
+  const topics=[...new Set(QUESTIONS.map(q=>q.t))];
+  document.getElementById('topicList').innerHTML = topics.map(t=>{
+    const n=QUESTIONS.filter(q=>q.t===t).length;
+    return `<div>${t} <span style="color:var(--mauve);float:right;">${n}Q</span></div>`;
+  }).join('');
+}
+renderTopics();
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  buildNavigator();
+  renderQuestion();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInterval); doSubmit(); }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('low', timeLeft<=60);
+}
+
+function buildNavigator(){
+  const nav=document.getElementById('navigator');
+  nav.innerHTML='';
+  QUESTIONS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='navdot';
+    d.textContent=i+1;
+    d.onclick=()=>{ current=i; renderQuestion(); };
+    nav.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[current];
+  document.getElementById('qcounter').textContent = `Question ${current+1} of ${QUESTIONS.length}`;
+  document.getElementById('qtopic').textContent = q.t;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+
+  const optsDiv=document.getElementById('options');
+  optsDiv.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');
+    d.className='option'+(answers[current]===i?' selected':'');
+    d.innerHTML = `<div class="optlabel">${String.fromCharCode(65+i)}</div><div>${opt}</div>`;
+    d.onclick=()=>{ answers[current]=i; renderQuestion(); };
+    optsDiv.appendChild(d);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===QUESTIONS.length-1;
+
+  document.querySelectorAll('.navdot').forEach((d,i)=>{
+    d.classList.toggle('answered', answers[i]!==null);
+    d.classList.toggle('current', i===current);
+  });
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; renderQuestion(); } }
+function prevQ(){ if(current>0){ current--; renderQuestion(); } }
+
+/* --- Custom modal replaces window.confirm(), which browsers/sandboxed frames often block --- */
+function confirmSubmit(){
+  const unanswered = answers.filter(a=>a===null).length;
+  document.getElementById('modalMsg').textContent = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+function modalConfirmed(){
+  closeModal();
+  doSubmit();
+}
+
+function doSubmit(){
+  if(submitted) return;
+  submitted=true;
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skipped=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===null) skipped++;
+    else if(answers[i]===q.c) correct++;
+    else wrong++;
+  });
+  const score = (correct*1) - (wrong*0.25);
+  const attempted = correct+wrong;
+  const accuracy = attempted>0 ? Math.round((correct/attempted)*100) : 0;
+
+  document.getElementById('scoreBig').textContent = score.toFixed(2);
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skipped;
+  document.getElementById('statAcc').textContent = accuracy+'%';
+
+  const reviewDiv=document.getElementById('reviewList');
+  reviewDiv.innerHTML = '<h1 style="margin-top:24px;">Answers & Explanations</h1>';
+  QUESTIONS.forEach((q,i)=>{
+    const userAns=answers[i];
+    const status = userAns===null ? 'skipped' : (userAns===q.c ? 'correct' : 'wrong');
+    const statusLabel = status==='skipped'?'Skipped':(status==='correct'?'Correct':'Wrong');
+    let optsHtml='';
+    q.o.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.c) cls+=' rightans';
+      else if(oi===userAns) cls+=' userwrong';
+      optsHtml += `<div class="${cls}">${String.fromCharCode(65+oi)}. ${opt}${oi===q.c?' ✓ (Correct answer)':''}${(oi===userAns && oi!==q.c)?' ✗ (Your answer)':''}</div>`;
+    });
+    reviewDiv.innerHTML += `
+      <div class="revcard ${status}">
+        <div class="revq">Q${i+1}. ${q.q} <span class="tag">${q.t}</span> <span class="tag">${statusLabel}</span></div>
+        ${optsHtml}
+        <div class="explain"><b>Explanation:</b> ${q.e}</div>
+      </div>`;
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Software Engineering Deep Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121320; --bg-alt:#0d0e18; --panel:#1b1d2e; --panel-alt:#232538;
+    --border:#2d3049; --border-soft:#262941;
+    --text:#e6e7f2; --text-muted:#9498b5; --text-faint:#666a8a;
+    --accent-purple:#a78bfa; --accent-blue:#5aa9f2; --accent-mint:#5fe0b3;
+    --accent-amber:#f2b35a; --accent-red:#f2685a; --se:#f472b6;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--se); color:#12121f;}
+  a{color:var(--accent-blue);}
+
+  .tabbar{position:sticky; top:0; z-index:100; display:flex; align-items:stretch; background:var(--bg-alt); border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tabbar .brand{display:flex; align-items:center; gap:8px; padding:0 16px; font-family:var(--mono); font-weight:700; font-size:13px; color:var(--text-muted); border-right:1px solid var(--border); white-space:nowrap;}
+  .brand .dots{display:flex; gap:5px;} .brand .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.red{background:#f2685a;} .dot.amber{background:#f2b35a;} .dot.green{background:#5fe0b3;}
+  .tabbar nav{display:flex;}
+  .tabbar a.tab{font-family:var(--mono); font-size:12px; font-weight:500; color:var(--text-faint); padding:14px 14px; white-space:nowrap; border-right:1px solid var(--border); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s, background .15s;}
+  .tabbar a.tab .ext{opacity:.7;}
+  .tabbar a.tab:hover{color:var(--text); background:var(--panel);}
+  .tabbar a.tab.active{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--se);}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+  section{padding:58px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px; margin-bottom:14px; color:var(--se);}
+  .eyebrow::before{content:''; width:16px; height:1px; opacity:.6; background:var(--se);}
+  .eyebrow.bonus{color:var(--accent-amber);}
+  .eyebrow.bonus::before{background:var(--accent-amber);}
+
+  h1,h2,h3,h4{font-family:var(--mono); font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:27px; margin-bottom:8px; color:#fff;}
+  h3{font-size:17px; margin:24px 0 10px; color:#fff;}
+  .subtitle{color:var(--text-muted); font-size:14.6px; max-width:660px; margin-bottom:28px;}
+  p{color:var(--text-muted); font-size:14.4px;}
+  strong{color:var(--text); font-weight:600;}
+  code, .mono{font-family:var(--mono);}
+
+  .hero{padding:62px 0 42px;}
+  .hero h1{font-size:31px; line-height:1.25; color:#fff; margin-bottom:14px;}
+  .hero h1 .hl{color:var(--se);}
+  .hero p.lead{color:var(--text-muted); font-size:15px; max-width:580px;}
+  .hero-tags{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+  .tag{font-family:var(--mono); font-size:11.5px; padding:6px 12px; border:1px solid var(--border); border-radius:20px; color:var(--text-muted);}
+
+  .def-box{background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent-purple); border-radius:8px; padding:13px 17px; margin:14px 0;}
+  .def-box .lbl{font-family:var(--mono); font-size:10.5px; color:var(--accent-purple); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px;}
+  .def-box p{margin:0; font-size:13.6px; color:var(--text);}
+
+  .trap-box{background:rgba(242,104,90,.08); border:1px solid var(--border); border-left:3px solid var(--accent-red); border-radius:8px; padding:13px 17px; margin:14px 0; font-size:13.2px; color:var(--text-muted);}
+  .trap-box strong{color:var(--accent-red);}
+
+  .tip-box{background:rgba(95,224,179,.08); border:1px solid var(--border); border-left:3px solid var(--accent-mint); border-radius:8px; padding:13px 17px; margin:14px 0; font-size:13.2px; color:var(--text-muted);}
+  .tip-box strong{color:var(--accent-mint);}
+
+  .bonus-box{background:rgba(242,179,90,.08); border:1px dashed var(--accent-amber); border-radius:8px; padding:13px 17px; margin:14px 0 20px; font-size:12.8px; color:var(--text-muted);}
+  .bonus-box strong{color:var(--accent-amber);}
+
+  table{width:100%; border-collapse:collapse; font-size:13.2px; margin:14px 0;}
+  th{text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--accent-purple); padding:8px 11px; border-bottom:1px solid var(--border);}
+  td{padding:9px 11px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  td.strongcell{color:var(--text);}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+
+  .acc-item{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; background:var(--panel);}
+  .acc-head{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; cursor:pointer; user-select:none;}
+  .acc-head:hover{background:var(--panel-alt);}
+  .acc-head .left{display:flex; align-items:center; gap:10px;}
+  .acc-num{font-family:var(--mono); font-size:11px; opacity:.7;}
+  .acc-title{font-family:var(--mono); font-size:13.5px; color:#fff; font-weight:600;}
+  .acc-arrow{color:var(--text-faint); transition:transform .2s; font-size:12px;}
+  .acc-item.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:800px;}
+  .acc-inner{padding:0 18px 18px; font-size:13.2px; color:var(--text-muted);}
+  .acc-inner ul, .acc-inner ol{margin:8px 0 0 18px;}
+  .acc-inner li{margin-bottom:6px;}
+  .acc-inner code{color:var(--se); background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12px;}
+
+  .ladder{display:flex; flex-direction:column; gap:5px; margin:16px 0;}
+  .ladder-item{display:flex; align-items:center; gap:12px; padding:9px 14px; border-radius:7px; border:1px solid var(--border);}
+  .ladder-item .rank{font-family:var(--mono); font-size:11px; width:20px; flex-shrink:0; color:var(--text-faint);}
+  .ladder-item .name{font-family:var(--mono); font-size:12.5px; color:#fff; width:150px; flex-shrink:0;}
+  .ladder-item .desc{font-size:12px; color:var(--text-faint); flex:1;}
+
+  .term{background:var(--panel); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:14px 0;}
+  .term .term-head{display:flex; align-items:center; gap:8px; padding:9px 13px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .term .term-head .dot{width:9px; height:9px; border-radius:50%;}
+  .term .term-title{margin-left:7px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint);}
+  .term .term-body{padding:16px 18px; font-family:var(--mono); font-size:12.5px; overflow-x:auto; color:var(--text-muted); white-space:pre-wrap;}
+
+  .v-model{display:flex; justify-content:center; margin:20px 0;}
+  .v-model svg{max-width:100%; height:auto;}
+
+  .diagram{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 14px 10px; margin:16px 0;}
+  .diagram-label{font-family:var(--mono); font-size:10.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; padding-left:4px;}
+  .diagram svg{display:block; width:100%; height:auto;}
+  .diagram-node-text{font-family:'JetBrains Mono',monospace; font-size:11.5px; fill:#e6e7f2; font-weight:600;}
+  .diagram-node-subtext{font-family:'Inter',sans-serif; font-size:9.5px; fill:#9498b5;}
+  .diagram-caption{font-family:'JetBrains Mono',monospace; font-size:10px; fill:#666a8a;}
+
+  footer{padding:34px 0 54px; text-align:center;}
+  footer p{font-size:12px; color:var(--text-faint); max-width:640px; margin:0 auto;}
+
+  @media (max-width:760px){
+    .grid-2, .grid-3{grid-template-columns:1fr;}
+    h2{font-size:21px;}
+    .ladder-item .name{width:100px; font-size:11px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="brand">
+    <div class="dots"><div class="dot red"></div><div class="dot amber"></div><div class="dot green"></div></div>
+    <span>software_engineering/</span>
+  </div>
+  <nav id="tabnav">
+    <a href="#process" class="tab active">process<span class="ext">.txt</span></a>
+    <a href="#sdlc" class="tab">sdlc_models<span class="ext">.txt</span></a>
+    <a href="#reqeng" class="tab">requirement_eng<span class="ext">.txt</span></a>
+    <a href="#design" class="tab">design<span class="ext">.txt</span></a>
+    <a href="#debug" class="tab">debugging<span class="ext">.txt</span></a>
+    <a href="#testing" class="tab">testing<span class="ext">.txt</span></a>
+    <a href="#case" class="tab">case_tools<span class="ext">.txt</span></a>
+  </nav>
+</div>
+
+<div class="wrap hero">
+  <h1>Software Engineering — <span class="hl">deep notes</span> for IBPS SO IT Officer</h1>
+  <p class="lead">Your last Tier 1 gap. Mapped exactly to your syllabus sheet — Software Process, SDLC Models, Debugging, Software Testing, Requirement Engineering, CASE Tools — with two bonus sections (Design Principles, Estimation/COCOMO) that get tested constantly alongside these in practice.</p>
+  <div class="hero-tags">
+    <span class="tag">SDLC Models</span>
+    <span class="tag">Requirement Engineering</span>
+    <span class="tag">Testing &amp; Debugging</span>
+    <span class="tag">CASE Tools</span>
+  </div>
+</div>
+
+<!-- ===================== SOFTWARE PROCESS ===================== -->
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow">process.txt</div>
+    <h2>Software Process</h2>
+    <p class="subtitle">What Software Engineering actually is, why it emerged as a discipline, and the generic activities every process is built from.</p>
+
+    <div class="def-box"><div class="lbl">Definition</div><p><strong>Software Engineering</strong> is a systematic, disciplined, and quantifiable approach to the design, development, operation, and maintenance of software — applying engineering rigor to software creation instead of ad-hoc coding.</p></div>
+
+    <h3>The Software Crisis — why this discipline exists</h3>
+    <p>A term coined in the late 1960s for a cluster of recurring problems in early software projects: budgets and schedules blown, poor-quality and inefficient software, systems failing to meet requirements, and code that became unmanageable to maintain. This led directly to the 1968 NATO Software Engineering Conference, which formally established "software engineering" as its own discipline.</p>
+
+    <h3>Generic Process Framework Activities</h3>
+    <div class="acc-item open">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">The 5 core activities every process shares</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ul>
+          <li><strong>Communication</strong> — gathering requirements and understanding the problem from stakeholders</li>
+          <li><strong>Planning</strong> — creating a roadmap: scope, resources, risk, schedule</li>
+          <li><strong>Modeling</strong> — building analysis and design models to understand the problem and plan a solution</li>
+          <li><strong>Construction</strong> — code generation and testing</li>
+          <li><strong>Deployment</strong> — delivery to the customer and collection of feedback</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <h3>Umbrella Activities</h3>
+    <p>These span the <em>entire</em> process rather than belonging to any single phase: project tracking &amp; control, risk management, Software Quality Assurance (SQA), formal technical reviews, measurement, documentation, reusability management, and change management.</p>
+    <div class="tip-box"><strong>Exam framing:</strong> if a question describes an activity that "happens throughout the project, not at one specific stage" (e.g. risk management or SQA), it's an <strong>umbrella activity</strong>, not one of the five core framework activities.</div>
+  </div>
+</section>
+
+<!-- ===================== SDLC MODELS ===================== -->
+<section id="sdlc">
+  <div class="wrap">
+    <div class="eyebrow">sdlc_models.txt</div>
+    <h2>SDLC Models</h2>
+    <p class="subtitle">The single most-tested Software Engineering topic. SDLC = Software Development Life Cycle: Requirement Analysis → Design → Implementation → Testing → Deployment → Maintenance. What varies between models is <em>how</em> these phases are arranged.</p>
+
+    <h3>Waterfall Model</h3>
+    <p>Strictly linear-sequential — each phase must fully complete before the next begins.</p>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Strengths</div><p>Simple to understand and manage; thoroughly documented at every stage; works well for small projects with clear, stable requirements.</p></div>
+      <div class="def-box"><div class="lbl">Weaknesses</div><p>No working software until very late; extremely costly to revisit an earlier phase once signed off; poor fit for evolving requirements.</p></div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> the single most-repeated Waterfall weakness — it has <strong>no feedback loop</strong> back to earlier phases and does not accommodate changing requirements.</div>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · waterfall_model.svg</div>
+      <svg viewBox="0 0 660 450" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-wf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+        </defs>
+        <path d="M170,56 L230,84" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-wf)"/>
+        <path d="M230,130 L290,158" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-wf)"/>
+        <path d="M290,204 L350,232" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-wf)"/>
+        <path d="M350,278 L410,306" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-wf)"/>
+        <path d="M410,352 L470,380" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-wf)"/>
+        <rect x="20" y="10" width="300" height="46" rx="8" fill="#232538" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="170" y="38" text-anchor="middle" class="diagram-node-text">1 · Requirements</text>
+        <rect x="80" y="84" width="300" height="46" rx="8" fill="#232538" stroke="#5aa9f2" stroke-width="1.5"/>
+        <text x="230" y="112" text-anchor="middle" class="diagram-node-text">2 · Design</text>
+        <rect x="140" y="158" width="300" height="46" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="290" y="186" text-anchor="middle" class="diagram-node-text">3 · Implementation</text>
+        <rect x="200" y="232" width="300" height="46" rx="8" fill="#232538" stroke="#f2b35a" stroke-width="1.5"/>
+        <text x="350" y="260" text-anchor="middle" class="diagram-node-text">4 · Testing</text>
+        <rect x="260" y="306" width="300" height="46" rx="8" fill="#232538" stroke="#f472b6" stroke-width="1.5"/>
+        <text x="410" y="334" text-anchor="middle" class="diagram-node-text">5 · Deployment</text>
+        <rect x="320" y="380" width="300" height="46" rx="8" fill="#232538" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="470" y="408" text-anchor="middle" class="diagram-node-text">6 · Maintenance</text>
+      </svg>
+    </div>
+
+    <h3>V-Model (Verification and Validation Model)</h3>
+    <p>An extension of Waterfall where every development phase is explicitly paired with a corresponding testing phase, forming a "V" shape when drawn.</p>
+    <div class="term">
+      <div class="term-head"><div class="dot" style="background:var(--se)"></div><div class="term-title">v_model_pairing.txt</div></div>
+      <div class="term-body">Requirements Analysis     ↔  Acceptance Testing
+System Design             ↔  System Testing
+Architecture / HLD        ↔  Integration Testing
+Module / Detailed Design  ↔  Unit Testing</div>
+    </div>
+    <p>Best for reliability-critical systems (medical, aerospace, banking). Still shares Waterfall's core rigidity — poor at handling changing requirements.</p>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · v_model.svg — left arm = verification, right arm = validation</div>
+      <svg viewBox="0 0 700 460" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40,30 L130,140 L220,250 L310,360 L350,420 L390,360 L480,250 L570,140 L660,30" stroke="#4a4e6b" stroke-width="2" fill="none"/>
+        <line x1="40" y1="30" x2="660" y2="30" stroke="#4a4e6b" stroke-width="1" stroke-dasharray="3,4"/>
+        <line x1="130" y1="140" x2="570" y2="140" stroke="#4a4e6b" stroke-width="1" stroke-dasharray="3,4"/>
+        <line x1="220" y1="250" x2="480" y2="250" stroke="#4a4e6b" stroke-width="1" stroke-dasharray="3,4"/>
+        <line x1="310" y1="360" x2="390" y2="360" stroke="#4a4e6b" stroke-width="1" stroke-dasharray="3,4"/>
+        <text x="40" y="12" text-anchor="start" class="diagram-caption">▾ VERIFICATION</text>
+        <text x="660" y="12" text-anchor="end" class="diagram-caption">VALIDATION ▾</text>
+        <circle cx="40" cy="30" r="7" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="28" y="26" text-anchor="end" class="diagram-node-text">Requirements</text>
+        <text x="28" y="40" text-anchor="end" class="diagram-node-subtext">Analysis</text>
+        <circle cx="130" cy="140" r="7" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="118" y="136" text-anchor="end" class="diagram-node-text">System Design</text>
+        <circle cx="220" cy="250" r="7" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="208" y="246" text-anchor="end" class="diagram-node-text">Architecture</text>
+        <text x="208" y="260" text-anchor="end" class="diagram-node-subtext">Design</text>
+        <circle cx="310" cy="360" r="7" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="298" y="356" text-anchor="end" class="diagram-node-text">Module Design</text>
+        <circle cx="350" cy="420" r="8" fill="#232538" stroke="#5fe0b3" stroke-width="2.5"/>
+        <text x="350" y="445" text-anchor="middle" class="diagram-node-text">Coding</text>
+        <circle cx="390" cy="360" r="7" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="402" y="356" text-anchor="start" class="diagram-node-text">Unit Testing</text>
+        <circle cx="480" cy="250" r="7" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="492" y="246" text-anchor="start" class="diagram-node-text">Integration</text>
+        <text x="492" y="260" text-anchor="start" class="diagram-node-subtext">Testing</text>
+        <circle cx="570" cy="140" r="7" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="582" y="136" text-anchor="start" class="diagram-node-text">System Testing</text>
+        <circle cx="660" cy="30" r="7" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="672" y="26" text-anchor="start" class="diagram-node-text">Acceptance</text>
+        <text x="672" y="40" text-anchor="start" class="diagram-node-subtext">Testing</text>
+      </svg>
+    </div>
+
+    <h3>Incremental Model</h3>
+    <p>The system is built and delivered as a series of increments (builds), each one adding <strong>new</strong> functionality on top of the last. Each increment is developed roughly like a mini-waterfall. Advantage: working software reaches users early and grows piece by piece.</p>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · incremental_model.svg — each increment ships and adds scope</div>
+      <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-inc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+        </defs>
+        <line x1="60" y1="70" x2="60" y2="108" stroke="#666a8a" stroke-width="1.5" marker-end="url(#arrow-inc)"/>
+        <line x1="60" y1="160" x2="60" y2="198" stroke="#666a8a" stroke-width="1.5" marker-end="url(#arrow-inc)"/>
+        <rect x="20" y="20" width="300" height="50" rx="8" fill="#232538" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="40" y="42" text-anchor="start" class="diagram-node-text">Increment 1 — Core Features</text>
+        <text x="40" y="58" text-anchor="start" class="diagram-node-subtext">✓ shipped to users</text>
+        <rect x="20" y="110" width="360" height="50" rx="8" fill="#232538" stroke="#5aa9f2" stroke-width="1.5"/>
+        <text x="40" y="132" text-anchor="start" class="diagram-node-text">Increment 2 — + Reporting Module</text>
+        <text x="40" y="148" text-anchor="start" class="diagram-node-subtext">✓ shipped to users</text>
+        <rect x="20" y="200" width="420" height="50" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="40" y="222" text-anchor="start" class="diagram-node-text">Increment 3 — + Analytics Module</text>
+        <text x="40" y="238" text-anchor="start" class="diagram-node-subtext">✓ complete system delivered</text>
+      </svg>
+    </div>
+
+    <h3>Iterative Model</h3>
+    <p>Starts with a rough, partial implementation and refines it through repeated cycles.</p>
+    <div class="trap-box"><strong>Iterative vs Incremental — the exact distinction the exam tests:</strong> Iterative <em>refines the same core functionality</em> repeatedly across cycles. Incremental <em>adds new functionality</em> with each release. These two get swapped in options constantly.</div>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · iterative_model.svg — same scope, repeated refinement</div>
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-it" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+        </defs>
+        <path d="M221.0,70.3 L321.7,143.3" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-it)"/>
+        <path d="M334.7,183.3 L296.2,301.7" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-it)"/>
+        <path d="M262.2,326.4 L137.8,326.4" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-it)"/>
+        <path d="M103.8,301.7 L65.3,183.3" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-it)"/>
+        <path d="M78.3,143.3 L179.0,70.3" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-it)" stroke-dasharray="4,3"/>
+        <text x="200" y="209" text-anchor="middle" class="diagram-caption">REPEAT</text>
+        <circle cx="200" cy="55" r="24" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="200" y="59" text-anchor="middle" class="diagram-node-text">Plan</text>
+        <circle cx="342.7" cy="158.6" r="24" fill="#232538" stroke="#5aa9f2" stroke-width="2"/>
+        <text x="342.7" y="162.6" text-anchor="middle" class="diagram-node-text">Design</text>
+        <circle cx="288.2" cy="326.4" r="24" fill="#232538" stroke="#5fe0b3" stroke-width="2"/>
+        <text x="288.2" y="330.4" text-anchor="middle" class="diagram-node-text">Build</text>
+        <circle cx="111.8" cy="326.4" r="24" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="111.8" y="330.4" text-anchor="middle" class="diagram-node-text">Test</text>
+        <circle cx="57.3" cy="158.6" r="24" fill="#232538" stroke="#f472b6" stroke-width="2"/>
+        <text x="57.3" y="162.6" text-anchor="middle" class="diagram-node-text">Review</text>
+      </svg>
+    </div>
+
+    <h3>Spiral Model (Boehm)</h3>
+    <p>Combines iterative development with explicit, systematic <strong>risk analysis</strong> — this is the model's defining feature. Each loop around the spiral has four quadrants:</p>
+    <ol style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;">Determine objectives, alternatives, and constraints</li>
+      <li style="margin-bottom:6px;"><strong>Identify and resolve risks</strong></li>
+      <li style="margin-bottom:6px;">Develop and test (build the next-level product)</li>
+      <li>Plan the next iteration</li>
+    </ol>
+    <div class="tip-box"><strong>Quick recall:</strong> Spiral = the risk-driven model. If a question mentions "risk analysis at every cycle," the answer is Spiral, not Iterative.</div>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · spiral_model.svg — each loop repeats all 4 quadrants, spiralling outward</div>
+      <svg viewBox="0 0 540 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-sp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa"/>
+          </marker>
+        </defs>
+        <line x1="260" y1="50" x2="260" y2="460" stroke="#2d3049" stroke-width="1" stroke-dasharray="2,5"/>
+        <line x1="50" y1="260" x2="510" y2="260" stroke="#2d3049" stroke-width="1" stroke-dasharray="2,5"/>
+        <path d="M 260.0,252.0 L 262.3,249.1 L 265.9,246.9 L 270.3,245.9 L 275.4,246.3 L 280.7,248.2 L 285.7,251.9 L 290.0,257.2 L 293.1,263.9 L 294.5,271.8 L 294.0,280.4 L 291.3,289.2 L 286.3,297.7 L 279.1,305.3 L 269.8,311.4 L 258.7,315.5 L 246.4,317.0 L 233.4,315.8 L 220.3,311.5 L 208.0,304.1 L 197.2,293.7 L 188.5,280.7 L 182.6,265.5 L 180.0,248.7 L 181.2,231.1 L 186.3,213.5 L 195.4,196.9 L 208.3,182.1 L 224.6,170.1 L 243.7,161.6 L 264.8,157.2 L 287.1,157.4 L 309.4,162.5 L 330.7,172.6 L 349.9,187.3 L 366.0,206.3 L 377.9,228.9 L 385.0,254.1 L 386.5,281.0 L 382.3,308.2 L 372.1,334.5 L 356.3,358.6 L 335.2,379.2 L 309.6,395.3 L 280.6,405.8 L 249.4,410.1 L 217.4,407.6 L 185.9,398.1 L 156.6,382.0 L 130.8,359.5 L 110.0,331.6 L 95.2,299.4 L 87.5,264.0 L 87.3,227.2 L 95.1,190.6 L 110.7,155.8 L 133.7,124.5 L 163.3,98.3 L 198.2,78.7 L 237.2,66.6 L 278.5,63.0 L 320.3,68.2 L 360.7,82.3 L 397.8,105.0 L 429.8,135.4 L 455.0,172.5 L 472.1,214.6 L 480.1,260.0"
+          stroke="#a78bfa" stroke-width="2.2" fill="none" marker-end="url(#arrow-sp)"/>
+        <circle cx="260" cy="252" r="4" fill="#5fe0b3"/>
+        <text x="260" y="238" text-anchor="middle" class="diagram-caption">start</text>
+        <text x="260" y="26" text-anchor="middle" class="diagram-node-text">1 · Objectives &amp; Alternatives</text>
+        <text x="516" y="256" text-anchor="end" class="diagram-node-text">2 · Identify &amp; Resolve Risks</text>
+        <text x="260" y="476" text-anchor="middle" class="diagram-node-text">3 · Develop &amp; Test</text>
+        <text x="24" y="256" text-anchor="start" class="diagram-node-text">4 · Plan Next Iteration</text>
+        <text x="410" y="440" text-anchor="middle" class="diagram-caption" transform="rotate(28 410 440)">increasing cost &amp; risk →</text>
+      </svg>
+    </div>
+
+    <h3>Prototype Model</h3>
+    <p>A quick, working prototype is built from currently known requirements purely to gather user feedback before full-scale development begins.</p>
+    <ul style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;"><strong>Throwaway prototyping</strong> — the prototype is discarded once requirements are clarified</li>
+      <li><strong>Evolutionary prototyping</strong> — the prototype is refined and evolves directly into the final system</li>
+    </ul>
+    <p>Best suited to projects where requirements are unclear or poorly understood at the start.</p>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · prototype_model.svg — loops until the customer accepts</div>
+      <svg viewBox="0 0 700 410" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-pr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+          <marker id="arrow-pr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f2685a"/>
+          </marker>
+          <marker id="arrow-pr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#5fe0b3"/>
+          </marker>
+        </defs>
+        <path d="M150,115 L178,115" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr)"/>
+        <path d="M320,115 L348,115" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr)"/>
+        <path d="M490,115 L518,115" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr)"/>
+        <path d="M595,140 L595,183" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr)"/>
+        <path d="M525,240 C 420,235 300,190 253,152" stroke="#f2685a" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr-red)"/>
+        <text x="380" y="200" text-anchor="middle" class="diagram-caption" fill="#f2685a">no — refine prototype</text>
+        <path d="M595,295 L595,328" stroke="#5fe0b3" stroke-width="1.5" fill="none" marker-end="url(#arrow-pr-green)"/>
+        <text x="640" y="312" text-anchor="start" class="diagram-caption" fill="#5fe0b3">yes</text>
+        <rect x="10" y="90" width="140" height="50" rx="8" fill="#232538" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="80" y="119" text-anchor="middle" class="diagram-node-text">Gather Reqs</text>
+        <rect x="180" y="90" width="140" height="50" rx="8" fill="#232538" stroke="#5aa9f2" stroke-width="1.5"/>
+        <text x="250" y="119" text-anchor="middle" class="diagram-node-text">Quick Design</text>
+        <rect x="350" y="90" width="140" height="50" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="420" y="119" text-anchor="middle" class="diagram-node-text">Build Prototype</text>
+        <rect x="520" y="90" width="150" height="50" rx="8" fill="#232538" stroke="#f2b35a" stroke-width="1.5"/>
+        <text x="595" y="119" text-anchor="middle" class="diagram-node-text">Customer Review</text>
+        <polygon points="595,183 665,240 595,297 525,240" fill="#232538" stroke="#f472b6" stroke-width="1.5"/>
+        <text x="595" y="236" text-anchor="middle" class="diagram-node-text">Meets</text>
+        <text x="595" y="250" text-anchor="middle" class="diagram-node-text">needs?</text>
+        <rect x="490" y="328" width="210" height="50" rx="8" fill="#232538" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="595" y="357" text-anchor="middle" class="diagram-node-text">Engineer Final Product</text>
+      </svg>
+    </div>
+
+    <h3>Agile Model</h3>
+    <p>Iterative + incremental, built around flexibility, customer collaboration, and rapid delivery in short cycles called <strong>Sprints</strong> (typically 2-4 weeks).</p>
+    <div class="def-box"><div class="lbl">The Agile Manifesto — 4 core values (memorise these exactly)</div><p>
+      1. Individuals and interactions <strong>over</strong> processes and tools<br>
+      2. Working software <strong>over</strong> comprehensive documentation<br>
+      3. Customer collaboration <strong>over</strong> contract negotiation<br>
+      4. Responding to change <strong>over</strong> following a plan
+    </p></div>
+    <p>Popular frameworks built on Agile principles: <strong>Scrum</strong>, <strong>Extreme Programming (XP)</strong>, <strong>Kanban</strong>.</p>
+    <div class="trap-box"><strong>Exam trap:</strong> Agile explicitly <strong>embraces changing requirements, even late in development</strong> — the exact opposite of Waterfall's philosophy. This contrast is a favourite comparison question.</div>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · agile_sprint_cycle.svg — one sprint, repeated every 2-4 weeks</div>
+      <svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+          <marker id="arrow-ag-mint" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#5fe0b3"/>
+          </marker>
+        </defs>
+        <path d="M244.3,74.0 L334.3,126.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)"/>
+        <path d="M358.6,168.0 L358.6,272.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)"/>
+        <path d="M334.3,314.0 L244.3,366.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)"/>
+        <path d="M195.7,366.0 L105.7,314.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)"/>
+        <path d="M81.4,272.0 L81.4,168.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)"/>
+        <path d="M105.7,126.0 L195.7,74.0" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag)" stroke-dasharray="4,3"/>
+        <path d="M384,300 C 420,300 420,300 440,296" stroke="#5fe0b3" stroke-width="1.5" fill="none" marker-end="url(#arrow-ag-mint)"/>
+        <rect x="440" y="270" width="140" height="42" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="510" y="296" text-anchor="middle" class="diagram-node-text">Ship Increment</text>
+        <circle cx="220" cy="60" r="28" fill="#232538" stroke="#a78bfa" stroke-width="2"/>
+        <text x="220" y="58" text-anchor="middle" class="diagram-node-text">Product</text>
+        <text x="220" y="70" text-anchor="middle" class="diagram-node-text">Backlog</text>
+        <circle cx="358.6" cy="140" r="28" fill="#232538" stroke="#5aa9f2" stroke-width="2"/>
+        <text x="358.6" y="138" text-anchor="middle" class="diagram-node-text">Sprint</text>
+        <text x="358.6" y="150" text-anchor="middle" class="diagram-node-text">Planning</text>
+        <circle cx="358.6" cy="300" r="28" fill="#232538" stroke="#5fe0b3" stroke-width="2"/>
+        <text x="358.6" y="298" text-anchor="middle" class="diagram-node-text">Build &amp;</text>
+        <text x="358.6" y="310" text-anchor="middle" class="diagram-node-text">Test</text>
+        <circle cx="220" cy="380" r="28" fill="#232538" stroke="#f2b35a" stroke-width="2"/>
+        <text x="220" y="378" text-anchor="middle" class="diagram-node-text">Sprint</text>
+        <text x="220" y="390" text-anchor="middle" class="diagram-node-text">Review</text>
+        <circle cx="81.4" cy="300" r="28" fill="#232538" stroke="#f472b6" stroke-width="2"/>
+        <text x="81.4" y="298" text-anchor="middle" class="diagram-node-text">Retro-</text>
+        <text x="81.4" y="310" text-anchor="middle" class="diagram-node-text">spective</text>
+        <circle cx="81.4" cy="140" r="28" fill="#232538" stroke="#c4b5fd" stroke-width="2"/>
+        <text x="81.4" y="138" text-anchor="middle" class="diagram-node-text">Refine</text>
+        <text x="81.4" y="150" text-anchor="middle" class="diagram-node-text">Backlog</text>
+      </svg>
+    </div>
+
+    <h3>RAD (Rapid Application Development)</h3>
+    <p>Emphasises fast delivery through heavy component reuse, minimal upfront planning, and continuous, close user involvement. Best for projects with well-defined business requirements and a scope small enough to finish quickly.</p>
+
+    <div class="diagram">
+      <div class="diagram-label">flow · rad_model.svg — parallel component teams compress the timeline</div>
+      <svg viewBox="0 0 810 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-rad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666a8a"/>
+          </marker>
+        </defs>
+        <path d="M140,172 L158,172" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M290,172 L308,172" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M440,172 C 455,172 455,82 468,82" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M440,172 L468,172" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M440,172 C 455,172 455,262 468,262" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M600,82 C 630,82 630,175 658,175" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M600,172 L658,174" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <path d="M600,262 C 630,262 630,175 658,175" stroke="#666a8a" stroke-width="1.5" fill="none" marker-end="url(#arrow-rad)"/>
+        <rect x="10" y="147" width="130" height="50" rx="8" fill="#232538" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="75" y="176" text-anchor="middle" class="diagram-node-text">Business Model</text>
+        <rect x="160" y="147" width="130" height="50" rx="8" fill="#232538" stroke="#5aa9f2" stroke-width="1.5"/>
+        <text x="225" y="176" text-anchor="middle" class="diagram-node-text">Data Model</text>
+        <rect x="310" y="147" width="130" height="50" rx="8" fill="#232538" stroke="#f2b35a" stroke-width="1.5"/>
+        <text x="375" y="176" text-anchor="middle" class="diagram-node-text">Process Model</text>
+        <rect x="470" y="60" width="130" height="44" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="535" y="86" text-anchor="middle" class="diagram-node-text">App Gen — Team A</text>
+        <rect x="470" y="150" width="130" height="44" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="535" y="176" text-anchor="middle" class="diagram-node-text">App Gen — Team B</text>
+        <rect x="470" y="240" width="130" height="44" rx="8" fill="#232538" stroke="#5fe0b3" stroke-width="1.5"/>
+        <text x="535" y="266" text-anchor="middle" class="diagram-node-text">App Gen — Team C</text>
+        <rect x="660" y="150" width="130" height="50" rx="8" fill="#232538" stroke="#f472b6" stroke-width="1.5"/>
+        <text x="725" y="171" text-anchor="middle" class="diagram-node-text">Testing &amp;</text>
+        <text x="725" y="184" text-anchor="middle" class="diagram-node-text">Turnover</text>
+      </svg>
+    </div>
+
+    <h3>Model comparison</h3>
+    <table>
+      <tr><th>Model</th><th>Approach</th><th>Best for</th></tr>
+      <tr><td class="strongcell">Waterfall</td><td>Linear, sequential</td><td>Small, stable, well-understood requirements</td></tr>
+      <tr><td class="strongcell">V-Model</td><td>Linear + paired testing</td><td>High-reliability systems</td></tr>
+      <tr><td class="strongcell">Incremental</td><td>Deliver in pieces, adding new features</td><td>Need early, partial delivery</td></tr>
+      <tr><td class="strongcell">Iterative</td><td>Refine the same core repeatedly</td><td>Requirements clarified over time</td></tr>
+      <tr><td class="strongcell">Spiral</td><td>Iterative + explicit risk analysis</td><td>Large, complex, high-risk projects</td></tr>
+      <tr><td class="strongcell">Prototype</td><td>Build a sample first for feedback</td><td>Unclear/evolving requirements</td></tr>
+      <tr><td class="strongcell">Agile</td><td>Short sprints, adaptive</td><td>Frequently changing requirements</td></tr>
+      <tr><td class="strongcell">RAD</td><td>Fast, component-reuse driven</td><td>Tight timelines, well-defined scope</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== REQUIREMENT ENGINEERING ===================== -->
+<section id="reqeng">
+  <div class="wrap">
+    <div class="eyebrow">requirement_eng.txt</div>
+    <h2>Requirement Engineering</h2>
+    <p class="subtitle">How raw stakeholder needs become a formal, testable specification.</p>
+
+    <div class="def-box"><div class="lbl">Definition</div><p>The process of gathering, analysing, documenting, and managing software requirements throughout the life of a project.</p></div>
+
+    <h3>The 5 Requirement Engineering activities</h3>
+    <div class="acc-item open">
+      <div class="acc-head"><div class="left"><span class="acc-num">▸</span><span class="acc-title">Elicitation → Analysis → Specification → Validation → Management</span></div><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><div class="acc-inner">
+        <ol>
+          <li><strong>Requirement Elicitation</strong> — gathering requirements via interviews, questionnaires, brainstorming, use cases, direct observation</li>
+          <li><strong>Requirement Analysis</strong> — checking requirements for consistency, completeness, feasibility; resolving conflicts between stakeholders</li>
+          <li><strong>Requirement Specification</strong> — formally documenting requirements, typically in an SRS document</li>
+          <li><strong>Requirement Validation</strong> — confirming with stakeholders that the documented requirements are correct and complete</li>
+          <li><strong>Requirement Management</strong> — handling requirement changes over the remaining life of the project</li>
+        </ol>
+      </div></div>
+    </div>
+
+    <h3>Functional vs Non-Functional Requirements</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Functional</div><p>Define <strong>WHAT</strong> the system should do — specific features and behaviours. E.g. "the system shall allow users to reset their password."</p></div>
+      <div class="def-box"><div class="lbl">Non-Functional</div><p>Define <strong>HOW WELL</strong> the system performs — the "-ilities": Performance, Security, Usability, Reliability, Scalability, Maintainability, Availability.</p></div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> "The system must respond within 2 seconds" sounds like a specific behaviour, but it's a <strong>Non-Functional</strong> requirement (Performance) — it describes quality of service, not a feature.</div>
+
+    <h3>SRS (Software Requirement Specification) — the 7 IEEE characteristics of a good SRS</h3>
+    <table>
+      <tr><th>Characteristic</th><th>Meaning</th></tr>
+      <tr><td class="strongcell">Correct</td><td>Accurately represents the actual requirements</td></tr>
+      <tr><td class="strongcell">Unambiguous</td><td>Only one possible interpretation</td></tr>
+      <tr><td class="strongcell">Complete</td><td>Includes all significant requirements</td></tr>
+      <tr><td class="strongcell">Consistent</td><td>No conflicting requirements</td></tr>
+      <tr><td class="strongcell">Verifiable</td><td>Testable and measurable</td></tr>
+      <tr><td class="strongcell">Modifiable</td><td>Structured for easy updates</td></tr>
+      <tr><td class="strongcell">Traceable</td><td>Each requirement traces back to its origin and forward to design/test artifacts</td></tr>
+    </table>
+
+    <h3>Feasibility Study</h3>
+    <p>Conducted before requirement engineering fully proceeds, to decide whether the project is even worth pursuing:</p>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Technical</div><p>Can it be built with current technology and available skills?</p></div>
+      <div class="def-box"><div class="lbl">Economic</div><p>Is it cost-justified? (cost-benefit analysis)</p></div>
+      <div class="def-box"><div class="lbl">Operational</div><p>Will it actually be used and accepted by the organisation?</p></div>
+      <div class="def-box"><div class="lbl">Schedule</div><p>Can it be completed within the required timeframe?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DESIGN (BONUS) ===================== -->
+<section id="design">
+  <div class="wrap">
+    <div class="eyebrow bonus">design.txt · bonus</div>
+    <h2>Software Design Principles</h2>
+    <p class="subtitle">Not on your explicit topic list, but Coupling &amp; Cohesion get tested constantly alongside SDLC and Software Process — worth having ready.</p>
+
+    <h3>Coupling — interdependence between different modules</h3>
+    <p>Lower is better — more independent modules are easier to maintain, test, and reuse.</p>
+    <div class="ladder">
+      <div class="ladder-item" style="border-color:var(--accent-red);"><span class="rank">1</span><span class="name" style="color:var(--accent-red);">Content</span><span class="desc">One module directly modifies/relies on another's internals — worst</span></div>
+      <div class="ladder-item"><span class="rank">2</span><span class="name">Common</span><span class="desc">Modules share global data</span></div>
+      <div class="ladder-item"><span class="rank">3</span><span class="name">External</span><span class="desc">Modules share an externally imposed data format/protocol</span></div>
+      <div class="ladder-item"><span class="rank">4</span><span class="name">Control</span><span class="desc">One module controls another's logic via passed flags</span></div>
+      <div class="ladder-item"><span class="rank">5</span><span class="name">Stamp</span><span class="desc">Modules share a composite data structure, using only parts of it</span></div>
+      <div class="ladder-item" style="border-color:var(--accent-mint);"><span class="rank">6</span><span class="name" style="color:var(--accent-mint);">Data</span><span class="desc">Modules exchange only simple, necessary parameters — best</span></div>
+    </div>
+
+    <h3>Cohesion — how well elements WITHIN one module belong together</h3>
+    <p>Higher is better — a module doing one well-defined thing is easier to understand and reuse.</p>
+    <div class="ladder">
+      <div class="ladder-item" style="border-color:var(--accent-red);"><span class="rank">1</span><span class="name" style="color:var(--accent-red);">Coincidental</span><span class="desc">Elements grouped arbitrarily, no real relationship — worst</span></div>
+      <div class="ladder-item"><span class="rank">2</span><span class="name">Logical</span><span class="desc">Grouped because they're logically similar/categorised together</span></div>
+      <div class="ladder-item"><span class="rank">3</span><span class="name">Temporal</span><span class="desc">Grouped because they execute at the same time (e.g. "initialization")</span></div>
+      <div class="ladder-item"><span class="rank">4</span><span class="name">Procedural</span><span class="desc">Grouped because they follow a certain execution order</span></div>
+      <div class="ladder-item"><span class="rank">5</span><span class="name">Communicational</span><span class="desc">Grouped because they operate on the same data</span></div>
+      <div class="ladder-item"><span class="rank">6</span><span class="name">Sequential</span><span class="desc">Output of one element feeds directly into the next</span></div>
+      <div class="ladder-item" style="border-color:var(--accent-mint);"><span class="rank">7</span><span class="name" style="color:var(--accent-mint);">Functional</span><span class="desc">Every element contributes to one single, well-defined task — best</span></div>
+    </div>
+
+    <div class="tip-box"><strong>The rule tested every time:</strong> good design = <strong>LOW coupling + HIGH cohesion</strong>. If an option describes tightly-linked modules or a module doing unrelated things, it's describing bad design.</div>
+  </div>
+</section>
+
+<!-- ===================== DEBUGGING ===================== -->
+<section id="debug">
+  <div class="wrap">
+    <div class="eyebrow">debugging.txt</div>
+    <h2>Debugging</h2>
+    <p class="subtitle">What happens after testing finds a problem.</p>
+
+    <div class="trap-box"><strong>Debugging vs Testing — the core distinction:</strong> <strong>Testing</strong> finds <em>whether/where</em> a defect exists (detects a failure). <strong>Debugging</strong> happens next — it locates the <em>root cause</em> of that failure and fixes it. Testing comes first; debugging follows.</div>
+
+    <h3>Debugging approaches</h3>
+    <table>
+      <tr><th>Approach</th><th>How it works</th></tr>
+      <tr><td class="strongcell">Brute Force</td><td>Uses memory dumps, print/trace statements to observe program state — least efficient, but the most commonly used in practice</td></tr>
+      <tr><td class="strongcell">Backtracking</td><td>Traces backward from the point of failure toward its origin, step by step — works for small programs, becomes impractical as size grows</td></tr>
+      <tr><td class="strongcell">Cause Elimination</td><td>Lists possible "cause hypotheses," then designs tests to systematically eliminate each until the true cause is isolated</td></tr>
+      <tr><td class="strongcell">Program Slicing</td><td>Narrows the search to only the code that could possibly affect a specific variable's value at the point of failure</td></tr>
+    </table>
+    <p>Modern IDE debuggers implement these ideas via breakpoints, watch variables, and step-through execution — letting a developer pause and inspect program state at any point.</p>
+  </div>
+</section>
+
+<!-- ===================== SOFTWARE TESTING ===================== -->
+<section id="testing">
+  <div class="wrap">
+    <div class="eyebrow">testing.txt</div>
+    <h2>Software Testing</h2>
+    <p class="subtitle">The biggest topic after SDLC Models — verification vs validation, testing levels, black/white box, and the specialised test types that get confused constantly.</p>
+
+    <h3>Verification vs Validation</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Verification</div><p>"Are we building the product <strong>RIGHT</strong>?" — checks the software conforms to its specifications. Done throughout development via reviews, walkthroughs, inspections. Mostly <strong>static</strong> — no code execution.</p></div>
+      <div class="def-box"><div class="lbl">Validation</div><p>"Are we building the <strong>RIGHT</strong> product?" — checks the software meets actual user needs. Done via <strong>dynamic</strong> testing — actually executing the software.</p></div>
+    </div>
+    <div class="trap-box"><strong>Exam trap:</strong> this exact "right product" vs "product right" phrasing is one of the most repeated SE questions in banking exams — don't mix up which one is which.</div>
+
+    <h3>Levels of testing (in order)</h3>
+    <table>
+      <tr><th>Level</th><th>Tests</th><th>Done by</th></tr>
+      <tr><td class="strongcell">Unit Testing</td><td>Individual components/modules in isolation</td><td>Developers</td></tr>
+      <tr><td class="strongcell">Integration Testing</td><td>Interaction/interfaces between integrated modules</td><td>Developers/QA</td></tr>
+      <tr><td class="strongcell">System Testing</td><td>The complete, fully integrated system against overall requirements</td><td>QA team</td></tr>
+      <tr><td class="strongcell">Acceptance Testing</td><td>System against business/user requirements before delivery</td><td>Client/end users</td></tr>
+    </table>
+    <p><strong>Integration testing approaches:</strong> Big Bang (integrate everything at once), Top-down (start from top-level modules, use stubs for lower ones), Bottom-up (start from lower-level modules, use drivers for upper ones), Sandwich/Hybrid (combination of both).</p>
+    <p><strong>Acceptance testing split:</strong> <strong>Alpha Testing</strong> — done in-house, by the organisation's own internal team, in a controlled environment. <strong>Beta Testing</strong> — done by real end users, in a live environment, before public release.</p>
+
+    <h3>Black Box vs White Box vs Grey Box</h3>
+    <table>
+      <tr><th>Type</th><th>Knowledge of internals</th><th>Techniques</th></tr>
+      <tr><td class="strongcell">Black Box</td><td>None — tests functionality only</td><td>Equivalence Partitioning, Boundary Value Analysis, Decision Table Testing</td></tr>
+      <tr><td class="strongcell">White Box</td><td>Full — tests internal logic/structure</td><td>Statement Coverage, Branch/Decision Coverage, Path Coverage, Condition Coverage</td></tr>
+      <tr><td class="strongcell">Grey Box</td><td>Partial</td><td>A mix of both approaches</td></tr>
+    </table>
+
+    <h3>Specialised test types — the ones that get mixed up</h3>
+    <table>
+      <tr><th>Type</th><th>Purpose</th></tr>
+      <tr><td class="strongcell">Regression Testing</td><td>Re-tests after a code change to confirm nothing that worked before has broken</td></tr>
+      <tr><td class="strongcell">Smoke Testing</td><td>A quick, <strong>broad and shallow</strong> check that a new build is stable enough for further testing — run FIRST</td></tr>
+      <tr><td class="strongcell">Sanity Testing</td><td>A quick, <strong>narrow and deep</strong> check of one specific area after a small change/fix</td></tr>
+      <tr><td class="strongcell">Load Testing</td><td>System behaviour under expected/normal load</td></tr>
+      <tr><td class="strongcell">Stress Testing</td><td>System behaviour under extreme load, beyond normal capacity — finds the breaking point</td></tr>
+      <tr><td class="strongcell">Performance Testing</td><td>Measures speed, responsiveness, and stability under a given workload</td></tr>
+      <tr><td class="strongcell">Usability Testing</td><td>Evaluates how easy/intuitive the software is for real users</td></tr>
+    </table>
+    <div class="trap-box"><strong>Smoke vs Sanity — the most confused pair:</strong> Smoke = broad + shallow, run on every new build before deeper testing begins. Sanity = narrow + deep, run on one specific feature right after a minor fix.</div>
+
+    <h3>Test Case &amp; Test Oracle</h3>
+    <div class="grid-2">
+      <div class="def-box"><div class="lbl">Test Case</div><p>A defined set of inputs, execution conditions, and expected results, designed to verify one specific test objective.</p></div>
+      <div class="def-box"><div class="lbl">Test Oracle</div><p>The mechanism or source used to determine the correct expected output — how you actually know whether a test passed or failed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CASE TOOLS ===================== -->
+<section id="case">
+  <div class="wrap">
+    <div class="eyebrow">case_tools.txt</div>
+    <h2>CASE Tools</h2>
+    <p class="subtitle">CASE = Computer-Aided Software Engineering — the tools that support and automate development activities.</p>
+
+    <div class="def-box"><div class="lbl">Definition</div><p>Software tools that support and automate software development activities — requirement analysis, design, coding, testing, and project management.</p></div>
+
+    <h3>Types of CASE tools</h3>
+    <table>
+      <tr><th>Type</th><th>Supports</th></tr>
+      <tr><td class="strongcell">Upper CASE</td><td>Early-stage activities — requirement analysis, high-level design (diagramming/modeling tools)</td></tr>
+      <tr><td class="strongcell">Lower CASE</td><td>Later-stage activities — coding, testing, debugging, maintenance</td></tr>
+      <tr><td class="strongcell">Integrated CASE (I-CASE)</td><td>The entire SDLC end-to-end, in one connected toolset</td></tr>
+    </table>
+
+    <h3>Benefits</h3>
+    <ul style="margin-left:18px; color:var(--text-muted); font-size:14px;">
+      <li style="margin-bottom:6px;">Improved productivity and faster development</li>
+      <li style="margin-bottom:6px;">Better, more consistent documentation</li>
+      <li style="margin-bottom:6px;">Improved software quality (fewer errors slip through)</li>
+      <li style="margin-bottom:6px;">Reduced long-term maintenance cost</li>
+      <li>Enforced standardisation across a team</li>
+    </ul>
+    <p><strong>Common examples:</strong> UML modeling tools, version control systems (Git), automated testing frameworks, project management/tracking tools.</p>
+
+    <div class="bonus-box">
+      <strong>Bonus — Software Estimation (COCOMO):</strong> frequently paired with SDLC topics. Boehm's <strong>COCOMO</strong> (COnstructive COst MOdel) estimates effort from project size in KLOC (thousand lines of code), using <code>Effort = a × (KLOC)^b</code>, with constants depending on project type:
+      <table style="margin-top:10px;">
+        <tr><th>Type</th><th>Description</th></tr>
+        <tr><td class="strongcell">Organic</td><td>Small team, simple/familiar project, well-understood requirements</td></tr>
+        <tr><td class="strongcell">Semi-detached</td><td>Medium size/complexity, mixed team experience</td></tr>
+        <tr><td class="strongcell">Embedded</td><td>Complex, tight constraints (hardware/regulatory/real-time), highly innovative</td></tr>
+      </table>
+      <p style="margin-top:8px; font-size:12.6px;"><strong>Function Point Analysis (FPA)</strong> is the alternative — it measures software size from its <em>functionality</em> (inputs, outputs, inquiries, files, interfaces) rather than lines of code, making it language-independent unlike LOC-based estimation.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Completes your Tier 1 Professional Knowledge coverage — Computer Fundamentals, Networking, OS, DBMS, Programming, Data Structures, OOPs, Cyber Security, Computer Organization, and now Software Engineering are all covered. Always cross-check exact weightage against the current-year official notification.</p>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('#tabnav .tab');
+  const sections = Array.from(tabs).map(t => document.querySelector(t.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+
+  document.querySelectorAll('.acc-head').forEach(head => {
+    head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
+  });
+</script>
+
+</body>
+</html>

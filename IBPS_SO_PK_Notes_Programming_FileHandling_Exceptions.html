@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Programming Basics · File Handling · Exception Handling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --basics:#8b93e0; --basics-dim:#282a3c;
+    --files:#e0a458; --files-dim:#3a2c22;
+    --exc:#e2707a; --exc-dim:#3a262a;
+    --py:#5ecfa8; --cpp:#5eb3d6; --java:#e0935e;
+    --danger:#e2707a;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(139,147,224,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(224,164,88,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; padding:0 0 60px 0;
+  }
+  a{color:var(--basics);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  header.top{border-bottom:1px solid var(--border);padding:28px 0 20px 0;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--basics);box-shadow:0 0 8px var(--basics);}
+  h1{font-family:var(--display);font-size:26px;font-weight:700;margin:0 0 6px 0;letter-spacing:-0.01em;}
+  h1 span{color:var(--text-dim);font-weight:500;}
+  .subhead{color:var(--text-dim);font-size:14px;margin:0 0 18px 0;max-width:640px;}
+  .examstrip{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--border);border-radius:100px;padding:6px 12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+  .chip b{color:var(--text);font-weight:600;}
+  .chip.py{color:var(--py);border-color:var(--py);} .chip.cpp{color:var(--cpp);border-color:var(--cpp);} .chip.java{color:var(--java);border-color:var(--java);}
+
+  .tabnav{position:sticky;top:0;z-index:20;display:flex;gap:2px;background:var(--bg);border-bottom:1px solid var(--border);padding-top:14px;}
+  .tab-btn{font-family:var(--display);font-weight:600;font-size:14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);padding:12px 18px 10px 18px;border-radius:8px 8px 0 0;cursor:pointer;display:flex;align-items:center;gap:8px;transform:translateY(1px);transition:color .15s ease, background .15s ease;}
+  .tab-btn .tag{font-family:var(--mono);font-weight:500;font-size:10px;padding:2px 6px;border-radius:4px;background:var(--panel-alt);color:var(--text-faint);}
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn[data-tab="basics"].active{color:var(--basics);border-color:var(--basics);background:var(--basics-dim);}
+  .tab-btn[data-tab="files"].active{color:var(--files);border-color:var(--files);background:var(--files-dim);}
+  .tab-btn[data-tab="exc"].active{color:var(--exc);border-color:var(--exc);background:var(--exc-dim);}
+  .tab-btn.active .tag{background:rgba(255,255,255,0.08);color:inherit;}
+
+  .panel{display:none;padding-top:26px;}
+  .panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  .panel-intro{color:var(--text-dim);font-size:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--basics);border-radius:6px;margin-bottom:22px;}
+  #panel-basics .panel-intro{border-left-color:var(--basics);}
+  #panel-files .panel-intro{border-left-color:var(--files);}
+  #panel-exc .panel-intro{border-left-color:var(--exc);}
+
+  details.acc{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
+  details.acc[open]{border-color:var(--border-soft);}
+  details.acc summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;color:var(--text);}
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .code{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 7px;border-radius:5px;color:#0e131a;flex-shrink:0;}
+  #panel-basics .code{background:var(--basics);}
+  #panel-files .code{background:var(--files);}
+  #panel-exc .code{background:var(--exc);}
+  summary .chev{margin-left:auto;color:var(--text-faint);font-size:12px;transition:transform .2s ease;}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  .acc-body{padding:2px 20px 20px 20px;color:var(--text-dim);font-size:14px;}
+  .acc-body p{margin:8px 0;}
+  .acc-body ul,.acc-body ol{margin:8px 0;padding-left:20px;}
+  .acc-body li{margin:4px 0;}
+  .acc-body h4{font-family:var(--sans);color:var(--text);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin:16px 0 6px 0;}
+  .acc-body strong{color:var(--text);font-weight:600;}
+  .acc-body code{font-family:var(--mono);background:var(--panel-alt);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:12.5px;color:#f0dcb8;}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px 0;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-faint);font-weight:500;border-bottom:1px solid var(--border-soft);}
+  td{color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong,td b{color:var(--text);}
+  .tbl-wrap{overflow-x:auto;}
+
+  .tip{display:flex;gap:10px;background:var(--panel-alt);border:1px dashed var(--border-soft);border-radius:8px;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .tip .lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;color:#0e131a;background:#f0b429;padding:2px 6px;border-radius:4px;height:fit-content;flex-shrink:0;}
+  .tip.warn .lbl{background:var(--danger);}
+  .tip p{margin:0;color:var(--text-dim);}
+
+  /* code comparison blocks */
+  .codegrid{display:grid;gap:10px;margin:10px 0 16px 0;}
+  .codeblock{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0b0f14;}
+  .langlabel{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:0.05em;padding:5px 12px;display:block;color:#0e131a;}
+  .langlabel.py{background:var(--py);} .langlabel.cpp{background:var(--cpp);} .langlabel.java{background:var(--java);}
+  .codeblock pre{margin:0;padding:12px 14px;font-family:var(--mono);font-size:12.5px;line-height:1.65;overflow-x:auto;color:#c9d6e0;}
+
+  .quiz{margin-top:26px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px 22px 20px;}
+  .quiz-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .quiz-header h3{font-family:var(--display);font-size:16px;margin:0;display:flex;align-items:center;gap:8px;}
+  .quiz-stats{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .quiz-stats .score{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .quiz-stats .timer{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .reset-btn{font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:6px 10px;border-radius:6px;cursor:pointer;}
+  .reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+  .quiz-q{padding:14px 0;border-bottom:1px solid var(--border-soft);}
+  .quiz-q:last-of-type{border-bottom:none;padding-bottom:0;}
+  .q-text{font-size:14px;color:var(--text);margin:0 0 10px 0;font-weight:500;}
+  .quiz-options{display:grid;gap:8px;}
+  .opt{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:9px 12px;border-radius:7px;font-family:var(--sans);font-size:13.5px;cursor:pointer;transition:border-color .12s ease, background .12s ease;}
+  .quiz-q:not(.answered) .opt:hover{border-color:var(--text-faint);color:var(--text);}
+  .quiz-q.answered .opt{cursor:default;}
+  .opt.picked-correct{border-color:var(--py);background:rgba(94,207,168,0.12);color:#bfe8cf;}
+  .opt.picked-wrong{border-color:var(--danger);background:rgba(226,112,122,0.12);color:#f3c3c7;}
+  .opt.reveal-correct{border-color:var(--py);background:rgba(94,207,168,0.08);color:#bfe8cf;}
+  .explain{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--basics);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .explain b{color:var(--text);}
+
+  .progress-strip{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 2px 0;}
+  .pchip{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .pchip .n{color:var(--text);font-size:15px;font-weight:600;font-family:var(--display);}
+  .pchip.b{border-left:3px solid var(--basics);} .pchip.f{border-left:3px solid var(--files);} .pchip.e{border-left:3px solid var(--exc);}
+
+  footer{text-align:center;color:var(--text-faint);font-size:12px;font-family:var(--mono);margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+
+  @media (max-width:640px){
+    h1{font-size:20px;}
+    .tab-btn{padding:10px 12px 8px 12px;font-size:13px;}
+    .tab-btn .tag{display:none;}
+    .acc-body{padding:2px 14px 16px 14px;}
+    table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER SCALE-I · PROFESSIONAL KNOWLEDGE</div>
+    <h1>Programming Notes <span>— Basics · File Handling · Exception Handling</span></h1>
+    <p class="subhead">Side-by-side syntax across Python, C++, and Java for every concept — the way these languages are usually compared in the PK paper. Same interactive format: expandable notes plus self-tests with saved scores.</p>
+    <div class="examstrip">
+      <div class="chip py"><b>PY</b> Python</div>
+      <div class="chip cpp"><b>C++</b> C++</div>
+      <div class="chip java"><b>JAVA</b> Java</div>
+      <div class="chip">Negative marking: <b>−0.25</b> per wrong answer</div>
+    </div>
+  </header>
+
+  <div class="progress-strip" id="progressStrip">
+    <div class="pchip b">PROGRAMMING BASICS<br><span class="n" id="pb">0/0</span> correct</div>
+    <div class="pchip f">FILE HANDLING<br><span class="n" id="pf">0/0</span> correct</div>
+    <div class="pchip e">EXCEPTION HANDLING<br><span class="n" id="pe">0/0</span> correct</div>
+  </div>
+
+  <nav class="tabnav">
+    <button class="tab-btn active" data-tab="basics"><span class="tag">01</span> Programming Basics</button>
+    <button class="tab-btn" data-tab="files"><span class="tag">02</span> File Handling</button>
+    <button class="tab-btn" data-tab="exc"><span class="tag">03</span> Exception Handling</button>
+  </nav>
+
+  <section id="panel-basics" class="panel active" data-topic="basics">
+    <div class="panel-intro">Core programming concepts — variables, operators, control flow, functions, arrays, and OOP basics — shown in Python, C++, and Java syntax side by side.</div>
+    <details class="acc" open>
+      <summary><span class="code">BP1</span> Compilation &amp; Execution Model <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Language</th><th>Model</th><th>Key point</th></tr>
+          <tr><td><strong>Python</strong></td><td>Interpreted</td><td>Source is compiled to bytecode internally then run by the Python Virtual Machine (PVM), line-by-line at runtime — no separate compile step for the user</td></tr>
+          <tr><td><strong>C++</strong></td><td>Compiled</td><td>Source is compiled directly into native machine code by a compiler (g++, MSVC) ahead of time — fastest execution, but platform-specific binaries</td></tr>
+          <tr><td><strong>Java</strong></td><td>Compiled + Interpreted (hybrid)</td><td><code>javac</code> compiles to platform-independent bytecode (<code>.class</code>), then the JVM interprets/JIT-compiles it — "write once, run anywhere"</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Java's bytecode + JVM model is what gives it platform independence — a very commonly tested distinction versus C++'s directly-compiled native binaries.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP2</span> Variables &amp; Data Types <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>Python</strong> is dynamically typed (no declaration keyword, type inferred at runtime and can change). <strong>C++</strong> and <strong>Java</strong> are statically typed (type fixed at declaration, checked at compile time).</p>
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>x = 10
+name = "IBPS"
+pi = 3.14
+flag = True</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>int x = 10;
+string name = "IBPS";
+double pi = 3.14;
+bool flag = true;</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>int x = 10;
+String name = "IBPS";
+double pi = 3.14;
+boolean flag = true;</pre></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP3</span> Operators <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Arithmetic (<code>+ - * /</code>), relational (<code>== != &lt; &gt;</code>) are essentially identical across all three. The differences are in logical operators and division/exponent:</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Operation</th><th>Python</th><th>C++</th><th>Java</th></tr>
+          <tr><td>Logical AND / OR / NOT</td><td><code>and / or / not</code></td><td><code>&amp;&amp; / || / !</code></td><td><code>&amp;&amp; / || / !</code></td></tr>
+          <tr><td>Integer division</td><td><code>//</code></td><td><code>/</code> (when both operands are int)</td><td><code>/</code> (when both operands are int)</td></tr>
+          <tr><td>Exponent</td><td><code>**</code> (e.g. <code>2**3</code>)</td><td>No operator — use <code>pow(2,3)</code></td><td>No operator — use <code>Math.pow(2,3)</code></td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP4</span> Control Flow — if / else <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>if x > 0:
+    print("positive")
+elif x == 0:
+    print("zero")
+else:
+    print("negative")</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>if (x > 0) {
+    cout &lt;&lt; "positive";
+} else if (x == 0) {
+    cout &lt;&lt; "zero";
+} else {
+    cout &lt;&lt; "negative";
+}</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>if (x > 0) {
+    System.out.println("positive");
+} else if (x == 0) {
+    System.out.println("zero");
+} else {
+    System.out.println("negative");
+}</pre></div>
+        </div>
+        <p>Python uses <strong>indentation</strong> to define blocks (no braces); C++ and Java use <strong>curly braces</strong> <code>{ }</code>. Python 3.10+ also has a <code>match</code> statement; C++/Java use <code>switch</code>.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">BP5</span> Loops <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>for i in range(5):
+    print(i)
+
+while x &lt; 5:
+    x += 1</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>for (int i=0; i&lt;5; i++) {
+    cout &lt;&lt; i;
+}
+while (x &lt; 5) { x++; }
+do { x++; } while (x &lt; 5);</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>for (int i=0; i&lt;5; i++) {
+    System.out.println(i);
+}
+while (x &lt; 5) { x++; }
+do { x++; } while (x &lt; 5);</pre></div>
+        </div>
+        <div class="tip warn"><span class="lbl">KEY DIFFERENCE</span><p>Python has <strong>no built-in do-while loop</strong> — it must be simulated with <code>while True:</code> plus a conditional <code>break</code>. C++ and Java both natively support <code>do { } while(condition);</code>.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP6</span> Functions &amp; Methods <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>def add(a, b):
+    return a + b</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>int add(int a, int b) {
+    return a + b;
+}</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>static int add(int a, int b) {
+    return a + b;
+}</pre></div>
+        </div>
+        <p>Java methods must always live <strong>inside a class</strong> — there's no such thing as a free-standing function. C++ allows both free functions and class methods.</p>
+        <div class="tip warn"><span class="lbl">KEY DIFFERENCE</span><p><strong>Function overloading</strong> (same name, different parameter types/count) is supported natively in <strong>C++ and Java</strong>, but <strong>not in Python</strong> — defining a function twice with the same name simply overwrites the earlier definition.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP7</span> Arrays &amp; Lists <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>arr = [1, 2, 3]
+arr.append(4)     # dynamic size
+# lists can hold mixed types</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>int arr[5] = {1,2,3,4,5};   // fixed size
+vector&lt;int&gt; v = {1,2,3};    // dynamic size
+v.push_back(4);</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>int[] arr = {1,2,3,4,5};      // fixed size
+ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+list.add(4);                  // dynamic size</pre></div>
+        </div>
+        <p>Python's built-in <code>list</code> is always dynamic and can hold mixed types. C++/Java's native arrays are <strong>fixed-size</strong> and single-typed — for dynamic behaviour you need <code>vector</code> (C++) or <code>ArrayList</code> (Java).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">BP8</span> OOP Basics — Class &amp; Object <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>class Student:
+    def __init__(self, name):
+        self.name = name
+    def display(self):
+        print(self.name)
+
+s = Student("Abhinav")
+s.display()</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>class Student {
+public:
+    string name;
+    Student(string n) { name = n; }
+    void display() { cout &lt;&lt; name; }
+};
+
+Student s("Abhinav");
+s.display();</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>class Student {
+    String name;
+    Student(String n) { name = n; }
+    void display() { System.out.println(name); }
+}
+
+Student s = new Student("Abhinav");
+s.display();</pre></div>
+        </div>
+        <p>Python's constructor is always named <code>__init__</code> and takes an explicit <code>self</code> as the first parameter. C++/Java constructors share the class's own name, and objects in Java are always created with <code>new</code> (C++ can create objects on the stack directly, without <code>new</code>).</p>
+      </div>
+    </details>
+    <div class="quiz" data-topic="basics">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Programming Basics</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="b1">
+        <p class="q-text">1. Which language compiles source code into platform-independent bytecode that is then executed by a virtual machine?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Python</button>
+          <button class="opt" data-correct="false">C++</button>
+          <button class="opt" data-correct="true">Java</button>
+          <button class="opt" data-correct="false">All three</button>
+        </div>
+        <p class="explain" hidden><b>Java</b> compiles to bytecode (.class) run by the JVM — "write once, run anywhere." C++ compiles directly to native machine code.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b2">
+        <p class="q-text">2. Which of these languages is dynamically typed, meaning a variable's type is determined at runtime and can change?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Python</button>
+          <button class="opt" data-correct="false">C++</button>
+          <button class="opt" data-correct="false">Java</button>
+          <button class="opt" data-correct="false">None of these</button>
+        </div>
+        <p class="explain" hidden><b>Python</b> is dynamically typed. C++ and Java are statically typed — types are fixed and checked at compile time.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b3">
+        <p class="q-text">3. In Python, which operator is used for logical AND, as opposed to C++/Java's symbol-based operator?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">&&</button>
+          <button class="opt" data-correct="true">and</button>
+          <button class="opt" data-correct="false">&</button>
+          <button class="opt" data-correct="false">AND</button>
+        </div>
+        <p class="explain" hidden>Python uses the keyword <b>and</b> (also <code>or</code>, <code>not</code>); C++ and Java use <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b4">
+        <p class="q-text">4. Which of these languages defines code blocks using indentation rather than curly braces?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Python</button>
+          <button class="opt" data-correct="false">C++</button>
+          <button class="opt" data-correct="false">Java</button>
+          <button class="opt" data-correct="false">C++ and Java both</button>
+        </div>
+        <p class="explain" hidden><b>Python</b> uses indentation to define blocks; C++ and Java both use <code>{ }</code>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b5">
+        <p class="q-text">5. Which loop construct is NOT natively available in Python, requiring a `while True` plus `break` to simulate?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">for loop</button>
+          <button class="opt" data-correct="false">while loop</button>
+          <button class="opt" data-correct="true">do-while loop</button>
+          <button class="opt" data-correct="false">nested loop</button>
+        </div>
+        <p class="explain" hidden>Python has <b>no built-in do-while loop</b> — C++ and Java both support it directly with <code>do { } while(condition);</code>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b6">
+        <p class="q-text">6. Function/method overloading (same name, different parameter types or count) is supported in which of these languages?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Python only</button>
+          <button class="opt" data-correct="true">C++ and Java, but not Python</button>
+          <button class="opt" data-correct="false">Python and C++, but not Java</button>
+          <button class="opt" data-correct="false">None of them</button>
+        </div>
+        <p class="explain" hidden><b>C++ and Java</b> both support overloading natively. In Python, redefining a function with the same name simply replaces the earlier one.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b7">
+        <p class="q-text">7. Which C++/Java data structure provides a dynamically resizable array-like container, unlike their fixed-size native arrays?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">int[] / int arr[]</button>
+          <button class="opt" data-correct="true">ArrayList (Java) / vector (C++)</button>
+          <button class="opt" data-correct="false">HashMap / map</button>
+          <button class="opt" data-correct="false">String / string</button>
+        </div>
+        <p class="explain" hidden><b>ArrayList</b> in Java and <b>vector</b> in C++ both grow dynamically, unlike native fixed-size arrays.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b8">
+        <p class="q-text">8. In Python's class syntax, what is the name always given to the constructor method?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">constructor()</button>
+          <button class="opt" data-correct="false">new()</button>
+          <button class="opt" data-correct="true">__init__()</button>
+          <button class="opt" data-correct="false">The same name as the class, like in C++/Java</button>
+        </div>
+        <p class="explain" hidden>Python's constructor is always named <b>__init__</b>, unlike C++/Java where the constructor shares the class's own name.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-files" class="panel" data-topic="files">
+    <div class="panel-intro">Opening, reading, writing, and safely closing files — including each language's approach to automatic resource cleanup (Python's <code>with</code>, Java's try-with-resources, C++'s RAII).</div>
+    <details class="acc" open>
+      <summary><span class="code">FH1</span> Opening &amp; Closing a File <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>f = open("data.txt", "r")
+# ... use the file ...
+f.close()</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>#include &lt;fstream&gt;
+ifstream f("data.txt");
+// ... use the file ...
+f.close();</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>FileReader f = new FileReader("data.txt");
+// ... use the file ...
+f.close();</pre></div>
+        </div>
+        <p>C++ uses <code>ifstream</code> (input), <code>ofstream</code> (output), or <code>fstream</code> (both) from the <code>&lt;fstream&gt;</code> header. Java has separate reader/writer classes (<code>FileReader</code>, <code>FileWriter</code>) typically wrapped by a buffered class for efficiency.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">FH2</span> File Modes <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Purpose</th><th>Python</th><th>C++</th><th>Java</th></tr>
+          <tr><td>Read only</td><td><code>"r"</code></td><td><code>ios::in</code></td><td><code>FileReader</code></td></tr>
+          <tr><td>Write (overwrite)</td><td><code>"w"</code></td><td><code>ios::out</code></td><td><code>FileWriter(file)</code></td></tr>
+          <tr><td>Append</td><td><code>"a"</code></td><td><code>ios::app</code></td><td><code>FileWriter(file, true)</code></td></tr>
+          <tr><td>Read + Write</td><td><code>"r+"</code></td><td><code>ios::in | ios::out</code></td><td><code>RandomAccessFile(file, "rw")</code></td></tr>
+          <tr><td>Binary mode</td><td><code>"rb"</code> / <code>"wb"</code></td><td><code>ios::binary</code></td><td><code>FileInputStream</code> / <code>FileOutputStream</code></td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">FH3</span> Reading a File <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>for line in f:
+    print(line)
+# or: f.read() / f.readline() / f.readlines()</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>string line;
+while (getline(f, line)) {
+    cout &lt;&lt; line;
+}</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>BufferedReader br = new BufferedReader(new FileReader("data.txt"));
+String line;
+while ((line = br.readLine()) != null) {
+    System.out.println(line);
+}</pre></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">FH4</span> Writing to a File <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>f = open("out.txt", "w")
+f.write("Hello\n")
+f.close()</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>ofstream f("out.txt");
+f &lt;&lt; "Hello" &lt;&lt; endl;
+f.close();</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>FileWriter fw = new FileWriter("out.txt");
+fw.write("Hello");
+fw.close();</pre></div>
+        </div>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">FH5</span> Automatic Resource Cleanup <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Forgetting to close a file leaks a resource handle — each language has its own idiomatic way to guarantee closure automatically, even if an error occurs mid-way.</p>
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>with open("data.txt", "r") as f:
+    for line in f:
+        print(line)
+# file is automatically closed here</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>{
+    ifstream f("data.txt");
+    // use f ...
+} // f's destructor auto-closes it (RAII)</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+    String line;
+    while ((line = br.readLine()) != null) { System.out.println(line); }
+} // auto-closed at the end of try-with-resources</pre></div>
+        </div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Python's <code>with</code> statement, Java's <strong>try-with-resources</strong>, and C++'s <strong>RAII</strong> (Resource Acquisition Is Initialization, via destructors) all solve the same problem — guaranteed cleanup — using three different language mechanisms. This three-way comparison is a common conceptual question.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">FH6</span> Checking Existence &amp; Deleting Files <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>import os
+os.path.exists("data.txt")
+os.remove("data.txt")</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>#include &lt;filesystem&gt;
+std::filesystem::exists("data.txt");
+std::filesystem::remove("data.txt");</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>File f = new File("data.txt");
+f.exists();
+f.delete();</pre></div>
+        </div>
+        <p>C++'s <code>&lt;filesystem&gt;</code> library (standardised in C++17) provides this functionality; older C++ code often used platform-specific calls instead.</p>
+      </div>
+    </details>
+    <div class="quiz" data-topic="files">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — File Handling</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="f1">
+        <p class="q-text">1. Which C++ class is used specifically for reading from a file (input only)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">ofstream</button>
+          <button class="opt" data-correct="true">ifstream</button>
+          <button class="opt" data-correct="false">fstream</button>
+          <button class="opt" data-correct="false">iostream</button>
+        </div>
+        <p class="explain" hidden><b>ifstream</b> ("input file stream") is for reading; <code>ofstream</code> is for writing; <code>fstream</code> can do both.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f2">
+        <p class="q-text">2. Which Python file mode opens a file for writing such that new content is added to the end, without erasing existing content?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">"w"</button>
+          <button class="opt" data-correct="true">"a"</button>
+          <button class="opt" data-correct="false">"r"</button>
+          <button class="opt" data-correct="false">"r+"</button>
+        </div>
+        <p class="explain" hidden>Mode <b>"a"</b> (append) adds to the end of the file. Mode <code>"w"</code> overwrites/truncates existing content.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f3">
+        <p class="q-text">3. Which Java class is commonly wrapped around a FileReader to enable efficient line-by-line reading via readLine()?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">FileWriter</button>
+          <button class="opt" data-correct="true">BufferedReader</button>
+          <button class="opt" data-correct="false">Scanner only</button>
+          <button class="opt" data-correct="false">PrintWriter</button>
+        </div>
+        <p class="explain" hidden><b>BufferedReader</b> wraps a FileReader and provides the convenient <code>readLine()</code> method along with buffering for efficiency.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f4">
+        <p class="q-text">4. Which C++ function is used inside a loop to read a file line by line into a string variable?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">readLine()</button>
+          <button class="opt" data-correct="true">getline()</button>
+          <button class="opt" data-correct="false">scanf()</button>
+          <button class="opt" data-correct="false">fgets() only</button>
+        </div>
+        <p class="explain" hidden><b>getline(stream, string)</b> is the standard C++ way to read a line at a time from a file stream.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f5">
+        <p class="q-text">5. Which Python construct guarantees a file is automatically closed even if an exception occurs while it's open?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">try/except only</button>
+          <button class="opt" data-correct="true">with open(...) as f:</button>
+          <button class="opt" data-correct="false">import file</button>
+          <button class="opt" data-correct="false">f.autoclose()</button>
+        </div>
+        <p class="explain" hidden>Python's <b>with</b> statement (context manager) guarantees the file is closed when the block exits, even on an exception.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f6">
+        <p class="q-text">6. What is the name of Java's mechanism that automatically closes a resource declared in the try's parentheses, once the try block finishes?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Garbage collection</button>
+          <button class="opt" data-correct="true">Try-with-resources</button>
+          <button class="opt" data-correct="false">Finalize block</button>
+          <button class="opt" data-correct="false">Auto-flush</button>
+        </div>
+        <p class="explain" hidden><b>Try-with-resources</b> (Java 7+) automatically calls close() on any resource declared in the try(...) parentheses.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f7">
+        <p class="q-text">7. In C++, the mechanism where a file stream's destructor automatically closes the file when the stream object goes out of scope is known by which acronym?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">RAII</button>
+          <button class="opt" data-correct="false">GC</button>
+          <button class="opt" data-correct="false">JIT</button>
+          <button class="opt" data-correct="false">ARC</button>
+        </div>
+        <p class="explain" hidden><b>RAII</b> (Resource Acquisition Is Initialization) ties resource lifetime to object scope — the destructor closes the file automatically.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="f8">
+        <p class="q-text">8. Which Java class represents a file/directory path and provides methods like exists() and delete(), without itself reading or writing file content?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">File</button>
+          <button class="opt" data-correct="false">FileReader</button>
+          <button class="opt" data-correct="false">BufferedWriter</button>
+          <button class="opt" data-correct="false">Scanner</button>
+        </div>
+        <p class="explain" hidden>The <b>File</b> class represents a path/reference to a file or directory — used for existence checks, deletion, renaming, etc., not for reading/writing content.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-exc" class="panel" data-topic="exc">
+    <div class="panel-intro">try/catch/finally syntax, raising and catching exceptions, custom exception classes, and the checked-vs-unchecked distinction that's unique to Java.</div>
+    <details class="acc" open>
+      <summary><span class="code">EH1</span> What Is an Exception? <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>An <strong>exception</strong> is a runtime error/unexpected condition that disrupts the normal flow of a program (e.g. dividing by zero, accessing a missing file, an invalid array index). <strong>Exception handling</strong> lets a program detect these conditions and respond gracefully — logging the issue, retrying, or failing safely — instead of crashing abruptly.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">EH2</span> try / catch / finally Syntax <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>try:
+    x = 10 / 0
+except ZeroDivisionError as e:
+    print("Error:", e)
+finally:
+    print("Done")</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>try {
+    if (b == 0) throw runtime_error("Division by zero");
+    result = a / b;
+} catch (const runtime_error&amp; e) {
+    cout &lt;&lt; "Error: " &lt;&lt; e.what();
+}</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>try {
+    int x = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Error: " + e.getMessage());
+} finally {
+    System.out.println("Done");
+}</pre></div>
+        </div>
+        <div class="tip warn"><span class="lbl">KEY DIFFERENCE</span><p><strong>C++ has no <code>finally</code> block</strong> — cleanup is instead handled through RAII (destructors running automatically when objects go out of scope). Python and Java both support an explicit <code>finally</code>/<code>finally</code> block that always runs.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">EH3</span> Raising / Throwing Exceptions <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>raise ValueError("Invalid input")</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>throw invalid_argument("Invalid input");</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>throw new IllegalArgumentException("Invalid input");</pre></div>
+        </div>
+        <p>Python uses the keyword <code>raise</code>; C++ and Java both use <code>throw</code>. In Java, exception objects are always created with <code>new</code>.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">EH4</span> Custom Exceptions <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>class MyError(Exception):
+    pass
+
+raise MyError("Something went wrong")</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>class MyError : public exception {
+public:
+    const char* what() const noexcept override {
+        return "Something went wrong";
+    }
+};
+throw MyError();</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>class MyException extends Exception {
+    public MyException(String msg) { super(msg); }
+}
+throw new MyException("Something went wrong");</pre></div>
+        </div>
+        <p>All three follow the same pattern: create a new class that <strong>inherits from the language's base exception type</strong> (<code>Exception</code> in Python/Java, <code>std::exception</code> in C++).</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">EH5</span> Catching Multiple Exception Types <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="codegrid">
+          <div class="codeblock"><span class="langlabel py">PYTHON</span><pre>try:
+    ...
+except (TypeError, ValueError) as e:
+    print("Error:", e)</pre></div>
+          <div class="codeblock"><span class="langlabel cpp">C++</span><pre>try {
+    ...
+} catch (const invalid_argument&amp; e) {
+    ...
+} catch (const out_of_range&amp; e) {
+    ...
+}</pre></div>
+          <div class="codeblock"><span class="langlabel java">JAVA</span><pre>try {
+    ...
+} catch (IOException | SQLException e) {
+    ...
+}</pre></div>
+        </div>
+        <p>Python groups multiple types in one <code>except</code> using a tuple. Java 7+ supports the same idea with the pipe <code>|</code> in one <code>catch</code>. C++ has no multi-type single-catch syntax — it always needs separate <code>catch</code> blocks per exception type.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">EH6</span> Checked vs Unchecked Exceptions (Java-specific) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>This distinction is <strong>unique to Java</strong> — Python and C++ don't enforce it.</p>
+        <ul>
+          <li><strong>Checked exceptions</strong> — must be either caught or declared with <code>throws</code> in the method signature; checked by the compiler (e.g. <code>IOException</code>, <code>SQLException</code>).</li>
+          <li><strong>Unchecked exceptions</strong> (RuntimeException subclasses) — the compiler does NOT force you to catch or declare them (e.g. <code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>).</li>
+        </ul>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>In Python, every exception behaves like Java's "unchecked" kind — nothing is enforced by the interpreter at compile time (since there IS no separate compile-time check). C++ similarly has no checked/unchecked concept — any exception type can be thrown from anywhere without declaration.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">EH7</span> Common Built-in Exceptions <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Situation</th><th>Python</th><th>C++</th><th>Java</th></tr>
+          <tr><td>Division by zero</td><td><code>ZeroDivisionError</code></td><td>No built-in exception (undefined behaviour for int; produces inf/nan for float)</td><td><code>ArithmeticException</code></td></tr>
+          <tr><td>Invalid type used</td><td><code>TypeError</code></td><td><code>std::bad_cast</code></td><td>N/A (caught at compile time, being statically typed)</td></tr>
+          <tr><td>Invalid value/argument</td><td><code>ValueError</code></td><td><code>std::invalid_argument</code></td><td><code>IllegalArgumentException</code></td></tr>
+          <tr><td>Index out of bounds</td><td><code>IndexError</code></td><td><code>std::out_of_range</code></td><td><code>ArrayIndexOutOfBoundsException</code></td></tr>
+          <tr><td>Missing key (map/dict)</td><td><code>KeyError</code></td><td><code>std::out_of_range</code> (for <code>.at()</code>)</td><td><code>NoSuchElementException</code></td></tr>
+          <tr><td>File not found</td><td><code>FileNotFoundError</code></td><td>No exception by default — stream just fails silently unless checked</td><td><code>FileNotFoundException</code> (checked)</td></tr>
+          <tr><td>Null/None reference used</td><td><code>AttributeError</code></td><td>Undefined behaviour (segfault) — no built-in exception for null pointer dereference</td><td><code>NullPointerException</code></td></tr>
+          <tr><td>Memory allocation failure</td><td>N/A (handled internally)</td><td><code>std::bad_alloc</code></td><td><code>OutOfMemoryError</code> (an Error, not an Exception)</td></tr>
+        </table></div>
+        <div class="tip warn"><span class="lbl">DISTINCTION</span><p>C++ is notably more "silent" about several failure modes (like a null pointer dereference) — these cause <strong>undefined behaviour</strong> rather than a catchable exception, unlike Python and Java which raise well-defined exceptions for the same situations.</p></div>
+      </div>
+    </details>
+    <div class="quiz" data-topic="exc">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Exception Handling</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="e1">
+        <p class="q-text">1. Which keyword does Python use to manually trigger/raise an exception?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">throw</button>
+          <button class="opt" data-correct="true">raise</button>
+          <button class="opt" data-correct="false">except</button>
+          <button class="opt" data-correct="false">error</button>
+        </div>
+        <p class="explain" hidden>Python uses <b>raise</b>; C++ and Java both use <b>throw</b> instead.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e2">
+        <p class="q-text">2. Which of these three languages does NOT support a `finally` block, relying instead on RAII/destructors for guaranteed cleanup?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Python</button>
+          <button class="opt" data-correct="true">C++</button>
+          <button class="opt" data-correct="false">Java</button>
+          <button class="opt" data-correct="false">All three lack it</button>
+        </div>
+        <p class="explain" hidden><b>C++ has no finally block</b> — cleanup relies on RAII (destructors firing automatically on scope exit). Python and Java both support finally.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e3">
+        <p class="q-text">3. In Java, an exception that must be either caught or declared with `throws` in the method signature, enforced by the compiler, is called a:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Checked exception</button>
+          <button class="opt" data-correct="false">Unchecked exception</button>
+          <button class="opt" data-correct="false">Runtime exception</button>
+          <button class="opt" data-correct="false">Silent exception</button>
+        </div>
+        <p class="explain" hidden>A <b>checked exception</b> (like IOException) must be handled or declared — enforced at compile time. RuntimeException subclasses are unchecked.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e4">
+        <p class="q-text">4. Which exception does Python raise when dividing a number by zero?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">ValueError</button>
+          <button class="opt" data-correct="true">ZeroDivisionError</button>
+          <button class="opt" data-correct="false">ArithmeticException</button>
+          <button class="opt" data-correct="false">TypeError</button>
+        </div>
+        <p class="explain" hidden>Python raises <b>ZeroDivisionError</b> specifically. Java's equivalent for integer division by zero is <code>ArithmeticException</code>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e5">
+        <p class="q-text">5. In Java, catching two different exception types in a single catch block uses which syntax between the two type names?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">A comma ,</button>
+          <button class="opt" data-correct="true">A pipe |</button>
+          <button class="opt" data-correct="false">The word "or"</button>
+          <button class="opt" data-correct="false">A semicolon ;</button>
+        </div>
+        <p class="explain" hidden>Java 7+ multi-catch syntax uses a <b>pipe</b>: <code>catch (IOException | SQLException e)</code>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e6">
+        <p class="q-text">6. When creating a custom exception class in C++, which base class should it typically inherit from?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">std::error</button>
+          <button class="opt" data-correct="true">std::exception</button>
+          <button class="opt" data-correct="false">std::throwable</button>
+          <button class="opt" data-correct="false">std::runtime</button>
+        </div>
+        <p class="explain" hidden>C++ custom exceptions typically inherit from <b>std::exception</b>, overriding its <code>what()</code> method.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e7">
+        <p class="q-text">7. Dereferencing a null pointer in C++ typically results in:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">A caught NullPointerException, same as Java</button>
+          <button class="opt" data-correct="true">Undefined behaviour (often a segmentation fault), with no built-in exception</button>
+          <button class="opt" data-correct="false">A compiler warning only, program continues normally</button>
+          <button class="opt" data-correct="false">An automatic retry</button>
+        </div>
+        <p class="explain" hidden>C++ has no built-in exception for null dereference — it's <b>undefined behaviour</b>, often crashing with a segfault, unlike Java's well-defined NullPointerException.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="e8">
+        <p class="q-text">8. Which Java exception class is thrown when array access goes beyond the array's valid index range?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">IndexError</button>
+          <button class="opt" data-correct="true">ArrayIndexOutOfBoundsException</button>
+          <button class="opt" data-correct="false">OutOfRangeException</button>
+          <button class="opt" data-correct="false">InvalidIndexException</button>
+        </div>
+        <p class="explain" hidden>Java raises <b>ArrayIndexOutOfBoundsException</b>; Python's equivalent is <code>IndexError</code>, C++'s is <code>std::out_of_range</code> (when using bounds-checked <code>.at()</code>).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>IBPS SO IT Officer · Professional Knowledge revision notes · scores stored locally to this tool</footer>
+</div>
+
+<script>
+(function(){
+  const topics = ['basics','files','exc'];
+  const quizState = {basics:{}, files:{}, exc:{}};
+  const timers = {basics:{start:null,elapsed:0,handle:null}, files:{start:null,elapsed:0,handle:null}, exc:{start:null,elapsed:0,handle:null}};
+
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60).toString().padStart(2,'0');
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function updateScoreDisplay(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    const total = quizEl.querySelectorAll('.quiz-q').length;
+    const correct = Object.values(quizState[topic]).filter(v=>v.correct).length;
+    const answered = Object.keys(quizState[topic]).length;
+    quizEl.querySelector('.score').textContent = 'Score: '+correct+'/'+total;
+    const map = {basics:'pb', files:'pf', exc:'pe'};
+    const el = document.getElementById(map[topic]);
+    if(el) el.textContent = correct+'/'+total;
+    return {total, answered, correct};
+  }
+
+  function startTimer(topic){
+    const t = timers[topic];
+    if(t.handle) return;
+    t.start = Date.now() - t.elapsed*1000;
+    t.handle = setInterval(()=>{
+      t.elapsed = (Date.now()-t.start)/1000;
+      const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+      if(quizEl) quizEl.querySelector('.timer').textContent = fmtTime(t.elapsed);
+    }, 1000);
+  }
+  function stopTimer(topic){ const t = timers[topic]; if(t.handle){ clearInterval(t.handle); t.handle=null; } }
+  function resetTimer(topic){
+    stopTimer(topic);
+    timers[topic] = {start:null, elapsed:0, handle:null};
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(quizEl) quizEl.querySelector('.timer').textContent = '00:00';
+  }
+
+  async function saveProgress(topic){
+    try{ await window.storage.set('prog-quiz-'+topic, JSON.stringify(quizState[topic]), false); }catch(e){}
+  }
+
+  function applyAnswer(qEl, chosenIdx, isCorrect){
+    const opts = qEl.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      if(i===chosenIdx && isCorrect) o.classList.add('picked-correct');
+      else if(i===chosenIdx && !isCorrect) o.classList.add('picked-wrong');
+      else if(o.dataset.correct==='true') o.classList.add('reveal-correct');
+    });
+    qEl.classList.add('answered');
+    const ex = qEl.querySelector('.explain');
+    if(ex) ex.hidden = false;
+  }
+
+  function handleOptionClick(e){
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    const qEl = opt.closest('.quiz-q');
+    if(!qEl || qEl.classList.contains('answered')) return;
+    const quizEl = opt.closest('.quiz');
+    const topic = quizEl.dataset.topic;
+    const qid = qEl.dataset.qid;
+    const opts = Array.from(qEl.querySelectorAll('.opt'));
+    const chosenIdx = opts.indexOf(opt);
+    const isCorrect = opt.dataset.correct === 'true';
+    applyAnswer(qEl, chosenIdx, isCorrect);
+    quizState[topic][qid] = {chosenIndex:chosenIdx, correct:isCorrect};
+    startTimer(topic);
+    const stats = updateScoreDisplay(topic);
+    if(stats && stats.answered >= stats.total) stopTimer(topic);
+    saveProgress(topic);
+  }
+  document.addEventListener('click', handleOptionClick);
+
+  document.querySelectorAll('.reset-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const quizEl = btn.closest('.quiz');
+      const topic = quizEl.dataset.topic;
+      quizState[topic] = {};
+      quizEl.querySelectorAll('.quiz-q').forEach(qEl=>{
+        qEl.classList.remove('answered');
+        qEl.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked-correct','picked-wrong','reveal-correct'));
+        const ex = qEl.querySelector('.explain');
+        if(ex) ex.hidden = true;
+      });
+      updateScoreDisplay(topic);
+      resetTimer(topic);
+      try{ await window.storage.delete('prog-quiz-'+topic, false); }catch(e){}
+    });
+  });
+
+  function restoreState(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    Object.keys(quizState[topic]).forEach(qid=>{
+      const qEl = quizEl.querySelector('.quiz-q[data-qid="'+qid+'"]');
+      if(!qEl) return;
+      const rec = quizState[topic][qid];
+      applyAnswer(qEl, rec.chosenIndex, rec.correct);
+    });
+    updateScoreDisplay(topic);
+  }
+
+  async function init(){
+    for(const topic of topics){
+      try{
+        const res = await window.storage.get('prog-quiz-'+topic, false);
+        if(res && res.value) quizState[topic] = JSON.parse(res.value);
+      }catch(e){ quizState[topic] = {}; }
+      restoreState(topic);
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>

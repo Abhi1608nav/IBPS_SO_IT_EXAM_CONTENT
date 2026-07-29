@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — High-Level PK Mock (60Q)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --acc:#9b8ce0;
+    --ok:#5ecfa8; --ok-dim:#1e2c22; --bad:#e2707a; --bad-dim:#301f22; --marked:#e0a458; --marked-dim:#3a2c22;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, rgba(155,140,224,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,207,168,0.05), transparent 55%), var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:20px;}
+  h1,h2,h3{font-family:var(--display);margin:0;}
+  .hide{display:none !important;}
+  button{font-family:var(--sans);cursor:pointer;}
+  pre{font-family:var(--mono);background:#0b0f14;border:1px solid var(--border);padding:10px 12px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.6;color:#c9d6e0;margin:8px 0;}
+
+  #startScreen{max-width:720px;margin:40px auto;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);}
+  #startScreen h1{font-size:26px;margin-bottom:8px;}
+  #startScreen p.sub{color:var(--text-dim);font-size:14px;margin:0 0 20px 0;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .infogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+  .infochip{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
+  .infochip .n{font-family:var(--display);font-size:17px;font-weight:700;color:var(--acc);}
+  .infochip .l{font-family:var(--mono);font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+  .card h3{font-size:14px;margin-bottom:10px;color:var(--text);}
+  .card ul{margin:0;padding-left:20px;color:var(--text-dim);font-size:13.5px;}
+  .card li{margin:6px 0;}
+  .card li b{color:var(--text);}
+  #historyLine{font-family:var(--mono);font-size:12px;color:var(--text-faint);margin:10px 0 0 0;}
+  .startbtn{display:block;width:100%;background:var(--acc);color:#0e131a;border:none;border-radius:8px;padding:15px;font-family:var(--display);font-weight:700;font-size:15px;margin-top:8px;}
+  .startbtn:hover{filter:brightness(1.08);}
+
+  #testScreen{display:none;}
+  .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px;gap:12px;flex-wrap:wrap;}
+  .topbar .ttl{font-family:var(--display);font-weight:600;font-size:14px;color:var(--text-dim);}
+  .timerbox{font-family:var(--mono);font-size:16px;font-weight:600;background:var(--panel);border:1px solid var(--border);padding:6px 14px;border-radius:8px;color:var(--acc);}
+  .timerbox.low{color:var(--bad);border-color:var(--bad);}
+  .submitbtn{background:var(--bad);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;}
+
+  .testlayout{display:grid;grid-template-columns:1fr 300px;gap:18px;padding:18px 20px;}
+  @media (max-width:860px){.testlayout{grid-template-columns:1fr;}}
+
+  .qpanel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .topictag{font-family:var(--mono);font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:5px;color:#0e131a;background:var(--acc);}
+  .qnum{font-family:var(--mono);font-size:12px;color:var(--text-faint);}
+  .qtext{font-size:15.5px;color:var(--text);margin:0 0 12px 0;font-weight:500;}
+  .options{display:grid;gap:10px;margin-bottom:20px;}
+  .option{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:12px 14px;border-radius:8px;font-size:14px;display:flex;align-items:center;gap:10px;}
+  .option:hover{border-color:var(--text-faint);color:var(--text);}
+  .option.selected{border-color:var(--acc);background:rgba(155,140,224,0.14);color:var(--text);}
+  .option .lettercircle{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0;color:var(--text-faint);}
+  .option.selected .lettercircle{border-color:var(--acc);color:var(--acc);}
+  .ctrlbar{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border-soft);padding-top:16px;}
+  .ctrlbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:9px 14px;border-radius:7px;font-size:12.5px;font-family:var(--mono);}
+  .ctrlbtn:hover{color:var(--text);border-color:var(--text-faint);}
+  .ctrlbtn.primary{background:var(--ok);color:#0e131a;border-color:var(--ok);font-weight:600;}
+  .ctrlbtn.mark{background:var(--marked);color:#0e131a;border-color:var(--marked);font-weight:600;}
+  .ctrlbtn.spacer{margin-left:auto;}
+
+  .palette{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;height:fit-content;position:sticky;top:70px;}
+  .palette h3{font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;color:var(--text-faint);margin-bottom:10px;}
+  .legend{display:grid;gap:5px;margin-bottom:14px;font-size:11px;color:var(--text-dim);}
+  .legend div{display:flex;align-items:center;gap:6px;}
+  .legend .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0;}
+  .sw.nv{background:var(--panel-alt);border:1px solid var(--border);} .sw.na{background:var(--bad);} .sw.an{background:var(--ok);}
+  .sw.mk{background:var(--marked);} .sw.am{background:var(--ok);border:2px solid var(--marked);}
+  .pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+  .pbtn{aspect-ratio:1;border-radius:6px;border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .pbtn.na{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .pbtn.an{background:var(--ok);color:#0e131a;border-color:var(--ok);}
+  .pbtn.mk{background:var(--marked);color:#0e131a;border-color:var(--marked);}
+  .pbtn.am{background:var(--ok);color:#0e131a;box-shadow:0 0 0 2px var(--marked) inset;}
+  .pbtn.current{outline:2px solid var(--acc);outline-offset:1px;}
+  .psectionlbl{font-family:var(--mono);font-size:9px;color:var(--text-faint);margin:8px 0 4px 0;text-transform:uppercase;}
+
+  #resultScreen{display:none;max-width:780px;margin:30px auto;}
+  .scorecard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:18px;}
+  .scorecard .bigscore{font-family:var(--display);font-size:44px;font-weight:700;color:var(--acc);}
+  .scorecard .bigscore span{font-size:20px;color:var(--text-faint);}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;}
+  .statrow .s{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:10px;}
+  .statrow .s .v{font-family:var(--display);font-size:18px;font-weight:700;}
+  .statrow .s .l{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;margin-top:2px;}
+  .sectable{width:100%;border-collapse:collapse;margin-top:10px;}
+  .sectable th,.sectable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--border-soft);font-size:12.5px;}
+  .sectable th{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;}
+  .resultbtns{display:flex;gap:10px;margin-top:18px;}
+  .resultbtns button{flex:1;padding:13px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:14px;border:1px solid var(--border);}
+  .resultbtns .review{background:var(--acc);color:#0e131a;border-color:var(--acc);}
+  .resultbtns .retake{background:var(--panel-alt);color:var(--text);}
+
+  #reviewScreen{display:none;max-width:820px;margin:20px auto;padding-bottom:60px;}
+  .filterbar{display:flex;gap:8px;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:10;flex-wrap:wrap;}
+  .filterbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:7px 14px;border-radius:100px;font-size:12px;font-family:var(--mono);}
+  .filterbtn.active{background:var(--acc);color:#0e131a;border-color:var(--acc);}
+  .revq{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;}
+  .revq .qtext{font-size:14.5px;margin-bottom:12px;}
+  .revopt{padding:9px 12px;border-radius:7px;border:1px solid var(--border);margin-bottom:6px;font-size:13px;color:var(--text-dim);}
+  .revopt.correctAns{border-color:var(--ok);background:rgba(94,207,168,0.1);color:var(--text);}
+  .revopt.userWrong{border-color:var(--bad);background:rgba(226,112,122,0.1);color:var(--text);}
+  .revexp{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--acc);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .revexp b{color:var(--text);}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;margin-left:8px;}
+  .badge.correct{background:var(--ok-dim);color:var(--ok);border:1px solid var(--ok);}
+  .badge.wrong{background:var(--bad-dim);color:var(--bad);border:1px solid var(--bad);}
+  .badge.unattempted{background:var(--panel-alt);color:var(--text-faint);border:1px solid var(--border);}
+  .backbtn{background:var(--panel-alt);color:var(--text);border:1px solid var(--border);padding:10px 16px;border-radius:8px;font-family:var(--display);font-weight:600;margin-bottom:16px;}
+
+  .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .confirm-overlay.hide{display:none;}
+  .confirm-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:360px;text-align:center;}
+  .confirm-box p{color:var(--text);font-size:14px;margin:0 0 18px 0;}
+  .confirm-btns{display:flex;gap:10px;justify-content:center;}
+  .confirm-btns button{padding:10px 18px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;border:1px solid var(--border);cursor:pointer;}
+  .confirm-btns .cbtn-yes{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .confirm-btns .cbtn-cancel{background:var(--panel-alt);color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="startScreen">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER · HIGH-LEVEL PK MOCK</div>
+    <h1>High-Level PK Mock — 60 Questions</h1>
+    <p class="sub">Application-level questions across the full PK syllabus — trace-throughs, calculations, code output prediction, and scenario identification, not simple recall.</p>
+    <div class="infogrid">
+      <div class="infochip"><div class="n">10+10</div><div class="l">DBMS · Networks</div></div>
+      <div class="infochip"><div class="n">8+6</div><div class="l">OS · Comp. Org.</div></div>
+      <div class="infochip"><div class="n">6+6</div><div class="l">Programming · DSA</div></div>
+      <div class="infochip"><div class="n">5</div><div class="l">Software Engg.</div></div>
+      <div class="infochip"><div class="n">5</div><div class="l">Cyber Security</div></div>
+      <div class="infochip"><div class="n">4</div><div class="l">Web/Cloud/AI</div></div>
+    </div>
+    <div class="card">
+      <h3>Instructions</h3>
+      <ul>
+        <li>Total <b>60 questions</b>, time limit <b>50 minutes</b> (extra time built in for calculation/trace questions).</li>
+        <li>Marking: <b>+1</b> correct, <b>&minus;0.25</b> wrong, <b>0</b> unattempted.</li>
+        <li>Select an option, then <b>Save &amp; Next</b> to lock it in — selecting alone does not save your answer.</li>
+        <li><b>Mark for Review &amp; Next</b> flags a question; <b>Clear Response</b> removes your selection.</li>
+        <li>Use the question palette (grouped by topic) to jump to any question directly.</li>
+        <li>The test auto-submits when the timer hits zero.</li>
+      </ul>
+      <p id="historyLine"></p>
+    </div>
+    <button class="startbtn" id="startBtn">Start Test</button>
+  </div>
+
+  <div id="testScreen">
+    <div class="topbar">
+      <div class="ttl">High-Level PK Mock · 60Q</div>
+      <div class="timerbox" id="timerBox">50:00</div>
+      <button class="submitbtn" id="submitBtn">Submit Test</button>
+    </div>
+    <div class="testlayout">
+      <div class="qpanel">
+        <div class="qmeta"><span class="topictag" id="qTopicTag">DBMS</span><span class="qnum" id="qNum">Question 1 of 60</span></div>
+        <p class="qtext" id="qText"></p>
+        <div id="qExtra"></div>
+        <div class="options" id="qOptions"></div>
+        <div class="ctrlbar">
+          <button class="ctrlbtn" id="clearBtn">Clear Response</button>
+          <button class="ctrlbtn mark" id="markBtn">Mark for Review &amp; Next</button>
+          <button class="ctrlbtn spacer" id="prevBtn">◂ Previous</button>
+          <button class="ctrlbtn primary" id="saveBtn">Save &amp; Next ▸</button>
+        </div>
+      </div>
+      <div class="palette">
+        <h3>Question Palette</h3>
+        <div class="legend">
+          <div><span class="sw nv"></span> Not visited</div>
+          <div><span class="sw na"></span> Not answered</div>
+          <div><span class="sw an"></span> Answered</div>
+          <div><span class="sw mk"></span> Marked for review</div>
+          <div><span class="sw am"></span> Answered &amp; marked</div>
+        </div>
+        <div id="paletteContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultScreen">
+    <div class="scorecard">
+      <div class="eyebrow" style="justify-content:center;"><span class="dot"></span> TEST COMPLETE</div>
+      <div class="bigscore" id="bigScore">0<span>/60</span></div>
+      <div class="statrow">
+        <div class="s"><div class="v" id="statCorrect">0</div><div class="l">Correct</div></div>
+        <div class="s"><div class="v" id="statWrong">0</div><div class="l">Wrong</div></div>
+        <div class="s"><div class="v" id="statUnatt">0</div><div class="l">Unattempted</div></div>
+        <div class="s"><div class="v" id="statAcc">0%</div><div class="l">Accuracy</div></div>
+      </div>
+      <table class="sectable">
+        <tr><th>Topic</th><th>Correct</th><th>Wrong</th><th>Unatt.</th><th>Score</th></tr>
+        <tbody id="sectionBody"></tbody>
+      </table>
+      <div class="resultbtns">
+        <button class="review" id="reviewBtn">Review Answers</button>
+        <button class="retake" id="retakeBtn">Retake Test</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reviewScreen">
+    <button class="backbtn" id="backBtn">◂ Back to Result</button>
+    <div class="filterbar">
+      <button class="filterbtn active" data-f="all">All 60</button>
+      <button class="filterbtn" data-f="correct">Correct</button>
+      <button class="filterbtn" data-f="wrong">Wrong</button>
+      <button class="filterbtn" data-f="unattempted">Unattempted</button>
+    </div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="confirmOverlay" class="confirm-overlay hide">
+  <div class="confirm-box">
+    <p>Submit the test? You cannot change answers after this.</p>
+    <div class="confirm-btns">
+      <button id="confirmCancel" class="cbtn-cancel">Cancel</button>
+      <button id="confirmYes" class="cbtn-yes">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const QUESTIONS = [
+{id:'d1',topic:'DBMS',q:`Consider this transaction sequence with auto-commit disabled:<br><code>BEGIN; INSERT INTO T VALUES(1); SAVEPOINT A; INSERT INTO T VALUES(2); SAVEPOINT B; INSERT INTO T VALUES(3); ROLLBACK TO A; INSERT INTO T VALUES(4); COMMIT;</code><br>Which rows exist in T after this completes?`,options:[`1, 2, 3, 4`,`1, 4`,`1, 2, 4`,`1, 3, 4`],correct:1,exp:`<b>ROLLBACK TO A</b> undoes everything after savepoint A (rows 2 and 3), but keeps row 1 (inserted before A). Row 4 is then added fresh. Final: 1, 4.`},
+{id:'d2',topic:'DBMS',q:`Relation R(A,B,C,D) has candidate key AB, with functional dependencies AB→C and C→D. What is the HIGHEST normal form R satisfies?`,options:[`1NF`,`2NF`,`3NF`,`BCNF`],correct:1,exp:`No partial dependency exists (C depends on the whole key AB), so <b>2NF</b> holds. But C→D is a transitive dependency (non-key D depends on non-key C), which violates 3NF.`},
+{id:'d3',topic:'DBMS',q:`For the query <code>SELECT Dept, COUNT(*) FROM Employee WHERE Salary>50000 GROUP BY Dept HAVING COUNT(*)>=2 ORDER BY COUNT(*) DESC;</code> — what is the correct logical EXECUTION order of clauses (not the order they're written)?`,options:[`SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY`,`FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY`,`FROM → SELECT → WHERE → GROUP BY → HAVING → ORDER BY`,`FROM → GROUP BY → WHERE → HAVING → SELECT → ORDER BY`],correct:1,exp:`SQL is written in one order but logically EXECUTES as: <b>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</b>.`},
+{id:'d4',topic:'DBMS',q:`Transaction T1 holds a lock on Row A and requests Row B. Transaction T2 holds a lock on Row B and requests Row A. Both wait indefinitely. Which of the four necessary deadlock conditions does this two-transaction cycle most directly illustrate?`,options:[`Mutual exclusion`,`Circular wait`,`No preemption`,`Hold and wait`],correct:1,exp:`Two transactions each waiting on a resource held by the other forms a closed chain — the textbook definition of <b>circular wait</b>.`},
+{id:'d5',topic:'DBMS',q:`Relation Person(SSN, Email, Phone, PersonID): SSN and PersonID are always unique and never NULL. Email and Phone are unique WHEN present, but frequently NULL. How many valid candidate keys exist?`,options:[`4`,`3`,`2`,`1`],correct:2,exp:`A candidate key can never be NULL (entity integrity). Only <b>SSN and PersonID (2)</b> qualify — Email/Phone are disqualified by their nullability despite being unique when present.`},
+{id:'d6',topic:'DBMS',q:`R(Employee, Project, Manager) has FDs (Employee,Project)→Manager and Manager→Project. The only candidate key is (Employee,Project), and Project is therefore a prime attribute. Which is true of R?`,options:[`R violates 2NF`,`R violates 3NF but satisfies BCNF`,`R satisfies 3NF but violates BCNF`,`R satisfies both 3NF and BCNF`],correct:2,exp:`Since Project is a <b>prime</b> attribute, Manager→Project doesn't violate 3NF (3NF exempts transitive dependencies onto prime attributes). But BCNF has no such exemption — Manager isn't a superkey, so BCNF is violated.`},
+{id:'d7',topic:'DBMS',q:`A table has 1 million rows and a secondary index on LastName. For a query filtering WHERE LastName='Smith' that matches 40% of all rows, why might the optimizer choose a full table scan over the index?`,options:[`Optimizers never use full table scans`,`With low selectivity (a large matching fraction), scanning sequentially can beat many scattered random index lookups`,`Secondary indexes can't be used in WHERE clauses`,`Full table scans are always faster`],correct:1,exp:`When a predicate matches a <b>large fraction of rows (low selectivity)</b>, the overhead of many random index-then-fetch lookups can exceed a straightforward sequential scan.`},
+{id:'d8',topic:'DBMS',q:`T1 updates a row but hasn't committed. T2, running under READ UNCOMMITTED, reads this uncommitted value. T1 then rolls back. What has T2 experienced?`,options:[`Lost update`,`Dirty read`,`Phantom read`,`Unrepeatable read`],correct:1,exp:`Reading data that was never actually committed (and vanishes on rollback) is the definition of a <b>dirty read</b>.`},
+{id:'d9',topic:'DBMS',q:`An ER diagram has Student and Course in an M:N relationship "Enrolls," which itself carries an attribute Grade. How many tables are minimally required to correctly map this to a relational schema?`,options:[`1`,`2`,`3`,`4`],correct:2,exp:`M:N relationships always require a separate junction table — so you need Student, Course, AND a junction table (StudentID, CourseID, Grade): <b>3 tables total</b>.`},
+{id:'d10',topic:'DBMS',q:`A B+ tree leaf node is full and a new key insertion forces a split. What happens to the middle key?`,options:[`It moves up to the parent and is removed from the leaf`,`It is copied up to the parent AND retained in the leaf`,`It is discarded entirely`,`It stays only in the leaf; the parent isn't updated`],correct:1,exp:`Leaf splits <b>copy</b> the middle key up (it's duplicated) since B+ tree leaves must retain every actual data key. Internal node splits, by contrast, move the key up without duplication.`},
+
+{id:'n1',topic:'Networks',q:`Given IP address 192.168.10.130 with subnet mask 255.255.255.192 (/26), what is the network address?`,options:[`192.168.10.0`,`192.168.10.64`,`192.168.10.128`,`192.168.10.192`],correct:2,exp:`/26 gives a block size of 64. Subnets are .0, .64, .128, .192 — 130 falls in the .128–.191 range, so the network address is <b>192.168.10.128</b>.`},
+{id:'n2',topic:'Networks',q:`How many usable host addresses are available in a /28 subnet?`,options:[`16`,`14`,`30`,`32`],correct:1,exp:`/28 leaves 4 host bits → 2⁴=16 total addresses, minus 2 (network + broadcast) = <b>14 usable</b>.`},
+{id:'n3',topic:'Networks',q:`What is the correct sequence of flags exchanged in a TCP three-way handshake?`,options:[`SYN → SYN-ACK → ACK`,`ACK → SYN → SYN-ACK`,`SYN → ACK → SYN-ACK`,`SYN-ACK → SYN → ACK`],correct:0,exp:`The handshake is exactly <b>SYN → SYN-ACK → ACK</b> — client initiates, server acknowledges and syncs, client confirms.`},
+{id:'n4',topic:'Networks',q:`Router A connects to Router B with cost 2. Router B connects to Router C with cost 3. A has no direct link to C. After distance vector convergence, what does A's table show for reaching C?`,options:[`Cost 3, via B`,`Cost 5, via B`,`Cost 5, direct`,`Unreachable`],correct:1,exp:`A learns of C only through B's advertisement, adding its own cost to B: 2+3 = <b>cost 5, next-hop B</b> — "routing by rumor."`},
+{id:'n5',topic:'Networks',q:`Two contiguous /24 networks, 10.0.0.0/24 and 10.0.1.0/24, need to be summarized into a single route. What is the correct aggregated CIDR route?`,options:[`10.0.0.0/22`,`10.0.0.0/23`,`10.0.0.0/25`,`10.0.1.0/23`],correct:1,exp:`Both networks share the same first 23 bits, so they aggregate cleanly into <b>10.0.0.0/23</b>.`},
+{id:'n6',topic:'Networks',q:`OSPF computes link cost as (Reference Bandwidth ÷ Interface Bandwidth), with a default reference of 100 Mbps. What is the OSPF cost of a 10 Mbps link?`,options:[`1`,`10`,`100`,`1000`],correct:1,exp:`100 ÷ 10 = <b>10</b>.`},
+{id:'n7',topic:'Networks',q:`An application needs real-time video conferencing where occasional dropped frames are acceptable but added delay is not. Which transport protocol fits best?`,options:[`TCP, because it guarantees delivery`,`UDP, because it avoids retransmission delays`,`TCP, because it's connection-oriented`,`Neither — ICMP should be used`],correct:1,exp:`<b>UDP</b> trades reliability for lower latency — exactly right when a late packet is worse than a dropped one.`},
+{id:'n8',topic:'Networks',q:`An administrator borrows 3 bits from a Class C network's host portion for subnetting. How many usable subnets are created (assuming subnet-zero is usable, as in modern practice)?`,options:[`4`,`6`,`8`,`16`],correct:2,exp:`2³ = <b>8</b> subnets.`},
+{id:'n9',topic:'Networks',q:`50 internal devices with private IPs share a single public IP for internet access, distinguished by unique port numbers per connection. What type of NAT is this?`,options:[`Static NAT`,`Dynamic NAT`,`PAT (Port Address Translation) / NAT Overload`,`NAT64`],correct:2,exp:`Mapping many internal hosts to ONE public IP using port numbers to distinguish them is <b>PAT / NAT Overload</b> — the standard used by most home/office routers.`},
+{id:'n10',topic:'Networks',q:`A network has 3 switches, each connected to its own separate interface on a single router (no VLANs). How many broadcast domains exist in total?`,options:[`1`,`3`,`12`,`4`],correct:1,exp:`Switches don't segment broadcast domains — only routers do. Each of the <b>3</b> router interfaces creates a separate broadcast domain.`},
+
+{id:'o1',topic:'OS',q:`Three processes P1(burst=5), P2(burst=3), P3(burst=1) all arrive at time 0 and run under Round Robin, quantum=2, in order P1,P2,P3. What is the average waiting time?`,options:[`3.33`,`4.33`,`5.33`,`6.0`],correct:1,exp:`Tracing the quantum-by-quantum schedule: completion times are P3=5, P2=8, P1=9. Waiting times = turnaround−burst: P1=4, P2=5, P3=4. Average = 13/3 ≈ <b>4.33</b>.`},
+{id:'o2',topic:'OS',q:`In the Banker's Algorithm, a resource request from a process is granted immediately if:`,options:[`The process has the highest priority`,`The request doesn't exceed the process's declared max need AND granting it leaves the system in a safe state`,`The request is less than total system resources`,`The process has waited longest`],correct:1,exp:`Banker's Algorithm grants a request only after confirming it stays within the declared maximum AND the resulting state remains <b>safe</b> (some completion order still exists).`},
+{id:'o3',topic:'OS',q:`For reference string 1,2,3,4,1,2,5,1,2,3,4,5 with 3 page frames using FIFO replacement, how many page faults occur?`,options:[`7`,`8`,`9`,`10`],correct:2,exp:`Tracing FIFO eviction step by step: faults occur on 1,2,3,4,1,2,5,3,4 — <b>9 total faults</b>, with hits only on the repeated 1, 2, and final 5.`},
+{id:'o4',topic:'OS',q:`Process A holds a Printer and requests a Scanner. Process B holds the Scanner and requests the Printer. Neither resource can be forcibly taken from its holder. Which deadlock condition does "cannot be forcibly taken away" directly describe?`,options:[`Mutual exclusion`,`Hold and wait`,`No preemption`,`Circular wait`],correct:2,exp:`A resource that cannot be forcibly reclaimed from its holder is exactly the <b>no preemption</b> condition.`},
+{id:'o5',topic:'OS',q:`In the bounded-buffer producer-consumer problem using semaphores 'empty', 'full', and mutex — what is the specific purpose of the 'empty' semaphore?`,options:[`Tracks filled slots, so the consumer waits when it's 0`,`Tracks available empty slots, so the producer waits when it's 0`,`Ensures mutual exclusion on the buffer`,`Counts active consumers`],correct:1,exp:`'empty' counts free slots — when it hits 0 (buffer full), the <b>producer</b> must wait. 'full' does the mirror job for the consumer.`},
+{id:'o6',topic:'OS',q:`Free memory blocks: 100KB, 500KB, 200KB, 300KB, 600KB (in that order). A process requests 212KB. Using Best-Fit, which block is allocated?`,options:[`500KB`,`200KB`,`300KB`,`600KB`],correct:2,exp:`Best-Fit picks the smallest block that still satisfies the request. Blocks ≥212KB are 500, 300, 600 — the smallest is <b>300KB</b>.`},
+{id:'o7',topic:'OS',q:`Disk requests for cylinders: 98,183,37,122,14,124,65,67. The head starts at cylinder 53. Using SSTF, which cylinder is serviced FIRST?`,options:[`37`,`65`,`67`,`14`],correct:1,exp:`Distances from 53: 65 is only 12 away — the closest of all pending requests — so SSTF services <b>65</b> first.`},
+{id:'o8',topic:'OS',q:`Two threads increment a shared counter via the non-atomic sequence read→add 1→write. Both read the value 5 nearly simultaneously before either writes back. What is the final counter value, and what is this problem called?`,options:[`7, due to atomicity`,`6, due to a race condition / lost update`,`5, due to deadlock`,`Undefined, due to thrashing`],correct:1,exp:`Both threads read 5, both compute 6, both write 6 — one increment is silently lost. Final value <b>6</b> (should be 7) — a classic <b>race condition / lost update</b>.`},
+
+{id:'c1',topic:'Comp. Org.',q:`A direct-mapped cache has 64 sets, a 32-byte block size, in a 32-bit address system. How many bits form the block OFFSET field?`,options:[`5`,`6`,`11`,`32`],correct:0,exp:`Offset bits = log₂(block size) = log₂(32) = <b>5</b>.`},
+{id:'c2',topic:'Comp. Org.',q:`Using the same cache (64 sets, 32-byte blocks, 32-bit addresses), how many bits form the SET INDEX field?`,options:[`5`,`6`,`21`,`26`],correct:1,exp:`Set bits = log₂(number of sets) = log₂(64) = <b>6</b>.`},
+{id:'c3',topic:'Comp. Org.',q:`<code>ADD R1, R2, R3</code> is immediately followed by <code>SUB R4, R1, R5</code>. The second instruction needs R1's result before the first has finished computing it. What hazard is this?`,options:[`Structural hazard`,`Data hazard`,`Control hazard`,`Resource hazard`],correct:1,exp:`An instruction depending on a not-yet-available result from a previous in-flight instruction is a <b>data hazard</b>.`},
+{id:'c4',topic:'Comp. Org.',q:`Adding two 8-bit signed 2's complement numbers: 01111111 (+127) + 00000001 (+1). What is the result, and does overflow occur?`,options:[`10000000, overflow occurs`,`10000000, no overflow`,`01111111, overflow occurs`,`00000000, overflow occurs`],correct:0,exp:`Binary sum = 10000000, which reads as −128 in 2's complement. Two POSITIVE operands producing a NEGATIVE result signals <b>overflow</b>.`},
+{id:'c5',topic:'Comp. Org.',q:`In <code>MOV R1, @R2</code>, register R2 holds the ADDRESS of a memory location that itself holds the actual operand. What addressing mode is this?`,options:[`Direct addressing`,`Register addressing`,`Register Indirect addressing`,`Immediate addressing`],correct:2,exp:`The register holds a pointer to the operand's location, not the operand itself — this is <b>Register Indirect</b> addressing.`},
+{id:'c6',topic:'Comp. Org.',q:`A system has cache hit time 2ns, hit rate 90%, and miss penalty 20ns. What is the Average Memory Access Time (AMAT)?`,options:[`2ns`,`4ns`,`20ns`,`22ns`],correct:1,exp:`AMAT = Hit time + Miss rate × Miss penalty = 2 + (0.10 × 20) = <b>4ns</b>.`},
+
+{id:'se1',topic:'Software Engg.',q:`Using Basic COCOMO for an Organic project of 20 KLOC, with Effort = 2.4 × (KLOC)^1.05, what is the approximate estimated effort?`,options:[`~48 person-months`,`~56 person-months`,`~64 person-months`,`~72 person-months`],correct:1,exp:`2.4 × 20^1.05 ≈ 2.4 × 23.2 ≈ <b>56 person-months</b>.`},
+{id:'se2',topic:'Software Engg.',q:`Function Point Analysis is generally preferred over Lines of Code (LOC) as a size metric mainly because:`,options:[`It's easier to automate`,`It measures functionality independent of the programming language used`,`It only applies to object-oriented systems`,`It requires no analyst judgment`],correct:1,exp:`Function points measure delivered functionality directly, making them comparable <b>across different languages</b> — unlike LOC, which varies with language verbosity.`},
+{id:'se3',topic:'Software Engg.',q:`A form field accepts age from 18–60 inclusive. Using equivalence partitioning, which minimal set of values covers all three classes (invalid-low, valid, invalid-high)?`,options:[`18, 60`,`10, 40, 70`,`17, 18, 60, 61`,`0, 100`],correct:1,exp:`One representative from each class — below range, within range, above range — is <b>10, 40, 70</b>.`},
+{id:'se4',topic:'Software Engg.',q:`A control flow graph has 12 edges and 9 nodes. Using V(G) = E − N + 2, what is the cyclomatic complexity?`,options:[`3`,`4`,`5`,`6`],correct:2,exp:`V(G) = 12 − 9 + 2 = <b>5</b>.`},
+{id:'se5',topic:'Software Engg.',q:`A project has vague, evolving requirements, and the client wants to interact with a working version early to help clarify what they actually need. Which SDLC model fits best?`,options:[`Waterfall model`,`Prototype model`,`V-Model`,`Big Bang model`],correct:1,exp:`The <b>Prototype model</b> is designed exactly for this — building an early mock-up to clarify unclear requirements before full development.`},
+
+{id:'p1',topic:'Programming',q:`<pre>def add_item(item, lst=[]):
+    lst.append(item)
+    return lst
+
+print(add_item(1))
+print(add_item(2))</pre>What does the SECOND print statement output?`,options:[`[2]`,`[1, 2]`,`[1]`,`Error`],correct:1,exp:`Python's mutable default argument is created ONCE and reused across calls. First call leaves the default list as [1]; the second call appends to the SAME list, producing <b>[1, 2]</b>.`},
+{id:'p2',topic:'Programming',q:`<pre>void show(int x) { println("int"); }
+void show(double x) { println("double"); }
+show(5);</pre>What is printed in Java?`,options:[`int`,`double`,`Compile error — ambiguous`,`Runtime error`],correct:0,exp:`The literal 5 is an int, which matches <code>show(int)</code> exactly — Java prefers the exact-type overload, printing <b>"int"</b>.`},
+{id:'p3',topic:'Programming',q:`<pre>int a = 10;
+int &ref = a;
+ref = 20;
+cout << a;</pre>What does this C++ code print?`,options:[`10`,`20`,`Compile error`,`Garbage value`],correct:1,exp:`A reference is an alias for the same memory — modifying <code>ref</code> directly modifies <code>a</code>. Output: <b>20</b>.`},
+{id:'p4',topic:'Programming',q:`<pre>lst = [10, 20, 30, 40, 50]
+print(lst[-3:-1])</pre>What does this Python code print?`,options:[`[30, 40]`,`[30, 40, 50]`,`[20, 30, 40]`,`[40, 50]`],correct:0,exp:`Index −3 is 30, index −1 is 50 (exclusive end) — the slice covers indices for 30 and 40 only: <b>[30, 40]</b>.`},
+{id:'p5',topic:'Programming',q:`<pre>try:
+    x = 10 / 0
+except ValueError:
+    print("A")
+except ZeroDivisionError:
+    print("B")
+finally:
+    print("C")</pre>What gets printed, and in what order?`,options:[`A then C`,`B then C`,`Just C`,`B only, finally is skipped`],correct:1,exp:`A ZeroDivisionError is raised, which doesn't match ValueError but does match the second except block, printing "B" — then <b>finally always runs</b>, printing "C".`},
+{id:'p6',topic:'Programming',q:`<pre>class Animal { void sound() { println("Animal sound"); } }
+class Dog extends Animal { void sound() { println("Bark"); } }
+Animal a = new Dog();
+a.sound();</pre>What is printed in Java?`,options:[`Animal sound`,`Bark`,`Compile error`,`Both printed`],correct:1,exp:`Runtime polymorphism: the ACTUAL object type (Dog) determines which overridden method runs, regardless of the reference type (Animal). Output: <b>"Bark"</b>.`},
+
+{id:'ds1',topic:'DSA',q:`Array [8, 3, 7, 4, 9, 2], pivot = last element (2), using Lomuto partition. After ONE partition call, what is the pivot's final index and the resulting array?`,options:[`Index 0, array [2,3,7,4,9,8]`,`Index 5, array unchanged`,`Index 2, array [3,7,2,4,9,8]`,`Index 0, array [8,3,7,4,9,2]`],correct:0,exp:`Every element (8,3,7,4,9) is greater than pivot 2, so no swaps happen during the scan — the pivot swaps directly into index 0: <b>[2,3,7,4,9,8]</b>.`},
+{id:'ds2',topic:'DSA',q:`<pre>for i in range(n):
+    for j in range(i, n):
+        print(i, j)</pre>What is the time complexity of this nested loop?`,options:[`O(n)`,`O(n log n)`,`O(n²)`,`O(2ⁿ)`],correct:2,exp:`This is a triangular loop — total iterations ≈ n(n+1)/2, which is <b>O(n²)</b>.`},
+{id:'ds3',topic:'DSA',q:`A BST is built by inserting keys in this order: 50, 30, 70, 20, 40, 60, 80. What does an in-order traversal produce?`,options:[`50, 30, 70, 20, 40, 60, 80 (insertion order)`,`20, 30, 40, 50, 60, 70, 80`,`80, 70, 60, 50, 40, 30, 20`,`30, 20, 50, 40, 70, 60, 80`],correct:1,exp:`In-order traversal of ANY valid BST always produces elements in <b>sorted ascending order</b>, regardless of insertion order.`},
+{id:'ds4',topic:'DSA',q:`Graph edges: A-B=4, A-C=1, C-B=2, B-D=5, C-D=8. What is the shortest distance from A to D?`,options:[`8`,`9`,`10`,`13`],correct:0,exp:`Path A-C-B-D = 1+2+5 = <b>8</b>, beating both A-B-D (9) and A-C-D (9).`},
+{id:'ds5',topic:'DSA',q:`For a recursive factorial function f(n) that calls f(n-1) down to base case f(1), what is the maximum call stack depth when computing f(6)?`,options:[`4`,`5`,`6`,`7`],correct:2,exp:`Calls stack up as f(6),f(5),f(4),f(3),f(2),f(1) — <b>6 frames</b> deep at maximum.`},
+{id:'ds6',topic:'DSA',q:`Keys 12, 22, 32, 42 are inserted into a size-10 hash table using h(k)=k mod 10, with linear probing for collisions. At which index does key 42 finally land?`,options:[`2`,`3`,`4`,`5`],correct:3,exp:`All four keys hash to index 2. 12→2, 22 probes to 3, 32 probes to 4, and 42 probes through 2(taken),3(taken),4(taken) to land at <b>5</b>.`},
+
+{id:'cy1',topic:'Cyber Security',q:`A company needs to encrypt a 2GB backup file as fast as possible, using a key both systems already securely share. Which encryption type is most appropriate?`,options:[`Asymmetric encryption, for maximum security`,`Symmetric encryption, for speed on large data`,`Hashing, since it's reversible`,`Digital signature, since it encrypts data`],correct:1,exp:`With a key already safely shared, <b>symmetric encryption</b> is the right choice — far faster than asymmetric for large data volumes.`},
+{id:'cy2',topic:'Cyber Security',q:`A user visits what looks exactly like their bank's site, but the URL is subtly misspelled, and entering credentials sends them to an attacker's server. This is:`,options:[`SQL Injection`,`Phishing`,`DDoS`,`Man-in-the-Middle`],correct:1,exp:`A deceptive lookalike site tricking users into entering credentials is the definition of <b>phishing</b>.`},
+{id:'cy3',topic:'Cyber Security',q:`Someone creates a fake social media profile using another person's photos and personal details to deceive others. Under India's IT Act 2000, which section applies most directly?`,options:[`Section 43`,`Section 66C (Identity theft)`,`Section 66F (Cyber terrorism)`,`Section 67`],correct:1,exp:`Fraudulently using another person's identifying details falls under <b>Section 66C — Identity theft</b>.`},
+{id:'cy4',topic:'Cyber Security',q:`When verifying a digital signature, what is the correct order of steps the receiver performs?`,options:[`Decrypt the signature with the sender's public key → recompute the message's hash → compare the two`,`Encrypt the message → compare with the signature`,`Recompute hash → encrypt with own private key → compare`,`Decrypt with own private key → compare with sender's hash`],correct:0,exp:`The receiver decrypts the signature using the SENDER's public key to recover the original hash, independently recomputes the hash from the message, and checks they <b>match</b>.`},
+{id:'cy5',topic:'Cyber Security',q:`An organization needs to inspect the actual CONTENT of HTTP requests (e.g. blocking specific malicious URL patterns), not just IPs and ports. Which firewall type is required?`,options:[`Packet-filtering firewall`,`Stateful inspection firewall`,`Application-level gateway (Layer 7)`,`Circuit-level gateway`],correct:2,exp:`Only a Layer 7 <b>Application Gateway</b> performs Deep Packet Inspection of actual content — lower layers only see headers/connection state.`},
+
+{id:'w1',topic:'Web/Cloud/AI',q:`A startup wants to deploy a web app without managing servers, OS patching, or runtime environments — just push code and run it. Which cloud service model fits best?`,options:[`IaaS`,`PaaS`,`SaaS`,`On-premise`],correct:1,exp:`<b>PaaS</b> handles the OS/runtime/middleware for you — exactly matching "just push code and run."`},
+{id:'w2',topic:'Web/Cloud/AI',q:`A retailer wants to group customers into segments based on purchasing behavior, with NO predefined labels for the groups. Which type of machine learning is this?`,options:[`Supervised Learning`,`Unsupervised Learning`,`Reinforcement Learning`,`Semi-supervised Learning`],correct:1,exp:`No labels, just discovering natural groupings — this is <b>Unsupervised Learning</b> (clustering).`},
+{id:'w3',topic:'Web/Cloud/AI',q:`A user tries to access a page requiring login but isn't authenticated. What HTTP status code should the server return?`,options:[`200`,`401`,`404`,`500`],correct:1,exp:`<b>401 Unauthorized</b> specifically means "not authenticated" — 403 would instead mean authenticated but forbidden.`},
+{id:'w4',topic:'Web/Cloud/AI',q:`A model scores 99% accuracy on training data but only 60% on new test data. This model most likely suffers from:`,options:[`Underfitting`,`Overfitting`,`Perfect generalization`,`Insufficient training data only`],correct:1,exp:`Excellent training performance paired with poor generalization to new data is the signature of <b>overfitting</b>.`}
+];
+
+const TOTAL = QUESTIONS.length;
+const TIME_LIMIT = 50*60;
+let answers = {};
+QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+let currentIdx = 0;
+let tempSelected = null;
+let remaining = TIME_LIMIT;
+let timerHandle = null;
+
+const el = id => document.getElementById(id);
+const TOPICS = [...new Set(QUESTIONS.map(q=>q.topic))];
+
+async function loadHistory(){
+  try{
+    const res = await window.storage.get('pk-highlevel-history', false);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){}
+  return [];
+}
+async function saveAttempt(record){
+  try{
+    const hist = await loadHistory();
+    hist.push(record);
+    await window.storage.set('pk-highlevel-history', JSON.stringify(hist), false);
+  }catch(e){}
+}
+async function renderHistoryLine(){
+  const hist = await loadHistory();
+  if(hist.length===0){ el('historyLine').textContent = 'No previous attempts yet — this will be attempt #1.'; return; }
+  const best = Math.max(...hist.map(h=>h.score));
+  el('historyLine').textContent = `Previous attempts: ${hist.length} · Best score so far: ${best.toFixed(2)}/60`;
+}
+
+function statusClass(st){
+  if(st==='not-answered') return 'na';
+  if(st==='answered') return 'an';
+  if(st==='marked') return 'mk';
+  if(st==='answered-marked') return 'am';
+  return '';
+}
+function renderPalette(){
+  const container = el('paletteContainer');
+  let html = '';
+  let lastTopic = null;
+  QUESTIONS.forEach((q,i)=>{
+    if(q.topic !== lastTopic){
+      html += `<div class="psectionlbl">${q.topic}</div><div class="pgrid" style="margin-bottom:8px;">`;
+      lastTopic = q.topic;
+    }
+    const st = answers[q.id].status;
+    const cls = statusClass(st) + (i===currentIdx ? ' current' : '');
+    html += `<button class="pbtn ${cls}" data-idx="${i}">${i+1}</button>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+  container.querySelectorAll('.pbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ goTo(parseInt(btn.dataset.idx,10)); });
+  });
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentIdx];
+  el('qTopicTag').textContent = q.topic;
+  el('qNum').textContent = `Question ${currentIdx+1} of ${TOTAL}`;
+  el('qText').innerHTML = q.q;
+  const saved = answers[q.id];
+  tempSelected = saved.selected;
+  const letters = ['A','B','C','D'];
+  el('qOptions').innerHTML = q.options.map((opt,i)=>
+    `<button class="option${tempSelected===i?' selected':''}" data-i="${i}"><span class="lettercircle">${letters[i]}</span>${opt}</button>`
+  ).join('');
+  el('qOptions').querySelectorAll('.option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tempSelected = parseInt(btn.dataset.i,10);
+      el('qOptions').querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  el('prevBtn').disabled = currentIdx===0;
+  renderPalette();
+}
+
+function goTo(idx){
+  if(idx<0 || idx>=TOTAL) return;
+  currentIdx = idx;
+  const qid = QUESTIONS[currentIdx].id;
+  if(answers[qid].status === 'not-visited') answers[qid].status = 'not-answered';
+  renderQuestion();
+}
+
+function commitAndAdvance(newStatusIfSelected, newStatusIfEmpty){
+  const qid = QUESTIONS[currentIdx].id;
+  if(tempSelected !== null){
+    answers[qid] = {selected:tempSelected, status:newStatusIfSelected};
+  } else {
+    answers[qid] = {selected:null, status:newStatusIfEmpty};
+  }
+  if(currentIdx < TOTAL-1) goTo(currentIdx+1); else renderPalette();
+}
+
+el('saveBtn').addEventListener('click', ()=> commitAndAdvance('answered','not-answered'));
+el('markBtn').addEventListener('click', ()=> commitAndAdvance('answered-marked','marked'));
+el('clearBtn').addEventListener('click', ()=>{
+  const qid = QUESTIONS[currentIdx].id;
+  answers[qid] = {selected:null, status:'not-answered'};
+  tempSelected = null;
+  renderQuestion();
+});
+el('prevBtn').addEventListener('click', ()=> goTo(currentIdx-1));
+
+function fmtTime(sec){
+  const m = Math.floor(sec/60).toString().padStart(2,'0');
+  const s = Math.floor(sec%60).toString().padStart(2,'0');
+  return m+':'+s;
+}
+function startTimer(){
+  timerHandle = setInterval(()=>{
+    remaining--;
+    el('timerBox').textContent = fmtTime(Math.max(remaining,0));
+    if(remaining <= 300) el('timerBox').classList.add('low');
+    if(remaining <= 0){
+      clearInterval(timerHandle);
+      submitTest(true);
+    }
+  }, 1000);
+}
+
+function computeResults(){
+  let correct=0, wrong=0, unatt=0;
+  const bySection = {};
+  TOPICS.forEach(t=> bySection[t] = {c:0,w:0,u:0,total:0});
+  QUESTIONS.forEach(q=>{
+    bySection[q.topic].total++;
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    if(!attempted){ unatt++; bySection[q.topic].u++; return; }
+    if(a.selected === q.correct){ correct++; bySection[q.topic].c++; }
+    else { wrong++; bySection[q.topic].w++; }
+  });
+  const score = correct*1 - wrong*0.25;
+  return {correct, wrong, unatt, score, bySection};
+}
+
+async function submitTest(auto){
+  if(timerHandle) clearInterval(timerHandle);
+  const results = computeResults();
+  el('testScreen').style.display='none';
+  el('resultScreen').style.display='block';
+  el('bigScore').innerHTML = `${results.score.toFixed(2)}<span>/60</span>`;
+  el('statCorrect').textContent = results.correct;
+  el('statWrong').textContent = results.wrong;
+  el('statUnatt').textContent = results.unatt;
+  const attempted = results.correct+results.wrong;
+  const acc = attempted>0 ? Math.round((results.correct/attempted)*100) : 0;
+  el('statAcc').textContent = acc+'%';
+  let rows = '';
+  TOPICS.forEach(t=>{
+    const s = results.bySection[t];
+    const secScore = (s.c*1 - s.w*0.25).toFixed(2);
+    rows += `<tr><td>${t}</td><td>${s.c}/${s.total}</td><td>${s.w}</td><td>${s.u}</td><td>${secScore}</td></tr>`;
+  });
+  el('sectionBody').innerHTML = rows;
+  await saveAttempt({date:new Date().toISOString(), score:results.score, correct:results.correct, wrong:results.wrong, unatt:results.unatt});
+}
+
+el('submitBtn').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.remove('hide');
+});
+el('confirmCancel').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+});
+el('confirmYes').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+  submitTest(false);
+});
+
+let reviewFilter = 'all';
+function renderReview(){
+  const list = el('reviewList');
+  const letters = ['A','B','C','D'];
+  let html = '';
+  QUESTIONS.forEach((q,i)=>{
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    let state = 'unattempted';
+    if(attempted) state = (a.selected===q.correct) ? 'correct' : 'wrong';
+    if(reviewFilter!=='all' && reviewFilter!==state) return;
+    const badgeText = state==='correct' ? 'Correct' : state==='wrong' ? 'Wrong' : 'Unattempted';
+    let optsHtml = '';
+    q.options.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.correct) cls+=' correctAns';
+      else if(attempted && oi===a.selected) cls+=' userWrong';
+      optsHtml += `<div class="${cls}">${letters[oi]}. ${opt}</div>`;
+    });
+    html += `<div class="revq">
+      <span class="badge ${state}">${badgeText}</span>
+      <span class="badge unattempted">${q.topic}</span>
+      <p class="qtext">Q${i+1}. ${q.q}</p>
+      ${optsHtml}
+      <div class="revexp">${q.exp}</div>
+    </div>`;
+  });
+  list.innerHTML = html || '<p style="color:var(--text-faint);font-family:var(--mono);font-size:13px;">No questions in this filter.</p>';
+}
+document.querySelectorAll('.filterbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    reviewFilter = btn.dataset.f;
+    renderReview();
+  });
+});
+el('reviewBtn').addEventListener('click', ()=>{
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='block';
+  reviewFilter='all';
+  document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filterbtn[data-f="all"]').classList.add('active');
+  renderReview();
+});
+el('backBtn').addEventListener('click', ()=>{
+  el('reviewScreen').style.display='none';
+  el('resultScreen').style.display='block';
+});
+
+el('retakeBtn').addEventListener('click', ()=>{
+  answers = {};
+  QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+  currentIdx = 0; tempSelected = null; remaining = TIME_LIMIT;
+  el('timerBox').classList.remove('low');
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='none';
+  el('startScreen').style.display='block';
+  renderHistoryLine();
+});
+
+el('startBtn').addEventListener('click', ()=>{
+  el('startScreen').style.display='none';
+  el('testScreen').style.display='block';
+  goTo(0);
+  startTimer();
+});
+
+renderHistoryLine();
+})();
+</script>
+</body>
+</html>
