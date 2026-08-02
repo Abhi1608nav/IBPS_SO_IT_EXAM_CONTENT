@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux/Unix Commands — 50 Question Practice Set | IBPS/SBI SO IT Officer</title>
+<style>
+  :root{
+    --bg:#0f1729;--panel:#141d35;--panel2:#1a2544;--border:#2a3660;--text:#e8ecf7;--muted:#8b95b8;
+    --accent:#4f6df5;--accent2:#7c8ff9;--green:#22b876;--red:#e5484d;--amber:#e5a12b;--purple:#9b6bf2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .topbar .title{font-size:16px;font-weight:700;letter-spacing:.3px;}
+  .topbar .title span{color:var(--accent2);}
+  .timer{background:var(--panel2);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--amber);}
+
+  #startScreen{max-width:680px;margin:44px auto;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:34px;text-align:center;}
+  #startScreen h1{font-size:22px;margin-bottom:6px;}
+  #startScreen p.sub{color:var(--muted);margin-top:0;margin-bottom:22px;}
+  .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:18px;}
+  .infoCard{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .infoCard .num{font-size:20px;font-weight:800;color:var(--accent2);}
+  .infoCard .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+  .catBreakdown{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .catChip{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:11.5px;color:var(--muted);}
+  .catChip b{color:var(--text);}
+  .instructions{text-align:left;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+  .instructions b{color:var(--text);}
+  .legend-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0;}
+
+  button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:13px 34px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.3px;}
+  .btn-primary:hover{filter:brightness(1.08);}
+
+  #quizScreen{display:none;}
+  .quizWrap{display:flex;max-width:1200px;margin:20px auto;gap:18px;padding:0 16px;align-items:flex-start;}
+  .mainPanel{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px;min-height:420px;}
+  .qMeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .qNumBadge{background:var(--panel2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;color:var(--accent2);}
+  .catBadge{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .qStatusBadge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .qText{font-size:15.5px;line-height:1.65;margin:16px 0 22px;white-space:pre-wrap;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{display:flex;align-items:flex-start;gap:12px;background:var(--panel2);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;transition:.15s;}
+  .option:hover{border-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:rgba(79,109,245,.14);}
+  .option input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+  .option label{cursor:pointer;flex:1;line-height:1.5;font-size:14.5px;}
+  .optLetter{font-weight:800;color:var(--accent2);margin-right:4px;}
+
+  .actionRow{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+  .leftActions,.rightActions{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{padding:10px 18px;border-radius:8px;font-size:13.5px;font-weight:700;background:var(--panel2);color:var(--text);border:1px solid var(--border);}
+  .btn:hover{border-color:var(--accent2);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn-clear{color:var(--red);}
+  .btn-mark{color:var(--purple);}
+  .btn-save{background:var(--green);color:#fff;border:none;}
+  .btn-save:hover{filter:brightness(1.08);}
+  .btn-submit{background:var(--red);color:#fff;border:none;}
+  .btn-submit:hover{filter:brightness(1.1);}
+
+  .sidePanel{width:300px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;flex-shrink:0;}
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:16px;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .qGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;}
+  .qBtn{aspect-ratio:1;border-radius:6px;font-weight:700;font-size:11.5px;background:var(--panel2);border:1.5px solid var(--border);color:var(--text);}
+  .qBtn.current{outline:2px solid #fff;outline-offset:1px;}
+  .qBtn.notvisited{background:var(--panel2);color:var(--muted);}
+  .qBtn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+  .qBtn.notanswered{background:var(--red);color:#fff;border-color:var(--red);}
+  .qBtn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .qBtn.markedanswered{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:inset 0 0 0 2px var(--green);}
+  .submitBig{width:100%;margin-top:18px;padding:12px;border-radius:9px;background:var(--red);color:#fff;font-weight:800;font-size:14px;}
+  .submitBig:hover{filter:brightness(1.1);}
+
+  #resultScreen{display:none;max-width:900px;margin:30px auto;padding:0 16px;}
+  .scoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;text-align:center;margin-bottom:20px;}
+  .scoreCard h2{margin-top:0;font-size:20px;}
+  .scoreBig{font-size:44px;font-weight:800;color:var(--accent2);margin:8px 0;}
+  .statsRow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;}
+  .statBox{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .statBox .n{font-size:22px;font-weight:800;}
+  .statBox .l{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .statBox.green .n{color:var(--green);}
+  .statBox.red .n{color:var(--red);}
+  .statBox.amber .n{color:var(--amber);}
+  .statBox.grey .n{color:var(--muted);}
+
+  .catScoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:20px;}
+  .catScoreCard h3{margin-top:0;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+  .catRow{display:flex;align-items:center;gap:12px;margin-bottom:11px;}
+  .catRow .catName{width:190px;font-size:12.5px;font-weight:700;flex-shrink:0;}
+  .catBarBg{flex:1;height:9px;background:var(--panel2);border-radius:6px;overflow:hidden;}
+  .catBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;}
+  .catRow .catNum{width:50px;text-align:right;font-size:12px;color:var(--muted);flex-shrink:0;}
+
+  .reviewList{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+  .reviewItem{border-bottom:1px solid var(--border);padding:16px 0;}
+  .reviewItem:last-child{border-bottom:none;}
+  .reviewQ{font-size:14.5px;margin-bottom:10px;font-weight:600;white-space:pre-wrap;}
+  .reviewOpt{font-size:13.5px;padding:8px 12px;border-radius:7px;margin-bottom:6px;background:var(--panel2);border:1px solid var(--border);}
+  .reviewOpt.correct{border-color:var(--green);background:rgba(34,184,118,.12);color:var(--green);}
+  .reviewOpt.wrong{border-color:var(--red);background:rgba(229,72,77,.12);color:var(--red);}
+  .tagRight{float:right;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:6px;}
+  .tagRight.ok{background:rgba(34,184,118,.18);color:var(--green);}
+  .tagRight.no{background:rgba(229,72,77,.18);color:var(--red);}
+  .tagRight.skip{background:rgba(139,149,184,.18);color:var(--muted);}
+  .catTagSmall{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:1px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:6px;text-transform:uppercase;}
+  .diffTagSmall{padding:1px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:6px;text-transform:uppercase;}
+  .diffTagSmall.Easy{background:rgba(34,184,118,.18);color:var(--green);border:1px solid var(--green);}
+  .diffTagSmall.Medium{background:rgba(229,161,43,.18);color:var(--amber);border:1px solid var(--amber);}
+  .diffTagSmall.Hard{background:rgba(229,72,77,.18);color:var(--red);border:1px solid var(--red);}
+
+  .restartBtn{display:block;margin:24px auto 10px;padding:12px 30px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:14px;}
+
+  .modalOverlay{display:none;position:fixed;inset:0;background:rgba(5,8,20,.65);z-index:1000;align-items:center;justify-content:center;}
+  .modalOverlay.show{display:flex;}
+  .modalBox{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px 28px;max-width:380px;width:90%;text-align:center;}
+  .modalBox p{font-size:14.5px;line-height:1.6;margin-bottom:22px;}
+  .modalBtns{display:flex;gap:10px;justify-content:center;}
+  .modalBtns .btn{padding:10px 22px;}
+
+  @media(max-width:860px){
+    .quizWrap{flex-direction:column;}
+    .sidePanel{width:100%;order:-1;}
+    .qGrid{grid-template-columns:repeat(8,1fr);}
+    .statsRow{grid-template-columns:repeat(2,1fr);}
+    .infoGrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">Linux/Unix Commands <span>50-Question Practice Set</span></div>
+  <div class="timer" id="timerBox" style="display:none;">⏱ <span id="timerText">00:00</span></div>
+</div>
+
+<div id="startScreen">
+  <h1>Linux/Unix Commands — Practice Set</h1>
+  <p class="sub">Mixed Difficulty (revealed only at review) · IBPS SO / SBI SO IT Officer</p>
+
+  <div class="infoGrid">
+    <div class="infoCard"><div class="num">50</div><div class="lab">Total Questions</div></div>
+    <div class="infoCard"><div class="num">+1 / −0.25</div><div class="lab">Marking Scheme</div></div>
+  </div>
+
+  <div class="catBreakdown">
+    <span class="catChip">Direct Commands</span>
+    <span class="catChip">Networking</span>
+    <span class="catChip">Multi-Statement</span>
+    <span class="catChip">Variables/Delimiters</span>
+    <span class="catChip">File Writing</span>
+    <span class="catChip">Permissions</span>
+    <span class="catChip">Process Management</span>
+    <span class="catChip">Brainstorming</span>
+  </div>
+
+  <div class="instructions">
+    <b>Instructions:</b><br>
+    • Click <b>Start Quiz</b> to begin the timer.<br>
+    • Difficulty (Easy/Medium/Hard) is intentionally hidden during the quiz — you'll see it tagged on every question only in the final review, so it doesn't bias your approach.<br>
+    • Use <b>Save &amp; Next</b> to record your response and move on, or navigate freely using the question panel on the right.<br>
+    • Use <b>Mark for Review</b> to flag a question and revisit it later.<br>
+    • Use <b>Clear Response</b> to remove your selected answer for the current question.<br>
+    • Click <b>Submit Test</b> anytime to end the quiz and view your detailed score report with a category-wise breakdown.<br><br>
+    <b>Status legend:</b>
+    <div class="legend-row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+    <div class="legend-row"><span class="dot" style="background:var(--red)"></span> Visited, Not Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--purple)"></span> Marked for Review</div>
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quizScreen">
+  <div class="quizWrap">
+    <div class="mainPanel">
+      <div class="qMeta">
+        <div class="qNumBadge" id="qNumBadge">Question 1 / 50</div>
+        <div class="catBadge" id="catBadge">Category</div>
+        <div class="qStatusBadge" id="qStatusBadge" style="background:var(--panel2);color:var(--muted);">Not Answered</div>
+      </div>
+      <div class="qText" id="qText"></div>
+      <div class="options" id="optionsBox"></div>
+
+      <div class="actionRow">
+        <div class="leftActions">
+          <button class="btn btn-clear" onclick="clearResponse()">✕ Clear Response</button>
+          <button class="btn btn-mark" onclick="markForReview()">★ Mark for Review &amp; Next</button>
+        </div>
+        <div class="rightActions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+          <button class="btn btn-save" id="nextBtn" onclick="saveAndNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidePanel">
+      <div class="legend">
+        <div class="row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+        <div class="row"><span class="dot" style="background:var(--red)"></span> Not Answered</div>
+        <div class="row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+        <div class="row"><span class="dot" style="background:var(--purple)"></span> Marked</div>
+      </div>
+      <div class="qGrid" id="qGrid"></div>
+      <button class="submitBig" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="scoreCard">
+    <h2>Your Result</h2>
+    <div class="scoreBig" id="scoreBig">0 / 50</div>
+    <div id="scoreSub" style="color:var(--muted);font-size:13.5px;"></div>
+    <div class="statsRow">
+      <div class="statBox green"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+      <div class="statBox red"><div class="n" id="statWrong">0</div><div class="l">Incorrect</div></div>
+      <div class="statBox grey"><div class="n" id="statSkip">0</div><div class="l">Unattempted</div></div>
+      <div class="statBox amber"><div class="n" id="statNet">0</div><div class="l">Net Score</div></div>
+    </div>
+  </div>
+
+  <div class="catScoreCard">
+    <h3>Category-wise Breakdown</h3>
+    <div id="catBars"></div>
+  </div>
+
+  <div class="catScoreCard">
+    <h3>Difficulty-wise Breakdown (revealed now)</h3>
+    <div id="diffBars"></div>
+  </div>
+
+  <div class="reviewList" id="reviewList"></div>
+
+  <button class="restartBtn" onclick="location.reload()">↻ Restart Quiz</button>
+</div>
+
+<div class="modalOverlay" id="confirmModal">
+  <div class="modalBox">
+    <p id="confirmModalText">Submit the test now?</p>
+    <div class="modalBtns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+{cat:"Direct Commands",diff:"Easy",q:"Which command displays the absolute path of the current working directory?",opts:["ls","pwd","path","cd","locate"],ans:1,exp:"'pwd' (Print Working Directory) prints the full absolute path of where you currently are."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command is used to count the number of lines, words, and characters in a file?",opts:["count","wc","cat","nl","stat"],ans:1,exp:"'wc' (word count) reports lines, words, and characters/bytes for a given file."},
+{cat:"Direct Commands",diff:"Medium",q:"Which option of 'wc' is used to display ONLY the number of lines in a file?",opts:["wc -w","wc -c","wc -l","wc -m","wc -b"],ans:2,exp:"'-l' restricts wc's output to just the line count; '-w' is for words, '-c'/'-m' for bytes/characters."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command displays a list of files and directories in the current directory?",opts:["dir","ls","list","show","files"],ans:1,exp:"'ls' is the standard Linux command for listing directory contents."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command is used to change the current working directory?",opts:["chdir","cd","dir","mv","path"],ans:1,exp:"'cd' (Change Directory) is used to navigate the file system."},
+{cat:"Networking",diff:"Medium",q:"Which command displays IP configuration details (IP address, subnet mask, etc.) on a Linux system?",opts:["ipconfig","ifconfig (or ip addr)","netconfig","showip","config"],ans:1,exp:"'ifconfig' (or the modern 'ip addr') shows network interface configuration on Linux; 'ipconfig' is the Windows equivalent."},
+{cat:"Networking",diff:"Easy",q:"Which command is used to test network connectivity to a remote host using ICMP echo requests?",opts:["ping","tracert","netstat","nslookup","curl"],ans:0,exp:"'ping' sends ICMP echo requests to check basic reachability of a host."},
+{cat:"Networking",diff:"Medium",q:"Which command traces the hop-by-hop route packets take to reach a destination on a Linux system?",opts:["tracert","traceroute","route","path","hop"],ans:1,exp:"'traceroute' is the Linux command; 'tracert' is its Windows equivalent."},
+{cat:"Networking",diff:"Medium",q:"Which command displays active network connections and listening ports on a Linux system?",opts:["ipconfig","netstat","ping","dig","wget"],ans:1,exp:"'netstat' shows network connections, routing tables, and listening ports."},
+{cat:"Networking",diff:"Hard",q:"Which modern command is typically recommended as a faster replacement for 'netstat' on newer Linux distributions?",opts:["ss","ip","nmap","curl","arp"],ans:0,exp:"'ss' (socket statistics) is the modern, faster replacement for netstat, used to display socket connection details."},
+{cat:"Multi-Statement",diff:"Medium",q:"Consider the following statements about Linux networking commands:\n1. To get IP configuration, we use 'ipconfig'.\n2. To perform a traceroute, we use 'tracert'.\n3. To test basic connectivity, we use 'ping'.\n4. To resolve a domain name to an IP address, we use 'nslookup' or 'dig'.\n5. To view the routing table, we use 'route' or 'ip route'.\nWhich of the above statements are correct?",opts:["3, 4 and 5 only","1, 2, 3 and 4 only","1, 3, 4 and 5 only","All of the above","3 and 4 only"],ans:0,exp:"Statements 1 and 2 use Windows command names ('ipconfig', 'tracert') — on Linux these are 'ifconfig'/'ip addr' and 'traceroute' respectively, making 1 and 2 incorrect here."},
+{cat:"Multi-Statement",diff:"Medium",q:"Consider the following statements:\n1. 'cat' can be used to display file contents.\n2. 'cat' can be used to concatenate multiple files into one.\n3. 'echo' prints a string or variable's value to standard output.\n4. '>' overwrites a file's existing content.\n5. '>>' also overwrites a file's existing content, same as '>'.\nWhich are correct?",opts:["1, 2, 3 and 4 only","1, 2 and 3 only","All of the above","3, 4 and 5 only","1, 3 and 5 only"],ans:0,exp:"Statement 5 is false — '>>' APPENDS to a file without erasing existing content, unlike '>' which overwrites it entirely."},
+{cat:"Variables/Delimiters",diff:"Easy",q:"Which symbol/delimiter is used in a Linux/Unix shell to access (retrieve) the value stored in a variable?",opts:["#","$","@","%","&"],ans:1,exp:"'$variable_name' retrieves a variable's value; e.g. 'echo $HOME' prints the home directory path."},
+{cat:"Variables/Delimiters",diff:"Medium",q:"Given the commands:\nNAME=\"Alice\"\necho $NAME\nWhat is the output?",opts:["NAME","$NAME","Alice","Error","Blank line"],ans:2,exp:"'$NAME' substitutes the variable's stored value, printing 'Alice'."},
+{cat:"File Writing",diff:"Easy",q:"Which command is used to append text to the END of an existing file, without erasing its current content?",opts:["echo \"text\" > file.txt","echo \"text\" >> file.txt","cat file.txt > text","touch file.txt","rm file.txt"],ans:1,exp:"'>>' is the append delimiter/operator — it adds to the end of the file, preserving existing content."},
+{cat:"File Writing",diff:"Medium",q:"What is the difference between 'echo \"Hello\" > file.txt' and 'echo \"Hello\" >> file.txt'?",opts:["Both do the same thing","'>' overwrites the file, '>>' appends to the file","'>' appends, '>>' overwrites","'>' deletes the file, '>>' creates a file","Both append"],ans:1,exp:"'>' truncates/overwrites existing content before writing; '>>' preserves existing content and adds new text after it."},
+{cat:"File Writing",diff:"Medium",q:"Which command writes a new file called notes.txt containing the text \"Meeting at 5 PM\" (creating the file if it doesn't already exist)?",opts:["cat notes.txt \"Meeting at 5 PM\"","echo \"Meeting at 5 PM\" > notes.txt","touch \"Meeting at 5 PM\" notes.txt","notes.txt \"Meeting at 5 PM\"","write notes.txt \"Meeting at 5 PM\""],ans:1,exp:"'echo \"text\" > file' writes (and creates, if needed) the file with that exact text content."},
+{cat:"File Writing",diff:"Medium",q:"Which command displays the content of a file with line numbers prefixed to each line, without permanently modifying the file itself?",opts:["cat file.txt","cat -n file.txt","echo file.txt","wc file.txt","touch -n file.txt"],ans:1,exp:"'cat -n' displays line numbers alongside each line of output, without altering the underlying file."},
+{cat:"Permissions",diff:"Medium",q:"Given the file listing:\n-rwxr-xr-- 1 john developers 1024 Aug 2 10:00 script.sh\nWhat permissions does the GROUP (developers) have on script.sh?",opts:["Read, Write, Execute","Read, Execute only","Read only","Write only","No permissions"],ans:1,exp:"Breaking down '-rwxr-xr--': owner=rwx, group=r-x, others=r--. The group has read+execute only (no write)."},
+{cat:"Permissions",diff:"Easy",q:"Using the same listing: -rwxr-xr-- 1 john developers 1024 Aug 2 10:00 script.sh\nWhat permissions do OTHERS have?",opts:["Read, Write, Execute","Read, Execute","Read only","No permissions","Write only"],ans:2,exp:"The last three characters 'r--' represent Others' permissions: read only, no write or execute."},
+{cat:"Permissions",diff:"Medium",q:"Which chmod numeric value sets: Owner = read/write/execute, Group = read/write, Others = read only?",opts:["764","777","640","700","655"],ans:0,exp:"rwx=7 (owner), rw-=6 (group), r--=4 (others) → combined value is 764."},
+{cat:"Permissions",diff:"Medium",q:"What does the command 'chmod u+x script.sh' do?",opts:["Removes execute permission for the owner","Adds execute permission for the owner (user)","Adds execute permission for the group","Removes all permissions","Changes ownership"],ans:1,exp:"'u+x' means: for the user/owner (u), add (+) execute permission (x)."},
+{cat:"Permissions",diff:"Medium",q:"What does 'chmod go-w file.txt' accomplish?",opts:["Adds write permission for group and others","Removes write permission for group and others","Removes write permission for the owner","Adds write permission for the owner only","Grants full access to group and others"],ans:1,exp:"'go-w' targets group (g) and others (o), removing (-) their write (w) permission."},
+{cat:"Process Management",diff:"Easy",q:"Which command is used to terminate a process using its Process ID (PID)?",opts:["stop","end","kill","terminate","halt"],ans:2,exp:"'kill <PID>' sends a termination signal to the process identified by that PID."},
+{cat:"Process Management",diff:"Medium",q:"What does 'kill -9 <PID>' do differently compared to a plain 'kill <PID>'?",opts:["It sends SIGTERM, allowing graceful shutdown","It sends SIGKILL, forcefully terminating the process immediately without cleanup","It only pauses the process","It restarts the process","It has no effect"],ans:1,exp:"'-9' sends SIGKILL, an unignorable, unblockable signal that forces immediate termination — unlike the default SIGTERM (signal 15), which processes can catch and handle gracefully."},
+{cat:"Process Management",diff:"Medium",q:"Which command allows you to kill ALL processes matching a given name (e.g., every instance of \"firefox\"), without needing to find each PID individually?",opts:["kill","killall","ps","top","jobs"],ans:1,exp:"'killall <name>' terminates every process matching that exact process name, without requiring individual PIDs."},
+{cat:"Process Management",diff:"Hard",q:"Which command kills processes based on a pattern match of the process name (similar to killall, but using flexible pattern/regex-style matching)?",opts:["kill","pkill","stopall","grepkill","terminateall"],ans:1,exp:"'pkill' matches process names using patterns (including partial matches/regex), offering more flexibility than killall's exact-name matching."},
+{cat:"Process Management",diff:"Easy",q:"Which command lists currently running processes along with their PIDs, useful before deciding which process to kill?",opts:["ls","ps","cd","find","top only"],ans:1,exp:"'ps' (process status) lists running processes and their PIDs; 'ps aux' shows all processes system-wide."},
+{cat:"Brainstorming",diff:"Medium",q:"A system administrator wants to find and kill all processes named \"python\" that are consuming excessive CPU. Which approach is most efficient?",opts:["Manually check 'ps aux', find each PID, and run 'kill' on each one individually","Use 'pkill python' or 'killall python' to terminate all matching processes at once","Restart the entire system","Use 'rm python'","Use 'chmod -x python'"],ans:1,exp:"'pkill'/'killall' terminate all matching processes in a single command, far more efficient than manually hunting down and killing each PID."},
+{cat:"Brainstorming",diff:"Easy",q:"You want to see a live, continuously updating view of running processes and their CPU/memory usage. Which command is most appropriate?",opts:["ps","top (or htop)","ls -l","df","free"],ans:1,exp:"'top' (or the enhanced 'htop') provides a dynamic, real-time updating view of process activity and resource usage, unlike 'ps' which gives a one-time static snapshot."},
+{cat:"Multi-Statement",diff:"Hard",q:"Consider the following statements regarding process management:\n1. 'kill' sends a signal to a process, and SIGTERM (default) can be caught/ignored by the process.\n2. 'kill -9' sends SIGKILL, which cannot be caught, blocked, or ignored.\n3. 'killall' requires a PID to terminate a process.\n4. 'ps aux' shows all running processes on the system regardless of the terminal.\n5. 'top' provides a static, one-time snapshot of processes only.\nWhich are correct?",opts:["1, 2 and 4 only","1, 2, 3 and 4 only","All of the above","2, 3 and 5 only","1 and 5 only"],ans:0,exp:"Statement 3 is false — 'killall' uses a process NAME, not a PID. Statement 5 is false — 'top' is dynamic/live-updating, not a static one-time snapshot (that describes 'ps' instead)."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command is used to search for a specific text pattern within one or more files?",opts:["find","grep","locate","search","sed"],ans:1,exp:"'grep' searches file content for lines matching a given text pattern."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command displays the manual/help page for another command?",opts:["help","man","info","--help only","guide"],ans:1,exp:"'man <command>' opens that command's full manual page."},
+{cat:"Direct Commands",diff:"Medium",q:"Which command shows disk space usage for entire file systems?",opts:["du","df","free","top","mount"],ans:1,exp:"'df' (disk free) reports available/used space across mounted file systems."},
+{cat:"Direct Commands",diff:"Medium",q:"Which command shows disk usage of a specific file or directory (rather than the whole filesystem)?",opts:["df","du","free","top","lsblk"],ans:1,exp:"'du' (disk usage) reports space consumed by specific files/directories, unlike 'df' which reports at the filesystem level."},
+{cat:"Variables/Delimiters",diff:"Easy",q:"Which command is used to display the value of an environment variable named PATH?",opts:["print PATH","echo $PATH","show PATH","get PATH","PATH?"],ans:1,exp:"'echo $PATH' uses the '$' delimiter to substitute and print the PATH variable's current value."},
+{cat:"Variables/Delimiters",diff:"Medium",q:"Which command makes a shell variable available to child processes (i.e., exports it as an environment variable)?",opts:["set","export VAR=value","env VAR=value","declare only","global VAR"],ans:1,exp:"'export VAR=value' marks the variable for inheritance by any child processes spawned from that shell."},
+{cat:"Multi-Statement",diff:"Hard",q:"Consider the following statements about file viewing commands:\n1. 'head' displays the first 10 lines of a file by default.\n2. 'tail -f' continuously monitors a file for new content in real time.\n3. 'less' loads the entire file into memory before displaying it, unlike 'more'.\n4. 'cat' can display multiple files one after another in sequence.\n5. 'head -n 5 file.txt' displays the last 5 lines of the file.\nWhich are correct?",opts:["1, 2 and 4 only","1, 2, 3 and 4 only","All of the above","2, 3 and 5 only","1, 3 and 5 only"],ans:0,exp:"Statement 3 is false — 'less' does NOT load the entire file into memory upfront (that's actually its key advantage). Statement 5 is false — 'head -n 5' shows the FIRST 5 lines, not the last (that would require 'tail -n 5')."},
+{cat:"Direct Commands",diff:"Medium",q:"Which command would you use to display only the LAST 5 lines of a file?",opts:["head -n 5 file.txt","tail -n 5 file.txt","cat -5 file.txt","wc -l 5 file.txt","less -5 file.txt"],ans:1,exp:"'tail -n 5' displays the final 5 lines of a file; 'head' would instead show the first 5."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command creates a new, empty directory?",opts:["touch","mkdir","newdir","cd","mkfile"],ans:1,exp:"'mkdir' (make directory) creates a new, empty directory."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command removes an EMPTY directory?",opts:["rm","rmdir","del","erase","delete"],ans:1,exp:"'rmdir' removes a directory only if it is empty; it fails if the directory still contains files."},
+{cat:"Direct Commands",diff:"Medium",q:"Which command and option combination would you use to remove a directory that still contains files inside it?",opts:["rmdir -f dir/","rm -r dir/","del dir/","rmdir dir/*","remove dir/"],ans:1,exp:"'rm -r' recursively removes a directory and everything inside it, unlike 'rmdir' which only works on empty directories."},
+{cat:"Brainstorming",diff:"Medium",q:"A user runs 'rm -rf /important_folder' by mistake as root. What is the most accurate description of the outcome?",opts:["The system will ask for confirmation before deleting","The folder and all its contents are permanently deleted immediately, with no recycle bin or undo","Only empty subfolders are deleted","The command fails since '-rf' is invalid syntax","Files are moved to trash, recoverable later"],ans:1,exp:"'-r' (recursive) + '-f' (force, no prompts) together mean instant, permanent deletion of the directory and all its contents — there is no built-in recovery mechanism in Linux."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command displays the current logged-in username?",opts:["user","whoami","id -name","login","name"],ans:1,exp:"'whoami' prints the username of the currently logged-in user running the shell."},
+{cat:"Direct Commands",diff:"Medium",q:"Which command shows information about all users currently logged into the system AND what they are currently doing?",opts:["who","w","whoami","users only","login"],ans:1,exp:"'w' shows logged-in users along with their current activity/process; 'who' shows less detail (just login info), and 'whoami' shows only your own username."},
+{cat:"Multi-Statement",diff:"Hard",q:"Consider the following statements about file permissions:\n1. 'chmod 644 file.txt' gives the owner read+write, and group/others read-only.\n2. 'chmod 777 file.txt' gives everyone full read, write, and execute access.\n3. 'chown' is primarily used to change the group ownership of a file, not the user owner.\n4. 'chgrp' is used to change the group ownership of a file.\n5. A file with permission '----------' grants no access to anyone, including the owner.\nWhich are correct?",opts:["1, 2, 4 and 5 only","1, 2, 3 and 4 only","All of the above","2, 3 and 5 only","1 and 2 only"],ans:0,exp:"Statement 3 is false — 'chown' primarily changes the USER/owner of a file (it can optionally also change group via user:group syntax, but that is not its primary role); 'chgrp' (statement 4) is the dedicated command for changing group ownership."},
+{cat:"Brainstorming",diff:"Medium",q:"A developer wants a script to be executable by themselves but completely inaccessible (no read, write, or execute) to anyone else on the system. Which chmod command achieves this?",opts:["chmod 777 script.sh","chmod 700 script.sh","chmod 644 script.sh","chmod 000 script.sh","chmod 070 script.sh"],ans:1,exp:"700 = owner rwx (7), group ---(0), others ---(0) — exactly matching 'only I can access it, no one else can'."},
+{cat:"Brainstorming",diff:"Hard",q:"Two files exist in a shared directory: data.txt (owned by user alice) and a script process.sh owned by bob. 'alice' wants to run process.sh, but 'ls -l' shows: -rwx------ 1 bob bob ... process.sh\nWhat will happen if alice tries to execute it?",opts:["It will run successfully since it's in a shared directory","Permission denied — only the owner (bob) has any permissions on this file; alice (as \"others\") has no access at all","It will run in read-only mode","It will prompt alice for bob's password","It will automatically change ownership to alice"],ans:1,exp:"'-rwx------' grants full access ONLY to the owner (bob); group and others have zero permissions (all dashes), so alice — falling under 'others' — is denied entirely, regardless of the shared directory."},
+{cat:"Direct Commands",diff:"Easy",q:"Which command displays the current date and time on a Linux system?",opts:["time","date","clock","now","calendar"],ans:1,exp:"'date' prints the current system date and time."},
+{cat:"Brainstorming",diff:"Medium",q:"A user needs to find out how much free and used RAM is available on the system, along with swap space usage. Which command is most appropriate?",opts:["df -h","free -h","du -sh","top only","ps aux"],ans:1,exp:"'free -h' displays total, used, and free memory (RAM) and swap space in a human-readable format."}
+];
+
+const N = questions.length;
+let current = 0;
+let responses = new Array(N).fill(null);
+let visited = new Array(N).fill(false);
+let marked = new Array(N).fill(false);
+let timerInterval, seconds = 0;
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerBox').style.display='inline-block';
+  buildGrid();
+  renderQuestion();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerText').textContent = m+':'+s;
+  },1000);
+}
+
+function buildGrid(){
+  const grid = document.getElementById('qGrid');
+  grid.innerHTML='';
+  for(let i=0;i<N;i++){
+    const b = document.createElement('button');
+    b.className='qBtn notvisited';
+    b.id='qBtn'+i;
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(); };
+    grid.appendChild(b);
+  }
+}
+
+function updateGridStatus(){
+  for(let i=0;i<N;i++){
+    const b = document.getElementById('qBtn'+i);
+    b.classList.remove('current','notvisited','answered','notanswered','marked','markedanswered');
+    let cls='notvisited';
+    if(marked[i] && responses[i]!==null) cls='markedanswered';
+    else if(marked[i]) cls='marked';
+    else if(responses[i]!==null) cls='answered';
+    else if(visited[i]) cls='notanswered';
+    b.classList.add(cls);
+    if(i===current) b.classList.add('current');
+  }
+}
+
+function renderQuestion(){
+  visited[current]=true;
+  const q = questions[current];
+  document.getElementById('qNumBadge').textContent = `Question ${current+1} / ${N}`;
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('qText').textContent = q.q;
+
+  const statusBadge = document.getElementById('qStatusBadge');
+  if(responses[current]!==null){
+    statusBadge.textContent='Answered';
+    statusBadge.style.background='rgba(34,184,118,.18)';
+    statusBadge.style.color='var(--green)';
+  } else {
+    statusBadge.textContent='Not Answered';
+    statusBadge.style.background='rgba(229,72,77,.18)';
+    statusBadge.style.color='var(--red)';
+  }
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((opt,idx)=>{
+    const div = document.createElement('div');
+    div.className='option'+(responses[current]===idx?' selected':'');
+    div.onclick = ()=>selectOption(idx);
+    div.innerHTML = `<input type="radio" name="opt" ${responses[current]===idx?'checked':''} onclick="selectOption(${idx})">
+      <label><span class="optLetter">${letters[idx]}.</span> ${escapeHtml(opt)}</label>`;
+    box.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').textContent = current===N-1 ? 'Save' : 'Save & Next →';
+
+  updateGridStatus();
+}
+
+function selectOption(idx){
+  responses[current]=idx;
+  renderQuestion();
+}
+
+function clearResponse(){
+  responses[current]=null;
+  renderQuestion();
+}
+
+function markForReview(){
+  marked[current]=true;
+  goNext();
+}
+
+function saveAndNext(){
+  goNext();
+}
+
+function goNext(){
+  if(current<N-1){
+    current++;
+    renderQuestion();
+  } else {
+    updateGridStatus();
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function confirmSubmit(){
+  const unanswered = responses.filter(r=>r===null).length;
+  const msg = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('confirmModalText').textContent = msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('timerBox').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skip=0;
+  const letters=['A','B','C','D','E'];
+  const catStats={};
+  const diffStats={};
+
+  questions.forEach((q)=>{
+    if(!catStats[q.cat]) catStats[q.cat]={correct:0,total:0};
+    catStats[q.cat].total++;
+    if(!diffStats[q.diff]) diffStats[q.diff]={correct:0,total:0};
+    diffStats[q.diff].total++;
+  });
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+
+  questions.forEach((q,i)=>{
+    const userAns = responses[i];
+    let tag, tagClass;
+    if(userAns===null){ skip++; tag='SKIPPED'; tagClass='skip'; }
+    else if(userAns===q.ans){ correct++; tag='CORRECT'; tagClass='ok'; catStats[q.cat].correct++; diffStats[q.diff].correct++; }
+    else { wrong++; tag='INCORRECT'; tagClass='no'; }
+
+    const item = document.createElement('div');
+    item.className='reviewItem';
+    let optsHtml='';
+    q.opts.forEach((opt,idx)=>{
+      let cls='reviewOpt';
+      if(idx===q.ans) cls+=' correct';
+      else if(idx===userAns && idx!==q.ans) cls+=' wrong';
+      optsHtml += `<div class="${cls}">${letters[idx]}. ${escapeHtml(opt)}${idx===q.ans?' ✓ Correct Answer':''}${(idx===userAns && idx!==q.ans)?' ✕ Your Answer':''}</div>`;
+    });
+
+    item.innerHTML = `<div class="reviewQ"><span class="catTagSmall">${escapeHtml(q.cat)}</span><span class="diffTagSmall ${q.diff}">${q.diff}</span>Q${i+1}. ${escapeHtml(q.q)} <span class="tagRight ${tagClass}">${tag}</span></div>${optsHtml}
+      <div style="font-size:12.5px;color:var(--muted);margin-top:8px;"><b style="color:var(--accent2);">Explanation:</b> ${escapeHtml(q.exp)}</div>`;
+    reviewList.appendChild(item);
+  });
+
+  const net = (correct*1 - wrong*0.25).toFixed(2);
+  document.getElementById('scoreBig').textContent = `${correct} / ${N}`;
+  document.getElementById('scoreSub').textContent = `Time taken: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statNet').textContent = net;
+
+  const catBars = document.getElementById('catBars');
+  catBars.innerHTML='';
+  Object.keys(catStats).forEach(cat=>{
+    const s = catStats[cat];
+    const pct = Math.round((s.correct/s.total)*100);
+    const row = document.createElement('div');
+    row.className='catRow';
+    row.innerHTML = `<div class="catName">${escapeHtml(cat)}</div>
+      <div class="catBarBg"><div class="catBarFill" style="width:${pct}%;"></div></div>
+      <div class="catNum">${s.correct}/${s.total}</div>`;
+    catBars.appendChild(row);
+  });
+
+  const diffBars = document.getElementById('diffBars');
+  diffBars.innerHTML='';
+  ['Easy','Medium','Hard'].forEach(diff=>{
+    if(!diffStats[diff]) return;
+    const s = diffStats[diff];
+    const pct = Math.round((s.correct/s.total)*100);
+    const row = document.createElement('div');
+    row.className='catRow';
+    row.innerHTML = `<div class="catName">${diff}</div>
+      <div class="catBarBg"><div class="catBarFill" style="width:${pct}%;"></div></div>
+      <div class="catNum">${s.correct}/${s.total}</div>`;
+    diffBars.appendChild(row);
+  });
+
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
