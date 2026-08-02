@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer — Mains Mock Series (3 Tests · 75Q)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --ink:#16223A; --ink-soft:#2A3B5C; --paper:#F2F4F0; --paper-card:#FFFFFF;
+    --gold:#B8862E; --gold-soft:#E9D8B5; --green:#1F7A4D; --red:#B3402A; --line:#D8DCD3;
+    --mono:'Courier New',Courier,monospace; --serif:Georgia,'Times New Roman',serif; --sans:Arial,Helvetica,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); min-height:100vh;}
+  .wrap{max-width:920px; margin:0 auto; padding:18px 16px 60px;}
+  .head{background:var(--ink); color:var(--paper); border-radius:6px; padding:20px 22px; margin-bottom:16px; position:relative; overflow:hidden; border:1px solid var(--ink);}
+  .head::after{content:"MAINS"; position:absolute; right:-10px; bottom:-18px; font-family:var(--serif); font-size:60px; font-weight:700; color:rgba(255,255,255,0.05); letter-spacing:2px; pointer-events:none;}
+  .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:3px; color:var(--gold-soft); text-transform:uppercase;}
+  .title{font-family:var(--serif); font-size:26px; margin:6px 0 2px; font-weight:700;}
+  .subtitle{font-size:13px; color:#C6CEDD; margin-bottom:14px;}
+  .card{background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:20px; margin-bottom:14px;}
+  .btn{font-family:var(--sans); font-weight:700; font-size:14px; letter-spacing:0.3px; background:var(--ink); color:#fff; border:none; padding:12px 22px; border-radius:4px; cursor:pointer;}
+  .btn:hover{background:var(--ink-soft);}
+  .btn.secondary{background:transparent; color:var(--ink); border:1px solid var(--ink);}
+  .btn.gold{background:var(--gold); color:#fff;}
+  .center{text-align:center;}
+
+  .testgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px;}
+  @media(max-width:700px){.testgrid{grid-template-columns:1fr;}}
+  .testcard{border:1px solid var(--line); border-radius:6px; padding:16px; cursor:pointer; transition:border-color .15s, transform .1s;}
+  .testcard:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .testcard.active{border-color:var(--ink); background:#F7F4EC;}
+  .testcard .tnum{font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:2px;}
+  .testcard .tname{font-family:var(--serif); font-size:18px; font-weight:700; margin:4px 0 8px;}
+  .testcard .tdesc{font-size:12.5px; color:var(--ink-soft); line-height:1.5;}
+
+  .quizbar{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:10px 16px; margin-bottom:14px; position:sticky; top:8px; z-index:5;}
+  .qcount{font-family:var(--mono); font-size:13px;}
+  .timer{font-family:var(--mono); font-size:18px; font-weight:700; color:var(--ink);}
+  .timer.low{color:var(--red);}
+  .tag{display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:3px; border:1px solid var(--gold); color:var(--gold); margin-left:8px;}
+  .tag2{display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:3px; border:1px solid var(--ink-soft); color:var(--ink-soft); margin-left:6px;}
+
+  .qcard{background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:22px; margin-bottom:14px;}
+  .qmeta{font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;}
+  .qtext{font-size:15.5px; line-height:1.6; margin-bottom:14px; white-space:pre-line;}
+  pre.code{background:#0F1826; color:#E8ECF3; padding:14px 16px; border-radius:5px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.5; margin:0 0 14px; white-space:pre;}
+
+  .opt{display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--line); border-radius:5px; margin-bottom:8px; cursor:pointer; transition:border-color .15s, background .15s;}
+  .opt:hover{border-color:var(--gold);}
+  .opt.selected{border-color:var(--ink); background:#F7F4EC;}
+  .bubble{flex:0 0 auto; width:26px; height:26px; border-radius:50%; border:2px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:12px;}
+  .opt.selected .bubble{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .opttext{font-size:14px; line-height:1.45; white-space:pre-line;}
+  .opt.correct{border-color:var(--green); background:#EAF5EE;}
+  .opt.correct .bubble{background:var(--green); border-color:var(--green); color:#fff;}
+  .opt.incorrect{border-color:var(--red); background:#FBEDEA;}
+  .opt.incorrect .bubble{background:var(--red); border-color:var(--red); color:#fff;}
+  .explain{margin-top:12px; padding:14px 16px; background:#FBF8F0; border-left:3px solid var(--gold); font-size:13.5px; line-height:1.6; border-radius:0 4px 4px 0; white-space:pre-line;}
+
+  .navrow{display:flex; justify-content:space-between; gap:10px; margin-top:6px;}
+  .palette{display:flex; flex-wrap:wrap; gap:6px; margin:14px 0;}
+  .pbtn{width:32px; height:32px; border-radius:4px; border:1px solid var(--line); background:#fff; font-family:var(--mono); font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+  .pbtn.answered{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .pbtn.current{outline:2px solid var(--gold); outline-offset:1px;}
+  .pbtn.flagged::after{content:"•"; color:var(--gold); margin-left:1px;}
+
+  .scorebig{font-family:var(--serif); font-size:52px; font-weight:700; text-align:center; margin:6px 0;}
+  .scoresub{text-align:center; font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin-bottom:18px;}
+  .statgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px;}
+  .statbox{background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:12px; text-align:center;}
+  .statbox .num{font-family:var(--serif); font-size:24px; font-weight:700;}
+  .statbox .lab{font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--ink-soft);}
+  .filterrow{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .chip{font-family:var(--mono); font-size:11px; padding:5px 10px; border:1px solid var(--ink-soft); border-radius:20px; cursor:pointer; background:#fff;}
+  .chip.active{background:var(--ink); color:#fff;}
+  .hidden{display:none !important;}
+  table.dist{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:10px;}
+  table.dist th, table.dist td{text-align:left; padding:5px 8px; border-bottom:1px solid var(--line);}
+  table.dist th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:var(--ink-soft);}
+  footer.note{font-size:12px; color:var(--ink-soft); text-align:center; margin-top:24px; font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Professional Knowledge · Mains Level</div>
+    <div class="title">IBPS SO IT Officer — Mains Mock Series</div>
+    <div class="subtitle">3 distinct formats · 75 Questions total · Pick a test below to begin</div>
+    <div style="font-family:var(--mono); font-size:12px; color:#DCE2EC;">Target Exam: <b style="color:var(--gold-soft)">29 Aug</b></div>
+  </div>
+
+  <div id="setup">
+    <div class="card">
+      <h3 style="margin-top:0; font-family:var(--serif);">Choose a test</h3>
+      <div class="testgrid" id="testgrid"></div>
+      <div class="center" style="margin-top:18px;">
+        <button class="btn gold" onclick="startQuiz()" id="startBtn" disabled>Select a test above to start</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <div class="quizbar">
+      <div class="qcount"><span id="testLabel"></span> · Q<span id="qNumNow">1</span> / 25</div>
+      <div class="timer" id="timer">30:00</div>
+      <div>
+        <button class="btn secondary" style="padding:8px 14px; font-size:12px;" onclick="toggleFlag()">🚩 Flag</button>
+        <button class="btn secondary" style="padding:8px 14px; font-size:12px;" onclick="showSubmitConfirm()">Submit</button>
+      </div>
+    </div>
+    <div class="palette" id="palette"></div>
+    <div class="qcard" id="qcard"></div>
+    <div class="navrow">
+      <button class="btn secondary" onclick="prevQ()">← Previous</button>
+      <button class="btn" onclick="nextQ()">Next →</button>
+    </div>
+  </div>
+
+  <div id="confirmBox" class="hidden card">
+    <p><b>Submit the test?</b> You have answered <span id="answeredCount">0</span> / 25 questions. This cannot be undone.</p>
+    <button class="btn gold" onclick="finishQuiz()">Yes, Submit</button>
+    <button class="btn secondary" onclick="document.getElementById('confirmBox').classList.add('hidden')">Cancel</button>
+  </div>
+
+  <div id="result" class="hidden">
+    <div class="card">
+      <div class="scorebig" id="finalScore">0</div>
+      <div class="scoresub" id="finalSub">out of 25 · accuracy —</div>
+      <div class="statgrid">
+        <div class="statbox"><div class="num" id="statCorrect">0</div><div class="lab">Correct</div></div>
+        <div class="statbox"><div class="num" id="statWrong">0</div><div class="lab">Wrong</div></div>
+        <div class="statbox"><div class="num" id="statSkipped">0</div><div class="lab">Skipped</div></div>
+        <div class="statbox"><div class="num" id="statTime">0</div><div class="lab">Time Used</div></div>
+      </div>
+      <div class="center"><button class="btn secondary" onclick="backToSetup()">← Back to test selection</button></div>
+    </div>
+    <div class="card">
+      <h3 style="font-family:var(--serif); margin-top:0;">Review</h3>
+      <div class="filterrow">
+        <span class="chip active" data-status="all" onclick="setStatusFilter('all')">All</span>
+        <span class="chip" data-status="wrong" onclick="setStatusFilter('wrong')">Wrong only</span>
+        <span class="chip" data-status="skipped" onclick="setStatusFilter('skipped')">Skipped only</span>
+        <span class="chip" data-status="flagged" onclick="setStatusFilter('flagged')">Flagged only</span>
+      </div>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+  <footer class="note">Built for Abhinav's IBPS SO IT Officer prep · Mains Mock Series (converted from uploaded document)</footer>
+</div>
+
+<script>
+/* ===================== TEST 1 — CONCEPTUAL MOCK (25) ===================== */
+const TEST1 = [
+{fmt:"Statement-Based", subj:"OS — Deadlock", q:"Statement I: A deadlock can occur only if all four necessary conditions (Mutual Exclusion, Hold and Wait, No Preemption, Circular Wait) hold simultaneously.\nStatement II: Removing the Hold and Wait condition alone is sufficient to prevent deadlock, even if the other three conditions remain present.",
+ options:["Only Statement I is true","Only Statement II is true","Both Statement I and II are true","Both Statement I and II are false","Cannot be determined from the given information"], correct:2,
+ explain:"The four Coffman conditions are jointly necessary for deadlock — all must hold simultaneously (Statement I). Since they're individually necessary, eliminating even one (e.g. Hold-and-Wait) makes deadlock impossible regardless of the other three (Statement II).\nWhy others incorrect: A/B each dismiss one true statement. D is wrong since both hold. E is invalid — this is a well-defined, determinable result."},
+{fmt:"Assertion-Reason", subj:"DBMS — Normalization", q:"Assertion (A): A relation in BCNF is always in 3NF.\nReason (R): BCNF is a stricter form of 3NF where every determinant must be a candidate key, and satisfying this stricter condition automatically satisfies the less strict 3NF condition.",
+ options:["Both A and R are true, and R correctly explains A","Both A and R are true, but R does NOT correctly explain A","A is true, R is false","A is false, R is true","Both A and R are false"], correct:0,
+ explain:"BCNF requires every determinant to be a candidate key — stricter than 3NF. Since BCNF's condition subsumes 3NF's, every BCNF relation automatically satisfies 3NF.\nWhy others incorrect: B would apply if R were true but irrelevant — here it's the exact causal explanation. C/D/E are factually wrong since both are true and correctly linked."},
+{fmt:"Multiple Statements", subj:"Computer Networks — TCP", q:"Consider the following statements about TCP:\n1. TCP provides connection-oriented, reliable data delivery.\n2. TCP guarantees in-order delivery of segments to the application layer.\n3. TCP uses a fixed-size sliding window regardless of network congestion.\n4. TCP's three-way handshake (SYN, SYN-ACK, ACK) establishes a connection before data transfer.\nWhich of the above statements are correct?",
+ options:["1, 2 and 4 only","1, 2 and 3 only","2, 3 and 4 only","1, 3 and 4 only","All of the above"], correct:0,
+ explain:"1, 2, 4 describe standard TCP behavior.\nWhy others incorrect: Statement 3 is false — TCP's window size is dynamic, adjusted via congestion control (slow start, congestion avoidance, AIMD), not fixed. Any option with '3' is wrong, and so is 'All'."},
+{fmt:"Match the Following", subj:"Compiler Design — Phases", q:"Match the compiler phase (Column A) with its function (Column B):\nColumn A: (a) Lexical Analysis (b) Syntax Analysis (c) Semantic Analysis (d) Code Generation\nColumn B: (i) Checks type compatibility and declaration correctness (ii) Converts source characters into tokens (iii) Produces target machine/assembly code (iv) Builds a parse tree verifying grammatical structure",
+ options:["a-ii, b-iv, c-i, d-iii","a-i, b-ii, c-iii, d-iv","a-ii, b-i, c-iv, d-iii","a-iv, b-ii, c-i, d-iii","a-ii, b-iv, c-iii, d-i"], correct:0,
+ explain:"Lexical Analysis tokenizes (ii); Syntax Analysis builds the parse tree (iv); Semantic Analysis checks type/declaration correctness (i); Code Generation produces target code (iii).\nWhy others incorrect: B applies a trivial 1-2-3-4 order. C/D/E each misassign at least two phase-function pairs."},
+{fmt:"Arrange in Order", subj:"OS — Page Fault Handling", q:"Arrange the following steps of handling a page fault in the correct order:\n1. CPU generates a memory reference to a page not in memory (trap to OS)\n2. OS locates the required page on secondary storage\n3. OS restarts the instruction that caused the page fault\n4. A free frame is selected (with page replacement if necessary) and the page is loaded into it\n5. Page table is updated to reflect the new mapping",
+ options:["1→2→4→5→3","1→4→2→5→3","2→1→4→5→3","1→2→3→4→5","1→5→2→4→3"], correct:0,
+ explain:"Trap occurs first (1), OS finds the page on disk (2), loads it into a free/replaced frame (4), updates page table (5), restarts faulting instruction (3).\nWhy others incorrect: B swaps 2/4 illogically. C locates the page before the fault is detected. D restarts before loading. E updates the table before the page is loaded."},
+{fmt:"Select Incorrect", subj:"Cyber Security — Cryptography", q:"Select the INCORRECT statement:",
+ options:["Symmetric encryption is generally faster than asymmetric encryption for large data volumes.","Asymmetric encryption uses a mathematically related public-private key pair.","TLS/SSL uses asymmetric encryption to securely exchange a symmetric session key, then switches to symmetric encryption for the actual data transfer.","Symmetric encryption keys can be safely shared publicly without compromising security, similar to public keys.","AES is a symmetric algorithm, while RSA is an asymmetric algorithm."], correct:3,
+ explain:"D is incorrect (the answer): Symmetric keys must remain strictly secret between communicating parties — sharing them publicly completely compromises confidentiality, unlike public keys designed to be shared openly.\nA, B, C, E are all accurate standard descriptions."},
+{fmt:"Statement-Based", subj:"Cloud Computing", q:"Statement I: In IaaS, the cloud provider manages the underlying hardware, and the customer manages the OS, middleware, and applications.\nStatement II: In SaaS, the customer only manages the data they input into the application, while the provider manages everything else including the application itself.",
+ options:["Only I","Only II","Both","Neither","Cannot be determined"], correct:2,
+ explain:"Both statements accurately describe the standard responsibility split in the cloud 'shared responsibility model' — IaaS gives the customer the most control, SaaS the least.\nWhy others incorrect: A/B each wrongly dismiss an accurate statement; D is wrong; E is invalid for this well-defined comparison."},
+{fmt:"Assertion-Reason", subj:"Linux", q:"Assertion (A): The `grep -r` command can search recursively through nested directories for a given pattern.\nReason (R): The `-r` flag instructs grep to traverse each subdirectory recursively, applying the search to every file found within.",
+ options:["Both true, R explains A","Both true, R doesn't explain A","A true, R false","A false, R true","Both false"], correct:0,
+ explain:"Both are true, and R is the precise mechanical explanation for why A holds — '-r' explicitly enables recursive directory traversal during grep search."},
+{fmt:"Multiple Statements", subj:"C — Pointers & Memory", q:"Consider the following statements about pointers in C:\n1. A pointer variable stores the memory address of another variable.\n2. Dereferencing a NULL pointer always produces a compile-time error.\n3. Pointer arithmetic on an array name is scaled by the size of the array's element type.\n4. `malloc()` returns a void pointer that must be explicitly typecast in C++ (though optional in C).\nWhich are correct?",
+ options:["1, 3 and 4 only","1 and 3 only","2 and 4 only","1, 2 and 3 only","All of the above"], correct:0,
+ explain:"1, 3, 4 are accurate.\nWhy others incorrect: Statement 2 is false — dereferencing NULL is a runtime error (undefined behavior, typically segfault), not caught at compile time. Any option with '2' is wrong; B/E are incomplete/overly inclusive."},
+{fmt:"Match the Following", subj:"Java — OOP Concepts", q:"Column A: (a) Overloading (b) Overriding (c) `final` on a method (d) `super` keyword\nColumn B: (i) Prevents a method from being overridden in subclasses (ii) Same method name, different parameter list, resolved at compile time (iii) Refers to the parent class's members/constructor (iv) Same method signature in subclass, resolved at runtime",
+ options:["a-ii, b-iv, c-i, d-iii","a-iv, b-ii, c-iii, d-i","a-ii, b-i, c-iv, d-iii","a-i, b-ii, c-iii, d-iv","a-iii, b-iv, c-i, d-ii"], correct:0,
+ explain:"Overloading is compile-time resolved by signature (ii); Overriding is runtime-resolved (iv); final on a method blocks overriding (i); super accesses parent members (iii).\nWhy others incorrect: B swaps overloading/overriding. C/D/E each misassign at least two pairs."},
+{fmt:"Arrange in Order", subj:"Software Engineering — Waterfall", q:"Arrange the standard Waterfall model phases in correct order:\n1. Design 2. Requirement Analysis 3. Testing 4. Implementation/Coding 5. Deployment & Maintenance",
+ options:["2→1→4→3→5","1→2→4→3→5","2→4→1→3→5","2→1→3→4→5","1→2→3→4→5"], correct:0,
+ explain:"Waterfall strictly sequences: Requirements → Design → Implementation → Testing → Deployment/Maintenance.\nWhy others incorrect: B designs before requirements. C codes before designing. D tests before implementing. E starts with Design, skipping requirements."},
+{fmt:"Select Incorrect", subj:"DBMS — ACID", q:"Select the INCORRECT statement:",
+ options:["Atomicity ensures a transaction executes completely or not at all.","Consistency ensures a transaction brings the database from one valid state to another, preserving all defined rules/constraints.","Isolation guarantees that concurrently executing transactions do not interfere with each other's intermediate states.","Durability ensures that even uncommitted changes survive a system crash.","Isolation levels like Read Committed and Serializable represent trade-offs between consistency and concurrency performance."], correct:3,
+ explain:"D is incorrect (the answer): Durability applies strictly to committed transactions — the guarantee is that committed changes persist through a crash; uncommitted changes should be rolled back, not preserved.\nA, B, C, E are all standard, accurate."},
+{fmt:"Statement-Based", subj:"Computer Networks — Routing", q:"Statement I: Distance Vector routing protocols (like RIP) share their entire routing table with directly connected neighbors periodically.\nStatement II: Link State routing protocols (like OSPF) build a complete topology map of the network by flooding link-state information to all routers.",
+ options:["Only I","Only II","Both","Neither","Cannot determine"], correct:2,
+ explain:"Both statements accurately describe the fundamental mechanics distinguishing distance-vector (neighbor-only table sharing) from link-state (network-wide flooding) routing protocols."},
+{fmt:"Assertion-Reason", subj:"Python — Mutability", q:"Assertion (A): Using a mutable default argument like `def f(x, lst=[]):` in Python can lead to unexpected shared-state bugs across function calls.\nReason (R): Default argument values in Python are evaluated only once, at function definition time, not on every call.",
+ options:["Both true, R explains A","Both true, R unrelated","A true, R false","A false, R true","Both false"], correct:0,
+ explain:"Both true, and R is precisely why A occurs — the default list object is created once and reused across all calls that don't supply their own argument, so mutations persist and leak between calls."},
+{fmt:"Multiple Statements", subj:"Machine Learning", q:"Consider the following statements:\n1. Supervised learning requires labeled training data.\n2. Clustering is an example of supervised learning.\n3. Regression predicts continuous values and is a supervised technique.\n4. Overfitting occurs when a model performs well on training data but poorly on unseen test data.\nWhich are correct?",
+ options:["1, 3 and 4 only","1, 2 and 3 only","2 and 4 only","All of the above","1 and 2 only"], correct:0,
+ explain:"1, 3, 4 are standard, correct ML definitions.\nWhy others incorrect: Statement 2 is false — clustering is unsupervised (works without labeled data). Any option with '2' is wrong."},
+{fmt:"Match the Following", subj:"Cloud Service Models", q:"Column A: (a) IaaS (b) PaaS (c) SaaS (d) FaaS\nColumn B: (i) Serverless, pay-per-execution compute (ii) Ready-to-use software delivered over the internet (iii) Virtualized hardware infrastructure (iv) Development platform with runtime environment managed",
+ options:["a-iii, b-iv, c-ii, d-i","a-i, b-ii, c-iii, d-iv","a-iii, b-ii, c-iv, d-i","a-iv, b-iii, c-ii, d-i","a-ii, b-iii, c-iv, d-i"], correct:0,
+ explain:"IaaS = raw virtualized infrastructure (iii); PaaS = managed development/runtime platform (iv); SaaS = ready-made applications (ii); FaaS = pay-per-execution serverless (i)."},
+{fmt:"Arrange in Order", subj:"Compiler Design — Phases", q:"Arrange the phases of compilation in order:\n1. Code Generation 2. Lexical Analysis 3. Semantic Analysis 4. Syntax Analysis 5. Intermediate Code Generation 6. Code Optimization",
+ options:["2→4→3→5→6→1","2→3→4→5→6→1","4→2→3→5→6→1","2→4→5→3→6→1","2→4→3→6→5→1"], correct:0,
+ explain:"Standard pipeline: Lexical → Syntax → Semantic → Intermediate Code Gen → Code Optimization → Code Generation.\nWhy others incorrect: B swaps Syntax/Semantic. C starts with Syntax before tokenizing. D generates intermediate code before semantic checking. E optimizes before intermediate code generation."},
+{fmt:"Select Incorrect", subj:"C++ — Object Model", q:"Select the INCORRECT statement about C++ virtual functions:",
+ options:["Virtual functions enable runtime polymorphism through dynamic binding.","A class with at least one pure virtual function is called an abstract class and cannot be instantiated.","Virtual function calls are resolved using a VTable (virtual table) pointer stored per object.","Constructors in C++ can be declared virtual.","Destructors should generally be declared virtual in a base class intended for polymorphic use, to ensure proper cleanup."], correct:3,
+ explain:"D is incorrect (the answer): Constructors cannot be virtual — an object's vtable pointer is only set up during construction, so the virtual-dispatch mechanism doesn't yet exist when the constructor itself runs.\nA, B, C, E are all accurate."},
+{fmt:"Statement-Based", subj:"OS — Virtual Memory", q:"Statement I: Virtual memory allows a process to use more memory than physically available RAM by using disk space as an extension.\nStatement II: Thrashing occurs when the CPU spends more time swapping pages in/out than executing actual processes.",
+ options:["Only I","Only II","Both","Neither","Cannot determine"], correct:2,
+ explain:"Both are standard, accurate descriptions of virtual memory and its failure mode (thrashing) when multiprogramming exceeds available physical memory."},
+{fmt:"Assertion-Reason", subj:"Java — Garbage Collection", q:"Assertion (A): Setting an object reference to `null` in Java does not guarantee immediate memory reclamation.\nReason (R): Garbage collection in Java is managed automatically by the JVM, and the exact timing of collection is non-deterministic, controlled by the garbage collector's algorithm.",
+ options:["Both true, R explains A","Both true, R unrelated","A true, R false","A false, R true","Both false"], correct:0,
+ explain:"Both true, R directly explains A — nullifying a reference only makes the object eligible for collection; the JVM's GC decides when (or if, before program exit) to actually reclaim that memory."},
+{fmt:"Multiple Statements", subj:"Cyber Security", q:"Consider the following statements:\n1. A firewall can inspect and filter traffic based on IP address, port, and protocol.\n2. An IDS can actively block malicious traffic in real time just like an IPS.\n3. Phishing exploits human trust rather than software vulnerabilities.\n4. A digital signature provides both authentication and non-repudiation.\nWhich are correct?",
+ options:["1, 3 and 4 only","1, 2 and 3 only","2 and 4 only","All of the above","1 and 4 only"], correct:0,
+ explain:"1, 3, 4 are standard, accurate security concepts.\nWhy others incorrect: Statement 2 is false — an IDS is fundamentally passive (detects/alerts only); only an IPS actively blocks in real time. Any option with '2' is wrong."},
+{fmt:"Match the Following", subj:"DBMS — Normal Forms", q:"Column A: (a) 1NF (b) 2NF (c) 3NF (d) BCNF\nColumn B: (i) Every determinant must be a candidate key (ii) Atomic values only, no repeating groups (iii) No transitive dependency of non-prime attributes (iv) No partial dependency on part of a composite key",
+ options:["a-ii, b-iv, c-iii, d-i","a-i, b-ii, c-iii, d-iv","a-ii, b-iii, c-iv, d-i","a-iv, b-ii, c-i, d-iii","a-ii, b-i, c-iv, d-iii"], correct:0,
+ explain:"1NF requires atomicity (ii); 2NF eliminates partial dependency (iv); 3NF eliminates transitive dependency (iii); BCNF requires every determinant be a candidate key (i)."},
+{fmt:"Arrange in Order", subj:"Computer Networks — OSI Encapsulation", q:"Arrange the sequence of encapsulation as data travels down the OSI layers from an application:\n1. Segments formed (Transport) 2. Frames formed (Data Link) 3. Data generated (Application) 4. Packets formed (Network) 5. Bits transmitted (Physical)",
+ options:["3→1→4→2→5","3→4→1→2→5","3→1→2→4→5","1→3→4→2→5","3→2→4→1→5"], correct:0,
+ explain:"Application data (3) → segmented at Transport (1) → packetized at Network (4) → framed at Data Link (2) → transmitted as bits at Physical (5) — standard top-down encapsulation."},
+{fmt:"Select Incorrect", subj:"Python — LEGB Scoping", q:"Select the INCORRECT statement about Python's LEGB scoping rule:",
+ options:["LEGB stands for Local, Enclosing, Global, Built-in.","Python resolves a name by first checking the Local scope, then Enclosing, then Global, then Built-in.","A variable assigned inside a function is treated as local to that function by default, unless declared `global` or `nonlocal`.","The `global` keyword inside a function allows modification of a module-level variable from within that function.","Variables defined in a for-loop at module level create a new nested scope inaccessible outside the loop."], correct:4,
+ explain:"E is incorrect (the answer): Unlike functions, Python's for/while/if blocks do NOT create a new scope — a loop variable defined at module level remains accessible in that same scope after the loop finishes.\nA, B, C, D are all accurate."},
+{fmt:"Statement-Based", subj:"Software Engineering — Testing", q:"Statement I: Black-box testing evaluates software functionality without knowledge of internal code structure.\nStatement II: White-box testing is typically performed by end-users to validate business requirements before deployment.",
+ options:["Only I","Only II","Both","Neither","Cannot determine"], correct:0,
+ explain:"Statement I correctly describes black-box testing.\nWhy others incorrect: Statement II is false — white-box testing examines internal code/logic, performed by developers/testers with code access, not end-users (that describes Acceptance/Black-box testing instead)."}
+];
+
+/* ===================== TEST 2 — PROGRAMMING MOCK (25) ===================== */
+const TEST2 = [
+{fmt:"Output Prediction", subj:"C", q:"What does this program print?",
+ code:`#include <stdio.h>
+int main() {
+    int arr[5] = {10,20,30,40,50};
+    int *p = arr;
+    p += 2;
+    printf("%d %d\\n", *p, *(p-1));
+    return 0;
+}`,
+ options:["30 40","30 20","40 30","20 30","Compilation Error"], correct:1,
+ explain:"p starts at arr[0]. p += 2 moves it to arr[2] (30), scaled automatically by sizeof(int). *(p-1) refers to arr[1] (20).\nCommon mistake: forgetting pointer arithmetic is scaled by element size, treating p+=2 as moving 2 bytes instead of 2 elements."},
+{fmt:"Error Identification", subj:"C", q:"What is wrong with this code?",
+ code:`#include <stdio.h>
+int main() {
+    int x = 5;
+    int *p;
+    *p = x;
+    printf("%d", *p);
+    return 0;
+}`,
+ options:["Syntax error, won't compile","p is used before being initialized to point to valid memory — undefined behavior (wild pointer dereference)","x should be declared as pointer","printf format specifier is wrong","No error, works correctly"], correct:1,
+ explain:"p is declared but never assigned a valid address (e.g. p=&x). Dereferencing it with *p=x writes to an undefined/garbage location — a wild pointer bug.\nCommon mistake: assuming this compiles and 'just works' because it doesn't always crash immediately — undefined behavior is never guaranteed or correct."},
+{fmt:"Code Completion", subj:"C", q:"Complete the statement to define a typedef for a function pointer that takes an int and returns an int:\n_____ ;",
+ options:["typedef int (*FuncPtr)(int);","typedef int *FuncPtr(int);","typedef (int)(*FuncPtr)(int);","typedef FuncPtr int(*)(int);","typedef int FuncPtr(*)(int);"], correct:0,
+ explain:"Correct syntax wraps the pointer name in parens with * before it: int (*FuncPtr)(int) — 'pointer to function taking int, returning int'.\nCommon mistake: Option B is a common wrong guess — it declares a function returning int*, not a function pointer at all."},
+{fmt:"Concept Identification", subj:"C", q:"What does this produce?",
+ code:`int x = 5; // binary: 0101
+int y = x << 1;`,
+ options:["Division by 2, y=2","Multiplication by 2 (left shift), y=10","Bitwise NOT, y=-6","Modulo operation, y=1","XOR with itself, y=0"], correct:1,
+ explain:"A left shift by 1 bit doubles the value (5<<1 = 10, binary 1010).\nCommon mistake: confusing << (left shift, multiplies) with >> (right shift, divides) under time pressure."},
+{fmt:"Complexity Analysis", subj:"C", q:"What is the time complexity of this nested loop?",
+ code:`for(int i=0;i<n;i++){
+  for(int j=i;j<n;j++){
+     // O(1) work
+  }
+}`,
+ options:["O(n)","O(n log n)","O(n²)","O(2ⁿ)","O(log n)"], correct:2,
+ explain:"Even though the inner loop shrinks as i increases, total iterations = n+(n-1)+...+1 = n(n+1)/2, still O(n²) asymptotically.\nCommon mistake: assuming a shrinking inner loop means better-than-quadratic — the sum of an arithmetic series is always quadratic."},
+{fmt:"Output Prediction", subj:"C", q:"If run as ./prog hello world, what does this print?",
+ code:`#include <stdio.h>
+int main(int argc, char *argv[]) {
+    printf("%d", argc);
+    return 0;
+}`,
+ options:["1","2","3","0","Compilation Error"], correct:2,
+ explain:"argv[0] is always the program name itself (./prog), plus the 2 additional args hello/world — argc=3.\nCommon mistake: forgetting argv[0] counts, leading to wrongly answering 2."},
+{fmt:"Output Prediction", subj:"C++", q:"What does this print?",
+ code:`#include <iostream>
+using namespace std;
+class A {
+public:
+    A() { cout << "A "; }
+    ~A() { cout << "~A "; }
+};
+class B : public A {
+public:
+    B() { cout << "B "; }
+    ~B() { cout << "~B "; }
+};
+int main() {
+    B b;
+    return 0;
+}`,
+ options:["A B ~B ~A","B A ~A ~B","A B ~A ~B","B A ~B ~A","A ~A B ~B"], correct:0,
+ explain:"Base constructors run before derived (A then B). Destructors run in exact reverse (~B then ~A).\nCommon mistake: assuming destructor order matches constructor order — it's always reversed."},
+{fmt:"Error Identification", subj:"C++", q:"What happens here?",
+ code:`class Shape {
+public:
+    virtual double area() = 0;
+};
+int main() {
+    Shape s;
+    return 0;
+}`,
+ options:["No error","Cannot instantiate an abstract class (Shape has a pure virtual function)","Missing return statement","area() must be private","Missing constructor"], correct:1,
+ explain:"Shape has a pure virtual function (=0), making it abstract — cannot be directly instantiated.\nCommon mistake: thinking the error is about a missing function body rather than the abstract-class-instantiation rule."},
+{fmt:"Code Completion", subj:"C++", q:"Complete the operator overload to add two Complex objects (with real, imag members), as a member function:\n_____",
+ options:["Complex operator+(Complex& c) { return Complex(real+c.real, imag+c.imag); }","Complex operator+(Complex c) { real+c.real; imag+c.imag; }","void operator+(Complex c) { return real+c.real; }","Complex operator+() { return Complex(real, imag); }","friend void operator+(Complex, Complex);"], correct:0,
+ explain:"A correct member-function operator overload must return a Complex object built from summed components.\nCommon mistake: Option B computes sums as expressions but never constructs/returns a Complex — doesn't work as addition."},
+{fmt:"Concept Identification", subj:"C++", q:"What does this demonstrate?",
+ code:`class Box {
+    int width;
+public:
+    Box(int w): width(w) {}
+    friend void printWidth(Box b);
+};
+void printWidth(Box b) { cout << b.width; }`,
+ options:["Inheritance","Operator overloading","Friend function declaration grants access to private members to a specific external function","Public inheritance","Encapsulation violation (a bug)"], correct:2,
+ explain:"Declaring printWidth as friend inside Box explicitly grants that one external function permission to access Box's private members — a deliberate, controlled exception to encapsulation.\nCommon mistake: mistaking this for a bug — friend is a well-defined intentional feature, not an accident."},
+{fmt:"Complexity/Memory Analysis", subj:"C++", q:"What is the risk here?",
+ code:`int* arr = new int[n];
+delete arr;   // note: missing brackets`,
+ options:["No risk, both are equivalent","Undefined behavior — may not properly deallocate the entire array or call destructors for all elements, risking memory leaks/corruption","Compilation error","It automatically converts to delete[]","Faster deallocation"], correct:1,
+ explain:"new[] and delete[] must always be paired; plain delete on a new[]-allocated array is undefined behavior — may only free the first element or corrupt the heap.\nCommon mistake: assuming the compiler 'figures it out' — C++ never does this correction automatically."},
+{fmt:"Output Prediction", subj:"C++", q:"What does this print?",
+ code:`template <typename T>
+T maxVal(T a, T b) { return (a > b) ? a : b; }
+int main() {
+    cout << maxVal(3, 7) << " " << maxVal(3.5, 2.5);
+}`,
+ options:["7 3.5","3 2.5","7 2.5","Compilation Error, ambiguous template","3.5 7"], correct:0,
+ explain:"Template instantiated separately for int (returns 7) and double (returns 3.5) — implicit type deduction handles both.\nCommon mistake: assuming templates require explicit type specification like maxVal<int>(...)."},
+{fmt:"Output Prediction", subj:"Java", q:"What does this print?",
+ code:`String s = "Hello";
+s.concat(" World");
+System.out.println(s);`,
+ options:["Hello World","Hello","Error","null","World"], correct:1,
+ explain:"Java Strings are immutable — concat() returns a NEW String rather than modifying s in place. Since the result isn't reassigned to s, s stays unchanged.\nCommon mistake: assuming string methods mutate in place, like mutable StringBuilder does."},
+{fmt:"Error Identification", subj:"Java", q:"What does this print?",
+ code:`public class Test {
+    public static void main(String[] args) {
+        try {
+            int x = 5/0;
+        } catch (Exception e) {
+            System.out.println("Caught");
+        } finally {
+            System.out.println("Finally");
+        }
+    }
+}`,
+ options:["Compilation error","Prints \"Caught\" then \"Finally\"","Prints only \"Finally\"","Program crashes, uncaught exception","Infinite loop"], correct:1,
+ explain:"5/0 throws ArithmeticException, a subclass of Exception, caught by catch(Exception e) → prints 'Caught'. finally always runs afterward → prints 'Finally'.\nCommon mistake: assuming integer division by zero is a compile-time error — it's a runtime exception in Java (unlike float division by zero, which gives Infinity)."},
+{fmt:"Code Completion", subj:"Java", q:"Complete the code to correctly implement an interface named Drawable with method draw():\n_____",
+ options:["class Circle implements Drawable { public void draw() {...} }","class Circle extends Drawable { void draw() {...} }","class Circle : Drawable { public void draw(){...} }","interface Circle implements Drawable {...}","class Circle implements Drawable { private void draw(){...} }"], correct:0,
+ explain:"Classes use implements (not extends) for interfaces, and the overriding method must be public since interface methods are implicitly public.\nCommon mistake: declaring the overriding method with narrower access like private (option E) — Java disallows reducing visibility."},
+{fmt:"Concept Identification", subj:"Java", q:"What happens here?",
+ code:`class MyThread extends Thread {
+    public void run() { System.out.println("Running"); }
+}
+public class Test {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.run();
+    }
+}`,
+ options:["A new thread is created and runs concurrently","run() executes as a normal method call on the current (main) thread — no new thread is created","Compilation error","The program throws IllegalThreadStateException","Deadlock occurs"], correct:1,
+ explain:"Calling t.run() directly invokes it like any ordinary method on the main thread. Only t.start() actually creates a new thread and schedules run() concurrently.\nCommon mistake: confusing run() with start() — one of the most frequently tested Java threading traps."},
+{fmt:"Complexity Analysis", subj:"Java", q:"Which best describes the average time complexity of the get() operation on a Java HashMap?",
+ options:["O(1) average case","O(n) always","O(log n) always","O(n²)","O(n log n)"], correct:0,
+ explain:"HashMap uses hashing to compute a bucket index directly, giving O(1) average-case lookup (worst case can degrade to O(n) with heavy collisions, but not the average case).\nCommon mistake: confusing HashMap's O(1) average with TreeMap's guaranteed O(log n)."},
+{fmt:"Output Prediction — Pass by Value", subj:"Java", q:"What does this print?",
+ code:`public class Test {
+    static void modify(int x) { x = 100; }
+    public static void main(String[] args) {
+        int a = 5;
+        modify(a);
+        System.out.println(a);
+    }
+}`,
+ options:["100","5","Compilation error","0","Runtime exception"], correct:1,
+ explain:"Java is strictly pass-by-value for primitives — modify(a) receives a COPY of a's value. Changing local x has no effect on the original a.\nCommon mistake: assuming Java passes primitives by reference (Java is always pass-by-value, even for object references — the reference itself is copied)."},
+{fmt:"Output Prediction — Mutable Default Arguments", subj:"Python", q:"What does this print?",
+ code:`def add_item(item, lst=[]):
+    lst.append(item)
+    return lst
+print(add_item(1))
+print(add_item(2))`,
+ options:["[1]  [2]","[1]  [1, 2]","[1, 2]  [1, 2]","[2]  [1, 2]","Error"], correct:1,
+ explain:"The default list lst=[] is created once, at function definition time, reused across all calls that don't pass their own list — the second call's append builds on the first call's leftover state.\nCommon mistake: one of Python's most notorious gotchas — assuming a 'fresh' empty list is created every call."},
+{fmt:"Error Identification — Generators", subj:"Python", q:"What happens on the third next(g) call?",
+ code:`def gen():
+    yield 1
+    yield 2
+    return 3
+
+g = gen()
+print(next(g))
+print(next(g))
+print(next(g))`,
+ options:["Prints 3","Raises StopIteration (the return value 3 is attached to the exception, not printed directly)","Infinite loop","Prints None","Compilation error"], correct:1,
+ explain:"After both yields are exhausted, return 3 causes the generator to raise StopIteration with 3 stored as StopIteration.value — not printed by plain next(); it propagates as an uncaught exception here.\nCommon mistake: assuming return in a generator behaves like a third yield."},
+{fmt:"Code Completion — Decorators", subj:"Python", q:"Complete the wrapper so it correctly forwards arguments and returns the result:",
+ code:`def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before")
+        _____
+        print("After")
+        return result
+    return wrapper`,
+ options:["result = func(*args, **kwargs)","result = func()","result = wrapper(*args)","func(*args, **kwargs) = result","result = my_decorator(func)"], correct:0,
+ explain:"The wrapper must forward the exact arguments received using *args, **kwargs, capturing the return value.\nCommon mistake: calling func() with no arguments (option B) — breaks the decorator for any function that requires parameters."},
+{fmt:"Concept Identification — *args/**kwargs", subj:"Python", q:"What is true about this code?",
+ code:`def demo(*args, **kwargs):
+    print(args, kwargs)
+demo(1, 2, x=3, y=4)`,
+ options:["args collects positional arguments as a tuple; kwargs collects keyword arguments as a dict","Both are lists","args and kwargs are interchangeable","This is invalid syntax","Only kwargs is populated"], correct:0,
+ explain:"Output is (1, 2) {'x': 3, 'y': 4} — *args gathers extra positional args into a tuple, **kwargs gathers extra keyword args into a dict.\nCommon mistake: assuming args produces a list rather than a tuple."},
+{fmt:"Complexity Analysis", subj:"Python", q:"Which best describes the average time complexity of checking `x in collection` for a Python SET versus a LIST of n elements?",
+ options:["O(1) for set, O(n) for list","O(n) for both","O(1) for both","O(log n) for set, O(1) for list","O(n) for set, O(1) for list"], correct:0,
+ explain:"Sets use hash-table-based storage → O(1) average membership testing. Lists require a linear scan → O(n).\nCommon mistake: assuming lists and sets perform identically for membership checks — a real performance pitfall, not just an exam trick."},
+{fmt:"Output Prediction — map/filter/reduce/lambda", subj:"Python", q:"What does this print?",
+ code:`from functools import reduce
+nums = [1, 2, 3, 4, 5]
+result = reduce(lambda a, b: a+b, filter(lambda x: x%2==0, nums))
+print(result)`,
+ options:["15","6","9","5","Error"], correct:1,
+ explain:"filter() keeps only even numbers: [2, 4]. reduce() then sums them: 2+4=6.\nCommon mistake: forgetting filter() runs first (innermost), applying reduce to the filtered evens, not the entire original list."},
+{fmt:"Output Prediction — Dunder Methods", subj:"Python", q:"What does this print?",
+ code:`class Point:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+    def __add__(self, other):
+        return Point(self.x+other.x, self.y+other.y)
+    def __str__(self):
+        return f"({self.x},{self.y})"
+
+p1 = Point(1,2)
+p2 = Point(3,4)
+print(p1+p2)`,
+ options:["(4,6)","Error, unsupported operand type","<Point object>","(1,2)(3,4)","None"], correct:0,
+ explain:"p1+p2 invokes __add__, creating Point(4,6). print() then calls __str__ on that result → '(4,6)'.\nCommon mistake: forgetting that without a defined __add__, + would raise TypeError — students sometimes wrongly assume Python 'auto-supports' + for any custom class."}
+];
+
+/* ===================== TEST 3 — SCENARIO-BASED MOCK (25) ===================== */
+const TEST3 = [
+{subj:"OS — Scheduling", q:"A bank's core transaction server processes many short transaction requests, but occasionally receives a very large end-of-day batch reconciliation job. The administrator wants short transactions to never get stuck waiting behind the long batch job, while the batch job still eventually completes fairly.",
+ options:["FCFS","SJF (non-preemptive)","Round Robin / Multilevel Feedback Queue","Priority scheduling without aging","LIFO"], correct:2,
+ explain:"Time-slicing (Round Robin) or a Multilevel Feedback Queue lets short jobs get regular CPU turns without waiting for a long job to finish, while the long job is progressively demoted but not starved — unlike FCFS (blocks short jobs) or SJF (can starve long jobs)."},
+{subj:"DBMS — Normalization", q:"A bank's Loan table stores CustomerName, CustomerAddress, LoanID, and LoanAmount, with the same customer's address repeated across multiple loan rows. When a customer moves, the analyst must update the address in every matching row — missing even one creates inconsistent data.",
+ options:["Deadlock; resolved via 2PL","Update anomaly caused by redundant, non-key-dependent data; resolved by decomposing into 3NF","Denormalization is required to fix this","This is a concurrency control issue, not a design issue","Referential integrity failure; resolved via foreign keys only"], correct:1,
+ explain:"Address depends on the customer, not the loan (the actual key subject of each row) — a classic transitive/redundancy issue solved by decomposing so address lives in a separate Customer table, referenced via foreign key."},
+{subj:"Computer Networks — TCP", q:"During peak hours, a bank's data center network experiences packet loss on a busy link, and TCP connections automatically slow their sending rate, then gradually speed back up as conditions improve.",
+ options:["Flow control via receiver window","Congestion control (slow start / congestion avoidance / AIMD)","Three-way handshake renegotiation","Nagle's algorithm","ARP resolution"], correct:1,
+ explain:"This adaptive slow-down/speed-up in response to network-level packet loss is TCP's congestion control, distinct from flow control (manages receiver buffer capacity, not network congestion)."},
+{subj:"DSA — Queue", q:"An ATM's transaction request handler must process requests in the exact order they were received, and once processed, a request should not be revisited.",
+ options:["Stack (LIFO)","Queue (FIFO)","Binary Search Tree","Hash Table","Priority Queue with random priorities"], correct:1,
+ explain:"Strict first-received, first-processed ordering is the defining property of a FIFO Queue."},
+{subj:"DSA — Sorting", q:"A developer is choosing a sorting algorithm to sort a nearly-sorted list of transaction timestamps that arrive mostly in sequence, prioritizing efficiency on near-sorted input.",
+ options:["Quick Sort (average case)","Insertion Sort","Heap Sort","Selection Sort","Bubble Sort with no early exit"], correct:1,
+ explain:"Insertion Sort is adaptive — runs close to O(n) on nearly-sorted data since few elements need to shift, unlike Quick/Heap/Selection Sort which don't exploit existing order."},
+{subj:"Compiler Design", q:"A programmer writes int total = \"hello\" + 5; in a statically typed language. The compiler detects that a string and int cannot be added under the language's type rules and reports an error before code generation.",
+ options:["Lexical Analysis","Syntax Analysis","Semantic Analysis","Code Optimization","Code Generation"], correct:2,
+ explain:"Type-compatibility checking is a Semantic Analysis responsibility — Syntax Analysis only verifies grammatical structure, not type validity."},
+{subj:"Cloud Computing", q:"A fintech startup wants to deploy a new microservice quickly without provisioning or managing any servers, paying only for actual compute time consumed during each function execution.",
+ options:["IaaS","PaaS","SaaS","FaaS (Serverless)","On-premise hosting"], correct:3,
+ explain:"Pay-per-execution, zero server management is the defining characteristic of Function-as-a-Service (serverless)."},
+{subj:"Cyber Security", q:"An employee receives an urgent call from someone claiming to be IT support, asking for their login password to 'fix an urgent system issue.'",
+ options:["SQL Injection; defended via input sanitization","Social engineering (vishing); defended via employee awareness training and never sharing credentials verbally","DDoS; defended via rate limiting","Buffer overflow; defended via bounds checking","Man-in-the-Middle; defended via HTTPS"], correct:1,
+ explain:"This exploits human trust/urgency over the phone (voice phishing/vishing), not a technical vulnerability — the primary defense is awareness training, not a technical control."},
+{subj:"Linux", q:"A DevOps engineer needs to find all files larger than 100MB within /var/log that haven't been modified in the last 30 days, to clean up old log files.",
+ options:["grep -r \"size>100MB\" /var/log","find /var/log -size +100M -mtime +30","locate /var/log --size 100","ls -la /var/log | sort","du -sh /var/log"], correct:1,
+ explain:"find supports rich filtering by size (-size +100M) and modification time (-mtime +30) simultaneously — exactly the combined filter needed."},
+{subj:"Machine Learning", q:"A bank wants to predict whether a loan applicant will default, using historical data where each past applicant's actual outcome (defaulted or not) is already known and labeled.",
+ options:["Unsupervised clustering","Supervised classification","Reinforcement learning","Association rule mining","Dimensionality reduction only"], correct:1,
+ explain:"Predicting a known category (default/no-default) using labeled historical outcomes is a textbook supervised classification problem."},
+{subj:"Web Development", q:"A banking web application needs to remember a logged-in user's session across multiple page requests without storing sensitive account data on the user's browser.",
+ options:["Store all account data in a persistent cookie","Store only a random Session ID in a cookie, keeping actual data server-side","Store credentials in local storage","Disable cookies entirely","Use URL parameters to pass account data"], correct:1,
+ explain:"The standard secure session pattern uses an opaque, random Session ID as the only client-side token, while sensitive data stays safely server-side, looked up via that ID."},
+{subj:"C — Memory", q:"A developer allocates memory using malloc() inside a function, forgets to free() it, and the function runs thousands of times per second in a long-running banking server process.",
+ options:["Stack overflow; caused by excessive stack allocation","Memory leak; caused by not calling free() to release dynamically allocated heap memory","Segmentation fault immediately","Buffer overflow caused by array bounds","Dangling pointer error immediately"], correct:1,
+ explain:"Repeated heap allocation without corresponding deallocation steadily consumes available memory — a classic memory leak, especially dangerous in long-running server processes."},
+{subj:"C++ — Polymorphism", q:"A payment processing system defines a base class PaymentMethod with a virtual function processPayment(), and derived classes CreditCard, UPI, and NetBanking each override it. The system calls processPayment() via a base class pointer, and the correct derived implementation always executes at runtime.",
+ options:["Static binding","Function overloading","Dynamic binding (runtime polymorphism) via virtual functions and VTable","Templates","Operator overloading"], correct:2,
+ explain:"Resolving which derived class's method executes at runtime, based on the actual object type behind a base pointer, is exactly what virtual functions and dynamic binding (via the VTable) enable."},
+{subj:"Java — Concurrency", q:"A multi-threaded banking application uses a shared ArrayList to log transactions from multiple threads simultaneously, and the application occasionally crashes with ConcurrentModificationException or produces corrupted logs.",
+ options:["ArrayList is inherently broken; use arrays instead","ArrayList is not thread-safe; use a synchronized collection or a concurrent collection like CopyOnWriteArrayList","This is a compiler bug","Threads should never share any data structure","The issue is unrelated to threading"], correct:1,
+ explain:"Standard ArrayList provides no built-in synchronization; concurrent unsynchronized modification from multiple threads causes exactly this corruption/exception — solved using thread-safe alternatives."},
+{subj:"Python — Mutability", q:"A function has a default parameter set to an empty list, used to accumulate log messages, and old entries from a previous unrelated call mysteriously appear in a supposedly 'fresh' call.",
+ options:["Python passes lists by reference always, causing corruption","Default mutable arguments are evaluated once at function definition time and shared across all calls unless explicitly reset","Python garbage collects lists between calls, causing data loss instead","This is expected and not a bug","Lists cannot be used as parameters in Python"], correct:1,
+ explain:"This is the classic Python mutable-default-argument pitfall — the same list object persists across every call that doesn't supply its own list argument."},
+{subj:"Software Engineering", q:"A team is building a mobile banking app with well-understood, stable requirements from day one, and wants a straightforward, sequential development process with clear milestones and minimal need for revisiting earlier phases.",
+ options:["Spiral Model","Agile/Scrum","Waterfall Model","Prototype Model","Big Bang Model"], correct:2,
+ explain:"Waterfall is ideal when requirements are stable and well-understood upfront, allowing a clean, sequential phase-by-phase progression without the iterative revisiting Agile/Spiral models are designed for."},
+{subj:"DBMS — Indexing", q:"A bank's transaction history table has grown to hundreds of millions of rows, and reports filtering by AccountNumber have become extremely slow, while fast inserts are not a strict priority.",
+ options:["Remove all constraints","Create an index on the AccountNumber column to speed up lookups","Denormalize the entire schema","Switch to a different database vendor automatically","Disable transaction logging"], correct:1,
+ explain:"Indexing the frequently-filtered column directly speeds up lookups, at the acceptable cost of slightly slower writes — exactly the trade-off described as acceptable here."},
+{subj:"Computer Networks — DNS", q:"When a user types a bank's website URL into a browser for the first time, the browser needs to resolve the human-readable domain name into a machine-usable IP address before it can establish a connection.",
+ options:["DHCP","ARP","DNS","FTP","SNMP"], correct:2,
+ explain:"DNS (Domain Name System) is specifically responsible for translating domain names into IP addresses."},
+{subj:"OS — Thrashing", q:"A server hosting multiple banking applications shows very high disk I/O and low CPU utilization, even though many processes are technically 'running.' Investigation reveals the system is constantly swapping pages in and out of memory.",
+ options:["Deadlock; fix by killing one process","Thrashing; fix by reducing the degree of multiprogramming or adding more RAM","Starvation; fix by adjusting priorities","Race condition; fix with mutex locks","Fragmentation; fix by defragmenting the disk"], correct:1,
+ explain:"Constant paging activity with little actual process progress is the textbook definition of thrashing, typically caused by too many active processes competing for insufficient physical memory."},
+{subj:"DSA — Recursion", q:"A recursive function calculating Fibonacci numbers without memoization is used on large inputs in a financial risk calculation tool, and the application becomes extremely slow as input size grows, despite the logic being correct.",
+ options:["Compiler bug","Exponential time complexity due to repeated recalculation of overlapping subproblems (no memoization)","Insufficient RAM","Network latency","Integer overflow only"], correct:1,
+ explain:"Naive recursive Fibonacci recomputes the same subproblems exponentially many times without caching results — a classic case for dynamic programming/memoization."},
+{subj:"Cyber Security — Cryptography", q:"A mobile banking app encrypts data using a key shared between client and server for fast bulk encryption, but uses a separate key-pair mechanism just to securely exchange that shared key initially.",
+ options:["Pure symmetric encryption only","Pure asymmetric encryption only","Hybrid encryption — asymmetric encryption for secure key exchange, symmetric encryption for actual data transfer","Hashing only","Steganography"], correct:2,
+ explain:"This is the standard hybrid model used by protocols like TLS: asymmetric cryptography securely negotiates a shared secret, then fast symmetric encryption handles the bulk of actual data transfer."},
+{subj:"Cloud Computing — Elasticity", q:"During a festival sale, a payment gateway sees a massive spike in traffic. The platform automatically provisions additional server instances to handle the load, then reduces them once traffic normalizes, without manual intervention.",
+ options:["Vertical scaling only","Auto-scaling (elasticity) — a core characteristic of cloud computing","Data replication","Load balancing exclusively, without scaling","Manual provisioning"], correct:1,
+ explain:"Automatically adding and removing compute resources in response to demand, without human intervention, is elasticity/auto-scaling — a defining cloud computing capability."},
+{subj:"Linux — Permissions", q:"A system administrator sets a script's permissions such that the owner can read/write/execute, the group can read/execute, and others have no access at all.",
+ options:["777","750","644","700","655"], correct:1,
+ explain:"Owner = rwx (7), Group = r-x (5), Others = no access (0) → 750."},
+{subj:"DSA — Hashing", q:"A banking application needs extremely fast average-case lookup of customer account details by account number, without needing the data stored in sorted order.",
+ options:["Binary Search Tree","Hash Table (Hash Map)","Linked List","Stack","Array with linear search"], correct:1,
+ explain:"Hash Tables provide O(1) average-case lookup by key without any ordering requirement — exactly matching this need, unlike a BST (O(log n), requires ordering) or linear structures (O(n))."},
+{subj:"Web Development — REST", q:"A bank's mobile app needs to fetch account balance (read-only, no side effects) from the backend server.",
+ options:["POST","GET","DELETE","PUT","PATCH"], correct:1,
+ explain:"GET is the semantically correct REST method for safe, idempotent, read-only data retrieval with no side effects — unlike POST/PUT/PATCH/DELETE, which modify server state."}
+];
+
+/* ===================== TEST META ===================== */
+const TEST_META = [
+  {key:"T1", label:"Test 1 — Conceptual", data:TEST1, time:35*60, desc:"25 Qs · Statement-Based · Assertion-Reason · Multiple Statements · Match the Following · Arrange in Order · Select Incorrect Statement. No code — pure conceptual depth across OS, DBMS, Networks, Compiler Design, Cloud, Security, C/Java/Python theory."},
+  {key:"T2", label:"Test 2 — Programming", data:TEST2, time:35*60, desc:"25 Qs · Every question includes real code (C·C++·Java·Python). Output Prediction · Error Identification · Code Completion · Concept Identification · Complexity Analysis."},
+  {key:"T3", label:"Test 3 — Scenario-Based", data:TEST3, time:35*60, desc:"25 Qs · Every question opens with a banking/enterprise real-world scenario (ATM, core banking server, payment gateway) — the CS concept is hidden inside the situation. No format labels shown, mirrors real IBPS SO IT Mains style."}
+];
+
+let selectedTestIdx = null;
+let QUESTIONS = [];
+let currentIndex = 0;
+let answers = [];
+let flagged = [];
+let timeLeft = 0;
+let timerInterval = null;
+
+function renderTestGrid(){
+  const grid = document.getElementById('testgrid');
+  grid.innerHTML = '';
+  TEST_META.forEach((t,i)=>{
+    const div = document.createElement('div');
+    div.className = 'testcard';
+    div.innerHTML = `<div class="tnum">TEST ${i+1}</div><div class="tname">${t.label.split('—')[1]}</div><div class="tdesc">${t.desc}</div>`;
+    div.onclick = ()=>{ selectedTestIdx = i; renderTestGrid(); document.getElementById('startBtn').disabled=false; document.getElementById('startBtn').textContent='Start '+t.label; };
+    if(i===selectedTestIdx) div.classList.add('active');
+    grid.appendChild(div);
+  });
+}
+renderTestGrid();
+
+function startQuiz(){
+  if(selectedTestIdx===null) return;
+  const t = TEST_META[selectedTestIdx];
+  QUESTIONS = t.data;
+  answers = new Array(QUESTIONS.length).fill(null);
+  flagged = new Array(QUESTIONS.length).fill(false);
+  timeLeft = t.time;
+  currentIndex = 0;
+  document.getElementById('testLabel').textContent = t.label;
+  document.getElementById('setup').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  buildPalette();
+  renderQuestion();
+  timerInterval = setInterval(tick, 1000);
+}
+function backToSetup(){
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('setup').classList.remove('hidden');
+  selectedTestIdx = null;
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('startBtn').textContent = 'Select a test above to start';
+  renderTestGrid();
+}
+function tick(){
+  timeLeft--;
+  if(timeLeft <= 0){ clearInterval(timerInterval); timeLeft = 0; finishQuiz(); return; }
+  updateTimerDisplay();
+}
+function updateTimerDisplay(){
+  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s = (timeLeft%60).toString().padStart(2,'0');
+  const el = document.getElementById('timer');
+  el.textContent = m+":"+s;
+  el.classList.toggle('low', timeLeft <= 240);
+}
+function buildPalette(){
+  const p = document.getElementById('palette');
+  p.innerHTML = '';
+  QUESTIONS.forEach((q,i)=>{
+    const b = document.createElement('button');
+    b.className = 'pbtn';
+    b.textContent = i+1;
+    b.onclick = ()=>{ currentIndex = i; renderQuestion(); };
+    p.appendChild(b);
+  });
+  refreshPalette();
+}
+function refreshPalette(){
+  document.querySelectorAll('.pbtn').forEach((b,i)=>{
+    b.classList.toggle('answered', answers[i] !== null);
+    b.classList.toggle('current', i === currentIndex);
+    b.classList.toggle('flagged', flagged[i]);
+  });
+}
+function renderQuestion(){
+  const q = QUESTIONS[currentIndex];
+  document.getElementById('qNumNow').textContent = currentIndex+1;
+  const card = document.getElementById('qcard');
+  let metaHtml = q.subj || '';
+  if(q.fmt) metaHtml += ` <span class="tag">${q.fmt}</span>`;
+  let html = `<div class="qmeta">${metaHtml}</div>`;
+  html += `<div class="qtext">${q.q}</div>`;
+  if(q.code) html += `<pre class="code">${escapeHtml(q.code)}</pre>`;
+  q.options.forEach((opt,i)=>{
+    const sel = answers[currentIndex] === i ? 'selected' : '';
+    html += `<div class="opt ${sel}" onclick="selectOption(${i})">
+        <div class="bubble">${String.fromCharCode(65+i)}</div>
+        <div class="opttext">${opt}</div>
+      </div>`;
+  });
+  card.innerHTML = html;
+  refreshPalette();
+}
+function escapeHtml(str){ return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function selectOption(i){
+  answers[currentIndex] = (answers[currentIndex] === i) ? null : i;
+  renderQuestion();
+}
+function nextQ(){ if(currentIndex < QUESTIONS.length-1){ currentIndex++; renderQuestion(); } }
+function prevQ(){ if(currentIndex > 0){ currentIndex--; renderQuestion(); } }
+function toggleFlag(){ flagged[currentIndex] = !flagged[currentIndex]; refreshPalette(); }
+function showSubmitConfirm(){
+  document.getElementById('answeredCount').textContent = answers.filter(a=>a!==null).length;
+  document.getElementById('confirmBox').classList.remove('hidden');
+}
+function finishQuiz(){
+  clearInterval(timerInterval);
+  document.getElementById('confirmBox').classList.add('hidden');
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  computeResults();
+}
+let currentStatusFilter = 'all';
+function computeResults(){
+  let correct=0, wrong=0, skipped=0, score=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i] === null){ skipped++; }
+    else if(answers[i] === q.correct){ correct++; score += 1; }
+    else { wrong++; score -= 0.25; }
+  });
+  document.getElementById('finalScore').textContent = score.toFixed(2);
+  const attempted = correct+wrong;
+  const accuracy = attempted>0 ? ((correct/attempted)*100).toFixed(1) : '0.0';
+  document.getElementById('finalSub').textContent = `out of ${QUESTIONS.length} · accuracy ${accuracy}% on attempted questions`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkipped').textContent = skipped;
+  const t = TEST_META[selectedTestIdx];
+  const usedSec = t.time - timeLeft;
+  document.getElementById('statTime').textContent = Math.floor(usedSec/60)+"m "+(usedSec%60)+"s";
+  renderReview();
+}
+function setStatusFilter(s){
+  currentStatusFilter = s;
+  document.querySelectorAll('.filterrow .chip[data-status]').forEach(c=>{ c.classList.toggle('active', c.dataset.status === s); });
+  renderReview();
+}
+function renderReview(){
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  QUESTIONS.forEach((q,i)=>{
+    const isSkipped = answers[i] === null;
+    const isWrong = !isSkipped && answers[i] !== q.correct;
+    if(currentStatusFilter === 'wrong' && !isWrong) return;
+    if(currentStatusFilter === 'skipped' && !isSkipped) return;
+    if(currentStatusFilter === 'flagged' && !flagged[i]) return;
+    let metaHtml = `Q${i+1} · ${q.subj || ''}`;
+    if(q.fmt) metaHtml += ` <span class="tag">${q.fmt}</span>`;
+    if(flagged[i]) metaHtml += ' 🚩';
+    let html = `<div class="qcard">
+      <div class="qmeta">${metaHtml}</div>
+      <div class="qtext">${q.q}</div>`;
+    if(q.code) html += `<pre class="code">${escapeHtml(q.code)}</pre>`;
+    q.options.forEach((opt,oi)=>{
+      let cls = '';
+      if(oi === q.correct) cls = 'correct';
+      else if(oi === answers[i] && answers[i] !== q.correct) cls = 'incorrect';
+      html += `<div class="opt ${cls}"><div class="bubble">${String.fromCharCode(65+oi)}</div><div class="opttext">${opt}</div></div>`;
+    });
+    html += `<div class="explain">${q.explain}</div></div>`;
+    list.innerHTML += html;
+  });
+  if(list.innerHTML === '') list.innerHTML = '<p style="font-family:var(--mono); font-size:13px; color:var(--ink-soft);">No questions match this filter.</p>';
+}
+</script>
+</body>
+</html>

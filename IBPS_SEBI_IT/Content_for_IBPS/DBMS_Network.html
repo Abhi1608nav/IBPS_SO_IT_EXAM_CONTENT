@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Professional Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a;
+    --panel:#161d27;
+    --panel-alt:#1c2532;
+    --border:#2a3341;
+    --border-soft:#212a37;
+    --text:#e7ebf0;
+    --text-dim:#93a1b0;
+    --text-faint:#5f6c7a;
+    --basics:#6fbf8b;
+    --basics-dim:#2c3c34;
+    --dbms:#e0a458;
+    --dbms-dim:#3c3527;
+    --networks:#5eb3d6;
+    --networks-dim:#243642;
+    --danger:#e2707a;
+    --danger-dim:#3a262a;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(94,179,214,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(224,164,88,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 60px 0;
+  }
+  a{color:var(--networks);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- header ---------- */
+  header.top{
+    border-bottom:1px solid var(--border);
+    padding:28px 0 20px 0;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:10px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--networks);box-shadow:0 0 8px var(--networks);}
+  h1{
+    font-family:var(--display);
+    font-size:28px;
+    font-weight:700;
+    margin:0 0 6px 0;
+    letter-spacing:-0.01em;
+  }
+  h1 span{color:var(--text-dim);font-weight:500;}
+  .subhead{color:var(--text-dim);font-size:14px;margin:0 0 18px 0;max-width:640px;}
+
+  .examstrip{
+    display:flex;flex-wrap:wrap;gap:10px;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:12px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:100px;
+    padding:6px 12px;
+    color:var(--text-dim);
+    display:flex;align-items:center;gap:6px;
+  }
+  .chip b{color:var(--text);font-weight:600;}
+  .chip.src{cursor:default;}
+
+  /* ---------- tabs ---------- */
+  .tabnav{
+    position:sticky;top:0;z-index:20;
+    display:flex;gap:2px;
+    background:var(--bg);
+    border-bottom:1px solid var(--border);
+    padding-top:14px;
+  }
+  .tab-btn{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:14px;
+    background:transparent;
+    border:1px solid var(--border);
+    border-bottom:none;
+    color:var(--text-dim);
+    padding:12px 18px 10px 18px;
+    border-radius:8px 8px 0 0;
+    cursor:pointer;
+    display:flex;align-items:center;gap:8px;
+    transform:translateY(1px);
+    transition:color .15s ease, background .15s ease;
+  }
+  .tab-btn .tag{
+    font-family:var(--mono);font-weight:500;font-size:10px;
+    padding:2px 6px;border-radius:4px;background:var(--panel-alt);color:var(--text-faint);
+  }
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn[data-tab="basics"].active{color:var(--basics);border-color:var(--basics);background:var(--basics-dim);}
+  .tab-btn[data-tab="dbms"].active{color:var(--dbms);border-color:var(--dbms);background:var(--dbms-dim);}
+  .tab-btn[data-tab="networks"].active{color:var(--networks);border-color:var(--networks);background:var(--networks-dim);}
+  .tab-btn.active .tag{background:rgba(255,255,255,0.08);color:inherit;}
+
+  /* ---------- panels ---------- */
+  .panel{display:none;padding-top:26px;}
+  .panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .panel-intro{
+    color:var(--text-dim);
+    font-size:14px;
+    padding:14px 16px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-left:3px solid var(--accent, var(--networks));
+    border-radius:6px;
+    margin-bottom:22px;
+  }
+  #panel-basics .panel-intro{border-left-color:var(--basics);}
+  #panel-dbms .panel-intro{border-left-color:var(--dbms);}
+  #panel-networks .panel-intro{border-left-color:var(--networks);}
+
+  /* ---------- accordion ---------- */
+  details.acc{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  details.acc[open]{border-color:var(--border-soft);}
+  details.acc summary{
+    list-style:none;
+    cursor:pointer;
+    padding:14px 16px;
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--display);
+    font-weight:600;
+    font-size:15px;
+    color:var(--text);
+  }
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .code{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#0e131a;
+    flex-shrink:0;
+  }
+  #panel-basics .code{background:var(--basics);}
+  #panel-dbms .code{background:var(--dbms);}
+  #panel-networks .code{background:var(--networks);}
+  summary .chev{margin-left:auto;color:var(--text-faint);font-size:12px;transition:transform .2s ease;}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  .acc-body{padding:2px 20px 20px 20px;color:var(--text-dim);font-size:14px;}
+  .acc-body p{margin:8px 0;}
+  .acc-body ul,.acc-body ol{margin:8px 0;padding-left:20px;}
+  .acc-body li{margin:4px 0;}
+  .acc-body h4{
+    font-family:var(--sans);color:var(--text);font-size:13px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.04em;margin:16px 0 6px 0;
+  }
+  .acc-body strong{color:var(--text);font-weight:600;}
+  .acc-body code{
+    font-family:var(--mono);background:var(--panel-alt);border:1px solid var(--border);
+    padding:1px 5px;border-radius:4px;font-size:12.5px;color:#f0dcb8;
+  }
+  .acc-body pre{
+    font-family:var(--mono);background:#0b0f14;border:1px solid var(--border);
+    padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.7;
+    color:#c9e6c1;
+  }
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px 0;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--text-faint);font-weight:500;border-bottom:1px solid var(--border-soft);
+  }
+  td{color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong,td b{color:var(--text);}
+  .tbl-wrap{overflow-x:auto;}
+
+  /* tip callouts */
+  .tip{
+    display:flex;gap:10px;
+    background:var(--panel-alt);
+    border:1px dashed var(--border-soft);
+    border-radius:8px;
+    padding:10px 12px;
+    margin:12px 0;
+    font-size:13px;
+  }
+  .tip .lbl{
+    font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;
+    color:#0e131a;background:#f0b429;padding:2px 6px;border-radius:4px;height:fit-content;flex-shrink:0;
+  }
+  .tip.warn .lbl{background:var(--danger);}
+  .tip p{margin:0;color:var(--text-dim);}
+
+  /* ---------- quiz ---------- */
+  .quiz{
+    margin-top:26px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 20px 22px 20px;
+  }
+  .quiz-header{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);
+  }
+  .quiz-header h3{font-family:var(--display);font-size:16px;margin:0;display:flex;align-items:center;gap:8px;}
+  .quiz-stats{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .quiz-stats .score{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .quiz-stats .timer{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .reset-btn{
+    font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--border);
+    color:var(--text-faint);padding:6px 10px;border-radius:6px;cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+
+  .quiz-q{padding:14px 0;border-bottom:1px solid var(--border-soft);}
+  .quiz-q:last-of-type{border-bottom:none;padding-bottom:0;}
+  .q-text{font-size:14px;color:var(--text);margin:0 0 10px 0;font-weight:500;}
+  .quiz-options{display:grid;gap:8px;}
+  .opt{
+    text-align:left;
+    background:var(--panel-alt);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:9px 12px;
+    border-radius:7px;
+    font-family:var(--sans);
+    font-size:13.5px;
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .quiz-q:not(.answered) .opt:hover{border-color:var(--text-faint);color:var(--text);}
+  .quiz-q.answered .opt{cursor:default;}
+  .opt.picked-correct{border-color:var(--basics);background:rgba(111,191,139,0.12);color:#bfe8cf;}
+  .opt.picked-wrong{border-color:var(--danger);background:rgba(226,112,122,0.12);color:#f3c3c7;}
+  .opt.reveal-correct{border-color:var(--basics);background:rgba(111,191,139,0.08);color:#bfe8cf;}
+  .explain{
+    margin-top:10px;font-size:13px;color:var(--text-dim);
+    background:var(--panel-alt);border-left:3px solid var(--networks);
+    padding:8px 12px;border-radius:0 6px 6px 0;
+  }
+  .explain b{color:var(--text);}
+
+  /* ---------- progress strip ---------- */
+  .progress-strip{
+    display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 2px 0;
+  }
+  .pchip{
+    flex:1;min-width:150px;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;
+    padding:10px 12px;font-family:var(--mono);font-size:12px;color:var(--text-dim);
+  }
+  .pchip .n{color:var(--text);font-size:15px;font-weight:600;font-family:var(--display);}
+  .pchip.b{border-left:3px solid var(--basics);}
+  .pchip.d{border-left:3px solid var(--dbms);}
+  .pchip.n2{border-left:3px solid var(--networks);}
+
+  footer{
+    text-align:center;color:var(--text-faint);font-size:12px;font-family:var(--mono);
+    margin-top:40px;padding-top:20px;border-top:1px solid var(--border);
+  }
+
+  @media (max-width:640px){
+    h1{font-size:22px;}
+    .tab-btn{padding:10px 12px 8px 12px;font-size:13px;}
+    .tab-btn .tag{display:none;}
+    .acc-body{padding:2px 14px 16px 14px;}
+    table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER SCALE-I · PROFESSIONAL KNOWLEDGE</div>
+    <h1>Computer Science Notes <span>— DBMS · Networks · Fundamentals</span></h1>
+    <p class="subhead">Structured revision notes for the Professional Knowledge paper, built around the 2026 pattern where PK appears in both Prelims and Mains. Every self-test score is saved automatically so you can track revision across sessions.</p>
+    <div class="examstrip">
+      <div class="chip src">Prelims PK: <b>25 Q / 50 marks</b></div>
+      <div class="chip src">Mains PK: part of <b>150 Q / 200 marks</b> combined paper</div>
+      <div class="chip src">Negative marking: <b>−0.25</b> per wrong answer</div>
+      <div class="chip src">High-weightage: <b>DBMS · Networks · OS · OOPs · DS</b></div>
+    </div>
+  </header>
+
+  <div class="progress-strip" id="progressStrip">
+    <div class="pchip b">COMPUTER FUNDAMENTALS<br><span class="n" id="pb">0/0</span> correct</div>
+    <div class="pchip d">DBMS<br><span class="n" id="pd">0/0</span> correct</div>
+    <div class="pchip n2">COMPUTER NETWORKS<br><span class="n" id="pn">0/0</span> correct</div>
+  </div>
+
+  <nav class="tabnav">
+    <button class="tab-btn active" data-tab="basics"><span class="tag">01</span> Computer Fundamentals</button>
+    <button class="tab-btn" data-tab="dbms"><span class="tag">02</span> DBMS</button>
+    <button class="tab-btn" data-tab="networks"><span class="tag">03</span> Computer Networks</button>
+  </nav>
+
+  <section id="panel-basics" class="panel active" data-topic="basics">
+    <div class="panel-intro">Covers computer architecture, memory, number systems, I/O, software concepts, MS Office, internet basics and security — the base layer tested lightly across Prelims PK and as supporting concepts in Mains.</div>
+    <details class="acc" open>
+      <summary><span class="code">CF1</span> Generations &amp; Classification of Computers <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Five Generations</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Gen</th><th>Period</th><th>Technology</th><th>Examples</th></tr>
+          <tr><td><strong>1st</strong></td><td>1940–56</td><td>Vacuum tubes</td><td>ENIAC, UNIVAC, EDVAC</td></tr>
+          <tr><td><strong>2nd</strong></td><td>1956–63</td><td>Transistors</td><td>IBM 1401, IBM 7094</td></tr>
+          <tr><td><strong>3rd</strong></td><td>1964–71</td><td>Integrated Circuits (IC)</td><td>IBM 360, PDP-8</td></tr>
+          <tr><td><strong>4th</strong></td><td>1971–present</td><td>Microprocessor (VLSI)</td><td>IBM PC, Apple II</td></tr>
+          <tr><td><strong>5th</strong></td><td>present &amp; beyond</td><td>AI, ULSI, parallel processing</td><td>IBM Watson, robotics</td></tr>
+        </table></div>
+        <h4>Classification by Size/Power</h4>
+        <ul>
+          <li><strong>Supercomputer</strong> — fastest, used for weather modelling, nuclear simulation (e.g. PARAM, Fugaku).</li>
+          <li><strong>Mainframe</strong> — high-volume, multi-user, used by banks/large orgs for bulk transaction processing.</li>
+          <li><strong>Minicomputer</strong> — mid-range, multi-user, smaller than mainframe.</li>
+          <li><strong>Microcomputer / PC</strong> — single-user desktop/laptop built around a microprocessor.</li>
+          <li><strong>Workstation</strong> — single-user, high-performance, used for engineering/graphics.</li>
+          <li><strong>Embedded computer</strong> — built into a device for a dedicated task (ATM, washing machine controller).</li>
+        </ul>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Banks are classic <strong>mainframe</strong> users historically — questions often test "which type of computer is best suited for a bank's central transaction processing" → mainframe.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF2</span> CPU Architecture &amp; Instruction Cycle <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>CPU Components</h4>
+        <ul>
+          <li><strong>ALU (Arithmetic Logic Unit)</strong> — performs arithmetic and logical operations.</li>
+          <li><strong>CU (Control Unit)</strong> — directs operation of the processor; fetches/decodes/executes instructions.</li>
+          <li><strong>Registers</strong> — small, very fast storage inside the CPU:
+            <ul>
+              <li><code>AC</code> — Accumulator: holds intermediate arithmetic/logic results.</li>
+              <li><code>PC</code> — Program Counter: address of the next instruction.</li>
+              <li><code>IR</code> — Instruction Register: holds the instruction currently being executed.</li>
+              <li><code>MAR</code> — Memory Address Register: address to be accessed in memory.</li>
+              <li><code>MBR/MDR</code> — Memory Buffer/Data Register: data being transferred to/from memory.</li>
+              <li><code>SP</code> — Stack Pointer: top of the current stack.</li>
+            </ul>
+          </li>
+        </ul>
+        <h4>Instruction Cycle</h4>
+        <p><strong>Fetch → Decode → Execute → (Store)</strong> — repeated for every instruction. Also called the FDE cycle.</p>
+        <h4>Bus Types</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Bus</th><th>Carries</th><th>Direction</th></tr>
+          <tr><td>Data bus</td><td>Actual data</td><td>Bidirectional</td></tr>
+          <tr><td>Address bus</td><td>Memory/IO address</td><td>Unidirectional</td></tr>
+          <tr><td>Control bus</td><td>Control signals (read/write, clock)</td><td>Bidirectional</td></tr>
+        </table></div>
+        <h4>Architecture Types</h4>
+        <p><strong>Von Neumann architecture</strong> — single shared memory for both instructions and data (most modern PCs). <strong>Harvard architecture</strong> — separate memory/buses for instructions and data (used in many microcontrollers/DSPs, faster but more complex).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF3</span> Memory Hierarchy &amp; Storage <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Speed decreases and capacity increases as you move down the hierarchy: <strong>Registers → Cache (L1 → L2 → L3) → Primary Memory (RAM) → Secondary Storage (HDD/SSD) → Tertiary/Offline (tape, optical)</strong>.</p>
+        <h4>Primary Memory</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Volatile?</th><th>Key point</th></tr>
+          <tr><td><strong>RAM</strong> (Random Access Memory)</td><td>Yes</td><td>SRAM (cache, fast, expensive, no refresh) vs DRAM (main RAM, needs periodic refresh, cheaper)</td></tr>
+          <tr><td><strong>ROM</strong> (Read Only Memory)</td><td>No</td><td>Stores firmware/BIOS; <strong>PROM</strong> (write once), <strong>EPROM</strong> (erasable via UV light), <strong>EEPROM</strong> (electrically erasable, byte-level)</td></tr>
+        </table></div>
+        <h4>Secondary Storage</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Device</th><th>Type</th><th>Note</th></tr>
+          <tr><td>HDD</td><td>Magnetic</td><td>Spinning platters, moving read/write head, cheaper per GB</td></tr>
+          <tr><td>SSD</td><td>Flash (NAND)</td><td>No moving parts, faster, more expensive per GB</td></tr>
+          <tr><td>CD</td><td>Optical</td><td>~700 MB</td></tr>
+          <tr><td>DVD</td><td>Optical</td><td>4.7 GB (single layer)</td></tr>
+          <tr><td>Blu-ray</td><td>Optical</td><td>25–50 GB</td></tr>
+          <tr><td>Magnetic tape</td><td>Sequential access</td><td>Used for backup/archival, cheapest per GB</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Direct access vs sequential access is a favourite distractor: <strong>disks are direct/random access</strong>, <strong>tape is sequential access only</strong>.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF4</span> Number Systems &amp; Conversion <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>System</th><th>Base</th><th>Digits used</th></tr>
+          <tr><td>Binary</td><td>2</td><td>0, 1</td></tr>
+          <tr><td>Octal</td><td>8</td><td>0–7</td></tr>
+          <tr><td>Decimal</td><td>10</td><td>0–9</td></tr>
+          <tr><td>Hexadecimal</td><td>16</td><td>0–9, A–F</td></tr>
+        </table></div>
+        <h4>Quick Conversion Rules</h4>
+        <ul>
+          <li>Binary → Decimal: multiply each bit by 2<sup>position</sup> and sum. e.g. <code>1011₂ = 8+0+2+1 = 11₁₀</code></li>
+          <li>Decimal → Binary: repeated division by 2, read remainders bottom-up.</li>
+          <li>Binary → Hex: group bits in 4s from the right (each nibble = one hex digit).</li>
+          <li>Binary → Octal: group bits in 3s from the right.</li>
+        </ul>
+        <h4>Complements (used for representing negative numbers)</h4>
+        <p><strong>1's complement</strong> — invert all bits. <strong>2's complement</strong> — 1's complement + 1; this is what modern computers actually use for signed integer arithmetic (subtraction becomes addition of the 2's complement).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF5</span> Input &amp; Output Devices <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Input Devices</h4>
+        <p>Keyboard, mouse, joystick, scanner, light pen, touchscreen, <strong>MICR</strong> (Magnetic Ink Character Recognition — used on bank cheques), <strong>OMR</strong> (Optical Mark Recognition — used for objective answer sheets), <strong>OCR</strong> (Optical Character Recognition — reads printed text), barcode/QR reader, biometric scanner (fingerprint/iris/retina).</p>
+        <h4>Output Devices</h4>
+        <p>Monitor, printer, plotter, speaker, projector.</p>
+        <h4>Printer Types</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Category</th><th>Types</th><th>Note</th></tr>
+          <tr><td><strong>Impact</strong> (physical striking)</td><td>Dot-matrix, daisy-wheel</td><td>Noisy, cheap, can print carbon copies</td></tr>
+          <tr><td><strong>Non-impact</strong></td><td>Inkjet, Laser, Thermal</td><td>Quiet, higher quality; laser is fastest &amp; best for bulk</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>MICR is specifically associated with cheque processing in banks — a very common banking-GK crossover question.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF6</span> Software Concepts &amp; Operating Systems <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Software Categories</h4>
+        <ul>
+          <li><strong>System software</strong> — manages hardware, runs the machine itself (OS, device drivers, language translators).</li>
+          <li><strong>Application software</strong> — performs user tasks (MS Office, browsers, DBMS apps).</li>
+          <li><strong>Utility software</strong> — maintenance tools (antivirus, disk cleanup, file compression).</li>
+        </ul>
+        <h4>Core OS Functions</h4>
+        <p>Process management, memory management, file management, device/I-O management, security &amp; access control, and providing a user interface (CLI/GUI).</p>
+        <h4>OS Types</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Meaning</th></tr>
+          <tr><td>Batch OS</td><td>Jobs collected &amp; executed as a batch, no user interaction during run</td></tr>
+          <tr><td>Time-sharing OS</td><td>CPU time is sliced among multiple users/tasks, giving the illusion of simultaneity</td></tr>
+          <tr><td>Real-time OS (RTOS)</td><td>Guarantees response within a strict deadline (hard/soft real-time) — e.g. flight control</td></tr>
+          <tr><td>Distributed OS</td><td>Manages a group of independent computers as one system</td></tr>
+          <tr><td>Multiprogramming</td><td>Multiple programs reside in memory; CPU switches between them to maximise utilisation</td></tr>
+          <tr><td>Multitasking</td><td>User perceives multiple tasks running "simultaneously" on one CPU</td></tr>
+          <tr><td>Multiprocessing</td><td>Two or more CPUs work together in one system</td></tr>
+        </table></div>
+        <p>Common OS examples: Windows, Linux, Unix, macOS, Android, iOS. Linux/Unix are known for being <strong>multiuser, multitasking</strong> and largely open-source (Linux).</p>
+        <h4>Language Translators</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Translator</th><th>Converts</th><th>Key behaviour</th></tr>
+          <tr><td>Assembler</td><td>Assembly → Machine code</td><td>One-to-one translation</td></tr>
+          <tr><td>Compiler</td><td>High-level → Machine code</td><td>Translates the <strong>whole program</strong> at once; faster execution, errors shown after full compilation</td></tr>
+          <tr><td>Interpreter</td><td>High-level → Machine code</td><td>Translates &amp; executes <strong>line by line</strong>; slower execution, easier debugging</td></tr>
+        </table></div>
+        <h4>Programming Language Generations</h4>
+        <p>1GL — Machine language (binary) · 2GL — Assembly language · 3GL — High-level languages (C, C++, Java) · 4GL — Very high-level/query-oriented (SQL) · 5GL — AI-based/natural-language-driven (Prolog).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF7</span> MS Office Essentials <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>MS Word</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Shortcut</th><th>Action</th></tr>
+          <tr><td><code>Ctrl+N</code></td><td>New document</td></tr>
+          <tr><td><code>Ctrl+S</code></td><td>Save</td></tr>
+          <tr><td><code>Ctrl+B / I / U</code></td><td>Bold / Italic / Underline</td></tr>
+          <tr><td><code>Ctrl+Z / Y</code></td><td>Undo / Redo</td></tr>
+          <tr><td><code>Ctrl+F</code></td><td>Find</td></tr>
+          <tr><td><code>Ctrl+H</code></td><td>Replace</td></tr>
+          <tr><td><code>Ctrl+P</code></td><td>Print</td></tr>
+          <tr><td><code>Ctrl+A</code></td><td>Select all</td></tr>
+        </table></div>
+        <h4>MS Excel</h4>
+        <p>Extension: <code>.xlsx</code>. Common functions: <code>SUM()</code>, <code>AVERAGE()</code>, <code>COUNT()</code>, <code>COUNTIF()</code>, <code>IF()</code>, <code>VLOOKUP()</code>, <code>MAX()</code>, <code>MIN()</code>. A worksheet's intersection of a row and column is called a <strong>cell</strong>; a group of worksheets forms a <strong>workbook</strong>.</p>
+        <h4>MS PowerPoint</h4>
+        <p>Extension: <code>.pptx</code>. Key terms: Slide layout, Slide master (controls formatting across all slides), Transition (effect between slides), Animation (effect on an object within a slide), Notes pane.</p>
+        <h4>Common File Extensions</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Extension</th><th>File type</th></tr>
+          <tr><td><code>.docx</code></td><td>Word document</td></tr>
+          <tr><td><code>.xlsx</code></td><td>Excel spreadsheet</td></tr>
+          <tr><td><code>.pptx</code></td><td>PowerPoint presentation</td></tr>
+          <tr><td><code>.pdf</code></td><td>Portable Document Format</td></tr>
+          <tr><td><code>.exe</code></td><td>Executable file</td></tr>
+          <tr><td><code>.jpg/.png</code></td><td>Image formats</td></tr>
+          <tr><td><code>.mp3/.mp4</code></td><td>Audio / Video</td></tr>
+          <tr><td><code>.zip/.rar</code></td><td>Compressed archive</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF8</span> Internet &amp; Email Basics <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Internet</strong> — global public network of networks.</li>
+          <li><strong>Intranet</strong> — private network restricted to an organisation.</li>
+          <li><strong>Extranet</strong> — controlled extension of an intranet to trusted outside parties (e.g. vendors).</li>
+        </ul>
+        <p><strong>WWW</strong> (World Wide Web) is a service that runs on the Internet — the Internet is the infrastructure, the Web is one application on it. A <strong>URL</strong> (Uniform Resource Locator) identifies a resource's address, e.g. <code>https://www.example.com/page</code>. A <strong>browser</strong> renders web pages (Chrome, Firefox, Edge); a <strong>search engine</strong> indexes and finds content (Google, Bing); an <strong>ISP</strong> (Internet Service Provider) provides the connection to the Internet.</p>
+        <h4>Email Basics</h4>
+        <p><strong>To</strong> — primary recipient(s). <strong>CC</strong> (Carbon Copy) — visible copy to others. <strong>BCC</strong> (Blind Carbon Copy) — hidden copy, recipients can't see each other. Email transfer/retrieval protocols (<strong>SMTP</strong>, <strong>POP3</strong>, <strong>IMAP</strong>) are covered in the Networks tab.</p>
+        <h4>Common Domains</h4>
+        <p><code>.com</code> commercial · <code>.org</code> organisation · <code>.gov</code> government · <code>.edu</code> education · <code>.in</code> India · <code>.net</code> network.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF9</span> Computer &amp; Cyber Security Basics <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Malware Types</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Behaviour</th></tr>
+          <tr><td><strong>Virus</strong></td><td>Attaches to a host file/program; needs the host to run and spread; needs human action to propagate</td></tr>
+          <tr><td><strong>Worm</strong></td><td>Standalone; self-replicates and spreads across networks <em>without</em> needing a host file or user action</td></tr>
+          <tr><td><strong>Trojan Horse</strong></td><td>Disguised as legitimate software; does not self-replicate; opens a backdoor</td></tr>
+          <tr><td><strong>Spyware</strong></td><td>Secretly monitors/collects user activity</td></tr>
+          <tr><td><strong>Ransomware</strong></td><td>Encrypts victim's data and demands payment for the key</td></tr>
+          <tr><td><strong>Adware</strong></td><td>Automatically displays/downloads unwanted advertisements</td></tr>
+        </table></div>
+        <h4>Protective Measures</h4>
+        <p><strong>Antivirus</strong> (detects/removes malware) · <strong>Firewall</strong> (filters incoming/outgoing traffic by rules — hardware or software) · <strong>Encryption</strong> (converts data to unreadable form without a key) · <strong>Authentication</strong> (password, OTP, biometric, Two-Factor Authentication).</p>
+        <h4>Other Key Terms</h4>
+        <p><strong>Phishing</strong> — fraudulent emails/sites tricking users into revealing sensitive data. <strong>Hacking</strong> — unauthorised access (ethical/white-hat hacking is authorised, for security testing). <strong>DoS/DDoS</strong> — Denial of Service / Distributed DoS: flooding a system to make it unavailable.</p>
+        <div class="tip warn"><span class="lbl">DISTINCTION</span><p>Virus needs a host file, worm doesn't. Worm spreads over a network on its own; virus spreads when an infected file is shared/executed. This pair is one of the most repeated distinctions in the exam.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CF10</span> Key Abbreviations Quick Reference <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Abbrev.</th><th>Full form</th></tr>
+          <tr><td>CPU</td><td>Central Processing Unit</td></tr>
+          <tr><td>RAM / ROM</td><td>Random Access Memory / Read Only Memory</td></tr>
+          <tr><td>BIOS</td><td>Basic Input Output System</td></tr>
+          <tr><td>POST</td><td>Power-On Self-Test</td></tr>
+          <tr><td>USB</td><td>Universal Serial Bus</td></tr>
+          <tr><td>GUI</td><td>Graphical User Interface</td></tr>
+          <tr><td>CLI</td><td>Command Line Interface</td></tr>
+          <tr><td>ASCII</td><td>American Standard Code for Information Interchange (7-bit, 128 characters)</td></tr>
+          <tr><td>Unicode</td><td>Universal character encoding (16-bit+, supports all world scripts)</td></tr>
+          <tr><td>HTML</td><td>HyperText Markup Language</td></tr>
+          <tr><td>ISP</td><td>Internet Service Provider</td></tr>
+          <tr><td>PDF</td><td>Portable Document Format</td></tr>
+          <tr><td>OCR/OMR/MICR</td><td>Optical Character / Optical Mark / Magnetic Ink Character Recognition</td></tr>
+        </table></div>
+      </div>
+    </details>
+    <div class="quiz" data-topic="basics">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Computer Fundamentals</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="b1">
+        <p class="q-text">1. Which register holds the address of the next instruction to be executed?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Instruction Register (IR)</button>
+          <button class="opt" data-correct="true">Program Counter (PC)</button>
+          <button class="opt" data-correct="false">Accumulator (AC)</button>
+          <button class="opt" data-correct="false">Memory Buffer Register (MBR)</button>
+        </div>
+        <p class="explain" hidden><b>PC (Program Counter)</b> always holds the address of the next instruction. IR holds the current instruction being executed.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b2">
+        <p class="q-text">2. Which type of ROM can be erased and reprogrammed electrically, byte by byte, without removing it from the circuit?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">PROM</button>
+          <button class="opt" data-correct="false">EPROM</button>
+          <button class="opt" data-correct="true">EEPROM</button>
+          <button class="opt" data-correct="false">DRAM</button>
+        </div>
+        <p class="explain" hidden><b>EEPROM</b> (Electrically Erasable PROM) can be erased/rewritten electrically. EPROM needs UV light; PROM is write-once.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b3">
+        <p class="q-text">3. The binary number 1101₂ is equal to which decimal value?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">11</button>
+          <button class="opt" data-correct="true">13</button>
+          <button class="opt" data-correct="false">14</button>
+          <button class="opt" data-correct="false">15</button>
+        </div>
+        <p class="explain" hidden>1101₂ = 8+4+0+1 = <b>13</b>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b4">
+        <p class="q-text">4. Which device is specifically used by banks to read the special characters printed at the bottom of a cheque?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">OMR</button>
+          <button class="opt" data-correct="false">OCR</button>
+          <button class="opt" data-correct="true">MICR</button>
+          <button class="opt" data-correct="false">Barcode reader</button>
+        </div>
+        <p class="explain" hidden><b>MICR</b> (Magnetic Ink Character Recognition) reads the magnetic-ink numbers on cheques — core banking-GK fact.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b5">
+        <p class="q-text">5. A translator that converts and executes a high-level program one line at a time, stopping immediately at the first error, is called a/an:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Compiler</button>
+          <button class="opt" data-correct="false">Assembler</button>
+          <button class="opt" data-correct="true">Interpreter</button>
+          <button class="opt" data-correct="false">Linker</button>
+        </div>
+        <p class="explain" hidden>An <b>interpreter</b> translates and executes line-by-line. A compiler translates the entire program before execution.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b6">
+        <p class="q-text">6. Which malicious program self-replicates and spreads across a network without needing to attach itself to a host file?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Virus</button>
+          <button class="opt" data-correct="true">Worm</button>
+          <button class="opt" data-correct="false">Trojan Horse</button>
+          <button class="opt" data-correct="false">Adware</button>
+        </div>
+        <p class="explain" hidden>A <b>worm</b> is standalone and self-propagates over a network; a virus needs a host file and human action to spread.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b7">
+        <p class="q-text">7. In an operating system, the technique where CPU time is divided among multiple users to give each the illusion of exclusive, simultaneous access is called:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Batch processing</button>
+          <button class="opt" data-correct="true">Time-sharing</button>
+          <button class="opt" data-correct="false">Multiprocessing</button>
+          <button class="opt" data-correct="false">Real-time processing</button>
+        </div>
+        <p class="explain" hidden><b>Time-sharing OS</b> slices CPU time across users/tasks. Multiprocessing means multiple physical CPUs.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="b8">
+        <p class="q-text">8. Which of these best describes the relationship between the Internet and the World Wide Web (WWW)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">They are exactly the same thing</button>
+          <button class="opt" data-correct="true">The Internet is the underlying network infrastructure; the WWW is a service that runs on it</button>
+          <button class="opt" data-correct="false">The WWW is the hardware; the Internet is the software</button>
+          <button class="opt" data-correct="false">The Internet only carries email, WWW carries everything else</button>
+        </div>
+        <p class="explain" hidden>The <b>Internet</b> is the global network; the <b>WWW</b> is one application/service (hypertext documents) delivered over it — email, FTP etc. are other services on the same Internet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-dbms" class="panel" data-topic="dbms">
+    <div class="panel-intro">One of the highest-weightage Mains PK topics for IT Officer. Focus areas: ER modelling, normalization, SQL (joins especially), transactions/ACID, and keys/constraints — these recur every year.</div>
+    <details class="acc" open>
+      <summary><span class="code">DB1</span> Introduction: DBMS vs File System <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>Data</strong> = raw facts. <strong>Information</strong> = processed, meaningful data. A <strong>Database</strong> is an organised collection of related data; a <strong>DBMS</strong> (Database Management System) is the software that creates, manages and controls access to a database (e.g. MySQL, Oracle, SQL Server, PostgreSQL).</p>
+        <h4>File System vs DBMS</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>File System</th><th>DBMS</th></tr>
+          <tr><td>Data redundancy</td><td>High</td><td>Minimised via normalization</td></tr>
+          <tr><td>Data integrity</td><td>Hard to enforce</td><td>Enforced via constraints</td></tr>
+          <tr><td>Concurrent access</td><td>Poor/unsafe</td><td>Managed via concurrency control</td></tr>
+          <tr><td>Security</td><td>File-level only</td><td>Fine-grained, user/role-level</td></tr>
+          <tr><td>Backup &amp; recovery</td><td>Manual</td><td>Built-in mechanisms</td></tr>
+          <tr><td>Query capability</td><td>Programmer must write code</td><td>Declarative queries (SQL)</td></tr>
+        </table></div>
+        <h4>Advantages of DBMS</h4>
+        <p>Controlled redundancy, data integrity &amp; consistency, data security, concurrent access control, backup/recovery, and data independence.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB2</span> Architecture, Data Models &amp; DBMS Languages <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Three-Schema (ANSI-SPARC) Architecture</h4>
+        <ul>
+          <li><strong>External level</strong> — individual user views of the database.</li>
+          <li><strong>Conceptual level</strong> — the community/logical view — the whole database structure as seen by the DBA.</li>
+          <li><strong>Internal level</strong> — physical storage structure (how data is actually stored on disk).</li>
+        </ul>
+        <p><strong>Logical data independence</strong> — ability to change the conceptual schema without changing external schemas/applications. <strong>Physical data independence</strong> — ability to change the internal/storage schema without changing the conceptual schema.</p>
+        <h4>Data Models</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Model</th><th>Structure</th></tr>
+          <tr><td>Hierarchical</td><td>Tree structure, parent-child (1:N) — e.g. IMS</td></tr>
+          <tr><td>Network</td><td>Graph structure, records can have multiple parents (M:N)</td></tr>
+          <tr><td>Relational</td><td>Data in tables (relations) of rows &amp; columns — most widely used today</td></tr>
+          <tr><td>ER Model</td><td>Conceptual design tool using entities &amp; relationships (design stage, not storage)</td></tr>
+          <tr><td>Object-oriented</td><td>Data stored as objects, combining data + behaviour</td></tr>
+        </table></div>
+        <h4>DBMS Language Categories</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Category</th><th>Full form</th><th>Commands</th></tr>
+          <tr><td>DDL</td><td>Data Definition Language</td><td><code>CREATE, ALTER, DROP, TRUNCATE, RENAME</code></td></tr>
+          <tr><td>DML</td><td>Data Manipulation Language</td><td><code>SELECT, INSERT, UPDATE, DELETE</code></td></tr>
+          <tr><td>DCL</td><td>Data Control Language</td><td><code>GRANT, REVOKE</code></td></tr>
+          <tr><td>TCL</td><td>Transaction Control Language</td><td><code>COMMIT, ROLLBACK, SAVEPOINT</code></td></tr>
+        </table></div>
+        <div class="tip warn"><span class="lbl">DISTINCTION</span><p><code>DROP</code> removes the table structure and data entirely (DDL, cannot roll back in most DBs); <code>DELETE</code> removes rows but keeps the table structure (DML, can roll back); <code>TRUNCATE</code> removes all rows fast and resets identity, structure stays (DDL, generally no rollback).</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB3</span> ER Model <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Building Blocks</h4>
+        <ul>
+          <li><strong>Entity</strong> — a real-world object/thing (e.g. Employee). <strong>Entity set</strong> — collection of similar entities.</li>
+          <li><strong>Attribute</strong> — property of an entity. Types: <strong>Simple</strong> (atomic, e.g. Age), <strong>Composite</strong> (divisible, e.g. Name → First+Last), <strong>Derived</strong> (computed, e.g. Age from DOB), <strong>Multivalued</strong> (multiple values, e.g. Phone numbers), <strong>Key attribute</strong> (uniquely identifies the entity).</li>
+          <li><strong>Relationship</strong> — association between two or more entities. <strong>Degree</strong>: unary (1 entity), binary (2 entities — most common), ternary (3 entities).</li>
+        </ul>
+        <h4>Cardinality (mapping between entities)</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Cardinality</th><th>Meaning</th><th>Example</th></tr>
+          <tr><td>1:1</td><td>One entity relates to exactly one of another</td><td>Employee — manages — Department</td></tr>
+          <tr><td>1:N</td><td>One entity relates to many of another</td><td>Department — has — Employees</td></tr>
+          <tr><td>M:N</td><td>Many entities relate to many of another</td><td>Student — enrolls in — Courses</td></tr>
+        </table></div>
+        <p><strong>Participation constraint:</strong> <strong>Total</strong> (every entity instance must participate, shown as double line) vs <strong>Partial</strong> (participation is optional, single line).</p>
+        <h4>Advanced ER Concepts</h4>
+        <ul>
+          <li><strong>Generalization</strong> — bottom-up: combining lower-level entities into a higher-level generalized entity (Car + Truck → Vehicle).</li>
+          <li><strong>Specialization</strong> — top-down: dividing a higher-level entity into lower-level specialized entities (Employee → Manager, Clerk).</li>
+          <li><strong>Aggregation</strong> — treats a relationship itself as a higher-level entity so it can participate in further relationships.</li>
+        </ul>
+        <h4>ER Diagram Symbols</h4>
+        <p><strong>Rectangle</strong> = Entity · <strong>Ellipse</strong> = Attribute · <strong>Diamond</strong> = Relationship · <strong>Double ellipse</strong> = Multivalued attribute · <strong>Dashed ellipse</strong> = Derived attribute · <strong>Underline</strong> = Key attribute.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB4</span> Relational Model &amp; Keys <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Relational Terminology</h4>
+        <p><strong>Relation</strong> = table · <strong>Tuple</strong> = row · <strong>Attribute</strong> = column · <strong>Domain</strong> = set of allowed values for an attribute · <strong>Degree</strong> = number of columns · <strong>Cardinality</strong> = number of rows.</p>
+        <h4>Types of Keys</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Key</th><th>Definition</th></tr>
+          <tr><td><strong>Super key</strong></td><td>Any set of attributes that uniquely identifies a tuple (may include extra, unnecessary attributes)</td></tr>
+          <tr><td><strong>Candidate key</strong></td><td>A minimal super key — no attribute can be removed without losing uniqueness</td></tr>
+          <tr><td><strong>Primary key</strong></td><td>The candidate key chosen to uniquely identify tuples; cannot be NULL</td></tr>
+          <tr><td><strong>Alternate key</strong></td><td>Candidate key(s) NOT chosen as primary key</td></tr>
+          <tr><td><strong>Foreign key</strong></td><td>Attribute in one table that references the primary key of another table — enforces referential integrity</td></tr>
+          <tr><td><strong>Composite key</strong></td><td>Primary key made of two or more attributes together</td></tr>
+          <tr><td><strong>Surrogate key</strong></td><td>An artificial key (e.g. auto-increment ID) with no business meaning</td></tr>
+        </table></div>
+        <h4>Integrity Constraints</h4>
+        <ul>
+          <li><strong>Entity integrity</strong> — primary key value can never be NULL.</li>
+          <li><strong>Referential integrity</strong> — a foreign key value must either match a primary key value in the referenced table or be NULL.</li>
+          <li><strong>Domain constraint</strong> — every attribute value must come from its defined domain/data type.</li>
+          <li><strong>Key constraint</strong> — no two tuples can have the same primary key value.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB5</span> Normalization <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Normalization removes redundancy and avoids anomalies by decomposing tables based on <strong>functional dependencies</strong> (an attribute B is functionally dependent on A if each value of A determines exactly one value of B, written <code>A → B</code>).</p>
+        <h4>Anomalies (why we normalize)</h4>
+        <ul>
+          <li><strong>Insertion anomaly</strong> — can't insert data without unrelated data also being present.</li>
+          <li><strong>Update anomaly</strong> — same fact stored in multiple rows, risk of inconsistent updates.</li>
+          <li><strong>Deletion anomaly</strong> — deleting one fact unintentionally deletes another needed fact.</li>
+        </ul>
+        <h4>Normal Forms</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Form</th><th>Rule</th></tr>
+          <tr><td><strong>1NF</strong></td><td>Every attribute must hold only atomic (indivisible) values — no repeating groups/multivalued columns</td></tr>
+          <tr><td><strong>2NF</strong></td><td>Must be in 1NF + no <strong>partial dependency</strong> (non-key attribute depending on only part of a composite primary key)</td></tr>
+          <tr><td><strong>3NF</strong></td><td>Must be in 2NF + no <strong>transitive dependency</strong> (non-key attribute depending on another non-key attribute)</td></tr>
+          <tr><td><strong>BCNF</strong> (Boyce-Codd NF)</td><td>Must be in 3NF + for every functional dependency A → B, A must be a super key (stricter version of 3NF)</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Remember the chain: 1NF (atomic values) → 2NF (no partial dependency, relevant only when PK is composite) → 3NF (no transitive dependency) → BCNF (every determinant is a candidate key). Questions often ask "which normal form removes transitive dependency" → <strong>3NF</strong>.</p></div>
+        <p><strong>Denormalization</strong> — intentionally introducing redundancy (reversing normalization) to improve read performance, common in data warehouses/reporting systems.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB6</span> SQL Essentials <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>DDL Syntax</h4>
+        <pre>CREATE TABLE Employee (
+  emp_id INT PRIMARY KEY,
+  name   VARCHAR(50),
+  dept_id INT REFERENCES Department(dept_id)
+);
+ALTER TABLE Employee ADD COLUMN salary DECIMAL(10,2);
+DROP TABLE Employee;</pre>
+        <h4>DML — SELECT clauses (logical order)</h4>
+        <p><code>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</code></p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Clause</th><th>Filters on</th></tr>
+          <tr><td><code>WHERE</code></td><td>Individual rows, <em>before</em> grouping — cannot use aggregate functions</td></tr>
+          <tr><td><code>GROUP BY</code></td><td>Groups rows sharing a value into summary rows</td></tr>
+          <tr><td><code>HAVING</code></td><td>Groups, <em>after</em> aggregation — used with aggregate functions</td></tr>
+          <tr><td><code>ORDER BY</code></td><td>Sorts the final result set</td></tr>
+        </table></div>
+        <h4>Joins</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Join</th><th>Returns</th></tr>
+          <tr><td><strong>INNER JOIN</strong></td><td>Only matching rows from both tables</td></tr>
+          <tr><td><strong>LEFT (OUTER) JOIN</strong></td><td>All rows from left table + matched rows from right (unmatched = NULL)</td></tr>
+          <tr><td><strong>RIGHT (OUTER) JOIN</strong></td><td>All rows from right table + matched rows from left</td></tr>
+          <tr><td><strong>FULL (OUTER) JOIN</strong></td><td>All rows from both tables, matched where possible</td></tr>
+          <tr><td><strong>SELF JOIN</strong></td><td>A table joined with itself (e.g. employee-manager hierarchy)</td></tr>
+          <tr><td><strong>CROSS JOIN</strong></td><td>Cartesian product — every row of A with every row of B</td></tr>
+        </table></div>
+        <h4>Aggregate Functions</h4>
+        <p><code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>, <code>MIN()</code>, <code>MAX()</code> — all ignore NULLs except <code>COUNT(*)</code>.</p>
+        <h4>Set Operations</h4>
+        <p><code>UNION</code> (combines, removes duplicates) · <code>UNION ALL</code> (combines, keeps duplicates) · <code>INTERSECT</code> (common rows only) · <code>MINUS</code>/<code>EXCEPT</code> (rows in first query not in second). All require the same number/type of columns in both queries.</p>
+        <h4>DCL &amp; TCL</h4>
+        <pre>GRANT SELECT, INSERT ON Employee TO user1;
+REVOKE INSERT ON Employee FROM user1;
+COMMIT;      -- makes changes permanent
+ROLLBACK;    -- undoes changes since last commit
+SAVEPOINT sp1;  -- rollback point within a transaction</pre>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB7</span> Transactions &amp; Concurrency Control <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>ACID Properties</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Property</th><th>Meaning</th></tr>
+          <tr><td><strong>Atomicity</strong></td><td>A transaction executes fully or not at all ("all or nothing")</td></tr>
+          <tr><td><strong>Consistency</strong></td><td>A transaction takes the database from one valid state to another, preserving all rules/constraints</td></tr>
+          <tr><td><strong>Isolation</strong></td><td>Concurrent transactions don't interfere with each other's intermediate state</td></tr>
+          <tr><td><strong>Durability</strong></td><td>Once committed, changes survive even a system crash</td></tr>
+        </table></div>
+        <h4>Transaction States</h4>
+        <p>Active → Partially Committed → Committed, OR Active → Failed → Aborted.</p>
+        <h4>Concurrency Problems (when isolation is weak)</h4>
+        <ul>
+          <li><strong>Dirty read</strong> — reading uncommitted data from another transaction that may later be rolled back.</li>
+          <li><strong>Lost update</strong> — two transactions update the same data, one update overwrites the other.</li>
+          <li><strong>Unrepeatable read</strong> — re-reading the same row gives a different value within one transaction.</li>
+          <li><strong>Phantom read</strong> — re-running the same query returns a different set of rows (new rows inserted by another transaction).</li>
+        </ul>
+        <h4>Concurrency Control Methods</h4>
+        <p><strong>Locking</strong> — Shared (S) lock allows concurrent reads; Exclusive (X) lock allows only one transaction to read/write. <strong>Two-Phase Locking (2PL)</strong> — a transaction acquires all locks first (growing phase), then releases them (shrinking phase), guaranteeing serializability. <strong>Timestamp ordering</strong> — transactions are ordered by timestamp instead of locks. <strong>Deadlock</strong> — two or more transactions wait indefinitely for each other's locks; resolved via detection (wait-for graph) or prevention.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB8</span> Indexing &amp; RAID <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Indexing</h4>
+        <p>An index is a data structure that speeds up data retrieval at the cost of extra storage and slower writes.</p>
+        <ul>
+          <li><strong>Primary index</strong> — built on the primary key; data is physically ordered by it.</li>
+          <li><strong>Clustering index</strong> — built on a non-key field that determines the physical order of records.</li>
+          <li><strong>Secondary index</strong> — built on a non-ordering field; does not affect physical order, can have many per table.</li>
+          <li>Most DBMSs implement indexes internally using a <strong>B-tree / B+ tree</strong> structure for fast, balanced lookups.</li>
+        </ul>
+        <h4>RAID Levels (Redundant Array of Independent Disks)</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Level</th><th>Technique</th><th>Fault tolerance</th></tr>
+          <tr><td>RAID 0</td><td>Striping (splitting data across disks)</td><td>None — improves speed only</td></tr>
+          <tr><td>RAID 1</td><td>Mirroring (exact copy on 2 disks)</td><td>High — tolerates 1 disk failure</td></tr>
+          <tr><td>RAID 5</td><td>Striping with distributed parity</td><td>Tolerates 1 disk failure</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">DB9</span> High-Yield Miscellaneous Facts <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>OLTP vs OLAP</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>OLTP</th><th>OLAP</th></tr>
+          <tr><td>Full form</td><td>Online Transaction Processing</td><td>Online Analytical Processing</td></tr>
+          <tr><td>Purpose</td><td>Day-to-day operations (e.g. bank deposits)</td><td>Analysis &amp; decision support (data warehouse)</td></tr>
+          <tr><td>Data</td><td>Current, detailed</td><td>Historical, summarized</td></tr>
+          <tr><td>Operations</td><td>Frequent short read/write</td><td>Complex read-heavy queries</td></tr>
+        </table></div>
+        <h4>Data Warehouse</h4>
+        <p>A large, subject-oriented, integrated, time-variant, non-volatile store of historical data used for analysis/reporting — distinct from an operational database used for daily transactions.</p>
+        <h4>Distributed Database</h4>
+        <p>Data is stored across multiple physical locations/nodes but appears as a single logical database to the user.</p>
+        <h4>NoSQL (brief)</h4>
+        <p>Non-relational databases designed for scale/flexibility: <strong>Document</strong> (MongoDB), <strong>Key-Value</strong> (Redis), <strong>Column-family</strong> (Cassandra), <strong>Graph</strong> (Neo4j). Typically follow <strong>BASE</strong> (Basically Available, Soft state, Eventually consistent) rather than strict ACID.</p>
+        <h4>Codd's Rules</h4>
+        <p>E.F. Codd (father of the relational model) defined <strong>12 rules</strong> (numbered 0–12) that define what makes a DBMS truly relational — mainly tested as a fact ("who proposed the relational model" → <strong>E.F. Codd, 1970</strong>) rather than requiring the full list.</p>
+      </div>
+    </details>
+    <div class="quiz" data-topic="dbms">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — DBMS</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="d1">
+        <p class="q-text">1. A minimal super key — one from which no attribute can be removed without losing the uniqueness property — is called a:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Primary key</button>
+          <button class="opt" data-correct="true">Candidate key</button>
+          <button class="opt" data-correct="false">Foreign key</button>
+          <button class="opt" data-correct="false">Composite key</button>
+        </div>
+        <p class="explain" hidden>A <b>candidate key</b> is a minimal super key. The primary key is simply the candidate key chosen to identify rows.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d2">
+        <p class="q-text">2. A relation is in 2NF but a non-key attribute depends on another non-key attribute rather than directly on the primary key. Which normal form violation is this?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Partial dependency</button>
+          <button class="opt" data-correct="true">Transitive dependency</button>
+          <button class="opt" data-correct="false">Multivalued dependency</button>
+          <button class="opt" data-correct="false">Join dependency</button>
+        </div>
+        <p class="explain" hidden>Non-key attribute depending on another non-key attribute = <b>transitive dependency</b> — removed to reach 3NF.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d3">
+        <p class="q-text">3. Which SQL clause is used to filter groups AFTER aggregation (e.g. departments with more than 5 employees)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">WHERE</button>
+          <button class="opt" data-correct="true">HAVING</button>
+          <button class="opt" data-correct="false">GROUP BY</button>
+          <button class="opt" data-correct="false">ORDER BY</button>
+        </div>
+        <p class="explain" hidden><b>HAVING</b> filters after <code>GROUP BY</code>/aggregation; <code>WHERE</code> filters individual rows before grouping and cannot use aggregate functions.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d4">
+        <p class="q-text">4. Which join returns all rows from the left table along with matching rows from the right table, filling unmatched right-side columns with NULL?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">INNER JOIN</button>
+          <button class="opt" data-correct="true">LEFT (OUTER) JOIN</button>
+          <button class="opt" data-correct="false">CROSS JOIN</button>
+          <button class="opt" data-correct="false">SELF JOIN</button>
+        </div>
+        <p class="explain" hidden>A <b>LEFT JOIN</b> keeps every row from the left table regardless of a match on the right.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d5">
+        <p class="q-text">5. Which ACID property guarantees that a transaction is either fully completed or fully rolled back, with no partial effect?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Atomicity</button>
+          <button class="opt" data-correct="false">Consistency</button>
+          <button class="opt" data-correct="false">Isolation</button>
+          <button class="opt" data-correct="false">Durability</button>
+        </div>
+        <p class="explain" hidden><b>Atomicity</b> = "all or nothing." Durability is about surviving crashes after commit; Isolation is about concurrent transactions not interfering.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d6">
+        <p class="q-text">6. A transaction reads a value written by another transaction that has NOT yet been committed, and that transaction is later rolled back. What is this problem called?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Dirty read</button>
+          <button class="opt" data-correct="false">Phantom read</button>
+          <button class="opt" data-correct="false">Lost update</button>
+          <button class="opt" data-correct="false">Unrepeatable read</button>
+        </div>
+        <p class="explain" hidden>Reading <b>uncommitted</b> data that may vanish on rollback is a <b>dirty read</b>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d7">
+        <p class="q-text">7. Which SQL command removes a table's structure AND all its data, and generally cannot be rolled back?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">DELETE</button>
+          <button class="opt" data-correct="true">DROP</button>
+          <button class="opt" data-correct="false">UPDATE</button>
+          <button class="opt" data-correct="false">REVOKE</button>
+        </div>
+        <p class="explain" hidden><b>DROP</b> (DDL) deletes the table structure and data entirely. <b>DELETE</b> (DML) removes rows but keeps the structure and can typically be rolled back.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="d8">
+        <p class="q-text">8. In the ANSI-SPARC three-schema architecture, which level represents the physical storage structure of the data on disk?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">External level</button>
+          <button class="opt" data-correct="false">Conceptual level</button>
+          <button class="opt" data-correct="true">Internal level</button>
+          <button class="opt" data-correct="false">Logical level</button>
+        </div>
+        <p class="explain" hidden>The <b>internal level</b> deals with physical storage. External = user views; Conceptual = whole logical structure.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-networks" class="panel" data-topic="networks">
+    <div class="panel-intro">Equally high-weightage. Focus areas: OSI vs TCP/IP layers, IP addressing, networking devices by layer, and protocol-port pairs — these are asked almost every year in a fairly direct, factual form.</div>
+    <details class="acc" open>
+      <summary><span class="code">CN1</span> Network Types &amp; Topologies <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Network Types by Range</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Full form</th><th>Typical range</th><th>Example</th></tr>
+          <tr><td>PAN</td><td>Personal Area Network</td><td>~10 m</td><td>Bluetooth between phone &amp; earbuds</td></tr>
+          <tr><td>LAN</td><td>Local Area Network</td><td>Single building/campus</td><td>Office network</td></tr>
+          <tr><td>MAN</td><td>Metropolitan Area Network</td><td>A city</td><td>Cable TV network</td></tr>
+          <tr><td>WAN</td><td>Wide Area Network</td><td>Country/globe</td><td>The Internet</td></tr>
+        </table></div>
+        <h4>Topologies</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Topology</th><th>Structure</th><th>Key trait</th></tr>
+          <tr><td><strong>Bus</strong></td><td>All nodes on one shared backbone cable</td><td>Cheap, but one cable break = whole network down</td></tr>
+          <tr><td><strong>Star</strong></td><td>All nodes connect to a central hub/switch</td><td>Easy to manage/isolate faults; hub failure = whole network down</td></tr>
+          <tr><td><strong>Ring</strong></td><td>Each node connects to exactly two neighbours, forming a loop</td><td>Data travels in one direction (token passing); one break can disrupt the ring</td></tr>
+          <tr><td><strong>Mesh</strong></td><td>Every node connects to every other node</td><td>Highly fault-tolerant &amp; redundant, but expensive/complex — n(n-1)/2 links</td></tr>
+          <tr><td><strong>Tree</strong></td><td>Hierarchical combination of star networks</td><td>Scalable, easy to expand</td></tr>
+          <tr><td><strong>Hybrid</strong></td><td>Combination of two or more topologies</td><td>Flexible, used in real large networks</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN2</span> OSI Reference Model (7 Layers) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Mnemonic (top→bottom): <strong>"All People Seem To Need Data Processing"</strong> — Application, Presentation, Session, Transport, Network, Data Link, Physical.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>#</th><th>Layer</th><th>Function</th><th>PDU</th><th>Examples</th></tr>
+          <tr><td>7</td><td>Application</td><td>Interface to end-user services</td><td>Data</td><td>HTTP, FTP, SMTP, DNS</td></tr>
+          <tr><td>6</td><td>Presentation</td><td>Translation, encryption, compression</td><td>Data</td><td>SSL/TLS, JPEG, ASCII</td></tr>
+          <tr><td>5</td><td>Session</td><td>Establishes/manages/terminates sessions</td><td>Data</td><td>NetBIOS, RPC</td></tr>
+          <tr><td>4</td><td>Transport</td><td>End-to-end delivery, reliability, flow control</td><td>Segment</td><td>TCP, UDP</td></tr>
+          <tr><td>3</td><td>Network</td><td>Logical addressing &amp; routing between networks</td><td>Packet</td><td>IP, ICMP, routers</td></tr>
+          <tr><td>2</td><td>Data Link</td><td>Node-to-node delivery, MAC addressing, error detection</td><td>Frame</td><td>Ethernet, switches, bridges</td></tr>
+          <tr><td>1</td><td>Physical</td><td>Raw bit transmission over the medium</td><td>Bit</td><td>Cables, hubs, repeaters</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Routers work at Layer 3 (Network); switches/bridges work at Layer 2 (Data Link); hubs/repeaters work at Layer 1 (Physical) — a very frequently tested mapping.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN3</span> TCP/IP Model <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>The practical 4-layer model the Internet actually runs on.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>TCP/IP Layer</th><th>Corresponding OSI layers</th></tr>
+          <tr><td>Application</td><td>Application + Presentation + Session</td></tr>
+          <tr><td>Transport</td><td>Transport</td></tr>
+          <tr><td>Internet</td><td>Network</td></tr>
+          <tr><td>Network Access (Link)</td><td>Data Link + Physical</td></tr>
+        </table></div>
+        <h4>OSI vs TCP/IP</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>OSI</th><th>TCP/IP</th></tr>
+          <tr><td>Layers</td><td>7</td><td>4</td></tr>
+          <tr><td>Nature</td><td>Conceptual/theoretical reference model</td><td>Implemented, practical protocol suite</td></tr>
+          <tr><td>Approach</td><td>Layer-first, then protocols were built for it</td><td>Protocols came first, model described after</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN4</span> Transmission Media <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Guided (Wired) Media</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Medium</th><th>Note</th></tr>
+          <tr><td>Twisted Pair (UTP/STP)</td><td>Cheapest, used in most LANs/Ethernet; STP is shielded (less interference) than UTP</td></tr>
+          <tr><td>Coaxial cable</td><td>Better shielding &amp; bandwidth than twisted pair; used in cable TV</td></tr>
+          <tr><td>Fiber optic</td><td>Uses light pulses; highest bandwidth &amp; distance, immune to electromagnetic interference, most expensive</td></tr>
+        </table></div>
+        <h4>Unguided (Wireless) Media</h4>
+        <p>Radio waves, Microwaves (line-of-sight, used for point-to-point links/towers), Infrared (short-range, e.g. remote controls), Satellite communication (long-distance, high latency).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN5</span> Networking Devices by OSI Layer <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Device</th><th>OSI Layer</th><th>Function</th></tr>
+          <tr><td><strong>Repeater</strong></td><td>Physical (1)</td><td>Regenerates/amplifies a weak signal over distance</td></tr>
+          <tr><td><strong>Hub</strong></td><td>Physical (1)</td><td>Broadcasts incoming data to all ports (no intelligence)</td></tr>
+          <tr><td><strong>Bridge</strong></td><td>Data Link (2)</td><td>Connects two LAN segments, filters traffic by MAC address</td></tr>
+          <tr><td><strong>Switch</strong></td><td>Data Link (2)</td><td>Like a smart hub — forwards frames only to the intended MAC address port</td></tr>
+          <tr><td><strong>Router</strong></td><td>Network (3)</td><td>Routes packets between different networks based on IP address</td></tr>
+          <tr><td><strong>Gateway</strong></td><td>All layers (up to Application)</td><td>Connects two dissimilar networks/protocols, does protocol translation</td></tr>
+          <tr><td><strong>Modem</strong></td><td>Physical (1)</td><td>Modulates/demodulates signals — converts digital ⇄ analog for transmission over telephone lines</td></tr>
+          <tr><td><strong>Access Point</strong></td><td>Data Link (2)</td><td>Allows wireless devices to connect to a wired network</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN6</span> IP Addressing <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>IPv4</h4>
+        <p>32-bit address, written as four 8-bit octets (e.g. <code>192.168.1.1</code>), giving ~4.3 billion addresses.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Class</th><th>First octet range</th><th>Used for</th></tr>
+          <tr><td>A</td><td>1–126</td><td>Very large networks (few networks, many hosts)</td></tr>
+          <tr><td>B</td><td>128–191</td><td>Medium networks</td></tr>
+          <tr><td>C</td><td>192–223</td><td>Small networks (many networks, few hosts)</td></tr>
+          <tr><td>D</td><td>224–239</td><td>Multicasting</td></tr>
+          <tr><td>E</td><td>240–255</td><td>Reserved for research/experimental use</td></tr>
+        </table></div>
+        <p><strong>127.x.x.x</strong> is reserved for loopback (<code>127.0.0.1</code> = localhost). Private (non-routable) IP ranges: <code>10.0.0.0–10.255.255.255</code> (Class A), <code>172.16.0.0–172.31.255.255</code> (Class B), <code>192.168.0.0–192.168.255.255</code> (Class C).</p>
+        <p><strong>Subnet mask</strong> separates the network portion from the host portion of an address. <strong>CIDR</strong> notation (e.g. <code>/24</code>) states how many bits form the network part.</p>
+        <h4>IPv6</h4>
+        <p>128-bit address, written as 8 groups of hexadecimal digits separated by colons (e.g. <code>2001:0db8:85a3::8a2e:0370:7334</code>). Created because IPv4's address space is exhausted.</p>
+        <h4>MAC vs IP Address</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>MAC Address</th><th>IP Address</th></tr>
+          <tr><td>Assigned by</td><td>Manufacturer (burned into NIC hardware)</td><td>Network/ISP (logical, assignable)</td></tr>
+          <tr><td>Length</td><td>48-bit (12 hex digits)</td><td>32-bit (IPv4) / 128-bit (IPv6)</td></tr>
+          <tr><td>Layer</td><td>Data Link (2)</td><td>Network (3)</td></tr>
+          <tr><td>Changeable?</td><td>Fixed (mostly)</td><td>Can change (DHCP, network moves)</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN7</span> Protocols &amp; Port Numbers <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>TCP vs UDP</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>TCP</th><th>UDP</th></tr>
+          <tr><td>Full form</td><td>Transmission Control Protocol</td><td>User Datagram Protocol</td></tr>
+          <tr><td>Connection</td><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr>
+          <tr><td>Reliability</td><td>Reliable — acknowledgements, retransmission, ordering</td><td>Unreliable — "best effort", no guarantee</td></tr>
+          <tr><td>Speed</td><td>Slower (overhead of reliability)</td><td>Faster, lower overhead</td></tr>
+          <tr><td>Use case</td><td>Web browsing, email, file transfer</td><td>Video/audio streaming, DNS, online gaming</td></tr>
+        </table></div>
+        <h4>Application Layer Protocols &amp; Ports</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Protocol</th><th>Port</th><th>Purpose</th></tr>
+          <tr><td>HTTP</td><td>80</td><td>Unencrypted web traffic</td></tr>
+          <tr><td>HTTPS</td><td>443</td><td>Encrypted (SSL/TLS) web traffic</td></tr>
+          <tr><td>FTP</td><td>20 (data), 21 (control)</td><td>File transfer</td></tr>
+          <tr><td>SMTP</td><td>25</td><td>Sending email</td></tr>
+          <tr><td>POP3</td><td>110</td><td>Retrieving email (downloads &amp; typically removes from server)</td></tr>
+          <tr><td>IMAP</td><td>143</td><td>Retrieving email (syncs, keeps on server)</td></tr>
+          <tr><td>Telnet</td><td>23</td><td>Unencrypted remote login</td></tr>
+          <tr><td>SSH</td><td>22</td><td>Encrypted remote login</td></tr>
+          <tr><td>DNS</td><td>53</td><td>Domain Name → IP resolution</td></tr>
+          <tr><td>DHCP</td><td>67 (server), 68 (client)</td><td>Automatic IP address assignment</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Port numbers (especially 80, 443, 21, 25, 53) are asked directly and very frequently — worth rote-memorising the table above.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN8</span> Switching Techniques <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Technique</th><th>How it works</th><th>Note</th></tr>
+          <tr><td><strong>Circuit switching</strong></td><td>Dedicated physical path is reserved for the entire session</td><td>Used in traditional telephone networks; guaranteed bandwidth but wasteful if idle</td></tr>
+          <tr><td><strong>Packet switching</strong></td><td>Data is broken into packets, each routed independently and reassembled at destination</td><td>Used on the Internet; efficient, resilient, but variable delay</td></tr>
+          <tr><td><strong>Message switching</strong></td><td>Entire message is stored at each intermediate node then forwarded ("store-and-forward")</td><td>Mostly historical (e.g. old telegraph systems)</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN9</span> Network Security Basics <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Firewall</strong> — monitors and filters incoming/outgoing traffic based on security rules (hardware or software).</li>
+          <li><strong>VPN</strong> (Virtual Private Network) — creates an encrypted tunnel over a public network for secure, private communication.</li>
+          <li><strong>Proxy server</strong> — acts as an intermediary between client and the wider internet, can cache content/hide client IP.</li>
+          <li><strong>Encryption</strong> — <strong>Symmetric</strong> (same key encrypts &amp; decrypts, faster, e.g. AES) vs <strong>Asymmetric</strong> (public/private key pair, e.g. RSA, used in HTTPS/digital signatures).</li>
+          <li><strong>Digital signature/certificate</strong> — verifies authenticity &amp; integrity of a message/sender using asymmetric cryptography.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CN10</span> Error Detection &amp; Flow Control <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Error Detection</h4>
+        <p><strong>Parity check</strong> — adds one extra bit to make the count of 1s odd/even; catches single-bit errors only. <strong>Checksum</strong> — sender computes a value from the data, receiver recomputes and compares. <strong>CRC</strong> (Cyclic Redundancy Check) — polynomial-division based, more robust than parity, widely used in Ethernet.</p>
+        <h4>Flow Control</h4>
+        <p><strong>Stop-and-wait</strong> — sender transmits one frame, waits for acknowledgement before sending the next (simple but slow). <strong>Sliding window</strong> — sender can transmit multiple frames before needing an acknowledgement, improving throughput.</p>
+      </div>
+    </details>
+    <div class="quiz" data-topic="networks">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Computer Networks</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="n1">
+        <p class="q-text">1. Which network topology requires every node to be directly connected to every other node, giving n(n-1)/2 links for n nodes?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Star</button>
+          <button class="opt" data-correct="false">Bus</button>
+          <button class="opt" data-correct="true">Mesh</button>
+          <button class="opt" data-correct="false">Ring</button>
+        </div>
+        <p class="explain" hidden><b>Mesh topology</b> connects every node to every other node — most fault-tolerant but most expensive/complex to wire.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n2">
+        <p class="q-text">2. At which OSI layer does a switch primarily operate?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Physical</button>
+          <button class="opt" data-correct="true">Data Link</button>
+          <button class="opt" data-correct="false">Network</button>
+          <button class="opt" data-correct="false">Transport</button>
+        </div>
+        <p class="explain" hidden>A <b>switch</b> forwards frames using MAC addresses — that's <b>Layer 2, Data Link</b>. A router works at Layer 3.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n3">
+        <p class="q-text">3. Which protocol is connection-oriented and guarantees reliable, ordered delivery of data?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">TCP</button>
+          <button class="opt" data-correct="false">UDP</button>
+          <button class="opt" data-correct="false">IP</button>
+          <button class="opt" data-correct="false">ICMP</button>
+        </div>
+        <p class="explain" hidden><b>TCP</b> uses a 3-way handshake and acknowledgements for reliable delivery. UDP is connectionless and unreliable but faster.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n4">
+        <p class="q-text">4. Which port number is used by HTTPS?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">21</button>
+          <button class="opt" data-correct="false">80</button>
+          <button class="opt" data-correct="true">443</button>
+          <button class="opt" data-correct="false">25</button>
+        </div>
+        <p class="explain" hidden><b>443</b> is HTTPS (encrypted). Port <b>80</b> is plain HTTP.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n5">
+        <p class="q-text">5. An IPv4 address in the range 192.0.0.0–223.255.255.255 belongs to which class?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Class A</button>
+          <button class="opt" data-correct="false">Class B</button>
+          <button class="opt" data-correct="true">Class C</button>
+          <button class="opt" data-correct="false">Class D</button>
+        </div>
+        <p class="explain" hidden><b>Class C</b> (192–223) — used for small networks with many networks but few hosts each.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n6">
+        <p class="q-text">6. Which email protocol synchronizes messages and keeps them on the server (rather than downloading and removing them)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">POP3</button>
+          <button class="opt" data-correct="true">IMAP</button>
+          <button class="opt" data-correct="false">SMTP</button>
+          <button class="opt" data-correct="false">FTP</button>
+        </div>
+        <p class="explain" hidden><b>IMAP</b> keeps mail synced on the server (good for multi-device access). <b>POP3</b> traditionally downloads and removes mail from the server.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n7">
+        <p class="q-text">7. Which switching technique breaks data into independently-routed units that are reassembled at the destination, and is what the modern Internet uses?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Circuit switching</button>
+          <button class="opt" data-correct="true">Packet switching</button>
+          <button class="opt" data-correct="false">Message switching</button>
+          <button class="opt" data-correct="false">Line switching</button>
+        </div>
+        <p class="explain" hidden><b>Packet switching</b> is used by the Internet; circuit switching reserves a dedicated path (classic telephony).</p>
+      </div>
+
+      <div class="quiz-q" data-qid="n8">
+        <p class="q-text">8. Which error-detection method is polynomial-division based and is more robust than a simple parity check, widely used in Ethernet frames?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Parity check</button>
+          <button class="opt" data-correct="false">Checksum</button>
+          <button class="opt" data-correct="true">CRC (Cyclic Redundancy Check)</button>
+          <button class="opt" data-correct="false">Hamming code</button>
+        </div>
+        <p class="explain" hidden><b>CRC</b> uses polynomial division and is standard in Ethernet frame error-checking.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>IBPS SO IT Officer · Professional Knowledge revision notes · scores stored locally to this tool</footer>
+</div>
+
+<script>
+(function(){
+  const topics = ['basics','dbms','networks'];
+  const quizState = {basics:{}, dbms:{}, networks:{}};
+  const timers = {basics:{start:null,elapsed:0,handle:null}, dbms:{start:null,elapsed:0,handle:null}, networks:{start:null,elapsed:0,handle:null}};
+
+  // ---- tab switching ----
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60).toString().padStart(2,'0');
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function updateScoreDisplay(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    const total = quizEl.querySelectorAll('.quiz-q').length;
+    const answered = Object.keys(quizState[topic]).length;
+    const correct = Object.values(quizState[topic]).filter(v=>v.correct).length;
+    quizEl.querySelector('.score').textContent = 'Score: '+correct+'/'+total;
+    const map = {basics:'pb', dbms:'pd', networks:'pn'};
+    const el = document.getElementById(map[topic]);
+    if(el) el.textContent = correct+'/'+total;
+    return {total, answered, correct};
+  }
+
+  function startTimer(topic){
+    const t = timers[topic];
+    if(t.handle) return;
+    t.start = Date.now() - t.elapsed*1000;
+    t.handle = setInterval(()=>{
+      t.elapsed = (Date.now()-t.start)/1000;
+      const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+      if(quizEl) quizEl.querySelector('.timer').textContent = fmtTime(t.elapsed);
+    }, 1000);
+  }
+  function stopTimer(topic){
+    const t = timers[topic];
+    if(t.handle){ clearInterval(t.handle); t.handle=null; }
+  }
+  function resetTimer(topic){
+    stopTimer(topic);
+    timers[topic] = {start:null, elapsed:0, handle:null};
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(quizEl) quizEl.querySelector('.timer').textContent = '00:00';
+  }
+
+  async function saveProgress(topic){
+    try{
+      await window.storage.set('pk-quiz-'+topic, JSON.stringify(quizState[topic]), false);
+    }catch(e){ /* storage best-effort */ }
+  }
+
+  function applyAnswer(qEl, topic, qid, chosenIdx, isCorrect){
+    const opts = qEl.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      if(i===chosenIdx && isCorrect) o.classList.add('picked-correct');
+      else if(i===chosenIdx && !isCorrect) o.classList.add('picked-wrong');
+      else if(o.dataset.correct==='true') o.classList.add('reveal-correct');
+    });
+    qEl.classList.add('answered');
+    const ex = qEl.querySelector('.explain');
+    if(ex) ex.hidden = false;
+  }
+
+  function handleOptionClick(e){
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    const qEl = opt.closest('.quiz-q');
+    if(!qEl || qEl.classList.contains('answered')) return;
+    const quizEl = opt.closest('.quiz');
+    const topic = quizEl.dataset.topic;
+    const qid = qEl.dataset.qid;
+    const opts = Array.from(qEl.querySelectorAll('.opt'));
+    const chosenIdx = opts.indexOf(opt);
+    const isCorrect = opt.dataset.correct === 'true';
+    applyAnswer(qEl, topic, qid, chosenIdx, isCorrect);
+    quizState[topic][qid] = {chosenIndex:chosenIdx, correct:isCorrect};
+    updateScoreDisplay(topic);
+    startTimer(topic);
+    const stats = updateScoreDisplay(topic);
+    if(stats && stats.answered >= stats.total) stopTimer(topic);
+    saveProgress(topic);
+  }
+  document.addEventListener('click', handleOptionClick);
+
+  document.querySelectorAll('.reset-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const quizEl = btn.closest('.quiz');
+      const topic = quizEl.dataset.topic;
+      quizState[topic] = {};
+      quizEl.querySelectorAll('.quiz-q').forEach(qEl=>{
+        qEl.classList.remove('answered');
+        qEl.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked-correct','picked-wrong','reveal-correct'));
+        const ex = qEl.querySelector('.explain');
+        if(ex) ex.hidden = true;
+      });
+      updateScoreDisplay(topic);
+      resetTimer(topic);
+      try{ await window.storage.delete('pk-quiz-'+topic, false); }catch(e){}
+    });
+  });
+
+  function restoreState(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    Object.keys(quizState[topic]).forEach(qid=>{
+      const qEl = quizEl.querySelector('.quiz-q[data-qid="'+qid+'"]');
+      if(!qEl) return;
+      const rec = quizState[topic][qid];
+      applyAnswer(qEl, topic, qid, rec.chosenIndex, rec.correct);
+    });
+    updateScoreDisplay(topic);
+  }
+
+  async function init(){
+    for(const topic of topics){
+      try{
+        const res = await window.storage.get('pk-quiz-'+topic, false);
+        if(res && res.value) quizState[topic] = JSON.parse(res.value);
+      }catch(e){ quizState[topic] = {}; }
+      restoreState(topic);
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>

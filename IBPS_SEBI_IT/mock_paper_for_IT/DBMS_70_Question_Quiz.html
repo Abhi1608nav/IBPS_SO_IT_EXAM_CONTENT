@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DBMS — 70 Question Practice Set | IBPS/SBI SO IT Officer</title>
+<style>
+  :root{
+    --bg:#0f1729;--panel:#141d35;--panel2:#1a2544;--border:#2a3660;--text:#e8ecf7;--muted:#8b95b8;
+    --accent:#4f6df5;--accent2:#7c8ff9;--green:#22b876;--red:#e5484d;--amber:#e5a12b;--purple:#9b6bf2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .topbar .title{font-size:16px;font-weight:700;letter-spacing:.3px;}
+  .topbar .title span{color:var(--accent2);}
+  .timer{background:var(--panel2);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--amber);}
+
+  #startScreen{max-width:680px;margin:44px auto;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:34px;text-align:center;}
+  #startScreen h1{font-size:22px;margin-bottom:6px;}
+  #startScreen p.sub{color:var(--muted);margin-top:0;margin-bottom:22px;}
+  .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:18px;}
+  .infoCard{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .infoCard .num{font-size:20px;font-weight:800;color:var(--accent2);}
+  .infoCard .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+  .catBreakdown{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .catChip{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:11.5px;color:var(--muted);}
+  .catChip b{color:var(--text);}
+  .instructions{text-align:left;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+  .instructions b{color:var(--text);}
+  .legend-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0;}
+
+  button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:13px 34px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.3px;}
+  .btn-primary:hover{filter:brightness(1.08);}
+
+  #quizScreen{display:none;}
+  .quizWrap{display:flex;max-width:1200px;margin:20px auto;gap:18px;padding:0 16px;align-items:flex-start;}
+  .mainPanel{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px;min-height:420px;}
+  .qMeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .qNumBadge{background:var(--panel2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;color:var(--accent2);}
+  .catBadge{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .qStatusBadge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .qText{font-size:15.5px;line-height:1.65;margin:16px 0 22px;white-space:pre-wrap;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{display:flex;align-items:flex-start;gap:12px;background:var(--panel2);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;transition:.15s;}
+  .option:hover{border-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:rgba(79,109,245,.14);}
+  .option input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+  .option label{cursor:pointer;flex:1;line-height:1.5;font-size:14.5px;}
+  .optLetter{font-weight:800;color:var(--accent2);margin-right:4px;}
+
+  .actionRow{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+  .leftActions,.rightActions{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{padding:10px 18px;border-radius:8px;font-size:13.5px;font-weight:700;background:var(--panel2);color:var(--text);border:1px solid var(--border);}
+  .btn:hover{border-color:var(--accent2);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn-clear{color:var(--red);}
+  .btn-mark{color:var(--purple);}
+  .btn-save{background:var(--green);color:#fff;border:none;}
+  .btn-save:hover{filter:brightness(1.08);}
+  .btn-submit{background:var(--red);color:#fff;border:none;}
+  .btn-submit:hover{filter:brightness(1.1);}
+
+  .sidePanel{width:300px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;flex-shrink:0;}
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:16px;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .qGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;}
+  .qBtn{aspect-ratio:1;border-radius:6px;font-weight:700;font-size:11.5px;background:var(--panel2);border:1.5px solid var(--border);color:var(--text);}
+  .qBtn.current{outline:2px solid #fff;outline-offset:1px;}
+  .qBtn.notvisited{background:var(--panel2);color:var(--muted);}
+  .qBtn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+  .qBtn.notanswered{background:var(--red);color:#fff;border-color:var(--red);}
+  .qBtn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .qBtn.markedanswered{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:inset 0 0 0 2px var(--green);}
+  .submitBig{width:100%;margin-top:18px;padding:12px;border-radius:9px;background:var(--red);color:#fff;font-weight:800;font-size:14px;}
+  .submitBig:hover{filter:brightness(1.1);}
+
+  #resultScreen{display:none;max-width:900px;margin:30px auto;padding:0 16px;}
+  .scoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;text-align:center;margin-bottom:20px;}
+  .scoreCard h2{margin-top:0;font-size:20px;}
+  .scoreBig{font-size:44px;font-weight:800;color:var(--accent2);margin:8px 0;}
+  .statsRow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;}
+  .statBox{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .statBox .n{font-size:22px;font-weight:800;}
+  .statBox .l{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .statBox.green .n{color:var(--green);}
+  .statBox.red .n{color:var(--red);}
+  .statBox.amber .n{color:var(--amber);}
+  .statBox.grey .n{color:var(--muted);}
+
+  .catScoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:20px;}
+  .catScoreCard h3{margin-top:0;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+  .catRow{display:flex;align-items:center;gap:12px;margin-bottom:11px;}
+  .catRow .catName{width:190px;font-size:12.5px;font-weight:700;flex-shrink:0;}
+  .catBarBg{flex:1;height:9px;background:var(--panel2);border-radius:6px;overflow:hidden;}
+  .catBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;}
+  .catRow .catNum{width:50px;text-align:right;font-size:12px;color:var(--muted);flex-shrink:0;}
+
+  .reviewList{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+  .reviewItem{border-bottom:1px solid var(--border);padding:16px 0;}
+  .reviewItem:last-child{border-bottom:none;}
+  .reviewQ{font-size:14.5px;margin-bottom:10px;font-weight:600;white-space:pre-wrap;}
+  .reviewOpt{font-size:13.5px;padding:8px 12px;border-radius:7px;margin-bottom:6px;background:var(--panel2);border:1px solid var(--border);}
+  .reviewOpt.correct{border-color:var(--green);background:rgba(34,184,118,.12);color:var(--green);}
+  .reviewOpt.wrong{border-color:var(--red);background:rgba(229,72,77,.12);color:var(--red);}
+  .tagRight{float:right;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;}
+  .tagRight.ok{background:rgba(34,184,118,.18);color:var(--green);}
+  .tagRight.no{background:rgba(229,72,77,.18);color:var(--red);}
+  .tagRight.skip{background:rgba(139,149,184,.18);color:var(--muted);}
+  .catTagSmall{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:1px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:8px;text-transform:uppercase;}
+
+  .restartBtn{display:block;margin:24px auto 10px;padding:12px 30px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:14px;}
+
+  .modalOverlay{display:none;position:fixed;inset:0;background:rgba(5,8,20,.65);z-index:1000;align-items:center;justify-content:center;}
+  .modalOverlay.show{display:flex;}
+  .modalBox{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px 28px;max-width:380px;width:90%;text-align:center;}
+  .modalBox p{font-size:14.5px;line-height:1.6;margin-bottom:22px;}
+  .modalBtns{display:flex;gap:10px;justify-content:center;}
+  .modalBtns .btn{padding:10px 22px;}
+
+  @media(max-width:860px){
+    .quizWrap{flex-direction:column;}
+    .sidePanel{width:100%;order:-1;}
+    .qGrid{grid-template-columns:repeat(8,1fr);}
+    .statsRow{grid-template-columns:repeat(2,1fr);}
+    .infoGrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">DBMS <span>70-Question Practice Set</span></div>
+  <div class="timer" id="timerBox" style="display:none;">⏱ <span id="timerText">00:00</span></div>
+</div>
+
+<div id="startScreen">
+  <h1>DBMS — Full Spectrum Practice Set</h1>
+  <p class="sub">Medium–Hard Difficulty · IBPS SO / SBI SO IT Officer</p>
+
+  <div class="infoGrid">
+    <div class="infoCard"><div class="num">70</div><div class="lab">Total Questions</div></div>
+    <div class="infoCard"><div class="num">+1 / −0.25</div><div class="lab">Marking Scheme</div></div>
+  </div>
+
+  <div class="catBreakdown">
+    <span class="catChip"><b>8</b> Output-Based</span>
+    <span class="catChip"><b>8</b> Relation-Based</span>
+    <span class="catChip"><b>8</b> Normalization</span>
+    <span class="catChip"><b>5</b> CIA Triad</span>
+    <span class="catChip"><b>5</b> Scaling</span>
+    <span class="catChip"><b>7</b> Indexing</span>
+    <span class="catChip"><b>7</b> DDL/DML/DCL/TCL</span>
+    <span class="catChip"><b>7</b> Functional Dependencies</span>
+    <span class="catChip"><b>7</b> Window Functions</span>
+    <span class="catChip"><b>8</b> Scenario-Based</span>
+  </div>
+
+  <div class="instructions">
+    <b>Instructions:</b><br>
+    • Click <b>Start Quiz</b> to begin the timer.<br>
+    • Use <b>Save &amp; Next</b> to record your response and move on, or navigate freely using the question panel on the right.<br>
+    • Use <b>Mark for Review</b> to flag a question and revisit it later.<br>
+    • Use <b>Clear Response</b> to remove your selected answer for the current question.<br>
+    • Click <b>Submit Test</b> anytime to end the quiz and view your detailed score report with a category-wise breakdown.<br><br>
+    <b>Status legend:</b>
+    <div class="legend-row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+    <div class="legend-row"><span class="dot" style="background:var(--red)"></span> Visited, Not Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--purple)"></span> Marked for Review</div>
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quizScreen">
+  <div class="quizWrap">
+    <div class="mainPanel">
+      <div class="qMeta">
+        <div class="qNumBadge" id="qNumBadge">Question 1 / 70</div>
+        <div class="catBadge" id="catBadge">Category</div>
+        <div class="qStatusBadge" id="qStatusBadge" style="background:var(--panel2);color:var(--muted);">Not Answered</div>
+      </div>
+      <div class="qText" id="qText"></div>
+      <div class="options" id="optionsBox"></div>
+
+      <div class="actionRow">
+        <div class="leftActions">
+          <button class="btn btn-clear" onclick="clearResponse()">✕ Clear Response</button>
+          <button class="btn btn-mark" onclick="markForReview()">★ Mark for Review &amp; Next</button>
+        </div>
+        <div class="rightActions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+          <button class="btn btn-save" id="nextBtn" onclick="saveAndNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidePanel">
+      <div class="legend">
+        <div class="row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+        <div class="row"><span class="dot" style="background:var(--red)"></span> Not Answered</div>
+        <div class="row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+        <div class="row"><span class="dot" style="background:var(--purple)"></span> Marked</div>
+      </div>
+      <div class="qGrid" id="qGrid"></div>
+      <button class="submitBig" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="scoreCard">
+    <h2>Your Result</h2>
+    <div class="scoreBig" id="scoreBig">0 / 70</div>
+    <div id="scoreSub" style="color:var(--muted);font-size:13.5px;"></div>
+    <div class="statsRow">
+      <div class="statBox green"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+      <div class="statBox red"><div class="n" id="statWrong">0</div><div class="l">Incorrect</div></div>
+      <div class="statBox grey"><div class="n" id="statSkip">0</div><div class="l">Unattempted</div></div>
+      <div class="statBox amber"><div class="n" id="statNet">0</div><div class="l">Net Score</div></div>
+    </div>
+  </div>
+
+  <div class="catScoreCard">
+    <h3>Category-wise Breakdown</h3>
+    <div id="catBars"></div>
+  </div>
+
+  <div class="reviewList" id="reviewList"></div>
+
+  <button class="restartBtn" onclick="location.reload()">↻ Restart Quiz</button>
+</div>
+
+<div class="modalOverlay" id="confirmModal">
+  <div class="modalBox">
+    <p id="confirmModalText">Submit the test now?</p>
+    <div class="modalBtns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TBL = "Table: Employees(EmpID, Name, Dept, Salary)\nRows: (1,A,IT,50000) (2,B,HR,40000) (3,C,IT,60000) (4,D,HR,45000) (5,E,IT,55000)\n\n";
+
+const questions = [
+// ===== OUTPUT-BASED (8) =====
+{cat:"Output-Based",q:TBL+"SELECT COUNT(*) FROM Employees WHERE Dept='IT';\nWhat is the output?",opts:["2","3","4","5"],ans:1,exp:"Three employees (C, A, E — IDs 1,3,5) belong to IT."},
+{cat:"Output-Based",q:TBL+"SELECT AVG(Salary) FROM Employees WHERE Dept='HR';\nWhat is the output?",opts:["40000","42500","45000","42000"],ans:1,exp:"HR salaries are 40000 and 45000; average = 85000/2 = 42500."},
+{cat:"Output-Based",q:TBL+"SELECT MAX(Salary) - MIN(Salary) FROM Employees;\nWhat is the output?",opts:["15000","18000","20000","22000"],ans:2,exp:"Max = 60000, Min = 40000; difference = 20000."},
+{cat:"Output-Based",q:TBL+"SELECT Dept, COUNT(*) FROM Employees GROUP BY Dept HAVING COUNT(*) > 2;\nWhat is the output?",opts:["Only IT with count 3","Only HR with count 2","Both Dept rows returned","No rows returned"],ans:0,exp:"IT has 3 employees (>2, satisfies HAVING); HR has only 2, so it's filtered out."},
+{cat:"Output-Based",q:TBL+"SELECT Name FROM Employees WHERE Salary > (SELECT AVG(Salary) FROM Employees);\nWhat is the output?",opts:["C, E","A, C, E","B, D","All five names"],ans:0,exp:"Average salary = 250000/5 = 50000. Only C(60000) and E(55000) exceed this."},
+{cat:"Output-Based",q:TBL+"SELECT Dept FROM Employees WHERE Salary BETWEEN 45000 AND 55000;\nHow many rows are returned?",opts:["2 rows","3 rows","4 rows","0 rows"],ans:1,exp:"A(50000), D(45000), E(55000) qualify — 3 rows (BETWEEN is inclusive); no DISTINCT is applied."},
+{cat:"Output-Based",q:"What does the query 'SELECT NULL = NULL;' return in standard SQL?",opts:["TRUE","FALSE","NULL","Syntax Error"],ans:2,exp:"Comparisons involving NULL always evaluate to NULL (unknown), not TRUE or FALSE."},
+{cat:"Output-Based",q:TBL+"SELECT Dept, SUM(Salary) FROM Employees GROUP BY Dept ORDER BY SUM(Salary) DESC;\nWhat is the FIRST row of the output?",opts:["HR, 85000","IT, 165000","IT, 55000","HR, 45000"],ans:1,exp:"IT total = 50000+60000+55000 = 165000; HR total = 85000. Sorted DESC, IT appears first."},
+
+// ===== RELATION-BASED (8) =====
+{cat:"Relation-Based",q:"In relational algebra, which operator is used to select rows that satisfy a given condition?",opts:["π (Projection)","σ (Selection)","⋈ (Join)","∪ (Union)"],ans:1,exp:"Selection (σ) filters rows based on a predicate/condition."},
+{cat:"Relation-Based",q:"Which relational algebra operation is used to eliminate specified columns (attributes) from a relation?",opts:["Selection","Projection","Join","Division"],ans:1,exp:"Projection (π) retains only the specified columns and removes the rest."},
+{cat:"Relation-Based",q:"The relational algebra Division (÷) operator is most useful for queries involving which type of phrase?",opts:["\"greater than\"","\"for all\"","\"equal to\"","\"not equal to\""],ans:1,exp:"Division answers 'for all' style queries, e.g., 'find students who have taken ALL courses'."},
+{cat:"Relation-Based",q:"Which type of JOIN returns all rows from both tables, with NULLs where there is no match on either side?",opts:["INNER JOIN","LEFT JOIN","RIGHT JOIN","FULL OUTER JOIN"],ans:3,exp:"FULL OUTER JOIN combines LEFT and RIGHT JOIN results, keeping unmatched rows from both tables."},
+{cat:"Relation-Based",q:"A CROSS JOIN between a table with 4 rows and a table with 5 rows produces how many rows (with no filtering)?",opts:["9","20","4","5"],ans:1,exp:"CROSS JOIN produces the Cartesian product: 4 × 5 = 20 rows."},
+{cat:"Relation-Based",q:"Which key uniquely identifies a row within a table and cannot contain NULL values?",opts:["Candidate Key","Primary Key","Foreign Key","Super Key"],ans:1,exp:"A Primary Key is a chosen candidate key that must be unique and NOT NULL."},
+{cat:"Relation-Based",q:"A Foreign Key in one table typically refers to which key in another (or the same) table?",opts:["Composite Key","Primary Key (or a unique key)","Super Key","Surrogate Key"],ans:1,exp:"A foreign key references the primary key (or a unique key) of another table to maintain referential integrity."},
+{cat:"Relation-Based",q:"Which of the following best describes a Candidate Key?",opts:["Any key chosen as primary","A minimal super key — no proper subset of it is also a super key","A key referencing another table","A key that allows NULL values"],ans:1,exp:"A candidate key is a minimal super key; removing any attribute from it breaks the uniqueness property."},
+
+// ===== NORMALIZATION (8) =====
+{cat:"Normalization",q:"A relation is in 1NF (First Normal Form) if",opts:["It has no partial dependency","All attributes contain only atomic (indivisible) values","It has no transitive dependency","Every determinant is a candidate key"],ans:1,exp:"1NF requires atomicity of values — no repeating groups or multi-valued attributes in a single cell."},
+{cat:"Normalization",q:"A relation in 2NF must first be in 1NF and additionally have no",opts:["Transitive dependency","Partial dependency of non-prime attributes on a candidate key","Multi-valued dependency","Join dependency"],ans:1,exp:"2NF eliminates partial dependency — where a non-prime attribute depends on only part of a composite key."},
+{cat:"Normalization",q:"3NF requires a relation to be in 2NF and have no",opts:["Partial dependency","Transitive dependency of non-prime attributes on the candidate key","Multi-valued dependency","Composite primary key"],ans:1,exp:"3NF removes transitive dependencies, where a non-prime attribute depends on another non-prime attribute."},
+{cat:"Normalization",q:"BCNF (Boyce-Codd Normal Form) is a stricter version of 3NF where",opts:["Every determinant must be a candidate key","Every attribute must be atomic","No partial dependency exists","Every relation must have a composite key"],ans:0,exp:"BCNF requires that for every functional dependency X→Y, X must be a super key (candidate key)."},
+{cat:"Normalization",q:"Which normal form specifically addresses and eliminates multi-valued dependencies?",opts:["2NF","3NF","BCNF","4NF"],ans:3,exp:"4NF deals specifically with multi-valued dependencies (MVDs), going beyond BCNF's scope."},
+{cat:"Normalization",q:"The main purpose of normalization is to",opts:["Increase data redundancy","Reduce data redundancy and avoid update/insert/delete anomalies","Increase storage requirements","Eliminate the need for primary keys"],ans:1,exp:"Normalization organizes data to minimize redundancy and prevent anomalies during data modification."},
+{cat:"Normalization",q:"A decomposition of a relation is called 'lossless' if",opts:["It results in fewer tables","The original relation can be exactly reconstructed by joining the decomposed relations","It removes all functional dependencies","It always results in exactly 2 tables"],ans:1,exp:"Lossless decomposition guarantees no spurious tuples appear when the decomposed relations are rejoined."},
+{cat:"Normalization",q:"Which anomaly occurs when deleting a record inadvertently removes other, unrelated information due to poor table design?",opts:["Insertion anomaly","Update anomaly","Deletion anomaly","Redundancy anomaly"],ans:2,exp:"Deletion anomaly: losing valid information about one entity as a side-effect of deleting data about another."},
+
+// ===== CIA TRIAD (5) =====
+{cat:"CIA Triad",q:"In the CIA triad of information security, what does the 'C' stand for?",opts:["Consistency","Confidentiality","Control","Compliance"],ans:1,exp:"Confidentiality ensures data is accessible only to authorized users."},
+{cat:"CIA Triad",q:"Which component of the CIA triad ensures that data is not altered by unauthorized parties?",opts:["Confidentiality","Integrity","Availability","Authentication"],ans:1,exp:"Integrity guarantees data accuracy and prevents unauthorized modification."},
+{cat:"CIA Triad",q:"A Denial-of-Service (DoS) attack primarily threatens which component of the CIA triad?",opts:["Confidentiality","Integrity","Availability","Non-repudiation"],ans:2,exp:"DoS attacks aim to make a system/service unavailable to legitimate users."},
+{cat:"CIA Triad",q:"Encryption of data at rest and in transit is a technique primarily used to enforce which CIA triad component?",opts:["Availability","Confidentiality","Integrity","Accountability"],ans:1,exp:"Encryption protects data from being read by unauthorized parties — enforcing confidentiality."},
+{cat:"CIA Triad",q:"Checksums and hash functions (like SHA-256) are primarily used to verify which CIA triad component of data?",opts:["Confidentiality","Availability","Integrity","Authentication"],ans:2,exp:"Hashes detect whether data has been altered, verifying its integrity."},
+
+// ===== SCALING (5) =====
+{cat:"Scaling",q:"Which type of database scaling involves adding more machines/servers to distribute the load?",opts:["Vertical scaling","Horizontal scaling","Diagonal scaling","Static scaling"],ans:1,exp:"Horizontal scaling (scale-out) adds more servers/nodes to share the load."},
+{cat:"Scaling",q:"Which type of scaling involves increasing the resources (CPU, RAM) of a single existing server?",opts:["Horizontal scaling","Vertical scaling","Sharding","Replication"],ans:1,exp:"Vertical scaling (scale-up) upgrades an existing machine's hardware capacity."},
+{cat:"Scaling",q:"Splitting a large database into smaller, faster, more manageable pieces distributed across multiple servers is known as",opts:["Normalization","Replication","Sharding","Caching"],ans:2,exp:"Sharding partitions data horizontally across multiple database instances."},
+{cat:"Scaling",q:"Maintaining multiple copies of the same database across different servers, primarily to improve availability and read performance, is called",opts:["Sharding","Replication","Partitioning","Denormalization"],ans:1,exp:"Replication keeps synchronized copies of data across nodes, boosting availability and read throughput."},
+{cat:"Scaling",q:"Which of the following is a common challenge when horizontally scaling a relational database?",opts:["Increased single-point-of-failure risk","Maintaining data consistency and handling distributed joins/transactions","Reduced query complexity","Elimination of the need for indexes"],ans:1,exp:"Distributing data across nodes makes cross-node joins and maintaining consistency significantly harder."},
+
+// ===== INDEXING (7) =====
+{cat:"Indexing",q:"What is the primary purpose of creating an index on a database table column?",opts:["To enforce referential integrity","To speed up data retrieval operations","To reduce storage space","To enforce normalization"],ans:1,exp:"Indexes act like a lookup structure that speeds up SELECT/search operations."},
+{cat:"Indexing",q:"Which type of index is automatically created when a PRIMARY KEY constraint is defined on a table (in most RDBMS)?",opts:["Bitmap index","Clustered index (typically)","Full-text index","Hash index"],ans:1,exp:"Most RDBMS (e.g., SQL Server) automatically create a clustered index on the primary key column."},
+{cat:"Indexing",q:"In a clustered index, how is the table's data physically stored?",opts:["Randomly across the disk","In the same order as the index (rows sorted by the index key)","Always in a separate file only","In reverse order of insertion"],ans:1,exp:"A clustered index determines the physical storage order of the table's rows."},
+{cat:"Indexing",q:"How many clustered indexes can a single table have?",opts:["As many as needed","Only one","Exactly two","Unlimited"],ans:1,exp:"Since a clustered index defines physical row order, a table can have only one."},
+{cat:"Indexing",q:"A non-clustered index differs from a clustered index in that it",opts:["Physically reorders the table's data","Maintains a separate structure with pointers to the actual data rows","Can only be created on primary keys","Requires no additional storage"],ans:1,exp:"Non-clustered indexes are separate structures storing key values with pointers back to the actual rows."},
+{cat:"Indexing",q:"While indexes speed up SELECT queries, they can slow down which of the following operations?",opts:["SELECT only","INSERT, UPDATE, DELETE operations","Nothing, indexes have no downside","Only DROP TABLE"],ans:1,exp:"Every write operation must also update the index structures, adding overhead to INSERT/UPDATE/DELETE."},
+{cat:"Indexing",q:"A composite (or concatenated) index is created on",opts:["A single column only","Two or more columns of a table","A view only","A stored procedure"],ans:1,exp:"Composite indexes combine multiple columns into one index structure, useful for multi-column filter conditions."},
+
+// ===== DDL/DML/DCL/TCL (7) =====
+{cat:"DDL/DML/DCL/TCL",q:"Which of the following SQL commands belongs to the DDL (Data Definition Language) category?",opts:["SELECT","UPDATE","CREATE","GRANT"],ans:2,exp:"CREATE defines database structures (tables, schemas), making it a DDL command."},
+{cat:"DDL/DML/DCL/TCL",q:"Which of the following is a DML (Data Manipulation Language) command?",opts:["CREATE","ALTER","INSERT","DROP"],ans:2,exp:"INSERT manipulates data within existing structures, classifying it as DML."},
+{cat:"DDL/DML/DCL/TCL",q:"Which of the following commands belongs to DCL (Data Control Language)?",opts:["SELECT","UPDATE","GRANT","TRUNCATE"],ans:2,exp:"GRANT controls user access privileges, making it a DCL command."},
+{cat:"DDL/DML/DCL/TCL",q:"Which of the following is a TCL (Transaction Control Language) command?",opts:["INSERT","ROLLBACK","CREATE","GRANT"],ans:1,exp:"ROLLBACK undoes changes made in the current transaction, making it a TCL command."},
+{cat:"DDL/DML/DCL/TCL",q:"Which DDL command removes both the table structure AND its data permanently from the database?",opts:["DELETE","TRUNCATE","DROP","ALTER"],ans:2,exp:"DROP removes the entire table object, including its structure, data, and associated indexes/constraints."},
+{cat:"DDL/DML/DCL/TCL",q:"What is the key difference between DELETE and TRUNCATE commands?",opts:["DELETE is DDL, TRUNCATE is DML","DELETE can use a WHERE clause and is logged row-by-row (rollback-able); TRUNCATE removes all rows at once and is minimally logged","TRUNCATE can use a WHERE clause, DELETE cannot","Both are identical in every aspect"],ans:1,exp:"DELETE is a DML command allowing conditional row removal with full transaction logging; TRUNCATE is a DDL-like operation that resets the table quickly with minimal logging."},
+{cat:"DDL/DML/DCL/TCL",q:"Which SQL command is used to give specific privileges (like SELECT or INSERT) to a database user?",opts:["GRANT","REVOKE","COMMIT","SAVEPOINT"],ans:0,exp:"GRANT assigns privileges; REVOKE removes them — both are DCL commands."},
+
+// ===== FUNCTIONAL DEPENDENCIES (7) =====
+{cat:"Functional Dependencies",q:"A functional dependency X → Y means",opts:["Y determines X","For each value of X, there is exactly one associated value of Y","X and Y are always equal","X must be a foreign key referencing Y"],ans:1,exp:"X → Y means X functionally determines Y — each X value maps to exactly one Y value."},
+{cat:"Functional Dependencies",q:"A functional dependency X → Y is called 'trivial' if",opts:["Y is a subset of X","X is a subset of Y","X and Y share no common attributes","Y is always the primary key"],ans:0,exp:"A trivial FD occurs when Y ⊆ X, meaning it holds automatically and adds no new information."},
+{cat:"Functional Dependencies",q:"Given a relation R(A,B,C) with FDs A→B and B→C, which additional FD can be inferred using the Transitivity rule of Armstrong's Axioms?",opts:["B→A","C→A","A→C","C→B"],ans:2,exp:"Transitivity: if A→B and B→C, then A→C."},
+{cat:"Functional Dependencies",q:"Which of Armstrong's Axioms states that if X→Y, then XZ→YZ for any attribute set Z?",opts:["Reflexivity","Augmentation","Transitivity","Decomposition"],ans:1,exp:"Augmentation allows adding the same attributes to both sides of an existing valid FD."},
+{cat:"Functional Dependencies",q:"A 'partial dependency' exists when",opts:["A non-prime attribute depends on the whole candidate key only","A non-prime attribute depends on only part of a composite candidate key","Two non-prime attributes depend on each other","A prime attribute depends on a non-prime attribute"],ans:1,exp:"Partial dependency violates 2NF — occurs only with composite keys, where part of the key alone determines a non-prime attribute."},
+{cat:"Functional Dependencies",q:"The 'closure' of a set of attributes X (denoted X+) refers to",opts:["The set of all attributes in the relation","The set of all attributes functionally dependent on/derivable from X using the given FDs","The primary key of the relation","The number of candidate keys"],ans:1,exp:"X+ is computed by repeatedly applying the given FDs to find every attribute reachable from X."},
+{cat:"Functional Dependencies",q:"A 'transitive dependency' A→B→C (where A is the candidate key) means",opts:["C is directly dependent on A only","C is functionally dependent on B, and B on A, making C indirectly dependent on A","A and C have no relationship","B is necessarily a candidate key"],ans:1,exp:"Transitive dependency creates an indirect chain A→B→C, which 3NF is designed to eliminate."},
+
+// ===== WINDOW FUNCTIONS (7) =====
+{cat:"Window Functions",q:"Which clause is used within a window function's OVER() to divide the result set into groups (partitions) for the calculation?",opts:["GROUP BY","PARTITION BY","HAVING","WHERE"],ans:1,exp:"PARTITION BY (used inside OVER()) divides rows into partitions without collapsing them like GROUP BY does."},
+{cat:"Window Functions",q:"Which window function assigns a unique sequential integer to each row within a partition, regardless of duplicate values?",opts:["RANK()","DENSE_RANK()","ROW_NUMBER()","NTILE()"],ans:2,exp:"ROW_NUMBER() always produces distinct sequential numbers, even for tied values."},
+{cat:"Window Functions",q:"Which window function assigns the same rank to tied rows but leaves gaps in the ranking sequence for subsequent rows?",opts:["ROW_NUMBER()","RANK()","DENSE_RANK()","NTILE()"],ans:1,exp:"RANK() skips ranks after ties — e.g., ranks 1,1,3 (not 2) if two rows tie for first."},
+{cat:"Window Functions",q:"Which window function assigns the same rank to tied rows but does NOT leave any gaps in the ranking sequence?",opts:["RANK()","ROW_NUMBER()","DENSE_RANK()","NTILE()"],ans:2,exp:"DENSE_RANK() produces consecutive ranks — e.g., 1,1,2 — with no skipped numbers."},
+{cat:"Window Functions",q:"Which window function is used to access data from a subsequent (following) row without using a self-join?",opts:["LAG()","LEAD()","FIRST_VALUE()","RANK()"],ans:1,exp:"LEAD() looks forward to a following row's value within the same result set."},
+{cat:"Window Functions",q:"Which window function is used to access data from a previous (preceding) row?",opts:["LAG()","LEAD()","LAST_VALUE()","RANK()"],ans:0,exp:"LAG() looks backward to a preceding row's value."},
+{cat:"Window Functions",q:TBL+"SELECT Dept, Salary, RANK() OVER (PARTITION BY Dept ORDER BY Salary DESC) AS rnk FROM Employees;\nWhat does this query achieve?",opts:["Ranks all employees globally, ignoring department","Ranks employees within each department separately, based on descending salary","Groups employees by department and sums their salary","Removes duplicate salary values"],ans:1,exp:"PARTITION BY Dept resets the ranking for each department; ORDER BY Salary DESC ranks highest salary as 1 within each partition."},
+
+// ===== SCENARIO-BASED (8) =====
+{cat:"Scenario-Based",q:"A bank's transaction system must ensure that a fund transfer either fully completes (debit + credit both happen) or doesn't happen at all, even if the system crashes midway. Which ACID property ensures this?",opts:["Consistency","Isolation","Atomicity","Durability"],ans:2,exp:"Atomicity guarantees a transaction is treated as a single indivisible unit — all-or-nothing."},
+{cat:"Scenario-Based",q:"After a transaction commits, the bank's system guarantees the change will survive even a power failure immediately afterward. Which ACID property is this?",opts:["Atomicity","Consistency","Isolation","Durability"],ans:3,exp:"Durability ensures committed changes are permanently saved, surviving system failures."},
+{cat:"Scenario-Based",q:"Two customers try to book the last available seat on a flight simultaneously. The database must ensure concurrent transactions do not interfere with each other's intermediate states. Which ACID property addresses this?",opts:["Atomicity","Consistency","Isolation","Durability"],ans:2,exp:"Isolation ensures concurrently executing transactions don't see each other's uncommitted intermediate states."},
+{cat:"Scenario-Based",q:"A company stores the SAME phone number in both an 'Employee' table and an 'Emergency Contact' table, meaning updates must be made in two places whenever the number changes. What database design problem does this describe?",opts:["Insertion anomaly","Update anomaly (redundant data)","Deletion anomaly","Deadlock"],ans:1,exp:"Storing the same fact redundantly across tables/rows causes update anomalies — inconsistent data if not updated everywhere."},
+{cat:"Scenario-Based",q:"An e-commerce platform's Transaction A is waiting for a lock held by Transaction B, while Transaction B is simultaneously waiting for a lock held by Transaction A. What is this situation called?",opts:["Starvation","Deadlock","Livelock","Thrashing"],ans:1,exp:"This circular waiting condition, where neither transaction can proceed, is a classic deadlock."},
+{cat:"Scenario-Based",q:"A retail company wants fast read access to its massive sales history table, and is willing to accept slightly higher write/insert time in exchange. What should the DBA most likely do?",opts:["Remove all indexes","Create appropriate indexes on frequently queried columns","Completely denormalize with no keys","Disable WHERE clause usage"],ans:1,exp:"Indexes trade off write speed for significantly faster reads — the right choice for a read-heavy workload."},
+{cat:"Scenario-Based",q:"A hospital database stores Patient(PatientID, Name, DoctorID, DoctorName, DoctorPhone). If a doctor's phone number changes, it must be updated in every row of every patient associated with that doctor. This is a classic symptom of violating which normal form?",opts:["1NF","2NF","3NF","BCNF"],ans:2,exp:"DoctorPhone depends transitively on DoctorID (not directly on PatientID, the key) — a 3NF violation (transitive dependency)."},
+{cat:"Scenario-Based",q:"During a high-traffic sale event, a company's single database server becomes overwhelmed with read requests. To improve read performance without altering the write path, which technique is most appropriate?",opts:["Sharding writes only","Setting up read replicas (replication)","Removing all indexes","Converting all tables to unnormalized form"],ans:1,exp:"Read replicas offload SELECT queries to additional synced copies of the database, relieving the primary server."}
+];
+
+const N = questions.length;
+let current = 0;
+let responses = new Array(N).fill(null);
+let visited = new Array(N).fill(false);
+let marked = new Array(N).fill(false);
+let timerInterval, seconds = 0;
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerBox').style.display='inline-block';
+  buildGrid();
+  renderQuestion();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerText').textContent = m+':'+s;
+  },1000);
+}
+
+function buildGrid(){
+  const grid = document.getElementById('qGrid');
+  grid.innerHTML='';
+  for(let i=0;i<N;i++){
+    const b = document.createElement('button');
+    b.className='qBtn notvisited';
+    b.id='qBtn'+i;
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(); };
+    grid.appendChild(b);
+  }
+}
+
+function updateGridStatus(){
+  for(let i=0;i<N;i++){
+    const b = document.getElementById('qBtn'+i);
+    b.classList.remove('current','notvisited','answered','notanswered','marked','markedanswered');
+    let cls='notvisited';
+    if(marked[i] && responses[i]!==null) cls='markedanswered';
+    else if(marked[i]) cls='marked';
+    else if(responses[i]!==null) cls='answered';
+    else if(visited[i]) cls='notanswered';
+    b.classList.add(cls);
+    if(i===current) b.classList.add('current');
+  }
+}
+
+function renderQuestion(){
+  visited[current]=true;
+  const q = questions[current];
+  document.getElementById('qNumBadge').textContent = `Question ${current+1} / ${N}`;
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('qText').textContent = q.q;
+
+  const statusBadge = document.getElementById('qStatusBadge');
+  if(responses[current]!==null){
+    statusBadge.textContent='Answered';
+    statusBadge.style.background='rgba(34,184,118,.18)';
+    statusBadge.style.color='var(--green)';
+  } else {
+    statusBadge.textContent='Not Answered';
+    statusBadge.style.background='rgba(229,72,77,.18)';
+    statusBadge.style.color='var(--red)';
+  }
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((opt,idx)=>{
+    const div = document.createElement('div');
+    div.className='option'+(responses[current]===idx?' selected':'');
+    div.onclick = ()=>selectOption(idx);
+    div.innerHTML = `<input type="radio" name="opt" ${responses[current]===idx?'checked':''} onclick="selectOption(${idx})">
+      <label><span class="optLetter">${letters[idx]}.</span> ${escapeHtml(opt)}</label>`;
+    box.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').textContent = current===N-1 ? 'Save' : 'Save & Next →';
+
+  updateGridStatus();
+}
+
+function selectOption(idx){
+  responses[current]=idx;
+  renderQuestion();
+}
+
+function clearResponse(){
+  responses[current]=null;
+  renderQuestion();
+}
+
+function markForReview(){
+  marked[current]=true;
+  goNext();
+}
+
+function saveAndNext(){
+  goNext();
+}
+
+function goNext(){
+  if(current<N-1){
+    current++;
+    renderQuestion();
+  } else {
+    updateGridStatus();
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function confirmSubmit(){
+  const unanswered = responses.filter(r=>r===null).length;
+  const msg = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('confirmModalText').textContent = msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('timerBox').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skip=0;
+  const letters=['A','B','C','D','E'];
+  const catStats={};
+
+  questions.forEach((q)=>{
+    if(!catStats[q.cat]) catStats[q.cat]={correct:0,total:0};
+    catStats[q.cat].total++;
+  });
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+
+  questions.forEach((q,i)=>{
+    const userAns = responses[i];
+    let tag, tagClass;
+    if(userAns===null){ skip++; tag='SKIPPED'; tagClass='skip'; }
+    else if(userAns===q.ans){ correct++; tag='CORRECT'; tagClass='ok'; catStats[q.cat].correct++; }
+    else { wrong++; tag='INCORRECT'; tagClass='no'; }
+
+    const item = document.createElement('div');
+    item.className='reviewItem';
+    let optsHtml='';
+    q.opts.forEach((opt,idx)=>{
+      let cls='reviewOpt';
+      if(idx===q.ans) cls+=' correct';
+      else if(idx===userAns && idx!==q.ans) cls+=' wrong';
+      optsHtml += `<div class="${cls}">${letters[idx]}. ${escapeHtml(opt)}${idx===q.ans?' ✓ Correct Answer':''}${(idx===userAns && idx!==q.ans)?' ✕ Your Answer':''}</div>`;
+    });
+
+    item.innerHTML = `<div class="reviewQ"><span class="catTagSmall">${escapeHtml(q.cat)}</span>Q${i+1}. ${escapeHtml(q.q)} <span class="tagRight ${tagClass}">${tag}</span></div>${optsHtml}
+      <div style="font-size:12.5px;color:var(--muted);margin-top:8px;"><b style="color:var(--accent2);">Explanation:</b> ${escapeHtml(q.exp)}</div>`;
+    reviewList.appendChild(item);
+  });
+
+  const net = (correct*1 - wrong*0.25).toFixed(2);
+  document.getElementById('scoreBig').textContent = `${correct} / ${N}`;
+  document.getElementById('scoreSub').textContent = `Time taken: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statNet').textContent = net;
+
+  const catBars = document.getElementById('catBars');
+  catBars.innerHTML='';
+  Object.keys(catStats).forEach(cat=>{
+    const s = catStats[cat];
+    const pct = Math.round((s.correct/s.total)*100);
+    const row = document.createElement('div');
+    row.className='catRow';
+    row.innerHTML = `<div class="catName">${escapeHtml(cat)}</div>
+      <div class="catBarBg"><div class="catBarFill" style="width:${pct}%;"></div></div>
+      <div class="catNum">${s.correct}/${s.total}</div>`;
+    catBars.appendChild(row);
+  });
+
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

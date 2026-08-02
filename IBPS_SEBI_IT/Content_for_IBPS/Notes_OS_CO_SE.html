@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — OS · Computer Organization · Software Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a;
+    --panel:#161d27;
+    --panel-alt:#1c2532;
+    --border:#2a3341;
+    --border-soft:#212a37;
+    --text:#e7ebf0;
+    --text-dim:#93a1b0;
+    --text-faint:#5f6c7a;
+    --os:#8b93e0;
+    --os-dim:#282a3c;
+    --co:#e0935e;
+    --co-dim:#3a2c22;
+    --se:#5ecfa8;
+    --se-dim:#1f3a30;
+    --danger:#e2707a;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(139,147,224,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,207,168,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 60px 0;
+  }
+  a{color:var(--os);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  header.top{
+    border-bottom:1px solid var(--border);
+    padding:28px 0 20px 0;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:10px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--os);box-shadow:0 0 8px var(--os);}
+  h1{
+    font-family:var(--display);
+    font-size:28px;
+    font-weight:700;
+    margin:0 0 6px 0;
+    letter-spacing:-0.01em;
+  }
+  h1 span{color:var(--text-dim);font-weight:500;}
+  .subhead{color:var(--text-dim);font-size:14px;margin:0 0 18px 0;max-width:640px;}
+
+  .examstrip{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{
+    font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--border);
+    border-radius:100px;padding:6px 12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;
+  }
+  .chip b{color:var(--text);font-weight:600;}
+
+  .tabnav{
+    position:sticky;top:0;z-index:20;display:flex;gap:2px;background:var(--bg);
+    border-bottom:1px solid var(--border);padding-top:14px;
+  }
+  .tab-btn{
+    font-family:var(--display);font-weight:600;font-size:14px;background:transparent;
+    border:1px solid var(--border);border-bottom:none;color:var(--text-dim);
+    padding:12px 18px 10px 18px;border-radius:8px 8px 0 0;cursor:pointer;
+    display:flex;align-items:center;gap:8px;transform:translateY(1px);
+    transition:color .15s ease, background .15s ease;
+  }
+  .tab-btn .tag{
+    font-family:var(--mono);font-weight:500;font-size:10px;
+    padding:2px 6px;border-radius:4px;background:var(--panel-alt);color:var(--text-faint);
+  }
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn[data-tab="os"].active{color:var(--os);border-color:var(--os);background:var(--os-dim);}
+  .tab-btn[data-tab="co"].active{color:var(--co);border-color:var(--co);background:var(--co-dim);}
+  .tab-btn[data-tab="se"].active{color:var(--se);border-color:var(--se);background:var(--se-dim);}
+  .tab-btn.active .tag{background:rgba(255,255,255,0.08);color:inherit;}
+
+  .panel{display:none;padding-top:26px;}
+  .panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .panel-intro{
+    color:var(--text-dim);font-size:14px;padding:14px 16px;background:var(--panel);
+    border:1px solid var(--border);border-left:3px solid var(--os);border-radius:6px;margin-bottom:22px;
+  }
+  #panel-os .panel-intro{border-left-color:var(--os);}
+  #panel-co .panel-intro{border-left-color:var(--co);}
+  #panel-se .panel-intro{border-left-color:var(--se);}
+
+  details.acc{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    margin-bottom:10px;overflow:hidden;
+  }
+  details.acc[open]{border-color:var(--border-soft);}
+  details.acc summary{
+    list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;
+    font-family:var(--display);font-weight:600;font-size:15px;color:var(--text);
+  }
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .code{
+    font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 7px;border-radius:5px;
+    color:#0e131a;flex-shrink:0;
+  }
+  #panel-os .code{background:var(--os);}
+  #panel-co .code{background:var(--co);}
+  #panel-se .code{background:var(--se);}
+  summary .chev{margin-left:auto;color:var(--text-faint);font-size:12px;transition:transform .2s ease;}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  .acc-body{padding:2px 20px 20px 20px;color:var(--text-dim);font-size:14px;}
+  .acc-body p{margin:8px 0;}
+  .acc-body ul,.acc-body ol{margin:8px 0;padding-left:20px;}
+  .acc-body li{margin:4px 0;}
+  .acc-body h4{
+    font-family:var(--sans);color:var(--text);font-size:13px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.04em;margin:16px 0 6px 0;
+  }
+  .acc-body strong{color:var(--text);font-weight:600;}
+  .acc-body code{
+    font-family:var(--mono);background:var(--panel-alt);border:1px solid var(--border);
+    padding:1px 5px;border-radius:4px;font-size:12.5px;color:#f0dcb8;
+  }
+  .acc-body pre{
+    font-family:var(--mono);background:#0b0f14;border:1px solid var(--border);
+    padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#c9e6c1;
+  }
+
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px 0;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--text-faint);font-weight:500;border-bottom:1px solid var(--border-soft);
+  }
+  td{color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong,td b{color:var(--text);}
+  .tbl-wrap{overflow-x:auto;}
+
+  .tip{
+    display:flex;gap:10px;background:var(--panel-alt);border:1px dashed var(--border-soft);
+    border-radius:8px;padding:10px 12px;margin:12px 0;font-size:13px;
+  }
+  .tip .lbl{
+    font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;
+    color:#0e131a;background:#f0b429;padding:2px 6px;border-radius:4px;height:fit-content;flex-shrink:0;
+  }
+  .tip.warn .lbl{background:var(--danger);}
+  .tip p{margin:0;color:var(--text-dim);}
+
+  .quiz{
+    margin-top:26px;background:var(--panel);border:1px solid var(--border);
+    border-radius:var(--radius);padding:18px 20px 22px 20px;
+  }
+  .quiz-header{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);
+  }
+  .quiz-header h3{font-family:var(--display);font-size:16px;margin:0;display:flex;align-items:center;gap:8px;}
+  .quiz-stats{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .quiz-stats .score{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .quiz-stats .timer{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .reset-btn{
+    font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--border);
+    color:var(--text-faint);padding:6px 10px;border-radius:6px;cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+
+  .quiz-q{padding:14px 0;border-bottom:1px solid var(--border-soft);}
+  .quiz-q:last-of-type{border-bottom:none;padding-bottom:0;}
+  .q-text{font-size:14px;color:var(--text);margin:0 0 10px 0;font-weight:500;}
+  .quiz-options{display:grid;gap:8px;}
+  .opt{
+    text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);
+    padding:9px 12px;border-radius:7px;font-family:var(--sans);font-size:13.5px;cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .quiz-q:not(.answered) .opt:hover{border-color:var(--text-faint);color:var(--text);}
+  .quiz-q.answered .opt{cursor:default;}
+  .opt.picked-correct{border-color:var(--se);background:rgba(94,207,168,0.12);color:#bfe8cf;}
+  .opt.picked-wrong{border-color:var(--danger);background:rgba(226,112,122,0.12);color:#f3c3c7;}
+  .opt.reveal-correct{border-color:var(--se);background:rgba(94,207,168,0.08);color:#bfe8cf;}
+  .explain{
+    margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);
+    border-left:3px solid var(--os);padding:8px 12px;border-radius:0 6px 6px 0;
+  }
+  .explain b{color:var(--text);}
+
+  .progress-strip{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 2px 0;}
+  .pchip{
+    flex:1;min-width:150px;background:var(--panel);border:1px solid var(--border);border-radius:8px;
+    padding:10px 12px;font-family:var(--mono);font-size:12px;color:var(--text-dim);
+  }
+  .pchip .n{color:var(--text);font-size:15px;font-weight:600;font-family:var(--display);}
+  .pchip.o{border-left:3px solid var(--os);}
+  .pchip.c{border-left:3px solid var(--co);}
+  .pchip.s{border-left:3px solid var(--se);}
+
+  footer{
+    text-align:center;color:var(--text-faint);font-size:12px;font-family:var(--mono);
+    margin-top:40px;padding-top:20px;border-top:1px solid var(--border);
+  }
+
+  @media (max-width:640px){
+    h1{font-size:22px;}
+    .tab-btn{padding:10px 12px 8px 12px;font-size:13px;}
+    .tab-btn .tag{display:none;}
+    .acc-body{padding:2px 14px 16px 14px;}
+    table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER SCALE-I · PROFESSIONAL KNOWLEDGE</div>
+    <h1>Computer Science Notes <span>— OS · Computer Organization · Software Engg.</span></h1>
+    <p class="subhead">Companion set to the DBMS / Networks / Fundamentals notes, covering the remaining high-weightage PK topics. Same interactive format — expandable notes with self-tests, scores saved automatically across sessions.</p>
+    <div class="examstrip">
+      <div class="chip">Prelims PK: <b>25 Q / 50 marks</b></div>
+      <div class="chip">Mains PK: part of <b>150 Q / 200 marks</b> combined paper</div>
+      <div class="chip">Negative marking: <b>−0.25</b> per wrong answer</div>
+      <div class="chip">High-weightage: <b>OS · CO/Microprocessor · SE</b></div>
+    </div>
+  </header>
+
+  <div class="progress-strip" id="progressStrip">
+    <div class="pchip o">OPERATING SYSTEM<br><span class="n" id="po">0/0</span> correct</div>
+    <div class="pchip c">COMPUTER ORG. &amp; MICROPROCESSOR<br><span class="n" id="pc">0/0</span> correct</div>
+    <div class="pchip s">SOFTWARE ENGINEERING<br><span class="n" id="ps">0/0</span> correct</div>
+  </div>
+
+  <nav class="tabnav">
+    <button class="tab-btn active" data-tab="os"><span class="tag">01</span> Operating System</button>
+    <button class="tab-btn" data-tab="co"><span class="tag">02</span> Computer Org. &amp; Microprocessor</button>
+    <button class="tab-btn" data-tab="se"><span class="tag">03</span> Software Engineering</button>
+  </nav>
+
+  <section id="panel-os" class="panel active" data-topic="os">
+    <div class="panel-intro">Covers process management, CPU scheduling, synchronization, deadlocks, memory management and file systems — consistently one of the most heavily tested PK areas alongside DBMS and Networks.</div>
+    <details class="acc" open>
+      <summary><span class="code">OS1</span> Introduction &amp; Core Functions <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>An <strong>Operating System</strong> is system software that acts as an intermediary between the user/applications and computer hardware. It has two broad roles: a <strong>resource manager</strong> (allocating CPU, memory, I/O devices fairly and efficiently) and an <strong>extended machine / interface</strong> (hiding hardware complexity behind a clean interface — CLI or GUI).</p>
+        <h4>Core Functions</h4>
+        <ul>
+          <li><strong>Process management</strong> — creation, scheduling, termination of processes.</li>
+          <li><strong>Memory management</strong> — allocation/deallocation of main memory to processes.</li>
+          <li><strong>File management</strong> — creation, deletion, organisation of files/directories.</li>
+          <li><strong>I/O / device management</strong> — controlling and coordinating peripheral devices via drivers.</li>
+          <li><strong>Security &amp; protection</strong> — controlling access to resources, user authentication.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS2</span> Process Management <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>A <strong>process</strong> is a program in execution (active); a <strong>program</strong> is a passive set of instructions stored on disk.</p>
+        <h4>Process States</h4>
+        <p><strong>New → Ready → Running → (Waiting/Blocked ⇄ Ready) → Terminated</strong></p>
+        <ul>
+          <li><strong>New</strong> — process is being created.</li>
+          <li><strong>Ready</strong> — waiting to be assigned to a CPU.</li>
+          <li><strong>Running</strong> — instructions are being executed by the CPU.</li>
+          <li><strong>Waiting/Blocked</strong> — waiting for some event (e.g. I/O completion).</li>
+          <li><strong>Terminated</strong> — process has finished execution.</li>
+        </ul>
+        <h4>PCB (Process Control Block)</h4>
+        <p>A data structure maintained by the OS for every process, storing: process ID, process state, program counter, CPU registers, memory management info, scheduling info, and I/O status.</p>
+        <h4>Schedulers</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Scheduler</th><th>Role</th><th>Frequency</th></tr>
+          <tr><td><strong>Long-term</strong></td><td>Selects which jobs enter the "ready" pool from the job pool (admission control)</td><td>Runs least frequently</td></tr>
+          <tr><td><strong>Short-term</strong> (CPU scheduler)</td><td>Selects which ready process gets the CPU next</td><td>Runs most frequently</td></tr>
+          <tr><td><strong>Medium-term</strong></td><td>Handles swapping — temporarily removes processes from memory to reduce load</td><td>Runs in between</td></tr>
+        </table></div>
+        <p><strong>Context switching</strong> — saving the state (PCB) of the currently running process and loading the state of the next process, so the CPU can switch between them. This is pure overhead — no useful work is done during a context switch.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS3</span> CPU Scheduling Algorithms <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Scheduling Criteria</h4>
+        <p><strong>CPU utilization</strong> (keep CPU as busy as possible), <strong>Throughput</strong> (processes completed per unit time), <strong>Turnaround time</strong> (completion time − arrival time), <strong>Waiting time</strong> (time spent in ready queue), <strong>Response time</strong> (time from request until first response).</p>
+        <h4>Algorithms</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th>Behaviour</th><th>Preemptive?</th></tr>
+          <tr><td><strong>FCFS</strong> (First Come First Served)</td><td>Processes run strictly in arrival order</td><td>No</td></tr>
+          <tr><td><strong>SJF</strong> (Shortest Job First)</td><td>Process with the smallest burst time runs next; minimises average waiting time</td><td>Can be either (SRTF is preemptive SJF)</td></tr>
+          <tr><td><strong>Priority Scheduling</strong></td><td>Highest-priority process runs first; risk of <strong>starvation</strong> for low-priority processes (solved via "aging")</td><td>Can be either</td></tr>
+          <tr><td><strong>Round Robin</strong></td><td>Each process gets a fixed time slice ("quantum"); cycles through ready queue</td><td>Yes — designed for time-sharing systems</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>SJF is provably optimal for minimising <strong>average waiting time</strong> — a frequently tested fact. Round Robin is the standard choice for interactive/time-sharing systems because of its fairness.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS4</span> Threads &amp; Multithreading <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>A <strong>thread</strong> is the smallest unit of CPU execution within a process — a "lightweight process." Multiple threads within one process share the same memory/address space but have their own registers and stack.</p>
+        <h4>Process vs Thread</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>Process</th><th>Thread</th></tr>
+          <tr><td>Memory</td><td>Own separate address space</td><td>Shares address space with sibling threads</td></tr>
+          <tr><td>Creation overhead</td><td>Heavy</td><td>Lightweight, faster to create/switch</td></tr>
+          <tr><td>Communication</td><td>Needs IPC (inter-process communication)</td><td>Direct — shared memory</td></tr>
+        </table></div>
+        <p><strong>User-level threads</strong> — managed by a library, unaware to the kernel (fast to create, but one blocking thread can block the whole process). <strong>Kernel-level threads</strong> — managed directly by the OS (slightly slower, but true parallelism across CPUs).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS5</span> Process Synchronization <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>A <strong>race condition</strong> occurs when multiple processes/threads access shared data concurrently and the final result depends on the timing/order of execution. The <strong>critical section</strong> is the part of code where shared resources are accessed.</p>
+        <h4>Requirements for a Correct Solution</h4>
+        <ul>
+          <li><strong>Mutual exclusion</strong> — only one process in its critical section at a time.</li>
+          <li><strong>Progress</strong> — if no process is in the critical section, one of the waiting processes must be allowed in without indefinite delay.</li>
+          <li><strong>Bounded waiting</strong> — a limit exists on how many times other processes can enter before a waiting process gets its turn.</li>
+        </ul>
+        <h4>Semaphores</h4>
+        <p>A semaphore is an integer variable used for signalling between processes, accessed only via <code>wait()</code> (P, decrement) and <code>signal()</code> (V, increment) operations.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Values</th><th>Use</th></tr>
+          <tr><td><strong>Binary semaphore (mutex)</strong></td><td>0 or 1</td><td>Mutual exclusion — acts like a lock</td></tr>
+          <tr><td><strong>Counting semaphore</strong></td><td>Any non-negative integer</td><td>Controls access to a resource with multiple instances</td></tr>
+        </table></div>
+        <p><strong>Classic synchronization problems</strong> (conceptual, frequently named in exams): Producer-Consumer (bounded buffer), Readers-Writers, Dining Philosophers.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS6</span> Deadlocks <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>A <strong>deadlock</strong> is a state where a set of processes are each waiting for a resource held by another process in the set, so none can proceed.</p>
+        <h4>Four Necessary Conditions (Coffman conditions)</h4>
+        <ol>
+          <li><strong>Mutual exclusion</strong> — at least one resource must be held in a non-shareable mode.</li>
+          <li><strong>Hold and wait</strong> — a process holds one resource while waiting for another.</li>
+          <li><strong>No preemption</strong> — resources can't be forcibly taken away; only voluntarily released.</li>
+          <li><strong>Circular wait</strong> — a closed chain of processes, each waiting for a resource held by the next.</li>
+        </ol>
+        <p><strong>All four must hold simultaneously</strong> for deadlock to occur — breaking any one prevents it.</p>
+        <h4>Handling Strategies</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Strategy</th><th>Approach</th></tr>
+          <tr><td><strong>Prevention</strong></td><td>Design the system so at least one Coffman condition can never hold</td></tr>
+          <tr><td><strong>Avoidance</strong></td><td>Grant resources only if the resulting state is "safe" — e.g. <strong>Banker's Algorithm</strong></td></tr>
+          <tr><td><strong>Detection &amp; Recovery</strong></td><td>Allow deadlock to occur, detect it (via resource-allocation graph), then recover (kill/rollback a process)</td></tr>
+          <tr><td><strong>Ignorance</strong></td><td>Ostrich algorithm — assume deadlock is rare and simply ignore it (used by most general-purpose OSes)</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS7</span> Memory Management <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Contiguous Allocation</h4>
+        <p>Each process is allocated one contiguous block of memory. Partitioning can be <strong>fixed</strong> (equal/unequal pre-defined blocks) or <strong>variable/dynamic</strong> (sized to fit each process).</p>
+        <h4>Fragmentation</h4>
+        <ul>
+          <li><strong>Internal fragmentation</strong> — wasted space INSIDE an allocated block (allocated block is larger than needed).</li>
+          <li><strong>External fragmentation</strong> — free memory exists but is scattered in small non-contiguous chunks, too small individually to satisfy a request.</li>
+        </ul>
+        <h4>Paging</h4>
+        <p>Physical memory is divided into fixed-size <strong>frames</strong>; logical memory into equal-size <strong>pages</strong>. A <strong>page table</strong> maps each page to its frame. Paging eliminates external fragmentation (but can cause internal fragmentation in the last page).</p>
+        <h4>Segmentation</h4>
+        <p>Memory is divided into variable-size logical units called <strong>segments</strong> (e.g. code segment, data segment, stack segment) — matches how a programmer views a program, unlike paging's fixed physical division.</p>
+        <h4>Virtual Memory</h4>
+        <p>A technique allowing execution of processes that aren't fully loaded in main memory — using <strong>demand paging</strong> (pages loaded only when referenced). A <strong>page fault</strong> occurs when a referenced page isn't in memory and must be fetched from disk.</p>
+        <h4>Page Replacement Algorithms</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th>Rule</th></tr>
+          <tr><td><strong>FIFO</strong></td><td>Replace the page that has been in memory the longest</td></tr>
+          <tr><td><strong>LRU</strong> (Least Recently Used)</td><td>Replace the page that hasn't been used for the longest time — approximates optimal well in practice</td></tr>
+          <tr><td><strong>Optimal</strong></td><td>Replace the page that won't be used for the longest time in the future — theoretical best, not implementable in practice (needs future knowledge)</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS8</span> File Management <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>File Allocation Methods</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Method</th><th>How it works</th><th>Drawback</th></tr>
+          <tr><td><strong>Contiguous</strong></td><td>File occupies a contiguous set of disk blocks</td><td>Fast access, but external fragmentation &amp; difficult to grow files</td></tr>
+          <tr><td><strong>Linked</strong></td><td>Each block points to the next (like a linked list)</td><td>No external fragmentation, but slow random/direct access</td></tr>
+          <tr><td><strong>Indexed</strong></td><td>A separate index block stores pointers to all data blocks of the file</td><td>Supports direct access, extra overhead for the index block itself</td></tr>
+        </table></div>
+        <h4>Directory Structures</h4>
+        <p><strong>Single-level</strong> (one directory for all users — name conflicts), <strong>Two-level</strong> (separate directory per user), <strong>Tree-structured</strong> (hierarchical, most common — e.g. Windows/Linux file systems), <strong>Acyclic Graph</strong> (allows shared sub-directories/files via links).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">OS9</span> Disk Scheduling <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Disk scheduling decides the order in which pending I/O (read/write) requests to a hard disk are serviced, to minimise seek time (movement of the disk arm).</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Algorithm</th><th>Behaviour</th></tr>
+          <tr><td><strong>FCFS</strong></td><td>Services requests strictly in the order received — simple but can cause long seek times</td></tr>
+          <tr><td><strong>SSTF</strong> (Shortest Seek Time First)</td><td>Services the request closest to the current head position — can cause starvation of far-away requests</td></tr>
+          <tr><td><strong>SCAN</strong> ("elevator" algorithm)</td><td>Disk arm moves in one direction servicing requests, reaches the end, then reverses</td></tr>
+          <tr><td><strong>C-SCAN</strong></td><td>Like SCAN but after reaching one end, jumps back to the start without servicing on the return trip — gives more uniform wait times</td></tr>
+          <tr><td><strong>LOOK / C-LOOK</strong></td><td>Like SCAN/C-SCAN but reverses direction as soon as there are no more requests ahead, rather than going all the way to the disk end</td></tr>
+        </table></div>
+      </div>
+    </details>
+    <div class="quiz" data-topic="os">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Operating System</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="o1">
+        <p class="q-text">1. Which process state indicates a process is waiting for an event such as I/O completion, and cannot run even if the CPU is free?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Ready</button>
+          <button class="opt" data-correct="false">Running</button>
+          <button class="opt" data-correct="true">Waiting/Blocked</button>
+          <button class="opt" data-correct="false">New</button>
+        </div>
+        <p class="explain" hidden>A process in <b>Waiting/Blocked</b> state cannot be scheduled until its awaited event completes, even with a free CPU.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o2">
+        <p class="q-text">2. Which CPU scheduling algorithm is proven to give the minimum average waiting time among non-preemptive algorithms?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">FCFS</button>
+          <button class="opt" data-correct="true">SJF</button>
+          <button class="opt" data-correct="false">Round Robin</button>
+          <button class="opt" data-correct="false">Priority Scheduling</button>
+        </div>
+        <p class="explain" hidden><b>SJF (Shortest Job First)</b> is provably optimal for minimizing average waiting time.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o3">
+        <p class="q-text">3. Which requirement of the critical section problem ensures that only one process can be inside its critical section at any given time?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Mutual exclusion</button>
+          <button class="opt" data-correct="false">Progress</button>
+          <button class="opt" data-correct="false">Bounded waiting</button>
+          <button class="opt" data-correct="false">Starvation freedom</button>
+        </div>
+        <p class="explain" hidden><b>Mutual exclusion</b> is exactly this guarantee — only one process in the critical section at a time.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o4">
+        <p class="q-text">4. A binary semaphore, which can only take values 0 or 1, is also commonly known as a:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Counting semaphore</button>
+          <button class="opt" data-correct="true">Mutex</button>
+          <button class="opt" data-correct="false">Monitor</button>
+          <button class="opt" data-correct="false">Spinlock only</button>
+        </div>
+        <p class="explain" hidden>A binary semaphore is effectively a <b>mutex</b>, used purely for mutual exclusion.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o5">
+        <p class="q-text">5. Which of the four necessary conditions for deadlock means that a process holding a resource can wait for another resource without releasing what it already has?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Mutual exclusion</button>
+          <button class="opt" data-correct="true">Hold and wait</button>
+          <button class="opt" data-correct="false">No preemption</button>
+          <button class="opt" data-correct="false">Circular wait</button>
+        </div>
+        <p class="explain" hidden><b>Hold and wait</b> — a process keeps its current resources while requesting more.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o6">
+        <p class="q-text">6. Which memory management technique divides physical memory into fixed-size frames and logical memory into equal-size pages, eliminating external fragmentation?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Segmentation</button>
+          <button class="opt" data-correct="true">Paging</button>
+          <button class="opt" data-correct="false">Contiguous allocation</button>
+          <button class="opt" data-correct="false">Overlay</button>
+        </div>
+        <p class="explain" hidden><b>Paging</b> uses fixed-size units (pages/frames), removing external fragmentation (though it may still have internal fragmentation).</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o7">
+        <p class="q-text">7. Which page replacement algorithm replaces the page that will NOT be used for the longest time in the future, and is theoretically optimal but not implementable in practice?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">FIFO</button>
+          <button class="opt" data-correct="false">LRU</button>
+          <button class="opt" data-correct="true">Optimal</button>
+          <button class="opt" data-correct="false">Second chance</button>
+        </div>
+        <p class="explain" hidden>The <b>Optimal</b> algorithm needs future knowledge of reference patterns, so it's a theoretical benchmark rather than a real implementation.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="o8">
+        <p class="q-text">8. Which disk scheduling algorithm moves the disk arm in one direction servicing requests, then reverses direction at the end — commonly called the "elevator algorithm"?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">SSTF</button>
+          <button class="opt" data-correct="true">SCAN</button>
+          <button class="opt" data-correct="false">FCFS</button>
+          <button class="opt" data-correct="false">C-LOOK</button>
+        </div>
+        <p class="explain" hidden><b>SCAN</b> behaves like an elevator — sweeping in one direction, then reversing at the boundary.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-co" class="panel" data-topic="co">
+    <div class="panel-intro">Covers instruction sets, microprocessor (8085) architecture, pipelining, control unit design, cache mapping, and I/O organization — the "hardware-level" companion to the OS topic.</div>
+    <details class="acc" open>
+      <summary><span class="code">CO1</span> Instruction Set Architecture <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>An instruction typically has two parts: <strong>Opcode</strong> (the operation to perform, e.g. ADD, MOV) and <strong>Operand</strong> (the data or its address).</p>
+        <h4>Addressing Modes</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Mode</th><th>Meaning</th></tr>
+          <tr><td><strong>Immediate</strong></td><td>Operand value is given directly in the instruction</td></tr>
+          <tr><td><strong>Direct</strong></td><td>Instruction contains the memory address of the operand</td></tr>
+          <tr><td><strong>Indirect</strong></td><td>Instruction contains the address of a location that itself holds the operand's address</td></tr>
+          <tr><td><strong>Register</strong></td><td>Operand is in a CPU register</td></tr>
+          <tr><td><strong>Register Indirect</strong></td><td>Register holds the memory address of the operand</td></tr>
+          <tr><td><strong>Indexed</strong></td><td>Address = base address + index register value — used for array access</td></tr>
+        </table></div>
+        <h4>RISC vs CISC</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>RISC</th><th>CISC</th></tr>
+          <tr><td>Full form</td><td>Reduced Instruction Set Computer</td><td>Complex Instruction Set Computer</td></tr>
+          <tr><td>Instruction set</td><td>Small, simple, uniform-length instructions</td><td>Large, complex, variable-length instructions</td></tr>
+          <tr><td>Execution</td><td>Mostly 1 instruction per clock cycle; relies on compiler optimisation</td><td>Instructions can take multiple cycles; more work done per instruction</td></tr>
+          <tr><td>Examples</td><td>ARM, MIPS</td><td>Intel x86</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO2</span> Microprocessor Basics (8085 Architecture) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>A <strong>microprocessor</strong> is a single IC chip containing the CPU (ALU + Control Unit + registers) of a computer. The classic exam-reference microprocessor is the <strong>Intel 8085</strong> — an 8-bit microprocessor.</p>
+        <h4>8085 Registers</h4>
+        <ul>
+          <li><strong>Accumulator (A)</strong> — 8-bit register, holds one operand and the result of ALU operations.</li>
+          <li><strong>General-purpose registers</strong> — B, C, D, E, H, L (8-bit each; can pair as BC, DE, HL for 16-bit operations).</li>
+          <li><strong>Flag register</strong> — holds status flags (Sign, Zero, Auxiliary Carry, Parity, Carry) set after ALU operations.</li>
+          <li><strong>Program Counter (PC)</strong> — 16-bit, holds address of the next instruction.</li>
+          <li><strong>Stack Pointer (SP)</strong> — 16-bit, points to the top of the stack in memory.</li>
+        </ul>
+        <p>8085 has a 16-bit address bus (64 KB addressable memory) and an 8-bit data bus.</p>
+        <h4>Microprocessor vs Microcontroller</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>Microprocessor</th><th>Microcontroller</th></tr>
+          <tr><td>Contains</td><td>Only CPU on-chip; RAM/ROM/I-O are external</td><td>CPU + RAM + ROM + I/O all on a single chip</td></tr>
+          <tr><td>Use case</td><td>General-purpose computing (PCs)</td><td>Dedicated embedded control tasks (washing machines, ATMs)</td></tr>
+          <tr><td>Cost/complexity</td><td>Higher, more powerful</td><td>Cheaper, simpler, task-specific</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO3</span> Instruction Cycle &amp; Pipelining <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Each instruction executes via <strong>Fetch → Decode → Execute</strong> (the machine cycle). In the 8085, a machine cycle is further divided into <strong>T-states</strong> (clock cycles) — e.g. an "Opcode Fetch" machine cycle typically takes 4 T-states.</p>
+        <h4>Pipelining</h4>
+        <p><strong>Pipelining</strong> overlaps the execution of multiple instructions — while one instruction is being decoded, the next is being fetched, and so on — improving overall instruction throughput (though not the latency of any single instruction).</p>
+        <h4>Pipeline Hazards</h4>
+        <ul>
+          <li><strong>Structural hazard</strong> — hardware resource conflict (two instructions need the same resource simultaneously).</li>
+          <li><strong>Data hazard</strong> — an instruction depends on the result of a previous instruction still in the pipeline.</li>
+          <li><strong>Control hazard</strong> — caused by branch instructions, where the next instruction to fetch isn't known until the branch resolves.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO4</span> Control Unit Design <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Approach</th><th>Description</th><th>Trait</th></tr>
+          <tr><td><strong>Hardwired Control</strong></td><td>Control signals generated by fixed logic circuits (combinational logic + state machines)</td><td>Fast, but rigid — hard to modify/extend</td></tr>
+          <tr><td><strong>Microprogrammed Control</strong></td><td>Control signals generated by a sequence of microinstructions stored in a "control memory"</td><td>Slower, but flexible/easy to redesign — common in CISC processors</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO5</span> Arithmetic &amp; Logic (ALU, Flags) <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>The <strong>ALU</strong> performs arithmetic (add, subtract, increment, decrement) and logical (AND, OR, NOT, XOR) operations. Subtraction is typically implemented as addition of the <strong>2's complement</strong>, avoiding the need for separate subtractor hardware.</p>
+        <h4>Common Status Flags</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Flag</th><th>Set when</th></tr>
+          <tr><td><strong>Carry</strong></td><td>An arithmetic operation produces a carry/borrow out of the most significant bit</td></tr>
+          <tr><td><strong>Zero</strong></td><td>The result of an operation is exactly zero</td></tr>
+          <tr><td><strong>Sign</strong></td><td>The result is negative (MSB = 1 for signed representation)</td></tr>
+          <tr><td><strong>Overflow</strong></td><td>A signed arithmetic result is too large/small to fit in the available bits</td></tr>
+          <tr><td><strong>Parity</strong></td><td>The result has an even (or odd, per convention) number of 1 bits</td></tr>
+        </table></div>
+        <p><strong>Booth's algorithm</strong> — a technique for multiplying signed binary numbers efficiently in 2's complement form, reducing the number of add/subtract operations needed.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO6</span> Cache &amp; Memory Organization <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Cache exploits the <strong>principle of locality</strong>: <strong>Temporal locality</strong> (recently used data is likely to be used again soon) and <strong>Spatial locality</strong> (data near recently used data is likely to be accessed soon too).</p>
+        <h4>Cache Mapping Techniques</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Technique</th><th>How it maps</th><th>Trait</th></tr>
+          <tr><td><strong>Direct mapping</strong></td><td>Each memory block maps to exactly one specific cache line</td><td>Simple, fast, but more conflict misses</td></tr>
+          <tr><td><strong>Associative (fully) mapping</strong></td><td>A memory block can go into any cache line</td><td>Flexible, fewer misses, but expensive/complex hardware (needs to search all lines)</td></tr>
+          <tr><td><strong>Set-associative mapping</strong></td><td>Cache divided into sets; a block maps to one specific set but can go anywhere within it</td><td>Practical middle ground — most real CPUs use this</td></tr>
+        </table></div>
+        <h4>Cache Write Policies</h4>
+        <p><strong>Write-through</strong> — every write updates both cache and main memory immediately (simpler, more reliable, more memory traffic). <strong>Write-back</strong> — writes update only the cache; main memory is updated later when the cache block is evicted (faster, but more complex and riskier on failure).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO7</span> I/O Organization &amp; Interrupts <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>I/O Transfer Techniques</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Technique</th><th>How it works</th><th>CPU involvement</th></tr>
+          <tr><td><strong>Programmed I/O</strong></td><td>CPU continuously polls the device status and transfers data itself</td><td>High — CPU is busy-waiting, very inefficient</td></tr>
+          <tr><td><strong>Interrupt-driven I/O</strong></td><td>Device signals the CPU via an interrupt only when it's ready; CPU does other work meanwhile</td><td>Medium — CPU still handles the actual data transfer</td></tr>
+          <tr><td><strong>DMA</strong> (Direct Memory Access)</td><td>A dedicated DMA controller transfers data directly between device and memory, bypassing the CPU</td><td>Lowest — CPU is freed almost entirely for other tasks</td></tr>
+        </table></div>
+        <h4>Interrupts</h4>
+        <p><strong>Maskable interrupts</strong> — can be disabled/ignored by the CPU. <strong>Non-maskable interrupts (NMI)</strong> — cannot be disabled, reserved for critical events (e.g. power failure). <strong>Vectored interrupts</strong> — the interrupting device itself supplies the address of its interrupt-service routine; <strong>non-vectored</strong> — a fixed, predetermined address is used instead.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CO8</span> Parallel Processing — Flynn's Taxonomy <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Category</th><th>Full form</th><th>Meaning</th><th>Example</th></tr>
+          <tr><td><strong>SISD</strong></td><td>Single Instruction, Single Data</td><td>Classic sequential (von Neumann) computer</td><td>Traditional uniprocessor PC</td></tr>
+          <tr><td><strong>SIMD</strong></td><td>Single Instruction, Multiple Data</td><td>One instruction applied to many data items in parallel</td><td>GPUs, vector processors</td></tr>
+          <tr><td><strong>MISD</strong></td><td>Multiple Instruction, Single Data</td><td>Multiple instruction streams operate on the same data</td><td>Rare — fault-tolerant systems</td></tr>
+          <tr><td><strong>MIMD</strong></td><td>Multiple Instruction, Multiple Data</td><td>Multiple independent processors, each with its own instructions and data</td><td>Multi-core CPUs, distributed systems</td></tr>
+        </table></div>
+      </div>
+    </details>
+    <div class="quiz" data-topic="co">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Computer Organization &amp; Microprocessor</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="co1">
+        <p class="q-text">1. In which addressing mode does the instruction contain the actual value of the operand, rather than an address?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Immediate addressing</button>
+          <button class="opt" data-correct="false">Direct addressing</button>
+          <button class="opt" data-correct="false">Indirect addressing</button>
+          <button class="opt" data-correct="false">Register addressing</button>
+        </div>
+        <p class="explain" hidden>In <b>immediate addressing</b>, the operand value itself is embedded directly in the instruction.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co2">
+        <p class="q-text">2. Which processor design philosophy uses a small set of simple, uniform-length instructions, generally executing close to one instruction per clock cycle?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">CISC</button>
+          <button class="opt" data-correct="true">RISC</button>
+          <button class="opt" data-correct="false">VLIW</button>
+          <button class="opt" data-correct="false">EPIC</button>
+        </div>
+        <p class="explain" hidden><b>RISC</b> (Reduced Instruction Set Computer) favours a small, simple, fast instruction set — e.g. ARM, MIPS.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co3">
+        <p class="q-text">3. In the Intel 8085 microprocessor, which register is 8-bit and holds the operand and result of ALU operations?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Program Counter</button>
+          <button class="opt" data-correct="false">Stack Pointer</button>
+          <button class="opt" data-correct="true">Accumulator</button>
+          <button class="opt" data-correct="false">Flag register</button>
+        </div>
+        <p class="explain" hidden>The <b>Accumulator</b> is the primary 8-bit register for arithmetic/logic operations in the 8085.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co4">
+        <p class="q-text">4. Which pipeline hazard occurs specifically because of branch instructions, when it isn't yet known which instruction to fetch next?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Structural hazard</button>
+          <button class="opt" data-correct="false">Data hazard</button>
+          <button class="opt" data-correct="true">Control hazard</button>
+          <button class="opt" data-correct="false">Resource hazard</button>
+        </div>
+        <p class="explain" hidden>A <b>control hazard</b> arises from branches/jumps disrupting the normal sequential fetch pattern.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co5">
+        <p class="q-text">5. Which control unit design generates control signals using fixed logic circuits, offering speed but little flexibility to modify later?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">Hardwired control</button>
+          <button class="opt" data-correct="false">Microprogrammed control</button>
+          <button class="opt" data-correct="false">Pipelined control</button>
+          <button class="opt" data-correct="false">Distributed control</button>
+        </div>
+        <p class="explain" hidden><b>Hardwired control</b> uses fixed combinational logic — fast but rigid, unlike the flexible, microinstruction-driven microprogrammed control.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co6">
+        <p class="q-text">6. Which cache mapping technique allows a memory block to be placed in ANY cache line, offering the most flexibility but the highest hardware complexity?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Direct mapping</button>
+          <button class="opt" data-correct="true">Fully associative mapping</button>
+          <button class="opt" data-correct="false">Set-associative mapping</button>
+          <button class="opt" data-correct="false">Sector mapping</button>
+        </div>
+        <p class="explain" hidden><b>Fully associative mapping</b> permits any block to go into any line, needing all lines to be searched — hence the most flexible but most complex/costly.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co7">
+        <p class="q-text">7. Which I/O transfer technique allows data to move directly between a device and memory, bypassing the CPU almost entirely?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Programmed I/O</button>
+          <button class="opt" data-correct="false">Interrupt-driven I/O</button>
+          <button class="opt" data-correct="true">DMA (Direct Memory Access)</button>
+          <button class="opt" data-correct="false">Polling</button>
+        </div>
+        <p class="explain" hidden><b>DMA</b> uses a dedicated controller so the CPU is freed from handling the actual data transfer.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="co8">
+        <p class="q-text">8. In Flynn's taxonomy, which category describes a single instruction being applied simultaneously to multiple data elements, as in GPUs and vector processors?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">SISD</button>
+          <button class="opt" data-correct="true">SIMD</button>
+          <button class="opt" data-correct="false">MISD</button>
+          <button class="opt" data-correct="false">MIMD</button>
+        </div>
+        <p class="explain" hidden><b>SIMD</b> (Single Instruction, Multiple Data) is exactly this pattern — one instruction, many data lanes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-se" class="panel" data-topic="se">
+    <div class="panel-intro">Covers SDLC models, requirements engineering, design principles (coupling/cohesion), testing types, estimation (COCOMO), and maintenance — plus core OOP concepts that are frequently bundled with SE questions.</div>
+    <details class="acc" open>
+      <summary><span class="code">SE1</span> Introduction &amp; SDLC <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>Software Engineering</strong> is the systematic application of engineering principles to design, develop, test, and maintain software. The <strong>SDLC</strong> (Software Development Life Cycle) is the standard sequence of phases a project moves through:</p>
+        <p><strong>Requirement Analysis → Design → Implementation (Coding) → Testing → Deployment → Maintenance</strong></p>
+        <ul>
+          <li><strong>Requirement analysis</strong> — gathering and documenting what the system must do.</li>
+          <li><strong>Design</strong> — planning architecture, data structures, interfaces.</li>
+          <li><strong>Implementation</strong> — actual coding based on the design.</li>
+          <li><strong>Testing</strong> — verifying the software works correctly and meets requirements.</li>
+          <li><strong>Deployment</strong> — releasing the software to users/production.</li>
+          <li><strong>Maintenance</strong> — ongoing fixes, updates after release (typically the longest, costliest phase).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE2</span> SDLC / Process Models <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Model</th><th>Approach</th><th>Best suited when</th></tr>
+          <tr><td><strong>Waterfall</strong></td><td>Strictly sequential — each phase must finish before the next begins</td><td>Requirements are clear, stable, and well-understood upfront</td></tr>
+          <tr><td><strong>Iterative/Incremental</strong></td><td>Builds the system in small increments, each adding functionality</td><td>Requirements are partially known, need feedback along the way</td></tr>
+          <tr><td><strong>Spiral</strong></td><td>Combines iterative development with explicit risk analysis at each loop</td><td>Large, high-risk, complex projects</td></tr>
+          <tr><td><strong>Agile</strong></td><td>Short iterations ("sprints"), continuous customer collaboration, embraces changing requirements</td><td>Requirements evolve, fast delivery and flexibility needed</td></tr>
+          <tr><td><strong>Prototype</strong></td><td>A working mock-up is built early to clarify requirements, then discarded/refined</td><td>Requirements are unclear or the user needs to visualise the system first</td></tr>
+          <tr><td><strong>V-Model</strong></td><td>Extension of Waterfall — each development phase has a corresponding testing phase, verification &amp; validation run in parallel</td><td>High-reliability, safety-critical systems</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Waterfall's biggest weakness: no going back once a phase is complete, and it doesn't accommodate changing requirements — this contrast with Agile is a favourite exam question.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE3</span> Requirement Engineering <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Types of Requirements</h4>
+        <ul>
+          <li><strong>Functional requirements</strong> — WHAT the system must do (specific features/behaviours, e.g. "user can reset password").</li>
+          <li><strong>Non-functional requirements</strong> — HOW WELL the system performs (quality attributes: performance, security, usability, reliability, scalability).</li>
+        </ul>
+        <h4>SRS (Software Requirements Specification)</h4>
+        <p>A formal document that completely describes what the software system will do (and won't do), serving as a contract between developers and stakeholders/clients.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE4</span> Software Design Principles <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Coupling vs Cohesion</h4>
+        <p><strong>Coupling</strong> — degree of interdependence between different modules. <strong>Lower coupling is better</strong> (modules are more independent, easier to maintain/reuse). <strong>Cohesion</strong> — degree to which elements WITHIN a single module belong together / work toward a single purpose. <strong>Higher cohesion is better</strong>.</p>
+        <div class="tip warn"><span class="lbl">RULE OF THUMB</span><p>Good software design aims for <strong>low coupling, high cohesion</strong> — modules that are self-contained internally but loosely connected to each other.</p></div>
+        <h4>Design Approaches</h4>
+        <p><strong>Structured design</strong> — top-down, function-oriented decomposition (e.g. using flowcharts, structure charts). <strong>Object-oriented design</strong> — organises the system around objects that bundle data and behaviour together (classes, encapsulation, inheritance).</p>
+        <h4>Other Key Terms</h4>
+        <p><strong>Modularity</strong> — dividing software into separate, independent modules. <strong>Abstraction</strong> — hiding implementation detail and exposing only essential features.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE5</span> Software Metrics &amp; Estimation <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Size Metrics</h4>
+        <p><strong>LOC</strong> (Lines of Code) — simplest size measure, but language-dependent and easy to game. <strong>Function Points</strong> — measures functionality delivered (inputs, outputs, inquiries, files, interfaces) independent of the implementation language — considered more objective than LOC.</p>
+        <h4>COCOMO Model (Constructive Cost Model)</h4>
+        <p>Estimates effort, cost, and schedule based on estimated project size (KLOC). Has three levels of detail: <strong>Basic</strong>, <strong>Intermediate</strong>, and <strong>Detailed</strong> COCOMO. Projects are classified into three modes:</p>
+        <ul>
+          <li><strong>Organic</strong> — small, simple, familiar/experienced team.</li>
+          <li><strong>Semi-detached</strong> — medium size/complexity, mixed experience team.</li>
+          <li><strong>Embedded</strong> — complex projects with tight constraints (hardware, regulations, real-time).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE6</span> Software Testing <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Verification vs Validation</h4>
+        <p><strong>Verification</strong> — "Are we building the product right?" (checking against design/specifications, static). <strong>Validation</strong> — "Are we building the right product?" (checking it meets user needs, dynamic/actual testing).</p>
+        <h4>Testing Levels</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Level</th><th>Tests</th></tr>
+          <tr><td><strong>Unit testing</strong></td><td>Individual modules/functions in isolation</td></tr>
+          <tr><td><strong>Integration testing</strong></td><td>Interfaces &amp; interaction between combined modules</td></tr>
+          <tr><td><strong>System testing</strong></td><td>The complete, integrated system against overall requirements</td></tr>
+          <tr><td><strong>Acceptance testing</strong></td><td>Whether the system satisfies business/user needs, performed by/for the client</td></tr>
+        </table></div>
+        <h4>Testing Types</h4>
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Approach</th><th>Common techniques</th></tr>
+          <tr><td><strong>Black-box testing</strong></td><td>Tests functionality without knowledge of internal code</td><td>Equivalence partitioning, boundary value analysis</td></tr>
+          <tr><td><strong>White-box testing</strong></td><td>Tests internal logic/structure with full code visibility</td><td>Statement coverage, branch coverage, path coverage</td></tr>
+        </table></div>
+        <p><strong>Alpha testing</strong> — performed by the internal development/QA team at the developer's site. <strong>Beta testing</strong> — performed by real end-users in their own environment, before final release.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE7</span> Software Maintenance <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Purpose</th></tr>
+          <tr><td><strong>Corrective</strong></td><td>Fixing bugs/defects discovered after release</td></tr>
+          <tr><td><strong>Adaptive</strong></td><td>Adjusting software to a changing environment (new OS, new hardware/platform)</td></tr>
+          <tr><td><strong>Perfective</strong></td><td>Enhancing/improving features or performance based on user feedback — typically the largest share of maintenance effort</td></tr>
+          <tr><td><strong>Preventive</strong></td><td>Restructuring/re-documenting code to make future maintenance easier (before problems occur)</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE8</span> Project Management Essentials <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>SCM</strong> (Software Configuration Management) — tracking and controlling changes to software artifacts (code, docs) throughout the project, typically via version control systems.</p>
+        <p><strong>Risk management</strong> — identifying, analysing, and mitigating potential risks that could impact the project's schedule, cost, or quality.</p>
+        <p><strong>Scheduling tools</strong> — <strong>Gantt chart</strong> (bar-chart visualising task timelines/overlaps) and <strong>PERT/CPM</strong> (network diagrams identifying task dependencies and the "critical path" — the longest sequence of dependent tasks determining minimum project duration).</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">SE9</span> Core Object-Oriented Concepts <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>Frequently bundled with SE questions since object-oriented design is a core SE topic.</p>
+        <ul>
+          <li><strong>Class</strong> — a blueprint/template defining properties (attributes) and behaviours (methods).</li>
+          <li><strong>Object</strong> — a specific instance of a class.</li>
+          <li><strong>Encapsulation</strong> — bundling data and the methods that operate on it together, restricting direct access to internal state ("data hiding").</li>
+          <li><strong>Inheritance</strong> — a class (subclass) acquires properties/behaviours of another class (superclass), enabling code reuse.</li>
+          <li><strong>Polymorphism</strong> — the ability for the same interface/method name to behave differently depending on the object calling it (e.g. method overloading and overriding).</li>
+          <li><strong>Abstraction</strong> — exposing only essential features of an object while hiding internal implementation complexity.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="quiz" data-topic="se">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Software Engineering</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/8</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="s1">
+        <p class="q-text">1. Which SDLC model is strictly sequential, requiring each phase to be completed before the next begins, and struggles to accommodate changing requirements?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Agile model</button>
+          <button class="opt" data-correct="true">Waterfall model</button>
+          <button class="opt" data-correct="false">Spiral model</button>
+          <button class="opt" data-correct="false">Prototype model</button>
+        </div>
+        <p class="explain" hidden>The <b>Waterfall model</b> is rigidly sequential with no going back — ideal only when requirements are clear and stable upfront.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s2">
+        <p class="q-text">2. Which SDLC model explicitly incorporates risk analysis at every iteration/loop, making it suited to large, high-risk projects?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Waterfall model</button>
+          <button class="opt" data-correct="true">Spiral model</button>
+          <button class="opt" data-correct="false">V-Model</button>
+          <button class="opt" data-correct="false">Big Bang model</button>
+        </div>
+        <p class="explain" hidden>The <b>Spiral model</b> combines iterative development with a dedicated risk-analysis phase in every cycle.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s3">
+        <p class="q-text">3. A requirement stating "the system must respond to any query within 2 seconds" is an example of a:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Functional requirement</button>
+          <button class="opt" data-correct="true">Non-functional requirement</button>
+          <button class="opt" data-correct="false">Business requirement</button>
+          <button class="opt" data-correct="false">User story</button>
+        </div>
+        <p class="explain" hidden>Performance/response-time is a quality attribute — a <b>non-functional requirement</b> (describes how well, not what).</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s4">
+        <p class="q-text">4. Good software design generally aims for which combination of coupling and cohesion?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">High coupling, low cohesion</button>
+          <button class="opt" data-correct="true">Low coupling, high cohesion</button>
+          <button class="opt" data-correct="false">High coupling, high cohesion</button>
+          <button class="opt" data-correct="false">Low coupling, low cohesion</button>
+        </div>
+        <p class="explain" hidden><b>Low coupling, high cohesion</b> — modules that are internally focused but loosely dependent on each other — is the design goal.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s5">
+        <p class="q-text">5. Which software size/cost estimation model classifies projects as Organic, Semi-detached, or Embedded?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Function Point Analysis</button>
+          <button class="opt" data-correct="true">COCOMO</button>
+          <button class="opt" data-correct="false">Halstead's metrics</button>
+          <button class="opt" data-correct="false">McCabe's complexity</button>
+        </div>
+        <p class="explain" hidden><b>COCOMO</b> (Constructive Cost Model) uses these three project modes to estimate effort and schedule.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s6">
+        <p class="q-text">6. Testing that checks internal code logic and structure directly — using techniques like statement and branch coverage — is called:</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Black-box testing</button>
+          <button class="opt" data-correct="true">White-box testing</button>
+          <button class="opt" data-correct="false">Acceptance testing</button>
+          <button class="opt" data-correct="false">Beta testing</button>
+        </div>
+        <p class="explain" hidden><b>White-box testing</b> requires visibility into the internal code; black-box testing only checks external functionality.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s7">
+        <p class="q-text">7. Modifying software to enhance performance or add new features requested by users after release is which type of maintenance?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Corrective</button>
+          <button class="opt" data-correct="false">Adaptive</button>
+          <button class="opt" data-correct="true">Perfective</button>
+          <button class="opt" data-correct="false">Preventive</button>
+        </div>
+        <p class="explain" hidden><b>Perfective maintenance</b> covers enhancements/improvements — typically the largest share of overall maintenance effort.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="s8">
+        <p class="q-text">8. Which OOP concept allows the same method name to behave differently depending on which object calls it (e.g. via overloading or overriding)?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Encapsulation</button>
+          <button class="opt" data-correct="false">Inheritance</button>
+          <button class="opt" data-correct="true">Polymorphism</button>
+          <button class="opt" data-correct="false">Abstraction</button>
+        </div>
+        <p class="explain" hidden><b>Polymorphism</b> ("many forms") lets the same interface behave differently across different object types.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>IBPS SO IT Officer · Professional Knowledge revision notes · scores stored locally to this tool</footer>
+</div>
+
+<script>
+(function(){
+  const topics = ['os','co','se'];
+  const quizState = {os:{}, co:{}, se:{}};
+  const timers = {os:{start:null,elapsed:0,handle:null}, co:{start:null,elapsed:0,handle:null}, se:{start:null,elapsed:0,handle:null}};
+
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60).toString().padStart(2,'0');
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function updateScoreDisplay(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    const total = quizEl.querySelectorAll('.quiz-q').length;
+    const answered = Object.keys(quizState[topic]).length;
+    const correct = Object.values(quizState[topic]).filter(v=>v.correct).length;
+    quizEl.querySelector('.score').textContent = 'Score: '+correct+'/'+total;
+    const map = {os:'po', co:'pc', se:'ps'};
+    const el = document.getElementById(map[topic]);
+    if(el) el.textContent = correct+'/'+total;
+    return {total, answered, correct};
+  }
+
+  function startTimer(topic){
+    const t = timers[topic];
+    if(t.handle) return;
+    t.start = Date.now() - t.elapsed*1000;
+    t.handle = setInterval(()=>{
+      t.elapsed = (Date.now()-t.start)/1000;
+      const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+      if(quizEl) quizEl.querySelector('.timer').textContent = fmtTime(t.elapsed);
+    }, 1000);
+  }
+  function stopTimer(topic){
+    const t = timers[topic];
+    if(t.handle){ clearInterval(t.handle); t.handle=null; }
+  }
+  function resetTimer(topic){
+    stopTimer(topic);
+    timers[topic] = {start:null, elapsed:0, handle:null};
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(quizEl) quizEl.querySelector('.timer').textContent = '00:00';
+  }
+
+  async function saveProgress(topic){
+    try{
+      await window.storage.set('pk2-quiz-'+topic, JSON.stringify(quizState[topic]), false);
+    }catch(e){ /* storage best-effort */ }
+  }
+
+  function applyAnswer(qEl, topic, qid, chosenIdx, isCorrect){
+    const opts = qEl.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      if(i===chosenIdx && isCorrect) o.classList.add('picked-correct');
+      else if(i===chosenIdx && !isCorrect) o.classList.add('picked-wrong');
+      else if(o.dataset.correct==='true') o.classList.add('reveal-correct');
+    });
+    qEl.classList.add('answered');
+    const ex = qEl.querySelector('.explain');
+    if(ex) ex.hidden = false;
+  }
+
+  function handleOptionClick(e){
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    const qEl = opt.closest('.quiz-q');
+    if(!qEl || qEl.classList.contains('answered')) return;
+    const quizEl = opt.closest('.quiz');
+    const topic = quizEl.dataset.topic;
+    const qid = qEl.dataset.qid;
+    const opts = Array.from(qEl.querySelectorAll('.opt'));
+    const chosenIdx = opts.indexOf(opt);
+    const isCorrect = opt.dataset.correct === 'true';
+    applyAnswer(qEl, topic, qid, chosenIdx, isCorrect);
+    quizState[topic][qid] = {chosenIndex:chosenIdx, correct:isCorrect};
+    updateScoreDisplay(topic);
+    startTimer(topic);
+    const stats = updateScoreDisplay(topic);
+    if(stats && stats.answered >= stats.total) stopTimer(topic);
+    saveProgress(topic);
+  }
+  document.addEventListener('click', handleOptionClick);
+
+  document.querySelectorAll('.reset-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const quizEl = btn.closest('.quiz');
+      const topic = quizEl.dataset.topic;
+      quizState[topic] = {};
+      quizEl.querySelectorAll('.quiz-q').forEach(qEl=>{
+        qEl.classList.remove('answered');
+        qEl.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked-correct','picked-wrong','reveal-correct'));
+        const ex = qEl.querySelector('.explain');
+        if(ex) ex.hidden = true;
+      });
+      updateScoreDisplay(topic);
+      resetTimer(topic);
+      try{ await window.storage.delete('pk2-quiz-'+topic, false); }catch(e){}
+    });
+  });
+
+  function restoreState(topic){
+    const quizEl = document.querySelector('.quiz[data-topic="'+topic+'"]');
+    if(!quizEl) return;
+    Object.keys(quizState[topic]).forEach(qid=>{
+      const qEl = quizEl.querySelector('.quiz-q[data-qid="'+qid+'"]');
+      if(!qEl) return;
+      const rec = quizState[topic][qid];
+      applyAnswer(qEl, topic, qid, rec.chosenIndex, rec.correct);
+    });
+    updateScoreDisplay(topic);
+  }
+
+  async function init(){
+    for(const topic of topics){
+      try{
+        const res = await window.storage.get('pk2-quiz-'+topic, false);
+        if(res && res.value) quizState[topic] = JSON.parse(res.value);
+      }catch(e){ quizState[topic] = {}; }
+      restoreState(topic);
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer 2026 — Professional Knowledge Quiz</title>
+<style>
+  :root{
+    --bg:#0f1729;
+    --panel:#141d35;
+    --panel2:#1a2544;
+    --border:#2a3660;
+    --text:#e8ecf7;
+    --muted:#8b95b8;
+    --accent:#4f6df5;
+    --accent2:#7c8ff9;
+    --green:#22b876;
+    --red:#e5484d;
+    --amber:#e5a12b;
+    --purple:#9b6bf2;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  .topbar{
+    background:var(--panel);
+    border-bottom:1px solid var(--border);
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .topbar .title{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.3px;
+  }
+  .topbar .title span{color:var(--accent2);}
+  .timer{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    padding:6px 14px;
+    border-radius:8px;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:var(--amber);
+  }
+
+  /* START SCREEN */
+  #startScreen{
+    max-width:640px;
+    margin:60px auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:36px;
+    text-align:center;
+  }
+  #startScreen h1{font-size:22px;margin-bottom:6px;}
+  #startScreen p.sub{color:var(--muted);margin-top:0;margin-bottom:26px;}
+  .infoGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    text-align:left;
+    margin-bottom:26px;
+  }
+  .infoCard{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .infoCard .num{font-size:20px;font-weight:800;color:var(--accent2);}
+  .infoCard .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+  .instructions{
+    text-align:left;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.7;
+    margin-bottom:26px;
+  }
+  .instructions b{color:var(--text);}
+  .legend-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0;}
+
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    outline:none;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;
+    padding:13px 34px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.3px;
+  }
+  .btn-primary:hover{filter:brightness(1.08);}
+
+  /* QUIZ LAYOUT */
+  #quizScreen{display:none;}
+  .quizWrap{
+    display:flex;
+    max-width:1200px;
+    margin:20px auto;
+    gap:18px;
+    padding:0 16px;
+    align-items:flex-start;
+  }
+  .mainPanel{
+    flex:1;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:24px 28px;
+    min-height:420px;
+  }
+  .qMeta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .qNumBadge{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    padding:5px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent2);
+  }
+  .qStatusBadge{
+    font-size:11px;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+  }
+  .qText{
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:22px;
+    white-space:pre-wrap;
+  }
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--panel2);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:13px 16px;
+    transition:.15s;
+  }
+  .option:hover{border-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:rgba(79,109,245,.14);}
+  .option input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+  .option label{cursor:pointer;flex:1;line-height:1.5;font-size:14.5px;}
+  .optLetter{
+    font-weight:800;
+    color:var(--accent2);
+    margin-right:4px;
+  }
+
+  .actionRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:26px;
+    padding-top:18px;
+    border-top:1px solid var(--border);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .leftActions,.rightActions{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:13.5px;
+    font-weight:700;
+    background:var(--panel2);
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn:hover{border-color:var(--accent2);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn-clear{color:var(--red);}
+  .btn-mark{color:var(--purple);}
+  .btn-save{background:var(--green);color:#fff;border:none;}
+  .btn-save:hover{filter:brightness(1.08);}
+  .btn-submit{background:var(--red);color:#fff;border:none;}
+  .btn-submit:hover{filter:brightness(1.1);}
+
+  /* SIDE PANEL */
+  .sidePanel{
+    width:280px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    flex-shrink:0;
+  }
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:16px;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .qGrid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+  }
+  .qBtn{
+    aspect-ratio:1;
+    border-radius:7px;
+    font-weight:700;
+    font-size:12.5px;
+    background:var(--panel2);
+    border:1.5px solid var(--border);
+    color:var(--text);
+  }
+  .qBtn.current{outline:2px solid #fff;outline-offset:1px;}
+  .qBtn.notvisited{background:var(--panel2);color:var(--muted);}
+  .qBtn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+  .qBtn.notanswered{background:var(--red);color:#fff;border-color:var(--red);}
+  .qBtn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .qBtn.markedanswered{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:inset 0 0 0 2px var(--green);}
+
+  .submitBig{
+    width:100%;
+    margin-top:18px;
+    padding:12px;
+    border-radius:9px;
+    background:var(--red);
+    color:#fff;
+    font-weight:800;
+    font-size:14px;
+  }
+  .submitBig:hover{filter:brightness(1.1);}
+
+  /* RESULT SCREEN */
+  #resultScreen{display:none;max-width:900px;margin:30px auto;padding:0 16px;}
+  .scoreCard{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:30px;
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .scoreCard h2{margin-top:0;font-size:20px;}
+  .scoreBig{font-size:44px;font-weight:800;color:var(--accent2);margin:8px 0;}
+  .statsRow{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:22px;
+  }
+  .statBox{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+  }
+  .statBox .n{font-size:22px;font-weight:800;}
+  .statBox .l{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .statBox.green .n{color:var(--green);}
+  .statBox.red .n{color:var(--red);}
+  .statBox.amber .n{color:var(--amber);}
+  .statBox.grey .n{color:var(--muted);}
+
+  .reviewList{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:24px 26px;
+  }
+  .reviewItem{
+    border-bottom:1px solid var(--border);
+    padding:16px 0;
+  }
+  .reviewItem:last-child{border-bottom:none;}
+  .reviewQ{font-size:14.5px;margin-bottom:10px;font-weight:600;}
+  .reviewOpt{
+    font-size:13.5px;
+    padding:8px 12px;
+    border-radius:7px;
+    margin-bottom:6px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+  }
+  .reviewOpt.correct{border-color:var(--green);background:rgba(34,184,118,.12);color:var(--green);}
+  .reviewOpt.wrong{border-color:var(--red);background:rgba(229,72,77,.12);color:var(--red);}
+  .tagRight{float:right;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;}
+  .tagRight.ok{background:rgba(34,184,118,.18);color:var(--green);}
+  .tagRight.no{background:rgba(229,72,77,.18);color:var(--red);}
+  .tagRight.skip{background:rgba(139,149,184,.18);color:var(--muted);}
+
+  .restartBtn{
+    display:block;
+    margin:24px auto 10px;
+    padding:12px 30px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+  }
+
+  /* CONFIRM MODAL */
+  .modalOverlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(5,8,20,.65);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+  }
+  .modalOverlay.show{display:flex;}
+  .modalBox{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:26px 28px;
+    max-width:380px;
+    width:90%;
+    text-align:center;
+  }
+  .modalBox p{font-size:14.5px;line-height:1.6;margin-bottom:22px;}
+  .modalBtns{display:flex;gap:10px;justify-content:center;}
+  .modalBtns .btn{padding:10px 22px;}
+
+  @media(max-width:860px){
+    .quizWrap{flex-direction:column;}
+    .sidePanel{width:100%;order:-1;}
+    .qGrid{grid-template-columns:repeat(8,1fr);}
+    .statsRow{grid-template-columns:repeat(2,1fr);}
+    .infoGrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">IBPS SO <span>IT Officer 2026</span> — Professional Knowledge</div>
+  <div class="timer" id="timerBox" style="display:none;">⏱ <span id="timerText">00:00</span></div>
+</div>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+  <h1>Professional Knowledge Practice Quiz</h1>
+  <p class="sub">Compiled from your IBPS SO IT Officer 2026 practice set (Adda247 · Vivek Sir)</p>
+
+  <div class="infoGrid">
+    <div class="infoCard"><div class="num">68</div><div class="lab">Total Questions</div></div>
+    <div class="infoCard"><div class="num">+1 / −0.25</div><div class="lab">Marking Scheme</div></div>
+    <div class="infoCard"><div class="num">DBMS · OS · CN</div><div class="lab">Networking · Programming · Web</div></div>
+    <div class="infoCard"><div class="num">68 min</div><div class="lab">Suggested Time</div></div>
+  </div>
+
+  <div class="instructions">
+    <b>Instructions:</b><br>
+    • Click <b>Start Quiz</b> to begin the timer.<br>
+    • Use <b>Save &amp; Next</b> to record your response and move on, or navigate freely using the question panel on the right.<br>
+    • Use <b>Mark for Review</b> to flag a question and revisit it later.<br>
+    • Use <b>Clear Response</b> to remove your selected answer for the current question.<br>
+    • Click <b>Submit Test</b> anytime to end the quiz and view your detailed score report.<br><br>
+    <b>Status legend:</b>
+    <div class="legend-row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+    <div class="legend-row"><span class="dot" style="background:var(--red)"></span> Visited, Not Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--purple)"></span> Marked for Review</div>
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quizScreen">
+  <div class="quizWrap">
+    <div class="mainPanel">
+      <div class="qMeta">
+        <div class="qNumBadge" id="qNumBadge">Question 1 / 68</div>
+        <div class="qStatusBadge" id="qStatusBadge" style="background:var(--panel2);color:var(--muted);">Not Answered</div>
+      </div>
+      <div class="qText" id="qText"></div>
+      <div class="options" id="optionsBox"></div>
+
+      <div class="actionRow">
+        <div class="leftActions">
+          <button class="btn btn-clear" onclick="clearResponse()">✕ Clear Response</button>
+          <button class="btn btn-mark" onclick="markForReview()">★ Mark for Review &amp; Next</button>
+        </div>
+        <div class="rightActions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+          <button class="btn btn-save" id="nextBtn" onclick="saveAndNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidePanel">
+      <div class="legend">
+        <div class="row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+        <div class="row"><span class="dot" style="background:var(--red)"></span> Not Answered</div>
+        <div class="row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+        <div class="row"><span class="dot" style="background:var(--purple)"></span> Marked</div>
+      </div>
+      <div class="qGrid" id="qGrid"></div>
+      <button class="submitBig" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="resultScreen">
+  <div class="scoreCard">
+    <h2>Your Result</h2>
+    <div class="scoreBig" id="scoreBig">0 / 68</div>
+    <div id="scoreSub" style="color:var(--muted);font-size:13.5px;"></div>
+    <div class="statsRow">
+      <div class="statBox green"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+      <div class="statBox red"><div class="n" id="statWrong">0</div><div class="l">Incorrect</div></div>
+      <div class="statBox grey"><div class="n" id="statSkip">0</div><div class="l">Unattempted</div></div>
+      <div class="statBox amber"><div class="n" id="statNet">0</div><div class="l">Net Score</div></div>
+    </div>
+  </div>
+
+  <div class="reviewList" id="reviewList"></div>
+
+  <button class="restartBtn" onclick="location.reload()">↻ Restart Quiz</button>
+</div>
+
+<!-- CUSTOM CONFIRM MODAL (replaces window.confirm, which sandboxed previews block) -->
+<div class="modalOverlay" id="confirmModal">
+  <div class="modalBox">
+    <p id="confirmModalText">Submit the test now?</p>
+    <div class="modalBtns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+// ===== SET A (25) =====
+{q:"What is the value of the following postfix expression? 4 3 7 2 + 6 - ^ *",opts:["96","100","104","108","112"],ans:3},
+{q:"In which of the following directories of Linux, variable data like log files, transient files and temporary files are saved?",opts:["/usr","/home","/root","/var","None of these"],ans:3},
+{q:"The basic function of the ______ server is to assign IP addresses to various devices and hosts.",opts:["DHCP","application","Web","print","file"],ans:0},
+{q:"When you click the Maximize button of an application window, it changes to the",opts:["Restore Up button","Restore Down button","Open button","Close button","None of these"],ans:1},
+{q:"What type of LLC provides connection-oriented service?",opts:["LLC1","LLC2","LLC3","LLC4","LLC5"],ans:1},
+{q:"Which of the following is not a memory segment in an operating system?",opts:["Stack","Heap","Data","Image","Text"],ans:3},
+{q:"What do you mean by an octet?",opts:["A protocol","An encryption technique","A unit of digital information","A unit of speed","None of these"],ans:2},
+{q:"Which of the following statements is true for the critical section?",opts:["It is a solution for the race condition.","It is a part of the program from where the shared data are accessed by the processes.","It is scenario when all processes are created.","Both (a) and (b)","None of these"],ans:3},
+{q:"Which of the following terms is used to specify the task of discovering the data elements that are similar in some manner?",opts:["Classification","Regression","Clustering","Association","None of these"],ans:2},
+{q:"Which of the following elements are used in an e-mail to express emotions or feelings clearly?",opts:["Acronyms","Abbreviations","Rich text","Emoticons or smileys","All of these"],ans:3},
+{q:"Which of the following represents a three digit binary number?",opts:["Decimal number","Binary number","Octal number","Hexadecimal number","None of these"],ans:2},
+{q:"Which of the following units is used to measure the output resolution of a printer?",opts:["dpi","cpi","epi","fpi","None of these"],ans:0},
+{q:"In Linux, a shell prompt is also referred to as",opts:["Console window","Command prompt","Command language","Shell script","None of these"],ans:1},
+{q:"Page fault is caused when",opts:["the page is not present in the physical memory","the page is blocked","the page is created","the page is ready to execute","None of these"],ans:0},
+{q:"How many nodes are available in a full binary tree having the level 5, where the root node is present on the level 0?",opts:["31","32","63","64","128"],ans:2},
+{q:"Which of the following aggregate functions is used to find the minimum value in a column?",opts:["SUM()","AVG()","MAX()","MIN()","COUNT()"],ans:3},
+{q:"How many queue(s) are necessary to use the priority queue?",opts:["One","Two","Three","Four","None of these"],ans:1},
+{q:"Which of the following terms is used for the organisations that provide Internet to users?",opts:["JSP","ISP","ASP","LISP","None of these"],ans:1},
+{q:"Which of the following statement(s) is/are known as Jump statements in a programming language?",opts:["continue","break","return","goto","All of these"],ans:4},
+{q:"Which of the following type of relationship may exist in an ER diagram?",opts:["One to One","One to Many","Many to One","Many to Many","All of these"],ans:4},
+{q:"Which SQL statement obtains records from more than one table by using a single query?",opts:["GROUP BY","ORDER BY","Equi-join","SELECT","HAVING"],ans:2},
+{q:"Which of the following statements is correct about a view?",opts:["A view can be used to manipulate data of a table.","A view has its own storage.","A view is always used in a read-only manner.","A view can be created without using a database table.","None of these."],ans:3},
+{q:"Which of the following SQL commands is used to change the definition (structure) of a database table?",opts:["ALTER TABLE","MODIFY TABLE","CORRECT TABLE","TABLE ALTER","ALTER DATABASE"],ans:0},
+{q:"Which of the following contains the address of some other variable in a program?",opts:["Interface","Class","Function","Pointer","None of these"],ans:3},
+{q:"Which of the following is the correct SELECT statement to retrieve the date from the system in the format \"TUESDAY, 23 August, 2016\"?",opts:["SELECT TO_DATE(SYSDATE, 'FMDAY, DD Month, YYYY') FROM dual;","SELECT TO_CHAR(SYSDATE, 'DAY, DY Month, YYYY') FROM dual;","SELECT TO_DATE(SYSDATE, 'FMDAY, DDD Month, YYYY') FROM dual;","SELECT TO_CHAR(SYSDATE, 'FMDAY, DD Month, YYYY') FROM dual;","SELECT TO_CHAR(SYSDATE, 'FMDAY, DDD Month, YYYY') FROM dual;"],ans:3},
+
+// ===== SET B (8) =====
+{q:"In Oracle DB, which of the following names is referred to as a Cartesian join?",opts:["Full-outer-join","Outer-join","Cross-Join","Equi-join","None of these"],ans:2},
+{q:"What is the maximum number of fields a primary key can contain in a table?",opts:["Only 1","Maximum 2","Maximum 5","No specific limit","Dependent on database size"],ans:0},
+{q:"Which of the following is a non-linear data structure?",opts:["Array","Linked List","Stack","Queue","Tree"],ans:4},
+{q:"In Python, which keyword is used to define a function?",opts:["function","func","def","define","void"],ans:2},
+{q:"Which device works at the Data Link Layer of the OSI model?",opts:["Hub","Repeater","Switch","Router","Gateway"],ans:2},
+{q:"Which testing is performed by end-users before final deployment?",opts:["Unit Testing","Integration Testing","System Testing","Acceptance Testing","White Box Testing"],ans:3},
+{q:"Which register holds the address of the next instruction to be executed?",opts:["Accumulator","Instruction Register","Program Counter","Memory Data Register","Stack Pointer"],ans:2},
+{q:"In SQL, which clause is used to filter rows after grouping?",opts:["WHERE","HAVING","ORDER BY","GROUP BY","SELECT"],ans:1},
+
+// ===== SET C+D (25) =====
+{q:"Which of the following parts of a GSM system is operated by an administration or a Recognised Operating Agency (ROA) for providing mobile telecommunications services to the public?",opts:["Public Land Mobile Network (PLMN)","Operation and Maintenance Center (OMC)","Switching System (SS)","Authentication Center (AUC)","Gateway Mobile Service Switching Center (GMSC)"],ans:0},
+{q:"Routing is done at the",opts:["Data link layer","Network layer","Transport layer","Session layer","None of these"],ans:1},
+{q:"A word processor program is a/an ______.",opts:["system software","operating system","network operating system","firmware","application software"],ans:4},
+{q:"Which of the following can contain media data such as image file, text file, video file, audio file, etc.?",opts:["Object-oriented database","Deductive database","Distributed database","Multimedia database","Temporal database"],ans:3},
+{q:"Which of the following attributes is used in JavaScript to refer to an external JavaScript file?",opts:["javascript","type","src","script","None of these"],ans:2},
+{q:"Which of the following application layer protocols does not use UDP?",opts:["FTP","VoIP","DNS","SNMP","None of these"],ans:0},
+{q:"Which of the following is the smallest meaningful unit of a database table?",opts:["Record","Column","Primary key","Database","None of these"],ans:1},
+{q:"Which of the following protocols is used to retrieve emails?",opts:["SNMP","SMTP","FTP","IMAP","None of these"],ans:3},
+{q:"Which of the following is an error detection mechanism used in the data link layer?",opts:["Equalisation","Bit stuffing","Cyclic Redundancy Check","Hamming codes","None of these"],ans:2},
+{q:"Which of the following statements is true about baseband signal?",opts:["It is the source signal.","Its frequency is relatively close to zero.","It is a modulated signal.","Options (a) and (b)","None of these"],ans:3},
+{q:"Which of the following layers of the OSI model creates and recognises frame boundaries?",opts:["Physical layer","Data link layer","Transport layer","Network layer","Presentation layer"],ans:1},
+{q:"Which of the following statements is used to break a deadlock in case of transactions?",opts:["Rollback","Commit","Savepoint","Break","Transact"],ans:0},
+{q:"Which of the following directories of Linux operating system holds the binary executable files?",opts:["/bin","/home","/sbin","/dev","/usr"],ans:0},
+{q:"Apart from the physical, data link, network and transport layers, how many more layers are there in the Open Systems Interconnection (OSI) model?",opts:["1","2","3","4"],ans:2},
+{q:"What type of a language is HTML?",opts:["Scripting language","Fractional programming language","Standard markup language","DTP language","None of these"],ans:2},
+{q:"What is the name given to the icon, image or text on a Web page that links it to another Web page?",opts:["Uniform Resource Locator (URL)","Hyperlink","Plugin","Attachment","None of these"],ans:1},
+{q:"Which of the following is a loopback address?",opts:["125.0.0.0","127.0.0.1","255.0.0.0","255.0.0.1","None of these"],ans:1},
+{q:"Which of the following syntaxes is correct for inserting a record into a table?",opts:["INSERT INTO < Table-Name > VALUES (Value 1, Value 2,......,Value N)","INSERT < Table-Name > VALUES (Value 1, Value 2,......,Value N)","INSERT INTO < Table-Name > (Value 1, Value 2,......,Value N)","INSERT INTO VALUES (Value 1, Value 2,......,Value N)","None of these"],ans:0},
+{q:"In DBMS, what does DBA stand for?",opts:["Database Account","Data Browser Application","Database Administrator","Database Administration","Database Broker Account"],ans:2},
+{q:"You are withdrawing money from an ATM, but the transaction halts abruptly. Such a transaction is known as a/an ______ transaction.",opts:["closed","terminated","aborted","completed","None of these"],ans:2},
+{q:"HTML uses the ______ tag to display deleted text on a Web page.",opts:["< INS >","< DEL >","< STRONG >","< DELETE >","< REMOVE >"],ans:1},
+{q:"Which of the following SQL commands is used to ensure that the data of any transaction is permanently stored in a database?",opts:["ROLLBACK","COMMIT","SAVEPOINT","SAVE","None of these"],ans:1},
+{q:"Which of the following SQL commands is used to delete a database table permanently?",opts:["REMOVE","DELETE","DROP","TRUNCATE","ROLLBACK"],ans:2},
+{q:"Which of the following SQL operators requires that both conditions specified in a query must return true?",opts:["NOT","OR","AND","NOR","None of these"],ans:2},
+{q:"Which of the following is a type of inheritance?",opts:["Multiple","Multi-level","Hierarchical","All of these","None of these"],ans:3},
+
+// ===== SET E (10) =====
+{q:"Which type of database backup copies only the data that has changed since the last full backup?",opts:["Incremental Backup","Differential Backup","Synthetic Backup","Mirror Backup","Cold Backup"],ans:1},
+{q:"In a modern operating system, what is a lightweight process that shares the same memory space with its parent process called?",opts:["Thread","Kernel","Daemon","Page","Interrupt"],ans:0},
+{q:"Which software testing technique focuses on testing the internal structure and coding of the application?",opts:["Black-Box Testing","White-Box Testing","Functional Testing","Acceptance Testing","Regression Testing"],ans:1},
+{q:"Which Git command is used to record changes to the repository permanently?",opts:["git add","git push","git commit","git status","git clone"],ans:2},
+{q:"What is the time complexity to search for an element in a balanced Binary Search Tree (BST) in the worst case?",opts:["O(1)","O(N)","O(log N)","O(N log N)","O(N²)"],ans:2},
+{q:"Which process scheduling algorithm suffers from the \"Convoy Effect\"?",opts:["Round Robin","Shortest Job First (SJF)","First-Come, First-Served (FCFS)","Priority Scheduling","Multilevel Queue"],ans:2},
+{q:"What is the default port number used by the secure Hypertext Transfer Protocol (HTTPS)?",opts:["80","21","443","23","8080"],ans:2},
+{q:"Which of the following commands is used in SQL to add a new column to an existing table?",opts:["UPDATE TABLE","MODIFY TABLE","INSERT INTO","ALTER TABLE","ADD ROW"],ans:3},
+{q:"Which type of cyber attack floods a target server with superfluous requests to disrupt its normal traffic?",opts:["Man-in-the-Middle (MitM)","Phishing","Distributed Denial of Service (DDoS)","Ransomware","Brute Force"],ans:2},
+{q:"In Python, which of the following data types is immutable?",opts:["List","Dictionary","Set","Tuple","Bytearray"],ans:3}
+];
+
+const N = questions.length;
+let current = 0;
+let responses = new Array(N).fill(null);   // selected option index or null
+let visited = new Array(N).fill(false);
+let marked = new Array(N).fill(false);
+let timerInterval, seconds = 0;
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerBox').style.display='inline-block';
+  buildGrid();
+  renderQuestion();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerText').textContent = m+':'+s;
+  },1000);
+}
+
+function buildGrid(){
+  const grid = document.getElementById('qGrid');
+  grid.innerHTML='';
+  for(let i=0;i<N;i++){
+    const b = document.createElement('button');
+    b.className='qBtn notvisited';
+    b.id='qBtn'+i;
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(); };
+    grid.appendChild(b);
+  }
+}
+
+function updateGridStatus(){
+  for(let i=0;i<N;i++){
+    const b = document.getElementById('qBtn'+i);
+    b.classList.remove('current','notvisited','answered','notanswered','marked','markedanswered');
+    let cls='notvisited';
+    if(marked[i] && responses[i]!==null) cls='markedanswered';
+    else if(marked[i]) cls='marked';
+    else if(responses[i]!==null) cls='answered';
+    else if(visited[i]) cls='notanswered';
+    b.classList.add(cls);
+    if(i===current) b.classList.add('current');
+  }
+}
+
+function renderQuestion(){
+  visited[current]=true;
+  const q = questions[current];
+  document.getElementById('qNumBadge').textContent = `Question ${current+1} / ${N}`;
+  document.getElementById('qText').textContent = q.q;
+
+  const statusBadge = document.getElementById('qStatusBadge');
+  if(responses[current]!==null){
+    statusBadge.textContent='Answered';
+    statusBadge.style.background='rgba(34,184,118,.18)';
+    statusBadge.style.color='var(--green)';
+  } else {
+    statusBadge.textContent='Not Answered';
+    statusBadge.style.background='rgba(229,72,77,.18)';
+    statusBadge.style.color='var(--red)';
+  }
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((opt,idx)=>{
+    const div = document.createElement('div');
+    div.className='option'+(responses[current]===idx?' selected':'');
+    div.onclick = ()=>selectOption(idx);
+    div.innerHTML = `<input type="radio" name="opt" ${responses[current]===idx?'checked':''} onclick="selectOption(${idx})">
+      <label><span class="optLetter">${letters[idx]}.</span> ${opt}</label>`;
+    box.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').textContent = current===N-1 ? 'Save' : 'Save & Next →';
+
+  updateGridStatus();
+}
+
+function selectOption(idx){
+  responses[current]=idx;
+  renderQuestion();
+}
+
+function clearResponse(){
+  responses[current]=null;
+  renderQuestion();
+}
+
+function markForReview(){
+  marked[current]=true;
+  goNext();
+}
+
+function saveAndNext(){
+  goNext();
+}
+
+function goNext(){
+  if(current<N-1){
+    current++;
+    renderQuestion();
+  } else {
+    updateGridStatus();
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function confirmSubmit(){
+  const unanswered = responses.filter(r=>r===null).length;
+  const msg = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('confirmModalText').textContent = msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('timerBox').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skip=0;
+  const letters=['A','B','C','D','E'];
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+
+  questions.forEach((q,i)=>{
+    const userAns = responses[i];
+    let tag, tagClass;
+    if(userAns===null){ skip++; tag='SKIPPED'; tagClass='skip'; }
+    else if(userAns===q.ans){ correct++; tag='CORRECT'; tagClass='ok'; }
+    else { wrong++; tag='INCORRECT'; tagClass='no'; }
+
+    const item = document.createElement('div');
+    item.className='reviewItem';
+    let optsHtml='';
+    q.opts.forEach((opt,idx)=>{
+      let cls='reviewOpt';
+      if(idx===q.ans) cls+=' correct';
+      else if(idx===userAns && idx!==q.ans) cls+=' wrong';
+      optsHtml += `<div class="${cls}">${letters[idx]}. ${opt}${idx===q.ans?' ✓ Correct Answer':''}${(idx===userAns && idx!==q.ans)?' ✕ Your Answer':''}</div>`;
+    });
+
+    item.innerHTML = `<div class="reviewQ">Q${i+1}. ${q.q} <span class="tagRight ${tagClass}">${tag}</span></div>${optsHtml}`;
+    reviewList.appendChild(item);
+  });
+
+  const net = (correct*1 - wrong*0.25).toFixed(2);
+  document.getElementById('scoreBig').textContent = `${correct} / ${N}`;
+  document.getElementById('scoreSub').textContent = `Time taken: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statNet').textContent = net;
+
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Mining, Big Data &amp; Blockchain — 40 Question Set | IBPS/SBI SO IT Officer</title>
+<style>
+  :root{
+    --bg:#0f1729;--panel:#141d35;--panel2:#1a2544;--border:#2a3660;--text:#e8ecf7;--muted:#8b95b8;
+    --accent:#4f6df5;--accent2:#7c8ff9;--green:#22b876;--red:#e5484d;--amber:#e5a12b;--purple:#9b6bf2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .topbar .title{font-size:16px;font-weight:700;letter-spacing:.3px;}
+  .topbar .title span{color:var(--accent2);}
+  .timer{background:var(--panel2);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--amber);}
+
+  #startScreen{max-width:680px;margin:44px auto;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:34px;text-align:center;}
+  #startScreen h1{font-size:22px;margin-bottom:6px;}
+  #startScreen p.sub{color:var(--muted);margin-top:0;margin-bottom:22px;}
+  .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:18px;}
+  .infoCard{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .infoCard .num{font-size:20px;font-weight:800;color:var(--accent2);}
+  .infoCard .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+  .catBreakdown{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .catChip{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:11.5px;color:var(--muted);}
+  .catChip b{color:var(--text);}
+  .instructions{text-align:left;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+  .instructions b{color:var(--text);}
+  .legend-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0;}
+
+  button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:13px 34px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.3px;}
+  .btn-primary:hover{filter:brightness(1.08);}
+
+  #quizScreen{display:none;}
+  .quizWrap{display:flex;max-width:1200px;margin:20px auto;gap:18px;padding:0 16px;align-items:flex-start;}
+  .mainPanel{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px;min-height:420px;}
+  .qMeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .qNumBadge{background:var(--panel2);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;color:var(--accent2);}
+  .catBadge{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .qStatusBadge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .qText{font-size:15.5px;line-height:1.65;margin:16px 0 22px;white-space:pre-wrap;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .option{display:flex;align-items:flex-start;gap:12px;background:var(--panel2);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;transition:.15s;}
+  .option:hover{border-color:var(--accent);}
+  .option.selected{border-color:var(--accent);background:rgba(79,109,245,.14);}
+  .option input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+  .option label{cursor:pointer;flex:1;line-height:1.5;font-size:14.5px;}
+  .optLetter{font-weight:800;color:var(--accent2);margin-right:4px;}
+
+  .actionRow{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+  .leftActions,.rightActions{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{padding:10px 18px;border-radius:8px;font-size:13.5px;font-weight:700;background:var(--panel2);color:var(--text);border:1px solid var(--border);}
+  .btn:hover{border-color:var(--accent2);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn-clear{color:var(--red);}
+  .btn-mark{color:var(--purple);}
+  .btn-save{background:var(--green);color:#fff;border:none;}
+  .btn-save:hover{filter:brightness(1.08);}
+  .btn-submit{background:var(--red);color:#fff;border:none;}
+  .btn-submit:hover{filter:brightness(1.1);}
+
+  .sidePanel{width:280px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;flex-shrink:0;}
+  .legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--muted);margin-bottom:16px;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .qGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .qBtn{aspect-ratio:1;border-radius:7px;font-weight:700;font-size:12.5px;background:var(--panel2);border:1.5px solid var(--border);color:var(--text);}
+  .qBtn.current{outline:2px solid #fff;outline-offset:1px;}
+  .qBtn.notvisited{background:var(--panel2);color:var(--muted);}
+  .qBtn.answered{background:var(--green);color:#fff;border-color:var(--green);}
+  .qBtn.notanswered{background:var(--red);color:#fff;border-color:var(--red);}
+  .qBtn.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .qBtn.markedanswered{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:inset 0 0 0 2px var(--green);}
+  .submitBig{width:100%;margin-top:18px;padding:12px;border-radius:9px;background:var(--red);color:#fff;font-weight:800;font-size:14px;}
+  .submitBig:hover{filter:brightness(1.1);}
+
+  #resultScreen{display:none;max-width:900px;margin:30px auto;padding:0 16px;}
+  .scoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;text-align:center;margin-bottom:20px;}
+  .scoreCard h2{margin-top:0;font-size:20px;}
+  .scoreBig{font-size:44px;font-weight:800;color:var(--accent2);margin:8px 0;}
+  .statsRow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;}
+  .statBox{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .statBox .n{font-size:22px;font-weight:800;}
+  .statBox .l{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .statBox.green .n{color:var(--green);}
+  .statBox.red .n{color:var(--red);}
+  .statBox.amber .n{color:var(--amber);}
+  .statBox.grey .n{color:var(--muted);}
+
+  .catScoreCard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:20px;}
+  .catScoreCard h3{margin-top:0;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+  .catRow{display:flex;align-items:center;gap:12px;margin-bottom:11px;}
+  .catRow .catName{width:180px;font-size:12.5px;font-weight:700;flex-shrink:0;}
+  .catBarBg{flex:1;height:9px;background:var(--panel2);border-radius:6px;overflow:hidden;}
+  .catBarFill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;}
+  .catRow .catNum{width:50px;text-align:right;font-size:12px;color:var(--muted);flex-shrink:0;}
+
+  .reviewList{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+  .reviewItem{border-bottom:1px solid var(--border);padding:16px 0;}
+  .reviewItem:last-child{border-bottom:none;}
+  .reviewQ{font-size:14.5px;margin-bottom:10px;font-weight:600;white-space:pre-wrap;}
+  .reviewOpt{font-size:13.5px;padding:8px 12px;border-radius:7px;margin-bottom:6px;background:var(--panel2);border:1px solid var(--border);}
+  .reviewOpt.correct{border-color:var(--green);background:rgba(34,184,118,.12);color:var(--green);}
+  .reviewOpt.wrong{border-color:var(--red);background:rgba(229,72,77,.12);color:var(--red);}
+  .tagRight{float:right;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;}
+  .tagRight.ok{background:rgba(34,184,118,.18);color:var(--green);}
+  .tagRight.no{background:rgba(229,72,77,.18);color:var(--red);}
+  .tagRight.skip{background:rgba(139,149,184,.18);color:var(--muted);}
+  .catTagSmall{background:rgba(155,107,242,.18);color:var(--purple);border:1px solid var(--purple);padding:1px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:8px;text-transform:uppercase;}
+
+  .restartBtn{display:block;margin:24px auto 10px;padding:12px 30px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:14px;}
+
+  .modalOverlay{display:none;position:fixed;inset:0;background:rgba(5,8,20,.65);z-index:1000;align-items:center;justify-content:center;}
+  .modalOverlay.show{display:flex;}
+  .modalBox{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px 28px;max-width:380px;width:90%;text-align:center;}
+  .modalBox p{font-size:14.5px;line-height:1.6;margin-bottom:22px;}
+  .modalBtns{display:flex;gap:10px;justify-content:center;}
+  .modalBtns .btn{padding:10px 22px;}
+
+  @media(max-width:860px){
+    .quizWrap{flex-direction:column;}
+    .sidePanel{width:100%;order:-1;}
+    .qGrid{grid-template-columns:repeat(8,1fr);}
+    .statsRow{grid-template-columns:repeat(2,1fr);}
+    .infoGrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">Data Mining, Big Data &amp; <span>Blockchain</span></div>
+  <div class="timer" id="timerBox" style="display:none;">⏱ <span id="timerText">00:00</span></div>
+</div>
+
+<div id="startScreen">
+  <h1>Data Mining, Big Data &amp; Blockchain</h1>
+  <p class="sub">40-Question Practice Set · IBPS SO / SBI SO IT Officer</p>
+
+  <div class="infoGrid">
+    <div class="infoCard"><div class="num">40</div><div class="lab">Total Questions</div></div>
+    <div class="infoCard"><div class="num">+1 / −0.25</div><div class="lab">Marking Scheme</div></div>
+  </div>
+
+  <div class="catBreakdown">
+    <span class="catChip"><b>14</b> Data Mining</span>
+    <span class="catChip"><b>14</b> Big Data</span>
+    <span class="catChip"><b>12</b> Blockchain</span>
+  </div>
+
+  <div class="instructions">
+    <b>Instructions:</b><br>
+    • Click <b>Start Quiz</b> to begin the timer.<br>
+    • Use <b>Save &amp; Next</b> to record your response and move on, or navigate freely using the question panel on the right.<br>
+    • Use <b>Mark for Review</b> to flag a question and revisit it later.<br>
+    • Use <b>Clear Response</b> to remove your selected answer for the current question.<br>
+    • Click <b>Submit Test</b> anytime to end the quiz and view your detailed score report with a category-wise breakdown.<br><br>
+    <b>Status legend:</b>
+    <div class="legend-row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+    <div class="legend-row"><span class="dot" style="background:var(--red)"></span> Visited, Not Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+    <div class="legend-row"><span class="dot" style="background:var(--purple)"></span> Marked for Review</div>
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quizScreen">
+  <div class="quizWrap">
+    <div class="mainPanel">
+      <div class="qMeta">
+        <div class="qNumBadge" id="qNumBadge">Question 1 / 40</div>
+        <div class="catBadge" id="catBadge">Category</div>
+        <div class="qStatusBadge" id="qStatusBadge" style="background:var(--panel2);color:var(--muted);">Not Answered</div>
+      </div>
+      <div class="qText" id="qText"></div>
+      <div class="options" id="optionsBox"></div>
+
+      <div class="actionRow">
+        <div class="leftActions">
+          <button class="btn btn-clear" onclick="clearResponse()">✕ Clear Response</button>
+          <button class="btn btn-mark" onclick="markForReview()">★ Mark for Review &amp; Next</button>
+        </div>
+        <div class="rightActions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+          <button class="btn btn-save" id="nextBtn" onclick="saveAndNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidePanel">
+      <div class="legend">
+        <div class="row"><span class="dot" style="background:var(--muted)"></span> Not Visited</div>
+        <div class="row"><span class="dot" style="background:var(--red)"></span> Not Answered</div>
+        <div class="row"><span class="dot" style="background:var(--green)"></span> Answered</div>
+        <div class="row"><span class="dot" style="background:var(--purple)"></span> Marked</div>
+      </div>
+      <div class="qGrid" id="qGrid"></div>
+      <button class="submitBig" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="scoreCard">
+    <h2>Your Result</h2>
+    <div class="scoreBig" id="scoreBig">0 / 40</div>
+    <div id="scoreSub" style="color:var(--muted);font-size:13.5px;"></div>
+    <div class="statsRow">
+      <div class="statBox green"><div class="n" id="statCorrect">0</div><div class="l">Correct</div></div>
+      <div class="statBox red"><div class="n" id="statWrong">0</div><div class="l">Incorrect</div></div>
+      <div class="statBox grey"><div class="n" id="statSkip">0</div><div class="l">Unattempted</div></div>
+      <div class="statBox amber"><div class="n" id="statNet">0</div><div class="l">Net Score</div></div>
+    </div>
+  </div>
+
+  <div class="catScoreCard">
+    <h3>Category-wise Breakdown</h3>
+    <div id="catBars"></div>
+  </div>
+
+  <div class="reviewList" id="reviewList"></div>
+
+  <button class="restartBtn" onclick="location.reload()">↻ Restart Quiz</button>
+</div>
+
+<div class="modalOverlay" id="confirmModal">
+  <div class="modalBox">
+    <p id="confirmModalText">Submit the test now?</p>
+    <div class="modalBtns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+// ===== DATA MINING (14) =====
+{cat:"Data Mining",q:"In the KDD (Knowledge Discovery in Databases) process, which specific step is referred to as 'Data Mining'?",opts:["Data Cleaning","Data Integration","Application of algorithms to extract patterns","Data Selection","Pattern Evaluation"],ans:2,exp:"Data Mining is just one phase within the broader KDD process — the actual pattern-extraction step."},
+{cat:"Data Mining",q:"Which data mining technique assigns data into predefined categories using labeled training data?",opts:["Clustering","Classification","Association Rule Mining","Anomaly Detection","Regression"],ans:1,exp:"Classification is a supervised learning technique that predicts a known/predefined category label."},
+{cat:"Data Mining",q:"Which data mining technique groups similar data points together without using any predefined labels?",opts:["Classification","Clustering","Regression","Sequential Pattern Mining","Association Rule Mining"],ans:1,exp:"Clustering is unsupervised — it discovers natural groupings without prior labels."},
+{cat:"Data Mining",q:"Classification is an example of which type of learning?",opts:["Unsupervised learning","Supervised learning","Reinforcement learning","Semi-supervised learning only","Self-supervised learning"],ans:1,exp:"Classification requires labeled training data to learn the mapping from features to categories — hence supervised."},
+{cat:"Data Mining",q:"In association rule mining, if Support({X,Y}) = 20/100 and Support(X) = 50/100, what is Confidence(X→Y)?",opts:["20%","30%","40%","50%","70%"],ans:2,exp:"Confidence(X→Y) = Support(X∪Y)/Support(X) = (20/100)/(50/100) = 20/50 = 40%."},
+{cat:"Data Mining",q:"If Confidence(X→Y) = 0.5 and Support(Y) = 0.5, what is Lift(X→Y)?",opts:["0.5","1.0","1.5","2.0","0.25"],ans:1,exp:"Lift(X→Y) = Confidence(X→Y)/Support(Y) = 0.5/0.5 = 1.0 (no association)."},
+{cat:"Data Mining",q:"A Lift value greater than 1 for a rule X→Y indicates",opts:["X and Y are independent","X and Y have a positive association","X and Y have a negative association","The rule is invalid","Support is always zero"],ans:1,exp:"Lift > 1 means X and Y occur together more often than would be expected if they were independent — a positive association."},
+{cat:"Data Mining",q:"The Apriori property, used to prune the search space in association rule mining, states that",opts:["All supersets of a frequent itemset must be frequent","All subsets of a frequent itemset must also be frequent","Confidence always equals support","Lift is always greater than 1","Infrequent itemsets can have frequent subsets"],ans:1,exp:"If an itemset is frequent, all its subsets must also be frequent — the contrapositive is used to prune infrequent supersets early."},
+{cat:"Data Mining",q:"Which clustering algorithm partitions data into K clusters based on the nearest centroid (mean)?",opts:["DBSCAN","Hierarchical Clustering","K-Means","Apriori","FP-Growth"],ans:2,exp:"K-Means iteratively assigns points to the nearest of K centroids, then recalculates centroids until convergence."},
+{cat:"Data Mining",q:"OLAP (Online Analytical Processing) is primarily used for",opts:["Day-to-day transaction processing","Complex analytical queries over large historical data","Real-time payment processing","Data encryption","Network monitoring"],ans:1,exp:"OLAP supports complex, aggregated queries over historical data for analysis and decision-making, unlike OLTP's fast transactional queries."},
+{cat:"Data Mining",q:"Which data warehouse schema has a central fact table connected directly to denormalized dimension tables?",opts:["Snowflake Schema","Star Schema","Galaxy Schema","Normalized Schema","Constellation Schema"],ans:1,exp:"A Star Schema keeps dimension tables denormalized and directly linked to the fact table, forming a star-like shape."},
+{cat:"Data Mining",q:"In a Snowflake Schema, dimension tables are",opts:["Combined into the fact table","Further normalized into sub-dimension tables","Removed entirely from the design","Duplicated for redundancy","Always encrypted"],ans:1,exp:"Snowflake schemas normalize dimension tables into additional sub-tables, reducing redundancy at the cost of more complex joins."},
+{cat:"Data Mining",q:"ETL, a core process in data warehousing, stands for",opts:["Extract, Transfer, Load","Extract, Transform, Load","Evaluate, Transform, Load","Extract, Test, Load","Encode, Transform, Load"],ans:1,exp:"ETL — Extract data from sources, Transform it into a suitable format, and Load it into the data warehouse."},
+{cat:"Data Mining",q:"Which data mining technique is used to identify data points that deviate significantly from the norm?",opts:["Classification","Clustering","Anomaly/Outlier Detection","Regression","Sequential Pattern Mining"],ans:2,exp:"Anomaly (outlier) detection flags data points that don't conform to expected patterns — used in fraud detection, for example."},
+
+// ===== BIG DATA (14) =====
+{cat:"Big Data",q:"Which of the 5 V's of Big Data refers to the trustworthiness and quality of the data?",opts:["Volume","Velocity","Variety","Veracity","Value"],ans:3,exp:"Veracity addresses data accuracy, reliability, and quality — since not all big data is trustworthy."},
+{cat:"Big Data",q:"Which of the 5 V's of Big Data refers to the speed at which data is generated and must be processed?",opts:["Volume","Velocity","Variety","Veracity","Value"],ans:1,exp:"Velocity captures the real-time/streaming pace at which modern data is created and needs processing."},
+{cat:"Big Data",q:"In HDFS, which component stores the metadata (filenames, block locations) but not the actual data itself?",opts:["DataNode","NameNode","ResourceManager","Secondary storage","TaskTracker"],ans:1,exp:"The NameNode (master) manages metadata; the actual data blocks are stored on DataNodes (slaves)."},
+{cat:"Big Data",q:"What is the default block size in HDFS in most modern Hadoop versions?",opts:["32 MB","64 MB","128 MB","256 MB","512 MB"],ans:2,exp:"Modern Hadoop distributions default to a 128 MB block size (older versions used 64 MB)."},
+{cat:"Big Data",q:"What is the default replication factor in HDFS?",opts:["1","2","3","4","5"],ans:2,exp:"HDFS replicates each block 3 times by default across different DataNodes for fault tolerance."},
+{cat:"Big Data",q:"Which Hadoop component is responsible for cluster resource management and job scheduling?",opts:["HDFS","YARN","Hive","Pig","Sqoop"],ans:1,exp:"YARN ('Yet Another Resource Negotiator') manages compute resources and schedules jobs across the cluster."},
+{cat:"Big Data",q:"Which Hadoop ecosystem tool provides an SQL-like querying interface over data stored in HDFS?",opts:["Pig","Hive","Flume","Sqoop","ZooKeeper"],ans:1,exp:"Hive uses HiveQL, an SQL-like language, to let users query data stored in HDFS without writing raw MapReduce code."},
+{cat:"Big Data",q:"Which tool is primarily used to transfer bulk data between Hadoop and structured relational databases?",opts:["Flume","Sqoop","Kafka","ZooKeeper","HBase"],ans:1,exp:"Sqoop ('SQL-to-Hadoop') imports/exports structured data between RDBMS and HDFS."},
+{cat:"Big Data",q:"Which tool is primarily used to collect and move streaming/log data into HDFS?",opts:["Sqoop","Flume","Pig","Hive","YARN"],ans:1,exp:"Flume is designed for collecting and aggregating streaming log data efficiently into HDFS."},
+{cat:"Big Data",q:"In the MapReduce programming model, which phase groups intermediate key-value pairs by key before passing them to the reducer?",opts:["Map phase","Shuffle and Sort phase","Input Split phase","Combine phase only","Output phase"],ans:1,exp:"The Shuffle and Sort phase groups all values for the same key together before the Reduce phase processes them."},
+{cat:"Big Data",q:"Which is a primary reason Apache Spark is generally faster than traditional MapReduce for iterative tasks?",opts:["Spark uses more DataNodes","Spark processes data in-memory rather than writing intermediate results to disk","Spark does not use a cluster","Spark avoids using YARN entirely","Spark uses a smaller block size"],ans:1,exp:"Spark keeps intermediate data in memory (RAM) instead of repeatedly writing to disk like MapReduce, making it dramatically faster."},
+{cat:"Big Data",q:"Which type of NoSQL database stores data as JSON-like documents?",opts:["Key-Value Store","Document Store","Column-Family Store","Graph Database","Relational Store"],ans:1,exp:"Document stores (e.g., MongoDB) store semi-structured data as JSON/BSON-like documents."},
+{cat:"Big Data",q:"Which type of NoSQL database is optimized for storing highly relationship-heavy data as nodes and edges?",opts:["Key-Value Store","Document Store","Column-Family Store","Graph Database","None of these"],ans:3,exp:"Graph databases (e.g., Neo4j) model data as nodes and edges, ideal for relationship-centric queries like social networks."},
+{cat:"Big Data",q:"According to the CAP theorem, a distributed system can guarantee at most how many of the three properties (Consistency, Availability, Partition Tolerance) simultaneously?",opts:["1","2","3","0","Depends on the vendor"],ans:1,exp:"CAP theorem states a distributed system can provide at most 2 of the 3 guarantees simultaneously."},
+
+// ===== BLOCKCHAIN (12) =====
+{cat:"Blockchain",q:"What primary characteristic makes blockchain data resistant to tampering once recorded?",opts:["Centralized storage","Each block contains the hash of the previous block, breaking the chain if any data is altered","Data is stored in plaintext","A single administrator approves all changes","Blocks are stored only in RAM"],ans:1,exp:"Since each block references the previous block's hash, altering old data changes its hash and breaks every subsequent link — making tampering evident."},
+{cat:"Blockchain",q:"Which of the following is NOT a core property of blockchain technology?",opts:["Decentralization","Immutability","Transparency","Centralized single-point control","Consensus-based validation"],ans:3,exp:"Blockchain is fundamentally decentralized — centralized single-point control contradicts its core design principle."},
+{cat:"Blockchain",q:"Which type of blockchain is fully open, allowing anyone to join and view all transactions?",opts:["Private Blockchain","Public Blockchain","Consortium Blockchain","Hybrid Blockchain","Closed Blockchain"],ans:1,exp:"Public blockchains (e.g., Bitcoin, Ethereum) are open to anyone, fully decentralized and transparent."},
+{cat:"Blockchain",q:"Which type of blockchain is controlled by a group of organizations rather than a single entity or the general public?",opts:["Public Blockchain","Private Blockchain","Consortium (Federated) Blockchain","Hybrid Blockchain","Open Blockchain"],ans:2,exp:"Consortium blockchains are jointly governed by multiple organizations, common in banking/supply-chain alliances."},
+{cat:"Blockchain",q:"In Proof of Work (PoW), miners validate and add new blocks primarily by",opts:["Staking cryptocurrency as collateral","Solving complex computational puzzles","Voting through elected delegates","Random selection only","Providing biometric verification"],ans:1,exp:"PoW requires miners to expend computational effort solving cryptographic puzzles; the first to solve earns the right to add the block."},
+{cat:"Blockchain",q:"In Proof of Stake (PoS), validators are chosen to create new blocks based primarily on",opts:["Computational power","The amount of cryptocurrency they stake as collateral","Network latency","Geographic location","Seniority in the network"],ans:1,exp:"PoS selects validators based on the amount of cryptocurrency they lock up (stake) as collateral, rather than computational effort."},
+{cat:"Blockchain",q:"Which consensus mechanism is generally considered significantly more energy-efficient than Proof of Work?",opts:["Proof of Work","Proof of Stake","Both are equally energy-intensive","Neither uses any energy","None of these"],ans:1,exp:"PoS avoids the massive computational/energy expenditure required by PoW mining, making it far more energy-efficient."},
+{cat:"Blockchain",q:"A self-executing program stored on a blockchain that automatically enforces agreement terms when conditions are met is called a",opts:["Digital signature","Smart contract","Consensus node","Merkle tree","Genesis block"],ans:1,exp:"Smart contracts (popularized by Ethereum) automatically execute agreed terms without needing an intermediary."},
+{cat:"Blockchain",q:"What is the 'double-spending problem' in the context of digital currency?",opts:["Paying twice the required amount","The risk of the same digital currency being spent more than once","Mining the same block twice","Duplicate wallet addresses","Overcharging transaction fees"],ans:1,exp:"Double-spending refers to fraudulently spending the same digital token multiple times; blockchain's consensus mechanism prevents this."},
+{cat:"Blockchain",q:"A '51% attack' refers to a situation where",opts:["51% of transactions fail","An entity gains control of more than 50% of a network's mining power/stake, potentially enabling manipulation","51% of nodes go offline","The blockchain size exceeds 51 GB","51% of smart contracts fail"],ans:1,exp:"With majority control of hashing power (PoW) or staked coins (PoS), an attacker could potentially manipulate transaction validation and double-spend."},
+{cat:"Blockchain",q:"What is the 'Genesis Block' in a blockchain?",opts:["The most recent block added","The very first block in the blockchain, with no predecessor","A block containing only smart contracts","A backup block used for recovery","A block used only for testing"],ans:1,exp:"The Genesis Block is the foundational first block of a blockchain — it has no 'previous hash' to reference."},
+{cat:"Blockchain",q:"Which of the following is a real-world application of blockchain technology in the Indian banking/financial context?",opts:["UPI transaction routing exclusively","RBI's exploration of CBDC (Digital Rupee) using distributed ledger technology","ATM cash dispensing mechanism","Core banking software installation","Cheque clearing exclusively"],ans:1,exp:"The Reserve Bank of India has been piloting a Central Bank Digital Currency (e-Rupee) built on distributed ledger/blockchain concepts."}
+];
+
+const N = questions.length;
+let current = 0;
+let responses = new Array(N).fill(null);
+let visited = new Array(N).fill(false);
+let marked = new Array(N).fill(false);
+let timerInterval, seconds = 0;
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerBox').style.display='inline-block';
+  buildGrid();
+  renderQuestion();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerText').textContent = m+':'+s;
+  },1000);
+}
+
+function buildGrid(){
+  const grid = document.getElementById('qGrid');
+  grid.innerHTML='';
+  for(let i=0;i<N;i++){
+    const b = document.createElement('button');
+    b.className='qBtn notvisited';
+    b.id='qBtn'+i;
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(); };
+    grid.appendChild(b);
+  }
+}
+
+function updateGridStatus(){
+  for(let i=0;i<N;i++){
+    const b = document.getElementById('qBtn'+i);
+    b.classList.remove('current','notvisited','answered','notanswered','marked','markedanswered');
+    let cls='notvisited';
+    if(marked[i] && responses[i]!==null) cls='markedanswered';
+    else if(marked[i]) cls='marked';
+    else if(responses[i]!==null) cls='answered';
+    else if(visited[i]) cls='notanswered';
+    b.classList.add(cls);
+    if(i===current) b.classList.add('current');
+  }
+}
+
+function renderQuestion(){
+  visited[current]=true;
+  const q = questions[current];
+  document.getElementById('qNumBadge').textContent = `Question ${current+1} / ${N}`;
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('qText').textContent = q.q;
+
+  const statusBadge = document.getElementById('qStatusBadge');
+  if(responses[current]!==null){
+    statusBadge.textContent='Answered';
+    statusBadge.style.background='rgba(34,184,118,.18)';
+    statusBadge.style.color='var(--green)';
+  } else {
+    statusBadge.textContent='Not Answered';
+    statusBadge.style.background='rgba(229,72,77,.18)';
+    statusBadge.style.color='var(--red)';
+  }
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((opt,idx)=>{
+    const div = document.createElement('div');
+    div.className='option'+(responses[current]===idx?' selected':'');
+    div.onclick = ()=>selectOption(idx);
+    div.innerHTML = `<input type="radio" name="opt" ${responses[current]===idx?'checked':''} onclick="selectOption(${idx})">
+      <label><span class="optLetter">${letters[idx]}.</span> ${escapeHtml(opt)}</label>`;
+    box.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').textContent = current===N-1 ? 'Save' : 'Save & Next →';
+
+  updateGridStatus();
+}
+
+function selectOption(idx){
+  responses[current]=idx;
+  renderQuestion();
+}
+
+function clearResponse(){
+  responses[current]=null;
+  renderQuestion();
+}
+
+function markForReview(){
+  marked[current]=true;
+  goNext();
+}
+
+function saveAndNext(){
+  goNext();
+}
+
+function goNext(){
+  if(current<N-1){
+    current++;
+    renderQuestion();
+  } else {
+    updateGridStatus();
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function confirmSubmit(){
+  const unanswered = responses.filter(r=>r===null).length;
+  const msg = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('confirmModalText').textContent = msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('timerBox').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skip=0;
+  const letters=['A','B','C','D','E'];
+  const catStats={};
+
+  questions.forEach((q)=>{
+    if(!catStats[q.cat]) catStats[q.cat]={correct:0,total:0};
+    catStats[q.cat].total++;
+  });
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+
+  questions.forEach((q,i)=>{
+    const userAns = responses[i];
+    let tag, tagClass;
+    if(userAns===null){ skip++; tag='SKIPPED'; tagClass='skip'; }
+    else if(userAns===q.ans){ correct++; tag='CORRECT'; tagClass='ok'; catStats[q.cat].correct++; }
+    else { wrong++; tag='INCORRECT'; tagClass='no'; }
+
+    const item = document.createElement('div');
+    item.className='reviewItem';
+    let optsHtml='';
+    q.opts.forEach((opt,idx)=>{
+      let cls='reviewOpt';
+      if(idx===q.ans) cls+=' correct';
+      else if(idx===userAns && idx!==q.ans) cls+=' wrong';
+      optsHtml += `<div class="${cls}">${letters[idx]}. ${escapeHtml(opt)}${idx===q.ans?' ✓ Correct Answer':''}${(idx===userAns && idx!==q.ans)?' ✕ Your Answer':''}</div>`;
+    });
+
+    item.innerHTML = `<div class="reviewQ"><span class="catTagSmall">${escapeHtml(q.cat)}</span>Q${i+1}. ${escapeHtml(q.q)} <span class="tagRight ${tagClass}">${tag}</span></div>${optsHtml}
+      <div style="font-size:12.5px;color:var(--muted);margin-top:8px;"><b style="color:var(--accent2);">Explanation:</b> ${escapeHtml(q.exp)}</div>`;
+    reviewList.appendChild(item);
+  });
+
+  const net = (correct*1 - wrong*0.25).toFixed(2);
+  document.getElementById('scoreBig').textContent = `${correct} / ${N}`;
+  document.getElementById('scoreSub').textContent = `Time taken: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skip;
+  document.getElementById('statNet').textContent = net;
+
+  const catBars = document.getElementById('catBars');
+  catBars.innerHTML='';
+  Object.keys(catStats).forEach(cat=>{
+    const s = catStats[cat];
+    const pct = Math.round((s.correct/s.total)*100);
+    const row = document.createElement('div');
+    row.className='catRow';
+    row.innerHTML = `<div class="catName">${escapeHtml(cat)}</div>
+      <div class="catBarBg"><div class="catBarFill" style="width:${pct}%;"></div></div>
+      <div class="catNum">${s.correct}/${s.total}</div>`;
+    catBars.appendChild(row);
+  });
+
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

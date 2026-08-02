@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEBI Grade A (IT) - Phase 1 Paper 2 Mock Test</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.css">
+<style>
+  * { font-family: 'Inter', sans-serif; }
+  code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+  
+  .q-btn {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px; font-weight: 600; font-size: 14px;
+    cursor: pointer; transition: all 0.15s;
+    border: 2px solid transparent;
+  }
+  .q-btn:hover { transform: scale(1.05); }
+  
+  .status-not-visited { background: #6b7280; color: white; }
+  .status-not-answered { background: #ef4444; color: white; }
+  .status-answered { background: #10b981; color: white; }
+  .status-marked { background: #8b5cf6; color: white; }
+  .status-answered-marked { background: #10b981; color: white; position: relative; }
+  .status-answered-marked::after {
+    content: ''; position: absolute; top: -2px; right: -2px;
+    width: 12px; height: 12px; background: #8b5cf6;
+    border-radius: 50%; border: 2px solid white;
+  }
+  .status-current { border-color: #f59e0b !important; box-shadow: 0 0 0 2px #fbbf24; }
+  
+  .option-btn {
+    transition: all 0.2s;
+    border: 2px solid #e5e7eb;
+  }
+  .option-btn:hover { border-color: #3b82f6; background: #eff6ff; }
+  .option-btn.selected { border-color: #3b82f6; background: #dbeafe; }
+  .option-btn.selected .opt-circle { background: #3b82f6; color: white; border-color: #3b82f6; }
+  
+  .opt-circle {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #d1d5db; font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  pre {
+    background: #1e293b; color: #e2e8f0;
+    padding: 16px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px;
+    line-height: 1.6;
+  }
+  
+  .timer-warning { animation: pulse 1s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  .fade-in { animation: fadeIn 0.3s ease-in; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .modal-overlay {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+  
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+
+<!-- START SCREEN -->
+<div id="startScreen" class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden">
+    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 p-8 text-white">
+      <div class="flex items-center gap-3 mb-2">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        <div>
+          <h1 class="text-3xl font-bold">SEBI Grade A Officer (IT Stream)</h1>
+          <p class="text-blue-100 text-lg">Phase 1 • Paper 2 • Information Technology</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="p-8">
+      <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+          <div class="text-3xl font-bold text-blue-600">40</div>
+          <div class="text-sm text-slate-600">Questions</div>
+        </div>
+        <div class="bg-green-50 rounded-xl p-4 text-center border border-green-100">
+          <div class="text-3xl font-bold text-green-600">16:00</div>
+          <div class="text-sm text-slate-600">Minutes</div>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+          <div class="text-3xl font-bold text-purple-600">40</div>
+          <div class="text-sm text-slate-600">Max Marks</div>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6">
+        <h3 class="font-bold text-amber-800 mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+          Important Instructions
+        </h3>
+        <ul class="text-sm text-amber-900 space-y-1.5">
+          <li>• <strong>Negative Marking:</strong> 0.25 marks deducted for each wrong answer</li>
+          <li>• <strong>No penalty</strong> for unanswered questions</li>
+          <li>• You can <strong>navigate freely</strong> between questions</li>
+          <li>• Use <strong>"Mark for Review"</strong> to flag questions for later revisit</li>
+          <li>• Timer will auto-submit when time expires</li>
+          <li>• This is a representative mini-mock (40 Qs) of the full 100-question paper</li>
+        </ul>
+      </div>
+
+      <div class="bg-slate-50 rounded-xl p-5 mb-6">
+        <h3 class="font-bold text-slate-800 mb-3">Question Palette Legend</h3>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-gray-500"></div>
+            <span>Not Visited</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-red-500"></div>
+            <span>Not Answered</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-green-500"></div>
+            <span>Answered</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-purple-500"></div>
+            <span>Marked for Review</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-green-500 relative">
+              <div class="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full border border-white"></div>
+            </div>
+            <span>Answered & Marked</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5 mb-8">
+        <h3 class="font-bold text-indigo-800 mb-2">Sections Covered</h3>
+        <div class="grid md:grid-cols-2 gap-2 text-sm text-indigo-900">
+          <div>📦 Section A: Computer Fundamentals, OS & Architecture (5 Qs)</div>
+          <div>🌐 Section B: Computer Networks & Communication (10 Qs)</div>
+          <div>🔒 Section C: Information & Cyber Security (10 Qs)</div>
+          <div>💻 Section D: Programming, DSA & OOPs (10 Qs)</div>
+          <div>🚀 Section E: Emerging Tech & Miscellaneous (5 Qs)</div>
+        </div>
+      </div>
+
+      <button onclick="startTest()" class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:from-indigo-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl">
+        Start Mock Test →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="testScreen" class="hidden min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-slate-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center gap-3">
+      <div class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-bold text-sm">SEBI IT</div>
+      <div class="hidden md:block">
+        <div class="font-semibold text-slate-800 text-sm">Phase 1 • Paper 2 (IT)</div>
+        <div class="text-xs text-slate-500">Mini Mock Test</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <div id="timerDisplay" class="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-lg">
+        <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span id="timerText" class="font-bold text-lg mono text-slate-800">16:00</span>
+      </div>
+      <button onclick="confirmSubmit()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors">
+        Submit Test
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col lg:flex-row gap-4 p-4 max-w-[1600px] mx-auto w-full">
+    <!-- Question Area -->
+    <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+      <!-- Question Header -->
+      <div class="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-3 border-b border-slate-200 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="bg-indigo-600 text-white px-3 py-1 rounded-md font-bold text-sm">Question <span id="currentQNum">1</span>/40</span>
+          <span id="sectionLabel" class="text-sm text-slate-600 hidden md:inline">Section A: OS & Architecture</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="markStatus" class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded hidden">Marked for Review</span>
+        </div>
+      </div>
+
+      <!-- Question Body -->
+      <div class="flex-1 overflow-y-auto p-6">
+        <div id="questionContent" class="fade-in">
+          <!-- Question text and options rendered here -->
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="border-t border-slate-200 px-6 py-4 bg-slate-50 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex gap-2">
+          <button onclick="markForReview()" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-lg font-semibold text-sm transition-colors flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/></svg>
+            Mark for Review
+          </button>
+          <button onclick="clearResponse()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-semibold text-sm transition-colors">
+            Clear Response
+          </button>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="prevQuestion()" id="prevBtn" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg font-semibold text-sm transition-colors">
+            ← Previous
+          </button>
+          <button onclick="saveAndNext()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors">
+            Save & Next →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar - Question Palette -->
+    <div class="lg:w-80 bg-white rounded-xl shadow-sm border border-slate-200 p-4 lg:sticky lg:top-20 lg:self-start">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-800">Question Palette</h3>
+        <div class="text-xs text-slate-500">
+          <span id="answeredCount">0</span>/40 answered
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-slate-200 rounded-full h-2 mb-4">
+        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-blue-500 h-2 rounded-full transition-all" style="width: 0%"></div>
+      </div>
+
+      <!-- Question Grid -->
+      <div id="questionPalette" class="grid grid-cols-5 gap-2 mb-6">
+        <!-- Generated dynamically -->
+      </div>
+
+      <!-- Legend -->
+      <div class="border-t border-slate-200 pt-4 space-y-2 text-xs">
+        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-gray-500"></div><span class="text-slate-600">Not Visited</span></div>
+        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-red-500"></div><span class="text-slate-600">Not Answered</span></div>
+        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-green-500"></div><span class="text-slate-600">Answered</span></div>
+        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-purple-500"></div><span class="text-slate-600">Marked for Review</span></div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 rounded bg-green-500 relative">
+            <div class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-purple-500 rounded-full"></div>
+          </div>
+          <span class="text-slate-600">Answered & Marked</span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="border-t border-slate-200 pt-4 mt-4 grid grid-cols-2 gap-2 text-center">
+        <div class="bg-green-50 rounded-lg p-2">
+          <div id="statAnswered" class="text-lg font-bold text-green-600">0</div>
+          <div class="text-xs text-slate-600">Answered</div>
+        </div>
+        <div class="bg-purple-50 rounded-lg p-2">
+          <div id="statMarked" class="text-lg font-bold text-purple-600">0</div>
+          <div class="text-xs text-slate-600">Marked</div>
+        </div>
+        <div class="bg-red-50 rounded-lg p-2">
+          <div id="statNotAnswered" class="text-lg font-bold text-red-600">0</div>
+          <div class="text-xs text-slate-600">Visited, Not Answered</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-2">
+          <div id="statNotVisited" class="text-lg font-bold text-gray-600">40</div>
+          <div class="text-xs text-slate-600">Not Visited</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div id="submitModal" class="hidden fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-slate-800 mb-2">Submit Test?</h3>
+      <p class="text-slate-600 text-sm">Are you sure you want to submit? This action cannot be undone.</p>
+    </div>
+    <div id="submitSummary" class="bg-slate-50 rounded-xl p-4 mb-6 text-sm space-y-1">
+      <!-- Summary filled dynamically -->
+    </div>
+    <div class="flex gap-3">
+      <button onclick="closeSubmitModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 py-3 rounded-xl font-semibold transition-colors">
+        Go Back
+      </button>
+      <button onclick="submitTest()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition-colors">
+        Yes, Submit
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="resultsScreen" class="hidden min-h-screen bg-slate-100 p-4 md:p-8">
+  <div class="max-w-6xl mx-auto">
+    <!-- Results Header -->
+    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 text-white mb-6 shadow-xl">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">Test Completed!</h1>
+          <p class="text-blue-100">SEBI Grade A (IT) • Phase 1 Paper 2 Mock Test</p>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl font-bold" id="finalScore">0</div>
+          <div class="text-blue-100">out of 40 marks</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score Breakdown -->
+    <div class="grid md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+        <div class="text-sm text-slate-600 mb-1">Correct Answers</div>
+        <div class="text-3xl font-bold text-green-600" id="correctCount">0</div>
+        <div class="text-xs text-green-600">+1 mark each</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+        <div class="text-sm text-slate-600 mb-1">Wrong Answers</div>
+        <div class="text-3xl font-bold text-red-600" id="wrongCount">0</div>
+        <div class="text-xs text-red-600">-0.25 mark each</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+        <div class="text-sm text-slate-600 mb-1">Unattempted</div>
+        <div class="text-3xl font-bold text-slate-600" id="unattemptedCount">0</div>
+        <div class="text-xs text-slate-500">0 marks</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+        <div class="text-sm text-slate-600 mb-1">Accuracy</div>
+        <div class="text-3xl font-bold text-indigo-600" id="accuracyPercent">0%</div>
+        <div class="text-xs text-slate-500">of attempted questions</div>
+      </div>
+    </div>
+
+    <!-- Section-wise Breakdown -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+      <h2 class="text-xl font-bold text-slate-800 mb-4">Section-wise Performance</h2>
+      <div id="sectionBreakdown" class="space-y-3">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+
+    <!-- Answer Key -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-slate-800">Answer Key & Explanations</h2>
+        <button onclick="toggleAllExplanations()" class="text-indigo-600 hover:text-indigo-700 font-semibold text-sm">
+          Expand/Collapse All
+        </button>
+      </div>
+      <div id="answerKey" class="space-y-4">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+      <button onclick="location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-semibold transition-colors">
+        🔄 Retake Test
+      </button>
+      <button onclick="window.print()" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-8 py-3 rounded-xl font-semibold transition-colors">
+        🖨️ Print Results
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ QUESTION DATA ============
+const questions = [
+  {
+    id: 1, section: "A", sectionName: "OS & Architecture",
+    text: "In the context of Operating Systems, which of the following memory management techniques allows non-contiguous allocation of memory to a process, thereby eliminating external fragmentation?",
+    options: ["Paging", "Segmentation", "Contiguous Allocation", "Swapping"],
+    answer: 0,
+    explanation: "Paging divides physical memory into fixed-size frames and logical memory into pages. This allows non-contiguous allocation, solving external fragmentation (though it may cause internal fragmentation). Segmentation can also cause external fragmentation."
+  },
+  {
+    id: 2, section: "A", sectionName: "OS & Architecture",
+    text: "Which of the following CPU scheduling algorithms is most prone to causing 'starvation' for lower-priority processes?",
+    options: ["Round Robin", "Shortest Job First (Non-preemptive)", "First-Come, First-Served (FCFS)", "Multilevel Queue Scheduling"],
+    answer: 1,
+    explanation: "SJF can cause starvation because if short processes keep arriving, a long process will never get the CPU. Preemptive SJF (SRTF) also causes starvation."
+  },
+  {
+    id: 3, section: "A", sectionName: "OS & Architecture",
+    text: "The 'Bootstrap' process in a computer system is primarily responsible for:",
+    options: ["Loading the application software into the RAM", "Initializing hardware and loading the OS kernel into memory", "Allocating memory to background processes", "Checking the network connectivity before startup"],
+    answer: 1,
+    explanation: "Booting (Bootstrap) is the initial process of starting a computer, handled by the BIOS/UEFI, which performs POST (Power-On Self Test) and loads the OS into RAM."
+  },
+  {
+    id: 4, section: "A", sectionName: "OS & Architecture",
+    text: "In a relational database context, which normal form ensures that every non-prime attribute is non-transitively dependent on every candidate key?",
+    options: ["First Normal Form (1NF)", "Second Normal Form (2NF)", "Third Normal Form (3NF)", "Boyce-Codd Normal Form (BCNF)"],
+    answer: 2,
+    explanation: "3NF specifically targets transitive dependencies (non-prime attributes depending on other non-prime attributes). BCNF is stricter, dealing with overlapping candidate keys."
+  },
+  {
+    id: 5, section: "A", sectionName: "OS & Architecture",
+    text: "What is the primary purpose of the 'Write-Ahead Logging' (WAL) protocol in a Database Management System?",
+    options: ["To improve the speed of read operations", "To ensure atomicity and durability of transactions in case of a crash", "To prevent deadlocks between concurrent transactions", "To optimize the indexing of large tables"],
+    answer: 1,
+    explanation: "WAL ensures that changes are written to a log before they are applied to the actual database. If a crash occurs, the log is used to redo committed transactions (durability) and undo uncommitted ones (atomicity)."
+  },
+  {
+    id: 6, section: "B", sectionName: "Networking",
+    text: "Which layer of the OSI model is responsible for data translation, encryption, and compression?",
+    options: ["Application Layer", "Presentation Layer", "Session Layer", "Transport Layer"],
+    answer: 1,
+    explanation: "Layer 6 (Presentation) handles syntax and semantics of data, including encryption, compression, and translation (e.g., ASCII to EBCDIC)."
+  },
+  {
+    id: 7, section: "B", sectionName: "Networking",
+    text: "You are configuring a subnet for a new branch office. The network address is 192.168.10.0/26. How many usable host IP addresses are available in this subnet?",
+    options: ["62", "64", "126", "254"],
+    answer: 0,
+    explanation: "/26 means 26 bits for network and 6 bits for hosts. Total IPs = 2⁶ = 64. Usable hosts = 64 - 2 (subtracting network and broadcast addresses) = 62."
+  },
+  {
+    id: 8, section: "B", sectionName: "Networking",
+    text: "Which of the following routing protocols is an Exterior Gateway Protocol (EGP) used to route traffic across the global Internet?",
+    options: ["OSPF", "RIP", "BGP", "EIGRP"],
+    answer: 2,
+    explanation: "BGP is the standard EGP for routing across autonomous systems on the internet. OSPF, RIP, and EIGRP are Interior Gateway Protocols (IGPs)."
+  },
+  {
+    id: 9, section: "B", sectionName: "Networking",
+    text: "In the TCP/IP model, which protocol operates at the Transport layer and provides reliable, connection-oriented delivery of data?",
+    options: ["UDP", "IP", "TCP", "ICMP"],
+    answer: 2,
+    explanation: "TCP (Transmission Control Protocol) is connection-oriented and reliable. UDP is connectionless and unreliable."
+  },
+  {
+    id: 10, section: "B", sectionName: "Networking",
+    text: "Which network device operates at the Data Link Layer (Layer 2) and uses MAC addresses to forward frames to the correct destination?",
+    options: ["Hub", "Router", "Switch", "Repeater"],
+    answer: 2,
+    explanation: "Switches operate at Layer 2 (Data Link) and use MAC addresses. Routers operate at Layer 3 (Network) using IP addresses. Hubs operate at Layer 1 (Physical)."
+  },
+  {
+    id: 11, section: "B", sectionName: "Networking",
+    text: "What is the primary function of the Address Resolution Protocol (ARP)?",
+    options: ["Resolving domain names to IP addresses", "Resolving IP addresses to MAC addresses", "Resolving MAC addresses to IP addresses", "Assigning dynamic IP addresses to clients"],
+    answer: 1,
+    explanation: "ARP maps a known IP address to an unknown MAC address. RARP does the reverse. DNS resolves domain names to IPs."
+  },
+  {
+    id: 12, section: "B", sectionName: "Networking",
+    text: "Which of the following port numbers is assigned by default to the Secure Shell (SSH) protocol?",
+    options: ["21", "22", "23", "443"],
+    answer: 1,
+    explanation: "SSH uses port 22. FTP uses 20/21, Telnet uses 23, HTTPS uses 443."
+  },
+  {
+    id: 13, section: "B", sectionName: "Networking",
+    text: "In a wireless network, which medium access control method is used to avoid collisions, as collision detection is not feasible in wireless environments?",
+    options: ["CSMA/CD", "CSMA/CA", "Token Passing", "TDMA"],
+    answer: 1,
+    explanation: "CSMA/CD (Collision Detection) is used in wired Ethernet. Because wireless devices cannot detect collisions while transmitting, they use CSMA/CA (Collision Avoidance) using RTS/CTS handshakes."
+  },
+  {
+    id: 14, section: "B", sectionName: "Networking",
+    text: "Which of the following IPv6 addresses is correctly compressed?",
+    options: [
+      "2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8::ff00:42:8329",
+      "2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8:0:0:0:ff00:42:8329",
+      "2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8::ff00:0042:8329",
+      "Both A and C are valid compressions"
+    ],
+    answer: 3,
+    explanation: "IPv6 allows omitting leading zeros in a block, and replacing one contiguous sequence of all-zero blocks with '::'. Both A and C follow these rules correctly."
+  },
+  {
+    id: 15, section: "B", sectionName: "Networking",
+    text: "A Stateful Inspection Firewall differs from a basic Packet Filtering Firewall primarily because it:",
+    options: [
+      "Inspects the payload of the packet for malware signatures",
+      "Keeps track of the state of active connections and makes filtering decisions based on the context of the traffic",
+      "Operates strictly at the Application layer",
+      "Decrypts all incoming SSL/TLS traffic automatically"
+    ],
+    answer: 1,
+    explanation: "Stateful firewalls maintain a state table tracking active sessions, allowing them to make smarter filtering decisions based on the context (e.g., allowing return traffic for an established outbound connection)."
+  },
+  {
+    id: 16, section: "C", sectionName: "Cyber Security",
+    text: "In public-key cryptography, if Alice wants to send a confidential message to Bob, which key should Alice use to encrypt the message?",
+    options: ["Alice's Private Key", "Alice's Public Key", "Bob's Private Key", "Bob's Public Key"],
+    answer: 3,
+    explanation: "For confidentiality, the sender encrypts with the receiver's public key. Only the receiver can decrypt it with their private key. (If Alice wanted to sign the message, she would use her own private key)."
+  },
+  {
+    id: 17, section: "C", sectionName: "Cyber Security",
+    text: "Which of the following cryptographic hash functions is considered cryptographically broken and vulnerable to collision attacks?",
+    options: ["SHA-256", "SHA-3", "MD5", "HMAC"],
+    answer: 2,
+    explanation: "MD5 and SHA-1 are considered cryptographically broken due to practical collision attacks. SHA-256 and SHA-3 are currently secure."
+  },
+  {
+    id: 18, section: "C", sectionName: "Cyber Security",
+    text: "An attacker intercepts communication between two parties and alters the messages without either party knowing. This is a classic example of a:",
+    options: ["Denial of Service (DoS) Attack", "Man-in-the-Middle (MitM) Attack", "Phishing Attack", "SQL Injection Attack"],
+    answer: 1,
+    explanation: "MitM involves secretly intercepting and potentially altering communications between two parties who believe they are communicating directly."
+  },
+  {
+    id: 19, section: "C", sectionName: "Cyber Security",
+    text: "What is the primary security property guaranteed by a Digital Signature?",
+    options: ["Confidentiality and Availability", "Integrity and Non-repudiation", "Confidentiality and Integrity", "Availability and Authenticity"],
+    answer: 1,
+    explanation: "Digital signatures use the sender's private key to hash and encrypt the message digest, ensuring the message wasn't altered (integrity) and proving who sent it (non-repudiation/authenticity)."
+  },
+  {
+    id: 20, section: "C", sectionName: "Cyber Security",
+    text: "In the context of web security, what does XSS stand for, and what is its primary target?",
+    options: [
+      "Cross-Site Scripting; targets the end-user's browser",
+      "Cross-Server Scripting; targets the web server's database",
+      "XML Security Standard; targets network firewalls",
+      "Cross-Site Spoofing; targets DNS servers"
+    ],
+    answer: 0,
+    explanation: "XSS injects malicious scripts into web pages viewed by other users. The payload executes in the victim's browser, not on the server."
+  },
+  {
+    id: 21, section: "C", sectionName: "Cyber Security",
+    text: "Which of the following malware types is specifically designed to encrypt a victim's files and demand payment for the decryption key?",
+    options: ["Spyware", "Rootkit", "Ransomware", "Adware"],
+    answer: 2,
+    explanation: "Ransomware encrypts user data and demands a ransom (usually in crypto) for the decryption key."
+  },
+  {
+    id: 22, section: "C", sectionName: "Cyber Security",
+    text: "The Bell-LaPadula security model is primarily designed to enforce which security property?",
+    options: ["Data Integrity", "Data Availability", "Data Confidentiality", "Non-repudiation"],
+    answer: 2,
+    explanation: "Bell-LaPadula is a military-style model focusing on confidentiality ('No Read Up, No Write Down'). Biba focuses on integrity."
+  },
+  {
+    id: 23, section: "C", sectionName: "Cyber Security",
+    text: "In a Public Key Infrastructure (PKI), what is the role of a Certificate Authority (CA)?",
+    options: [
+      "To generate symmetric encryption keys for users",
+      "To issue and digitally sign digital certificates to verify the identity of entities",
+      "To monitor network traffic for intrusions",
+      "To back up private keys in case of hardware failure"
+    ],
+    answer: 1,
+    explanation: "The CA is the trusted third party that verifies identity and issues digital certificates, binding a public key to an entity."
+  },
+  {
+    id: 24, section: "C", sectionName: "Cyber Security",
+    text: "Which of the following is an example of an 'Intrusion Prevention System' (IPS) rather than an 'Intrusion Detection System' (IDS)?",
+    options: [
+      "A system that logs suspicious traffic and alerts the administrator",
+      "A system that analyzes network flows and sends an email report daily",
+      "A system placed inline that automatically drops packets matching known attack signatures",
+      "A honeypot designed to attract and study attackers"
+    ],
+    answer: 2,
+    explanation: "IDS only detects and alerts (out-of-band). IPS is placed inline and can actively prevent or block the threat by dropping packets or resetting connections."
+  },
+  {
+    id: 25, section: "C", sectionName: "Cyber Security",
+    text: "What does the 'Isolation' property in the ACID properties of a database transaction ensure?",
+    options: [
+      "The transaction is saved permanently once completed",
+      "The transaction is treated as a single, indivisible unit",
+      "Concurrent transactions do not interfere with each other",
+      "The database remains in a consistent state before and after the transaction"
+    ],
+    answer: 2,
+    explanation: "Isolation ensures that the intermediate state of a transaction is invisible to other transactions, preventing dirty reads, non-repeatable reads, and phantom reads."
+  },
+  {
+    id: 26, section: "D", sectionName: "Programming & DSA",
+    text: "What will be the output of the following C++ code snippet?\n<pre>int x = 5;\nint y = x++ + ++x;\ncout &lt;&lt; y;</pre>",
+    options: ["10", "11", "12", "Undefined Behavior / Compiler Dependent"],
+    answer: 3,
+    explanation: "Modifying a variable more than once between sequence points without an intervening sequence point results in undefined behavior in C/C++. Different compilers may yield 11 or 12.",
+    isCode: true
+  },
+  {
+    id: 27, section: "D", sectionName: "Programming & DSA",
+    text: "Which of the following data structures is most efficient for implementing a Breadth-First Search (BFS) algorithm on a graph?",
+    options: ["Stack", "Queue", "Priority Queue", "Hash Table"],
+    answer: 1,
+    explanation: "BFS explores level by level, which perfectly aligns with the First-In-First-Out (FIFO) nature of a Queue. DFS uses a Stack."
+  },
+  {
+    id: 28, section: "D", sectionName: "Programming & DSA",
+    text: "In Object-Oriented Programming, the ability of different objects to respond to the same method call in their own specific way is called:",
+    options: ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],
+    answer: 2,
+    explanation: "Polymorphism ('many forms') allows methods to do different things based on the object it is acting upon (e.g., method overriding)."
+  },
+  {
+    id: 29, section: "D", sectionName: "Programming & DSA",
+    text: "What is the average time complexity of searching for an element in a balanced Binary Search Tree (BST)?",
+    options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    answer: 1,
+    explanation: "In a balanced BST, the height is log₂(n). Searching eliminates half the tree at each step, resulting in O(log n) time. (An unbalanced BST could degrade to O(n))."
+  },
+  {
+    id: 30, section: "D", sectionName: "Programming & DSA",
+    text: "Look at the following Python code. What will it print?\n<pre>def func(a, b=[]):\n    b.append(a)\n    return b\nprint(func(1))\nprint(func(2))</pre>",
+    options: ["[1] and [2]", "[1] and [1, 2]", "[1] and [2, 1]", "Error"],
+    answer: 1,
+    explanation: "This is a classic Python 'gotcha'. Default mutable arguments (like lists) are evaluated only once when the function is defined, not each time it is called. The same list object is reused and appended to.",
+    isCode: true
+  },
+  {
+    id: 31, section: "D", sectionName: "Programming & DSA",
+    text: "Which sorting algorithm has the best worst-case time complexity among the following?",
+    options: ["Quick Sort", "Bubble Sort", "Merge Sort", "Selection Sort"],
+    answer: 2,
+    explanation: "Merge Sort guarantees O(n log n) in the worst case. Quick Sort's worst case is O(n²) (though rare with good pivot selection). Bubble and Selection are O(n²)."
+  },
+  {
+    id: 32, section: "D", sectionName: "Programming & DSA",
+    text: "In Java, which keyword is used to prevent a method from being overridden in a subclass?",
+    options: ["static", "final", "abstract", "const"],
+    answer: 1,
+    explanation: "In Java, the 'final' keyword on a method prevents it from being overridden in subclasses. (static methods cannot be overridden, but they are hidden, not the primary keyword for preventing override of instance methods)."
+  },
+  {
+    id: 33, section: "D", sectionName: "Programming & DSA",
+    text: "What is the primary difference between a struct and a class in C++?",
+    options: [
+      "struct cannot have member functions",
+      "struct members are public by default, while class members are private by default",
+      "struct cannot support inheritance",
+      "struct is allocated on the heap, while class is on the stack"
+    ],
+    answer: 1,
+    explanation: "Functionally, C++ structs and classes are identical except for default access modifiers and default inheritance visibility."
+  },
+  {
+    id: 34, section: "D", sectionName: "Programming & DSA",
+    text: "Which traversal of a Binary Search Tree (BST) yields the nodes in sorted (ascending) order?",
+    options: ["Preorder", "Postorder", "Inorder", "Level-order"],
+    answer: 2,
+    explanation: "Inorder traversal (Left, Root, Right) visits nodes in ascending sorted order in a BST."
+  },
+  {
+    id: 35, section: "D", sectionName: "Programming & DSA",
+    text: "In the context of databases, what is a 'Deadlock'?",
+    options: [
+      "When a transaction fails due to a hardware error",
+      "When two or more transactions are waiting indefinitely for each other to release locks",
+      "When a transaction violates the integrity constraints of the database",
+      "When the database runs out of storage space"
+    ],
+    answer: 1,
+    explanation: "Deadlock occurs when Transaction A holds Lock 1 and wants Lock 2, while Transaction B holds Lock 2 and wants Lock 1."
+  },
+  {
+    id: 36, section: "E", sectionName: "Emerging Tech",
+    text: "In Cloud Computing, which service model provides the user with access to fundamental computing resources like processing, storage, and networks, allowing them to deploy arbitrary software, including operating systems?",
+    options: ["SaaS (Software as a Service)", "PaaS (Platform as a Service)", "IaaS (Infrastructure as a Service)", "DaaS (Desktop as a Service)"],
+    answer: 2,
+    explanation: "IaaS provides raw compute, storage, and network (e.g., AWS EC2). PaaS provides the OS and runtime (e.g., Heroku). SaaS provides the finished application (e.g., Gmail)."
+  },
+  {
+    id: 37, section: "E", sectionName: "Emerging Tech",
+    text: "Which of the following is a core characteristic of Blockchain technology?",
+    options: [
+      "Centralized data storage",
+      "Immutability and decentralization",
+      "High latency in transaction processing",
+      "Reliance on a single trusted authority"
+    ],
+    answer: 1,
+    explanation: "Blockchain's core value proposition is a decentralized, immutable ledger where records cannot be altered retroactively without consensus."
+  },
+  {
+    id: 38, section: "E", sectionName: "Emerging Tech",
+    text: "In Machine Learning, what is the primary purpose of a 'Validation Dataset'?",
+    options: [
+      "To train the model's parameters",
+      "To tune the hyperparameters and evaluate the model during training",
+      "To provide a final, unbiased evaluation of the model's performance",
+      "To store the final deployed model"
+    ],
+    answer: 1,
+    explanation: "Training data trains the model. Validation data tunes hyperparameters and prevents overfitting during training. Test data provides the final unbiased evaluation after training is complete."
+  },
+  {
+    id: 39, section: "E", sectionName: "Emerging Tech",
+    text: "Which of the following SQL commands is used to remove a table and all its data permanently from the database?",
+    options: ["DELETE", "DROP", "TRUNCATE", "REMOVE"],
+    answer: 1,
+    explanation: "DROP removes the table structure and data entirely. DELETE removes rows (can be rolled back). TRUNCATE removes all rows but keeps the table structure (faster, resets identity)."
+  },
+  {
+    id: 40, section: "E", sectionName: "Emerging Tech",
+    text: "What is the primary function of a 'Load Balancer' in a web architecture?",
+    options: [
+      "To compress data before sending it to the client",
+      "To distribute incoming network traffic across multiple servers",
+      "To cache static content for faster delivery",
+      "To encrypt data in transit"
+    ],
+    answer: 1,
+    explanation: "Load balancers act as a reverse proxy to distribute network or application traffic across several servers, ensuring high availability and reliability."
+  }
+];
+
+// ============ STATE ============
+let currentQuestion = 0;
+let userAnswers = new Array(40).fill(null); // null = not answered, 0-3 = option index
+let questionStatus = new Array(40).fill('not-visited'); // not-visited, visited, answered, marked, answered-marked
+let visited = new Set();
+let timerInterval;
+let timeLeft = 16 * 60; // 16 minutes in seconds
+let testSubmitted = false;
+
+// ============ FUNCTIONS ============
+
+function startTest() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  initPalette();
+  renderQuestion();
+  startTimer();
+}
+
+function initPalette() {
+  const palette = document.getElementById('questionPalette');
+  palette.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const btn = document.createElement('div');
+    btn.className = 'q-btn status-not-visited';
+    btn.textContent = i + 1;
+    btn.onclick = () => goToQuestion(i);
+    btn.id = `palette-${i}`;
+    palette.appendChild(btn);
+  }
+}
+
+function renderQuestion() {
+  const q = questions[currentQuestion];
+  document.getElementById('currentQNum').textContent = currentQuestion + 1;
+  document.getElementById('sectionLabel').textContent = `Section ${q.section}: ${q.sectionName}`;
+  
+  // Mark as visited
+  if (!visited.has(currentQuestion)) {
+    visited.add(currentQuestion);
+    if (questionStatus[currentQuestion] === 'not-visited') {
+      questionStatus[currentQuestion] = 'visited';
+    }
+  }
+
+  const content = document.getElementById('questionContent');
+  const letters = ['A', 'B', 'C', 'D'];
+  
+  let optionsHtml = q.options.map((opt, idx) => {
+    const selected = userAnswers[currentQuestion] === idx ? 'selected' : '';
+    return `
+      <div class="option-btn ${selected} rounded-xl p-4 cursor-pointer flex items-start gap-3" onclick="selectOption(${idx})">
+        <div class="opt-circle flex-shrink-0">${letters[idx]}</div>
+        <div class="text-slate-800 pt-1">${opt}</div>
+      </div>
+    `;
+  }).join('');
+
+  content.innerHTML = `
+    <div class="fade-in">
+      <p class="text-lg text-slate-800 mb-6 leading-relaxed">${q.text}</p>
+      <div class="space-y-3">
+        ${optionsHtml}
+      </div>
+    </div>
+  `;
+
+  // Update mark status indicator
+  const markStatus = document.getElementById('markStatus');
+  if (questionStatus[currentQuestion] === 'marked' || questionStatus[currentQuestion] === 'answered-marked') {
+    markStatus.classList.remove('hidden');
+  } else {
+    markStatus.classList.add('hidden');
+  }
+
+  updatePalette();
+  updateStats();
+}
+
+function selectOption(idx) {
+  userAnswers[currentQuestion] = idx;
+  if (questionStatus[currentQuestion] === 'visited') {
+    questionStatus[currentQuestion] = 'answered';
+  } else if (questionStatus[currentQuestion] === 'marked') {
+    questionStatus[currentQuestion] = 'answered-marked';
+  }
+  renderQuestion();
+}
+
+function saveAndNext() {
+  if (currentQuestion < 39) {
+    currentQuestion++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function goToQuestion(idx) {
+  currentQuestion = idx;
+  renderQuestion();
+}
+
+function markForReview() {
+  if (questionStatus[currentQuestion] === 'answered') {
+    questionStatus[currentQuestion] = 'answered-marked';
+  } else if (questionStatus[currentQuestion] === 'answered-marked') {
+    questionStatus[currentQuestion] = 'answered';
+  } else {
+    questionStatus[currentQuestion] = 'marked';
+  }
+  renderQuestion();
+}
+
+function clearResponse() {
+  userAnswers[currentQuestion] = null;
+  if (questionStatus[currentQuestion] === 'answered') {
+    questionStatus[currentQuestion] = 'visited';
+  } else if (questionStatus[currentQuestion] === 'answered-marked') {
+    questionStatus[currentQuestion] = 'marked';
+  }
+  renderQuestion();
+}
+
+function updatePalette() {
+  for (let i = 0; i < 40; i++) {
+    const btn = document.getElementById(`palette-${i}`);
+    btn.className = 'q-btn';
+    
+    switch (questionStatus[i]) {
+      case 'not-visited': btn.classList.add('status-not-visited'); break;
+      case 'visited': btn.classList.add('status-not-answered'); break;
+      case 'answered': btn.classList.add('status-answered'); break;
+      case 'marked': btn.classList.add('status-marked'); break;
+      case 'answered-marked': btn.classList.add('status-answered-marked'); break;
+    }
+    
+    if (i === currentQuestion) {
+      btn.classList.add('status-current');
+    }
+  }
+}
+
+function updateStats() {
+  let answered = 0, marked = 0, notAnswered = 0, notVisited = 0;
+  questionStatus.forEach(s => {
+    if (s === 'answered' || s === 'answered-marked') answered++;
+    if (s === 'marked' || s === 'answered-marked') marked++;
+    if (s === 'visited') notAnswered++;
+    if (s === 'not-visited') notVisited++;
+  });
+  
+  document.getElementById('answeredCount').textContent = answered;
+  document.getElementById('statAnswered').textContent = answered;
+  document.getElementById('statMarked').textContent = marked;
+  document.getElementById('statNotAnswered').textContent = notAnswered;
+  document.getElementById('statNotVisited').textContent = notVisited;
+  document.getElementById('progressBar').style.width = `${(answered / 40) * 100}%`;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    const timerText = document.getElementById('timerText');
+    timerText.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    
+    if (timeLeft <= 60) {
+      document.getElementById('timerDisplay').classList.add('bg-red-100');
+      timerText.classList.add('text-red-600', 'timer-warning');
+      timerText.classList.remove('text-slate-800');
+    } else if (timeLeft <= 180) {
+      timerText.classList.add('text-amber-600');
+      timerText.classList.remove('text-slate-800');
+    }
+    
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      submitTest();
+    }
+  }, 1000);
+}
+
+function confirmSubmit() {
+  let answered = 0, unanswered = 0, marked = 0;
+  questionStatus.forEach((s, i) => {
+    if (s === 'answered' || s === 'answered-marked') answered++;
+    else if (s === 'visited') unanswered++;
+    if (s === 'marked' || s === 'answered-marked') marked++;
+  });
+
+  document.getElementById('submitSummary').innerHTML = `
+    <div class="flex justify-between"><span class="text-slate-600">Total Questions:</span><span class="font-semibold">40</span></div>
+    <div class="flex justify-between"><span class="text-green-600">Answered:</span><span class="font-semibold text-green-600">${answered}</span></div>
+    <div class="flex justify-between"><span class="text-red-600">Unanswered (Visited):</span><span class="font-semibold text-red-600">${unanswered}</span></div>
+    <div class="flex justify-between"><span class="text-slate-600">Not Visited:</span><span class="font-semibold">${40 - answered - unanswered}</span></div>
+    <div class="flex justify-between"><span class="text-purple-600">Marked for Review:</span><span class="font-semibold text-purple-600">${marked}</span></div>
+  `;
+  document.getElementById('submitModal').classList.remove('hidden');
+}
+
+function closeSubmitModal() {
+  document.getElementById('submitModal').classList.add('hidden');
+}
+
+function submitTest() {
+  if (testSubmitted) return;
+  testSubmitted = true;
+  clearInterval(timerInterval);
+  closeSubmitModal();
+  
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+  
+  calculateResults();
+}
+
+function calculateResults() {
+  let correct = 0, wrong = 0, unattempted = 0;
+  const sectionStats = {};
+
+  questions.forEach((q, i) => {
+    if (!sectionStats[q.section]) {
+      sectionStats[q.section] = { name: q.sectionName, correct: 0, wrong: 0, total: 0 };
+    }
+    sectionStats[q.section].total++;
+
+    if (userAnswers[i] === null) {
+      unattempted++;
+    } else if (userAnswers[i] === q.answer) {
+      correct++;
+      sectionStats[q.section].correct++;
+    } else {
+      wrong++;
+      sectionStats[q.section].wrong++;
+    }
+  });
+
+  const score = correct - (wrong * 0.25);
+  const accuracy = (correct + wrong) > 0 ? Math.round((correct / (correct + wrong)) * 100) : 0;
+
+  document.getElementById('finalScore').textContent = score.toFixed(2);
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('wrongCount').textContent = wrong;
+  document.getElementById('unattemptedCount').textContent = unattempted;
+  document.getElementById('accuracyPercent').textContent = accuracy + '%';
+
+  // Section breakdown
+  const breakdownHtml = Object.entries(sectionStats).map(([key, stats]) => {
+    const pct = Math.round((stats.correct / stats.total) * 100);
+    const color = pct >= 70 ? 'green' : pct >= 40 ? 'amber' : 'red';
+    return `
+      <div class="flex items-center gap-4">
+        <div class="w-48 text-sm font-medium text-slate-700">Section ${key}: ${stats.name}</div>
+        <div class="flex-1 bg-slate-200 rounded-full h-3">
+          <div class="bg-${color}-500 h-3 rounded-full transition-all" style="width: ${pct}%"></div>
+        </div>
+        <div class="w-32 text-sm text-right">
+          <span class="font-semibold text-${color}-600">${stats.correct}/${stats.total}</span>
+          <span class="text-slate-500 ml-1">(${pct}%)</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('sectionBreakdown').innerHTML = breakdownHtml;
+
+  // Answer Key
+  const letters = ['A', 'B', 'C', 'D'];
+  const answerKeyHtml = questions.map((q, i) => {
+    const userAns = userAnswers[i];
+    const isCorrect = userAns === q.answer;
+    const isUnattempted = userAns === null;
+    
+    let statusBadge, statusColor;
+    if (isUnattempted) {
+      statusBadge = 'Unattempted';
+      statusColor = 'bg-slate-100 text-slate-600';
+    } else if (isCorrect) {
+      statusBadge = '✓ Correct';
+      statusColor = 'bg-green-100 text-green-700';
+    } else {
+      statusBadge = '✗ Wrong';
+      statusColor = 'bg-red-100 text-red-700';
+    }
+
+    return `
+      <div class="border border-slate-200 rounded-xl overflow-hidden">
+        <div class="bg-slate-50 px-4 py-3 flex items-center justify-between cursor-pointer" onclick="toggleExplanation(${i})">
+          <div class="flex items-center gap-3">
+            <span class="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm">${i + 1}</span>
+            <span class="text-sm text-slate-600">Section ${q.section}</span>
+            <span class="text-xs px-2 py-0.5 rounded-full ${statusColor} font-semibold">${statusBadge}</span>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transition-transform" id="arrow-${i}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+        <div id="explanation-${i}" class="hidden px-4 py-4 border-t border-slate-200">
+          <p class="text-sm text-slate-700 mb-3">${q.text}</p>
+          <div class="grid grid-cols-2 gap-2 mb-3 text-sm">
+            ${q.options.map((opt, idx) => {
+              let cls = 'bg-slate-50 text-slate-600';
+              if (idx === q.answer) cls = 'bg-green-50 text-green-700 border border-green-200 font-semibold';
+              if (idx === userAns && idx !== q.answer) cls = 'bg-red-50 text-red-700 border border-red-200 line-through';
+              return `<div class="px-3 py-2 rounded-lg ${cls}"><strong>${letters[idx]}.</strong> ${opt}</div>`;
+            }).join('')}
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm">
+            <strong class="text-blue-800">💡 Explanation:</strong>
+            <p class="text-blue-900 mt-1">${q.explanation}</p>
+          </div>
+          ${!isUnattempted && !isCorrect ? `<div class="mt-2 text-xs text-slate-500">Your answer: <span class="text-red-600 font-semibold">${letters[userAns]}</span> | Correct answer: <span class="text-green-600 font-semibold">${letters[q.answer]}</span></div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('answerKey').innerHTML = answerKeyHtml;
+}
+
+function toggleExplanation(idx) {
+  const el = document.getElementById(`explanation-${idx}`);
+  const arrow = document.getElementById(`arrow-${idx}`);
+  el.classList.toggle('hidden');
+  arrow.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
+}
+
+let allExpanded = false;
+function toggleAllExplanations() {
+  allExpanded = !allExpanded;
+  for (let i = 0; i < 40; i++) {
+    const el = document.getElementById(`explanation-${i}`);
+    const arrow = document.getElementById(`arrow-${i}`);
+    if (allExpanded) {
+      el.classList.remove('hidden');
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      el.classList.add('hidden');
+      arrow.style.transform = '';
+    }
+  }
+}
+</script>
+
+</body>
+</html>

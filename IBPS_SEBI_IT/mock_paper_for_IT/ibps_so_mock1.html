@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Prelims — Mock Test 3+4 Combined (50Q)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+  :root{
+    --base:#1e1e2e; --mantle:#181825; --crust:#11111b;
+    --text:#cdd6f4; --sub:#a6adc8; --sub0:#6c7086;
+    --surface0:#313244; --surface1:#45475a; --surface2:#585b70;
+    --blue:#89b4fa; --green:#a6e3a1; --red:#f38ba8; --yellow:#f9e2af;
+    --mauve:#cba6f7; --peach:#fab387; --teal:#94e2d5; --pink:#f5c2e7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'JetBrains Mono',monospace; background:var(--crust); color:var(--text); min-height:100vh;}
+  #app{max-width:900px; margin:0 auto; padding:16px;}
+  .card{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  h1{font-size:1.15rem; margin:0 0 4px; color:var(--mauve);}
+  .sub{color:var(--sub); font-size:.83rem; margin-bottom:16px;}
+  .meta{display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--sub); margin-bottom:16px;}
+  .meta span{background:var(--surface0); padding:4px 10px; border-radius:20px;}
+  .badge-hard{background:#3a1e26 !important; color:var(--red) !important; font-weight:700;}
+  .topics{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin:14px 0;}
+  .topics div{background:var(--mantle); border:1px solid var(--surface0); border-radius:8px; padding:8px 10px; font-size:.72rem; color:var(--sub);}
+  button{font-family:inherit; cursor:pointer; border:none; border-radius:10px; font-weight:700; padding:12px 20px; font-size:.9rem; transition:.15s;}
+  .start-btn{background:var(--mauve); color:var(--crust); width:100%; margin-top:8px;}
+  .start-btn:hover{opacity:.9;}
+  #quizScreen{display:none;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  #timer{background:var(--surface0); padding:8px 14px; border-radius:10px; font-weight:700; color:var(--yellow);}
+  #timer.low{color:var(--red); animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .progress-track{background:var(--surface0); height:6px; border-radius:4px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{background:var(--mauve); height:100%; width:0%; transition:.3s;}
+  .qtopic{display:inline-block; background:var(--surface0); color:var(--teal); font-size:.7rem; padding:3px 10px; border-radius:12px; margin-bottom:10px;}
+  .qtext{font-size:.95rem; line-height:1.55; margin-bottom:16px; white-space:pre-wrap;}
+  .option{display:flex; align-items:center; gap:10px; background:var(--mantle); border:1.5px solid var(--surface0); border-radius:10px; padding:12px 14px; margin-bottom:10px; cursor:pointer; font-size:.85rem; transition:.15s;}
+  .option:hover{border-color:var(--mauve);}
+  .option.selected{border-color:var(--mauve); background:#3b2f4d;}
+  .optlabel{width:24px; height:24px; border-radius:50%; background:var(--surface1); display:flex; align-items:center; justify-content:center; font-size:.75rem; flex-shrink:0;}
+  .option.selected .optlabel{background:var(--mauve); color:var(--crust);}
+  .navrow{display:flex; justify-content:space-between; margin-top:18px; gap:10px;}
+  .navbtn{background:var(--surface1); color:var(--text); flex:1;}
+  .navbtn:hover{background:var(--surface2);}
+  .navbtn:disabled{opacity:.35; cursor:not-allowed;}
+  .submitbtn{background:var(--red); color:var(--crust); flex:1;}
+  #navigator{display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin:16px 0;}
+  .navdot{aspect-ratio:1; border-radius:6px; background:var(--surface0); color:var(--sub); display:flex; align-items:center; justify-content:center; font-size:.66rem; cursor:pointer; border:1px solid var(--surface1);}
+  .navdot.answered{background:var(--green); color:var(--crust); border-color:var(--green);}
+  .navdot.current{outline:2px solid var(--blue);}
+  #resultScreen{display:none;}
+  .scorebox{text-align:center; padding:20px 0;}
+  .scorebox .big{font-size:2.6rem; font-weight:800; color:var(--mauve);}
+  .statsrow{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .statchip{background:var(--mantle); border:1px solid var(--surface0); border-radius:10px; padding:10px 16px; font-size:.85rem; text-align:center;}
+  .statchip .n{font-size:1.3rem; font-weight:700; display:block;}
+  .review{margin-top:24px;}
+  .revcard{background:var(--mantle); border:1px solid var(--surface0); border-radius:12px; padding:16px; margin-bottom:14px; border-left:4px solid var(--surface2);}
+  .revcard.correct{border-left-color:var(--green);}
+  .revcard.wrong{border-left-color:var(--red);}
+  .revcard.skipped{border-left-color:var(--yellow);}
+  .revq{font-size:.86rem; margin-bottom:8px; font-weight:600; white-space:pre-wrap;}
+  .revopt{font-size:.78rem; padding:6px 10px; border-radius:6px; margin-bottom:4px;}
+  .revopt.rightans{background:#1e3a2a; color:var(--green);}
+  .revopt.userwrong{background:#3a1e26; color:var(--red);}
+  .explain{margin-top:10px; font-size:.78rem; color:var(--sub); background:var(--base); padding:10px 12px; border-radius:8px; line-height:1.5;}
+  .explain b{color:var(--teal);}
+  .tag{font-size:.62rem; padding:2px 8px; border-radius:10px; background:var(--surface0); color:var(--sub); margin-left:6px;}
+  #modalOverlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; align-items:center; justify-content:center; padding:20px;}
+  #modalOverlay.show{display:flex;}
+  .modalbox{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:22px; max-width:380px; width:100%; text-align:center;}
+  .modalbox p{font-size:.92rem; margin-bottom:18px; color:var(--text); line-height:1.5;}
+  .modalbtns{display:flex; gap:10px;}
+  .modalbtns button{flex:1;}
+  .btn-cancel{background:var(--surface1); color:var(--text);}
+  .btn-confirm{background:var(--red); color:var(--crust);}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="startScreen" class="card">
+    <h1>IBPS SO IT Prelims — Mock Test 3 + 4 Combined (50Q)</h1>
+    <div class="sub">Your uploaded mock sets, converted into an interactive test with full explanations added for every question</div>
+    <div class="meta">
+      <span>50 Questions</span>
+      <span>+1 / −0.25 marking</span>
+      <span>40 min</span>
+      <span class="badge-hard">Prelims-Level</span>
+    </div>
+    <div class="topics" id="topicList"></div>
+    <button class="start-btn" onclick="startQuiz()">Start Test</button>
+  </div>
+
+  <div id="quizScreen" class="card">
+    <div class="topbar">
+      <div id="qcounter" style="color:var(--sub); font-size:.85rem;"></div>
+      <div id="timer">40:00</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="qtopic" class="qtopic"></div>
+    <div id="qtext" class="qtext"></div>
+    <div id="options"></div>
+    <div class="navrow">
+      <button class="navbtn" id="prevBtn" onclick="prevQ()">← Previous</button>
+      <button class="navbtn" id="nextBtn" onclick="nextQ()">Next →</button>
+    </div>
+    <div id="navigator"></div>
+    <button class="submitbtn" style="width:100%;" onclick="confirmSubmit()">Submit Test</button>
+  </div>
+
+  <div id="resultScreen" class="card">
+    <h1>Result</h1>
+    <div class="scorebox">
+      <div class="big" id="scoreBig">0</div>
+      <div class="sub">out of 50 marks</div>
+    </div>
+    <div class="statsrow">
+      <div class="statchip"><span class="n" id="statCorrect" style="color:var(--green);">0</span>Correct</div>
+      <div class="statchip"><span class="n" id="statWrong" style="color:var(--red);">0</span>Wrong</div>
+      <div class="statchip"><span class="n" id="statSkip" style="color:var(--yellow);">0</span>Skipped</div>
+      <div class="statchip"><span class="n" id="statAcc">0%</span>Accuracy</div>
+    </div>
+    <div class="review" id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="modalOverlay">
+  <div class="modalbox">
+    <p id="modalMsg"></p>
+    <div class="modalbtns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="modalConfirmed()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+
+{t:"Programming Languages", q:"A developer wants to open a file such that:\n• Existing content remains unchanged.\n• New data is written only at the end of the file.\n• The file is created automatically if it does not already exist.\nWhich file mode should be used?", o:["\"r\"","\"w\"","\"a\"","\"r+\"","\"w+\""], c:2, e:"Append mode (\"a\") opens the file with the write pointer positioned at the end, preserving all existing content, and creates the file automatically if it doesn't exist. \"w\" would truncate (erase) existing content first, and \"r\"/\"r+\" require the file to already exist and don't restrict writes to the end only."},
+{t:"Computer Networks", q:"A network administrator observes that a switch receives an Ethernet frame destined for an unknown MAC address. The switch has not yet learned the destination MAC address. What action will the switch perform?", o:["Drop the frame immediately.","Broadcast the frame to all ports except the incoming port.","Send the frame only to the default gateway.","Convert the frame into an IP packet.","Forward the frame to the router."], c:1, e:"When a switch has no matching entry in its MAC address table, it 'floods' the frame out of every port except the one it arrived on, ensuring delivery. Once the destination replies, the switch learns its port and stops flooding for that address in the future."},
+{t:"DSA", q:"Consider the following singly linked list:\n10 → 20 → 30 → 40 → NULL\nA pointer initially references the head node. The following loop is executed:\nwhile(ptr != NULL) { ptr = ptr->next; }\nHow many times is the loop body executed?", o:["2","3","4","5","Infinite times"], c:2, e:"ptr starts at node 10 (not NULL, so the loop runs). Each iteration moves ptr forward: 10→20 (1st), 20→30 (2nd), 30→40 (3rd), 40→NULL (4th) — after this 4th execution, ptr becomes NULL and the loop condition fails, so the body runs exactly 4 times."},
+{t:"OOPs", q:"Consider the following inheritance hierarchy:\nAnimal → Dog\nThe base class defines a virtual function sound(), and the derived class overrides it. If an object of Dog is accessed using a base class pointer and sound() is invoked, which concept ensures that the derived class implementation is executed?", o:["Function Overloading","Early Binding","Dynamic Binding","Encapsulation","Static Polymorphism"], c:2, e:"Declaring sound() as virtual enables dynamic (runtime) binding: the actual object type (Dog), not the pointer's declared type (Animal*), determines which override actually executes, resolved via the vtable at runtime rather than at compile time."},
+{t:"Computer Networks", q:"A company's network frequently changes due to new branch offices being added. The network administrator wants routers to automatically learn new routes and update routing tables without manual intervention. Which routing approach is most appropriate?", o:["Static Routing","Dynamic Routing","Source Routing","Default Routing only","Policy-Based Routing only"], c:1, e:"Dynamic routing protocols (like OSPF, RIP, EIGRP) allow routers to automatically discover and adapt to topology changes by exchanging routing information with each other, unlike static routing which requires manual reconfiguration every time the network changes."},
+{t:"Computer Networks", q:"Which metric is used by the Routing Information Protocol (RIP) to determine the best path?", o:["Delay","Bandwidth","Hop Count","Reliability","Load"], c:2, e:"RIP is a simple distance-vector protocol that uses hop count as its sole metric, capping routes at 15 hops (16 is considered unreachable) — a deliberate simplicity that limits RIP to smaller networks."},
+{t:"Computer Networks", q:"Which IPv4 header field primarily helps prevent packets from circulating indefinitely because of routing loops?", o:["Version","Protocol","TTL","Identification","Flags"], c:2, e:"The Time-To-Live (TTL) field is decremented by each router the packet passes through; when it reaches zero, the packet is discarded — preventing packets from looping forever due to routing misconfigurations."},
+{t:"Compiler Design", q:"During compilation, the following statement is processed:\nint total = amount + 50;\nThe compiler first breaks the sequence of characters into meaningful units such as keywords, identifiers, operators, and constants. Which compiler phase performs this task?", o:["Syntax Analysis","Semantic Analysis","Lexical Analysis","Code Generation","Code Optimization"], c:2, e:"Lexical Analysis (scanning) is the very first phase, converting the raw character stream into a sequence of tokens (keywords, identifiers, operators, literals) — syntax analysis then checks how these tokens fit grammatical rules."},
+{t:"Cloud Computing", q:"A government organization builds cloud infrastructure exclusively for its own departments because of strict security and regulatory requirements. Which deployment model is most appropriate?", o:["Public Cloud","Community Cloud","Hybrid Cloud","Private Cloud","Distributed Cloud"], c:3, e:"A Private Cloud is provisioned for exclusive use by a single organization, giving it full control over security, compliance, and infrastructure — ideal when strict regulatory requirements rule out shared public infrastructure."},
+{t:"Compiler Design", q:"Consider the statement:\nint x; float y; x = y + z;\nAssuming z has never been declared, which compiler phase reports the first meaningful error?", o:["Lexical Analysis","Syntax Analysis","Semantic Analysis","Intermediate Code Generation","Optimization"], c:2, e:"The statement is lexically valid (all valid tokens) and syntactically valid (grammatically well-formed), so it passes those phases cleanly. It's only during Semantic Analysis — which checks meaning, including whether identifiers have been declared and whether types are compatible — that the undeclared variable z is caught."},
+{t:"Computer Security", q:"An attacker positions themselves between a customer's laptop and a public Wi-Fi router, intercepting and potentially modifying the communication without either party noticing. Which attack is being performed?", o:["Brute Force","Man-in-the-Middle","Ransomware","Trojan Horse","Worm"], c:1, e:"A Man-in-the-Middle (MITM) attack involves an attacker secretly positioning themselves between two communicating parties, able to eavesdrop on or alter traffic — a classic risk on unsecured public Wi-Fi networks."},
+{t:"Computer Security", q:"A customer of a nationalized bank receives an email that appears to be from the bank's official domain, warning that the account will be suspended unless credentials are verified via a provided link. The link redirects to a fake website, and after entering credentials the customer notices unauthorized transactions. Which type of cyber attack is most accurately illustrated?", o:["SQL Injection","Phishing","Session Hijacking","Cross-Site Scripting (XSS)","Buffer Overflow"], c:1, e:"This is a textbook phishing attack — impersonating a trusted entity (the bank) via a deceptive email and fake website to trick the victim into voluntarily revealing their credentials, rather than exploiting a technical software vulnerability."},
+{t:"AI & ML", q:"A software agent learns to play chess by repeatedly playing games, receiving rewards for winning and penalties for losing. Which Machine Learning paradigm is illustrated?", o:["Supervised Learning","Reinforcement Learning","Clustering","Regression","Association Rule Mining"], c:1, e:"Reinforcement Learning is defined by an agent learning through trial-and-error interaction with an environment, guided by rewards/penalties rather than pre-labeled correct answers — exactly the chess-playing scenario described."},
+{t:"AI & ML", q:"Consider the following Machine Learning tasks:\n1. Email Spam Detection\n2. Customer Segmentation\n3. House Price Prediction\n4. Loan Approval Prediction\n5. Market Basket Analysis\nWhich of the above are examples of Supervised Learning?", o:["1, 3 and 4 only","2 and 5 only","1, 2 and 3 only","2, 3, 4 and 5 only","All of the above"], c:0, e:"Spam Detection (classification), House Price Prediction (regression), and Loan Approval Prediction (classification) all use labeled historical data with known outcomes — supervised learning. Customer Segmentation (clustering) and Market Basket Analysis (association rule mining) both work on unlabeled data to find groupings/patterns — unsupervised learning."},
+{t:"Operating Systems", q:"Consider the following statements regarding Linux commands:\n1. head displays the first few lines of a file.\n2. touch displays file contents.\n3. wc counts lines, words, and characters.\n4. rmdir can remove both empty and non-empty directories.\n5. uniq removes consecutive duplicate lines.\nWhich statements are correct?", o:["1, 2 and 3 only","1, 2, 4 and 5 only","2, 3, 4 and 5 only","1, 2, 3, 4 and 5","1, 3 and 5 only"], c:4, e:"Statements 1, 3, and 5 are correct as described. Statement 2 is false — touch only creates an empty file or updates its timestamp; it never displays contents (that's cat's job). Statement 4 is false — rmdir can only remove EMPTY directories; a non-empty one requires rm -r."},
+{t:"Operating Systems", q:"An administrator wants to locate every file named report.txt inside /home and all its subdirectories. Which command should be used?", o:["grep report.txt /home","locate report.txt","find /home -name report.txt","search report.txt","which report.txt"], c:2, e:"find /home -name report.txt recursively searches the directory tree starting at /home for files matching the given name. grep searches file contents (not filenames), locate relies on a separate pre-built index rather than a live directory search, and which only finds executables in the PATH."},
+{t:"Software Engineering", q:"A financial institution is developing an AI-based fraud detection system involving new technologies and uncertain requirements. The management wants each development cycle to include risk analysis before proceeding to the next phase. Which SDLC model best satisfies this requirement?", o:["Waterfall","V-Model","Spiral Model","Big Bang Model","Incremental Model"], c:2, e:"The Spiral Model explicitly builds a dedicated risk-analysis phase into every iterative cycle, making it well-suited to large, high-uncertainty projects (like one using new/unproven AI technology) where identifying and mitigating risk early is critical — unlike Waterfall or Big Bang, which have no formal risk-analysis step."},
+{t:"Web Development", q:"A banking application provides the following operations:\n1. Retrieve account balance.\n2. Create a new beneficiary.\n3. Update beneficiary information.\n4. Delete a beneficiary.\nWhich HTTP methods should be used respectively?", o:["POST, GET, DELETE, PUT","GET, POST, PUT, DELETE","GET, PUT, POST, DELETE","POST, PUT, GET, DELETE","GET, DELETE, POST, PUT"], c:1, e:"Standard REST convention: GET retrieves data, POST creates a new resource, PUT updates an existing resource, and DELETE removes a resource — matching Retrieve→GET, Create→POST, Update→PUT, Delete→DELETE exactly."},
+{t:"Web Development", q:"A banking website allows customers to select their preferred language (English or Hindi). The selected language should remain available even after the browser is closed and reopened several days later. Which type of cookie is most appropriate?", o:["Session Cookie","Persistent Cookie","HttpOnly Cookie","SameSite Cookie","Third-Party Cookie"], c:1, e:"A Persistent Cookie has an explicit expiration date and survives browser restarts, storing the preference across sessions — a Session Cookie, by contrast, is deleted automatically once the browser closes."},
+{t:"DBMS", q:"A bank database contains a table named Customer. The DBA must add a nullable column Email VARCHAR(100) while preserving all existing rows and constraints. Which statement achieves this objective?", o:["CREATE TABLE Customer( Email VARCHAR(100));","ALTER TABLE Customer ADD COLUMN Email VARCHAR(100);","UPDATE TABLE Customer ADD Email VARCHAR(100);","MODIFY TABLE Customer ADD Email VARCHAR(100);","INSERT COLUMN Email INTO Customer;"], c:1, e:"ALTER TABLE...ADD COLUMN is the correct DDL statement to add a new column to an existing table without affecting existing rows or constraints. CREATE TABLE would create a brand-new table (losing existing data), and UPDATE/MODIFY/INSERT COLUMN aren't valid syntax for this purpose."},
+{t:"DBMS", q:"A banking transaction transfers funds between two accounts. After successfully debiting the sender's account, the application records a checkpoint before attempting to credit the receiver. If the credit operation fails, the debit should remain while only the later operations are undone. Which TCL command should have been executed immediately after the debit operation?", o:["COMMIT","SAVEPOINT","ROLLBACK","RELEASE SAVEPOINT","CHECKPOINT"], c:1, e:"SAVEPOINT creates a named marker within a transaction that you can later roll back to (using ROLLBACK TO SAVEPOINT), undoing only the operations after that point while preserving everything before it — exactly what's needed to keep the debit intact if the credit fails."},
+{t:"DBMS", q:"A bank wants to maintain an audit log whenever an employee's salary is modified. The database administrator decides that every time an UPDATE operation is performed on the Employee table, the old salary and new salary should automatically be stored in an Audit table without requiring changes to the application code. Which database object is most suitable?", o:["Stored Procedure","View","Trigger","Index","Cursor"], c:2, e:"A Trigger automatically executes a defined action in response to a specified database event (like an UPDATE on a table), making it ideal for transparently logging changes without requiring any modification to the application's code — the application doesn't even need to be aware the trigger exists."},
+{t:"Web Development", q:"A user logs into an Internet Banking application. The server stores only a randomly generated Session ID inside a cookie, while all customer account information remains on the server. What is the primary security advantage of this approach?", o:["Cookies cannot be stolen.","Sensitive customer information is not stored on the client.","Session IDs are encrypted automatically.","Cookies become read-only.","Sessions eliminate authentication."], c:1, e:"By keeping only an opaque, randomly generated Session ID on the client (rather than actual account data), even if the cookie were somehow intercepted, no directly sensitive customer information would be exposed — the real data stays safely on the server."},
+{t:"Cloud Computing", q:"A bank subscribes to Microsoft 365 for email and office productivity without installing or maintaining the software on its own servers. Which cloud service model does this represent?", o:["IaaS","PaaS","SaaS","FaaS","DaaS"], c:2, e:"SaaS (Software as a Service) delivers a complete, ready-to-use application over the internet, with the provider handling all underlying infrastructure, platform, and software maintenance — exactly matching a Microsoft 365 subscription."},
+{t:"Operating Systems", q:"Which command removes a non-empty directory named temp and all its contents?", o:["rm temp","rmdir temp","rm -r temp","delete temp","erase temp"], c:2, e:"rm -r recursively removes a directory along with all its contents. Plain rm without -r fails on directories, and rmdir only works on already-empty directories."},
+
+{t:"DBMS", q:"Consider the following relationships:\n• One Employee manages exactly one department.\n• One Department is managed by exactly one Employee.\n• One Student can enroll in multiple courses.\n• One Course can have multiple students.\nWhich of the following cardinalities are represented?", o:["(1:1) and (1:N)","(1:1) and (M:N)","(1:N) and (M:N)","(N:1) and (1:1)","(1:N) and (N:1)"], c:1, e:"Employee-Department is one-to-one in both directions (1:1). Student-Course is many-to-many, since a student can take multiple courses AND a course can have multiple students (M:N)."},
+{t:"DBMS", q:"A multinational bank has implemented a database system based on the DBMS three-schema architecture. Different users interact with customized views of the database according to their roles. Which schema is primarily responsible for providing customized user-specific views?", o:["Internal Schema","Conceptual Schema","External Schema","Physical Schema","Relational Schema"], c:2, e:"The External Schema (view level) defines how individual user groups see the data — tailored, often partial, views suited to their specific role — sitting above the single Conceptual Schema (the overall logical structure) and the Internal Schema (physical storage details)."},
+{t:"Web Development", q:"A web developer wants to change the text of an HTML element after a user clicks a button. To do this, JavaScript first needs to locate the element in the HTML document. Which JavaScript object represents the complete HTML document and provides methods to access and manipulate its elements?", o:["Window Object","Navigator Object","Screen Object","Document Object (DOM)","History Object"], c:3, e:"The Document Object (accessed via `document`) represents the entire loaded HTML page as a manipulable tree structure (the DOM), providing methods like getElementById/querySelector to locate and modify elements."},
+{t:"Programming Languages", q:"A bank wants to store the following information for each employee:\n• Employee ID\n• Name\n• Salary\nWhich C construct is most appropriate?", o:["Array","Pointer","Structure","Union","Enumeration"], c:2, e:"A structure (struct) groups multiple related fields of potentially different data types (an int ID, a string name, a numeric salary) under one named record — exactly suited to representing a single employee's combined data. An array holds multiple values of the SAME type, and a union shares memory between members rather than storing all fields simultaneously."},
+{t:"Programming Languages", q:"Consider the following Python program:\n[x**2 for x in range(5)]\nWhat is the output?", o:["[1, 4, 9, 16, 25]","[0, 1, 4, 9, 16]","[0, 1, 2, 3, 4]","[1, 2, 3, 4, 5]","Error"], c:1, e:"range(5) generates 0,1,2,3,4, and the comprehension squares each: 0²=0, 1²=1, 2²=4, 3²=9, 4²=16, giving [0, 1, 4, 9, 16]."},
+{t:"DBMS", q:"A nationalized bank is designing an Entity-Relationship (ER) model for its core banking system. The database designer identifies the following objects: Customer, Account, Branch, Loan. Each of these objects has an independent existence and can be uniquely identified. According to the ER model, these objects are classified as:", o:["Attributes","Relationships","Entities","Keys","Constraints"], c:2, e:"Objects with independent existence that can be uniquely identified (like Customer, Account, Branch, Loan) are modeled as Entities in ER modeling — Attributes describe properties of entities, and Relationships describe associations between entities."},
+{t:"Computer Security", q:"Consider the following statements:\n1. A virus requires a host file.\n2. A worm is a standalone program.\n3. A Trojan disguises itself as legitimate software.\n4. Ransomware encrypts files.\n5. Spyware secretly collects user information.\n6. Adware mainly displays unwanted advertisements.\nWhich statements are correct?", o:["1, 2 and 3 only","2, 3, 4 and 5 only","1, 3, 5 and 6 only","1, 2, 3, 4, 5 and 6","1, 2, 4 and 6 only"], c:3, e:"All six statements are accurate descriptions of these malware categories: viruses need a host file to attach to and spread; worms self-propagate independently; Trojans masquerade as legitimate software; ransomware encrypts victims' files for extortion; spyware covertly gathers information; adware bombards users with unwanted advertisements."},
+{t:"Operating Systems", q:"Arrange the following booting steps in the correct sequence:\n1. Loading Operating System\n2. BIOS performs POST\n3. User Authentication\n4. Power ON\n5. System Configuration\n6. Loading System Utilities", o:["4 → 2 → 1 → 5 → 6 → 3","2 → 4 → 1 → 5 → 6 → 3","4 → 1 → 2 → 5 → 6 → 3","4 → 2 → 5 → 1 → 6 → 3","4 → 2 → 6 → 1 → 5 → 3"], c:0, e:"The correct boot sequence is: Power ON → BIOS performs POST (Power-On Self-Test, checking hardware) → Loading Operating System → System Configuration → Loading System Utilities → User Authentication (login prompt), i.e., 4→2→1→5→6→3."},
+{t:"DBMS", q:"A banking database stores the following information for customers: House Number, Street, City, State, PIN Code. These together represent the customer's Address. Address is an example of:", o:["Simple Attribute","Composite Attribute","Derived Attribute","Multivalued Attribute","Key Attribute"], c:1, e:"A Composite Attribute can be broken down into smaller sub-parts, each with its own meaning (House Number, Street, City, etc., together making up 'Address') — unlike a Simple Attribute, which cannot be divided further, or a Derived Attribute, which is computed from other attributes (like Age from Date of Birth)."},
+{t:"Programming Languages", q:"Consider the following C program:\nint x = 100;\nint *p = &x;\nprintf(\"%d\", *p);\nWhat will be printed?", o:["50","100","Address of x","Garbage","Compilation Error"], c:1, e:"p stores the address of x (via &x). Dereferencing p with *p accesses the value stored at that address, which is x's value, 100."},
+{t:"Computer Networks", q:"A communication channel has a bandwidth of 20 MHz. In data communication, bandwidth refers to:", o:["Number of bits transmitted every second.","Difference between the highest and lowest frequencies supported by the channel.","Time required to transmit one byte.","Number of symbols transmitted per second.","Signal propagation delay."], c:1, e:"Bandwidth, in the context of an analog communication channel, is the range (difference) between the highest and lowest frequencies the channel can carry — a measure of the channel's frequency capacity, distinct from data rate (bits per second), which describes actual throughput."},
+{t:"Computer Networks", q:"An FM radio station continuously broadcasts signals to millions of receivers, but listeners cannot transmit data back to the station. This communication mode is:", o:["Full Duplex","Half Duplex","Simplex","Multiplex","Broadcast Duplex"], c:2, e:"Simplex communication allows data to flow in only ONE direction — from sender to receiver, with no reverse path at all — exactly describing one-way FM radio broadcasting, unlike half-duplex (both directions, but not simultaneously) or full-duplex (both directions simultaneously)."},
+{t:"DSA", q:"Consider the following sequence of operations on an initially empty queue:\nEnqueue(10), Enqueue(20), Enqueue(30), Dequeue(), Enqueue(40), Front()\nWhat will be returned by Front()?", o:["10","20","30","40","Queue Empty"], c:1, e:"After Enqueue(10),(20),(30): queue = [10,20,30]. Dequeue() removes the front element (10): queue = [20,30]. Enqueue(40): queue = [20,30,40]. Front() returns the element at the front, which is now 20."},
+{t:"Computer Networks", q:"A bank is connecting two nearby office buildings located within a campus. The network should be inexpensive and provide moderate data transfer speeds. Which transmission medium is most suitable?", o:["Satellite","Twisted Pair Cable","Fiber Optic Cable","Microwave","Infrared"], c:1, e:"Twisted Pair Cable offers a good balance of low cost and adequate (moderate) speed for short-to-medium distance wired connections like linking nearby buildings — Fiber Optic would be costlier/higher-performance than needed here, and Satellite/Microwave are suited to much longer distances."},
+{t:"Computer Networks", q:"Which guided transmission medium provides the highest bandwidth and is completely immune to electromagnetic interference?", o:["Twisted Pair","Coaxial Cable","Fiber Optic Cable","Telephone Cable","Shielded Twisted Pair"], c:2, e:"Fiber Optic Cable transmits data as light pulses through glass/plastic fiber rather than electrical signals through metal conductors, making it immune to electromagnetic interference and capable of vastly higher bandwidth than any copper-based medium."},
+{t:"Operating Systems", q:"Which page replacement algorithm always produces the minimum possible number of page faults but cannot generally be implemented in practice?", o:["FIFO","LIFO","LFU","Optimal","Random"], c:3, e:"The Optimal page replacement algorithm replaces the page that won't be needed for the longest time in the future — theoretically ideal, but it requires knowledge of future memory references, which isn't available in a real running system, making it a benchmark rather than a practically implementable algorithm."},
+{t:"Operating Systems", q:"Which I/O technique allows an external device to notify the CPU only when service is required, thereby avoiding continuous status checking?", o:["Polling","DMA","Interrupt-driven I/O","Buffering","Memory Mapping"], c:2, e:"Interrupt-driven I/O lets the CPU continue with other work and only respond when the device actively signals (interrupts) that it needs attention — far more efficient than Polling, where the CPU must repeatedly check the device's status even when nothing has changed."},
+{t:"Operating Systems", q:"A disk controller transfers a large block of data directly between secondary storage and main memory without continuous CPU intervention. The CPU is interrupted only after the transfer has been completed. Which I/O technique is being used?", o:["Polling","Interrupt-driven I/O","Direct Memory Access (DMA)","Busy Waiting","Memory Paging"], c:2, e:"DMA allows a dedicated controller to handle the entire bulk data transfer between storage and memory independently, freeing the CPU to perform other tasks and only interrupting it once the whole transfer is done — ideal for large data movements."},
+{t:"Programming Languages", q:"Consider the following Python code:\nt = (1, 2, [3, 4])\nt[2].append(5)\nprint(t)\nWhat is the output?", o:["Error because tuples are immutable.","(1, 2, [3, 4])","(1, 2, [3, 4, 5])","(1, 2, 5)","None"], c:2, e:"A tuple's immutability only prevents reassigning its elements directly (e.g., t[2] = ...) — it does not prevent mutating a mutable object, like a list, stored inside it. t[2] refers to the list [3,4], and .append(5) modifies that list in place, giving (1, 2, [3, 4, 5])."},
+{t:"DSA", q:"In a standard linear queue implemented using an array, after several dequeue operations, free positions may exist at the beginning of the array but cannot be reused without shifting elements. Which data structure solves this problem by treating the array as circular?", o:["Stack","Circular Queue","Heap","Deque","Linked List"], c:1, e:"A Circular Queue treats the underlying array as wrapping around (the position after the last index is the first index again), allowing freed-up space at the beginning to be reused for new enqueues without any element shifting."},
+{t:"DSA", q:"A circular queue implemented using an array of size N is considered full when:", o:["Rear == N − 1","Front == Rear","(Rear + 1) mod N == Front","Rear == Front − 1","Front == 0"], c:2, e:"The standard full condition for a circular queue is (Rear + 1) mod N == Front — this means the next slot after Rear would wrap around and collide with Front, so no more elements can be safely added without ambiguity between 'full' and 'empty' states."},
+{t:"Web Development", q:"Which JavaScript method returns all matching elements for a CSS selector?", o:["querySelectorAll()","getAllElements()","findAll()","getElementByName()","selectAll()"], c:0, e:"document.querySelectorAll(selector) returns a NodeList of every element in the document matching the given CSS selector — querySelector() (singular) returns only the first match, by contrast."},
+{t:"Web Development", q:"Which attribute of the <img> tag specifies an alternative text that is displayed if the image cannot be loaded?", o:["title","name","alt","caption","value"], c:2, e:"The alt attribute provides fallback descriptive text shown when an image fails to load, and is also essential for accessibility (screen readers read it aloud) and SEO."},
+{t:"Operating Systems", q:"Which page replacement algorithm may exhibit Belady's Anomaly, where increasing the number of page frames unexpectedly increases the number of page faults?", o:["LRU","Optimal","FIFO","LFU","Clock"], c:2, e:"Belady's Anomaly is a well-known counter-intuitive behavior specifically associated with the FIFO page replacement algorithm — for certain reference strings, adding more page frames can paradoxically increase the total number of page faults. LRU and Optimal do not exhibit this anomaly."},
+{t:"Programming Languages", q:"Which of the following statements regarding NULL pointers is correct?", o:["A NULL pointer always points to the first memory location.","A NULL pointer does not point to any valid object or memory location.","A NULL pointer stores the value 1.","NULL pointers are used only in C++.","A NULL pointer always points to stack memory."], c:1, e:"A NULL pointer is a special value indicating the pointer intentionally points to nothing — it is not a valid, dereferenceable address. NULL is conventionally represented as 0, and the concept applies broadly across C, C++, and other pointer-supporting languages, not exclusively C++."}
+];
+
+let current=0, answers=new Array(QUESTIONS.length).fill(null), timeLeft=40*60, timerInterval=null, submitted=false;
+
+function renderTopics(){
+  const topics=[...new Set(QUESTIONS.map(q=>q.t))];
+  document.getElementById('topicList').innerHTML = topics.map(t=>{
+    const n=QUESTIONS.filter(q=>q.t===t).length;
+    return `<div>${t} <span style="color:var(--mauve);float:right;">${n}Q</span></div>`;
+  }).join('');
+}
+renderTopics();
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  buildNavigator();
+  renderQuestion();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInterval); doSubmit(); }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('low', timeLeft<=60);
+}
+
+function buildNavigator(){
+  const nav=document.getElementById('navigator');
+  nav.innerHTML='';
+  QUESTIONS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='navdot';
+    d.textContent=i+1;
+    d.onclick=()=>{ current=i; renderQuestion(); };
+    nav.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[current];
+  document.getElementById('qcounter').textContent = `Question ${current+1} of ${QUESTIONS.length}`;
+  document.getElementById('qtopic').textContent = q.t;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+
+  const optsDiv=document.getElementById('options');
+  optsDiv.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');
+    d.className='option'+(answers[current]===i?' selected':'');
+    d.innerHTML = `<div class="optlabel">${String.fromCharCode(65+i)}</div><div>${opt}</div>`;
+    d.onclick=()=>{ answers[current]=i; renderQuestion(); };
+    optsDiv.appendChild(d);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===QUESTIONS.length-1;
+
+  document.querySelectorAll('.navdot').forEach((d,i)=>{
+    d.classList.toggle('answered', answers[i]!==null);
+    d.classList.toggle('current', i===current);
+  });
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; renderQuestion(); } }
+function prevQ(){ if(current>0){ current--; renderQuestion(); } }
+
+function confirmSubmit(){
+  const unanswered = answers.filter(a=>a===null).length;
+  document.getElementById('modalMsg').textContent = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+function modalConfirmed(){
+  closeModal();
+  doSubmit();
+}
+
+function doSubmit(){
+  if(submitted) return;
+  submitted=true;
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skipped=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===null) skipped++;
+    else if(answers[i]===q.c) correct++;
+    else wrong++;
+  });
+  const score = (correct*1) - (wrong*0.25);
+  const attempted = correct+wrong;
+  const accuracy = attempted>0 ? Math.round((correct/attempted)*100) : 0;
+
+  document.getElementById('scoreBig').textContent = score.toFixed(2);
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skipped;
+  document.getElementById('statAcc').textContent = accuracy+'%';
+
+  const reviewDiv=document.getElementById('reviewList');
+  reviewDiv.innerHTML = '<h1 style="margin-top:24px;">Answers & Explanations</h1>';
+  QUESTIONS.forEach((q,i)=>{
+    const userAns=answers[i];
+    const status = userAns===null ? 'skipped' : (userAns===q.c ? 'correct' : 'wrong');
+    const statusLabel = status==='skipped'?'Skipped':(status==='correct'?'Correct':'Wrong');
+    let optsHtml='';
+    q.o.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.c) cls+=' rightans';
+      else if(oi===userAns) cls+=' userwrong';
+      optsHtml += `<div class="${cls}">${String.fromCharCode(65+oi)}. ${opt}${oi===q.c?' ✓ (Correct answer)':''}${(oi===userAns && oi!==q.c)?' ✗ (Your answer)':''}</div>`;
+    });
+    reviewDiv.innerHTML += `
+      <div class="revcard ${status}">
+        <div class="revq">Q${i+1}. ${q.q} <span class="tag">${q.t}</span> <span class="tag">${statusLabel}</span></div>
+        ${optsHtml}
+        <div class="explain"><b>Explanation:</b> ${q.e}</div>
+      </div>`;
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEBI IT Grade A - Complete Study Notes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.css">
+<style>
+*{font-family:'Inter',sans-serif;scroll-behavior:smooth}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.7}
+.kw{color:#c084fc}.fn{color:#67e8f9}.str{color:#86efac}.cm{color:#64748b;font-style:italic}.num{color:#fbbf24}.tp{color:#f472b6}
+.sidebar-link{transition:all .2s;border-left:3px solid transparent}
+.sidebar-link:hover,.sidebar-link.active{background:#eff6ff;border-left-color:#3b82f6;color:#1d4ed8}
+.section-card{border-left:4px solid #3b82f6;transition:all .3s}
+.section-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.collapsible-content{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.collapsible-content.open{max-height:50000px}
+.compare-table th{position:sticky;top:0;z-index:1}
+.tree-node{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #3b82f6;background:#eff6ff}
+.formula-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:12px;padding:16px}
+.tip-box{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border:1px solid #3b82f6;border-radius:12px;padding:16px}
+.warn-box{background:linear-gradient(135deg,#fee2e2,#fecaca);border:1px solid #ef4444;border-radius:12px;padding:16px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#f1f5f9}
+::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:3px}
+@media print{.no-print{display:none!important}.sidebar{display:none!important}}
+</style>
+</head>
+<body class="bg-slate-50">
+
+<!-- SIDEBAR -->
+<aside class="sidebar fixed left-0 top-0 h-full w-72 bg-white border-r border-slate-200 overflow-y-auto z-50 no-print hidden lg:block">
+<div class="p-5 border-b border-slate-200">
+<h1 class="text-lg font-bold text-indigo-700">📚 SEBI IT Grade A</h1>
+<p class="text-xs text-slate-500 mt-1">Complete Study Notes</p>
+</div>
+<nav class="p-3 space-y-1 text-sm">
+<a href="#routing" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🌐 Routing Algorithms</a>
+<a href="#sorting" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">📊 Sorting Algorithms</a>
+<a href="#greedy-dp" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🧠 Greedy vs Dynamic</a>
+<a href="#linked-list" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🔗 Linked Lists</a>
+<a href="#trees" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🌳 Trees & Conversions</a>
+<a href="#graph" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🕸️ Graph Algorithms</a>
+<a href="#disk" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">💾 Disk Scheduling</a>
+<a href="#cpu" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">⚙️ CPU Scheduling</a>
+<a href="#memory" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🧩 Memory Management</a>
+<a href="#dbms" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🗄️ DBMS & Normalization</a>
+<a href="#os-network" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">🔒 Security & Networks</a>
+<a href="#complexity" class="sidebar-link block px-3 py-2 rounded-r-lg text-slate-700">📈 Complexity Cheat Sheet</a>
+</nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="lg:ml-72 p-4 md:p-8 max-w-5xl mx-auto">
+
+<!-- HEADER -->
+<div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 text-white mb-8 shadow-xl">
+<h1 class="text-3xl md:text-4xl font-bold mb-2">📚 Complete Study Notes</h1>
+<p class="text-blue-100 text-lg">SEBI Grade A Officer (IT Stream) — Phase 1 & Phase 2</p>
+<div class="flex flex-wrap gap-3 mt-4">
+<span class="bg-white/20 px-3 py-1 rounded-full text-sm">12 Topics</span>
+<span class="bg-white/20 px-3 py-1 rounded-full text-sm">C++ Code Included</span>
+<span class="bg-white/20 px-3 py-1 rounded-full text-sm">Numerical Examples</span>
+<span class="bg-white/20 px-3 py-1 rounded-full text-sm">Exam Tricks</span>
+</div>
+</div>
+
+<!-- ==================== SECTION 1: ROUTING ==================== -->
+<section id="routing" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🌐 Routing Algorithms</h2>
+<p class="text-slate-500 mb-6">Types, scenarios, and when to use which</p>
+
+<div class="tip-box mb-6">
+<strong>🎯 Exam Focus:</strong> SEBI frequently asks which routing protocol belongs to which category (IGP vs EGP), which algorithm it uses internally, and in what scenario each is best suited.
+</div>
+
+<!-- Classification Table -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Classification of Routing Protocols</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-50">
+<th class="border border-indigo-200 px-4 py-3 text-left">Protocol</th>
+<th class="border border-indigo-200 px-4 py-3 text-left">Type</th>
+<th class="border border-indigo-200 px-4 py-3 text-left">Algorithm</th>
+<th class="border border-indigo-200 px-4 py-3 text-left">Metric</th>
+<th class="border border-indigo-200 px-4 py-3 text-left">Max Hop</th>
+<th class="border border-indigo-200 px-4 py-3 text-left">Best Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr class="hover:bg-slate-50">
+<td class="border border-slate-200 px-4 py-3 font-semibold">RIP (v1/v2)</td>
+<td class="border border-slate-200 px-4 py-3">Distance Vector (IGP)</td>
+<td class="border border-slate-200 px-4 py-3">Bellman-Ford</td>
+<td class="border border-slate-200 px-4 py-3">Hop Count</td>
+<td class="border border-slate-200 px-4 py-3">15</td>
+<td class="border border-slate-200 px-4 py-3">Small networks (< 50 routers)</td>
+</tr>
+<tr class="hover:bg-slate-50 bg-blue-50/30">
+<td class="border border-slate-200 px-4 py-3 font-semibold">OSPF</td>
+<td class="border border-slate-200 px-4 py-3">Link State (IGP)</td>
+<td class="border border-slate-200 px-4 py-3">Dijkstra's (SPF)</td>
+<td class="border border-slate-200 px-4 py-3">Cost (Bandwidth)</td>
+<td class="border border-slate-200 px-4 py-3">No limit</td>
+<td class="border border-slate-200 px-4 py-3">Large enterprise networks</td>
+</tr>
+<tr class="hover:bg-slate-50">
+<td class="border border-slate-200 px-4 py-3 font-semibold">EIGRP</td>
+<td class="border border-slate-200 px-4 py-3">Advanced Distance Vector (IGP)</td>
+<td class="border border-slate-200 px-4 py-3">DUAL (Diffusing Update)</td>
+<td class="border border-slate-200 px-4 py-3">Composite (BW, Delay, Load, Reliability)</td>
+<td class="border border-slate-200 px-4 py-3">No limit</td>
+<td class="border border-slate-200 px-4 py-3">Cisco-only enterprise networks</td>
+</tr>
+<tr class="hover:bg-slate-50 bg-blue-50/30">
+<td class="border border-slate-200 px-4 py-3 font-semibold">BGP</td>
+<td class="border border-slate-200 px-4 py-3">Path Vector (EGP)</td>
+<td class="border border-slate-200 px-4 py-3">Path Vector (Policy-based)</td>
+<td class="border border-slate-200 px-4 py-3">AS Path, Attributes</td>
+<td class="border border-slate-200 px-4 py-3">No limit</td>
+<td class="border border-slate-200 px-4 py-3">Internet backbone, inter-AS routing</td>
+</tr>
+<tr class="hover:bg-slate-50">
+<td class="border border-slate-200 px-4 py-3 font-semibold">IS-IS</td>
+<td class="border border-slate-200 px-4 py-3">Link State (IGP)</td>
+<td class="border border-slate-200 px-4 py-3">Dijkstra's (SPF)</td>
+<td class="border border-slate-200 px-4 py-3">Cost</td>
+<td class="border border-slate-200 px-4 py-3">No limit</td>
+<td class="border border-slate-200 px-4 py-3">ISP networks, MPLS backbones</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Detailed Explanations -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Detailed Breakdown</h3>
+
+<div class="space-y-4">
+<!-- RIP -->
+<div class="border border-slate-200 rounded-xl overflow-hidden">
+<button onclick="toggle(this)" class="w-full bg-red-50 px-5 py-3 flex items-center justify-between text-left font-semibold text-red-800 hover:bg-red-100">
+<span>📡 RIP — Routing Information Protocol</span>
+<span class="text-red-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-3 text-sm text-slate-700">
+<p><strong>How it works:</strong> Each router maintains a table of distances (hop counts) to all destinations. Every 30 seconds, routers broadcast their entire routing table to neighbors. Uses <strong>Bellman-Ford algorithm</strong>.</p>
+<p><strong>Key Properties:</strong></p>
+<ul class="list-disc ml-5 space-y-1">
+<li>Maximum 15 hops (16 = unreachable)</li>
+<li>RIP v1: Broadcast, no VLSM support</li>
+<li>RIP v2: Multicast (224.0.0.9), supports VLSM & CIDR</li>
+<li>RIPng: For IPv6</li>
+<li>Slow convergence → Count-to-infinity problem</li>
+<li>Mitigations: Split horizon, Route poisoning, Hold-down timers</li>
+</ul>
+<div class="tip-box">
+<strong>🎯 When to use:</strong> Small office networks with < 50 routers where simplicity matters more than optimal routing. NOT suitable for large enterprise or ISP networks.
+</div>
+</div>
+</div>
+
+<!-- OSPF -->
+<div class="border border-slate-200 rounded-xl overflow-hidden">
+<button onclick="toggle(this)" class="w-full bg-green-50 px-5 py-3 flex items-center justify-between text-left font-semibold text-green-800 hover:bg-green-100">
+<span>🗺️ OSPF — Open Shortest Path First</span>
+<span class="text-green-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-3 text-sm text-slate-700">
+<p><strong>How it works:</strong> Each router builds a complete topology map (Link State Database) of the network using LSAs (Link State Advertisements). Then runs <strong>Dijkstra's algorithm</strong> to compute shortest paths.</p>
+<p><strong>Key Properties:</strong></p>
+<ul class="list-disc ml-5 space-y-1">
+<li>Uses areas (Area 0 = Backbone) for hierarchical design</li>
+<li>Fast convergence (triggered updates, not periodic)</li>
+<li>Supports VLSM, CIDR, authentication</li>
+<li>Router types: Internal, ABR (Area Border Router), ASBR, Backbone</li>
+<li>Cost = Reference Bandwidth / Link Bandwidth</li>
+<li>Uses multicast 224.0.0.5 (all OSPF) and 224.0.0.6 (DR/BDR)</li>
+</ul>
+<div class="tip-box">
+<strong>🎯 When to use:</strong> Large enterprise networks, campus networks, anywhere you need fast convergence and hierarchical design. Industry standard for IGP.
+</div>
+</div>
+</div>
+
+<!-- BGP -->
+<div class="border border-slate-200 rounded-xl overflow-hidden">
+<button onclick="toggle(this)" class="w-full bg-purple-50 px-5 py-3 flex items-center justify-between text-left font-semibold text-purple-800 hover:bg-purple-100">
+<span>🌍 BGP — Border Gateway Protocol</span>
+<span class="text-purple-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-3 text-sm text-slate-700">
+<p><strong>How it works:</strong> Exchanges routing information between Autonomous Systems (AS). Uses <strong>Path Vector algorithm</strong> — each route carries the complete AS path to prevent loops.</p>
+<p><strong>Key Properties:</strong></p>
+<ul class="list-disc ml-5 space-y-1">
+<li>iBGP: Within same AS | eBGP: Between different AS</li>
+<li>Uses TCP port 179 (reliable delivery)</li>
+<li>Policy-based routing (not purely metric-based)</li>
+<li>Path attributes: AS_PATH, NEXT_HOP, LOCAL_PREF, MED</li>
+<li>Slow convergence but extremely scalable</li>
+<li>Runs the entire Internet</li>
+</ul>
+<div class="tip-box">
+<strong>🎯 When to use:</strong> Internet backbone routing, multi-homed organizations connecting to multiple ISPs, inter-AS communication. NEVER used as IGP.
+</div>
+</div>
+</div>
+</div>
+
+<!-- Scenario Quick Reference -->
+<h3 class="text-lg font-bold text-slate-800 mt-6 mb-3">⚡ Scenario-Based Quick Reference</h3>
+<div class="grid md:grid-cols-2 gap-3">
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+<div class="font-bold text-amber-800 mb-1">Small network (< 50 routers)</div>
+<div class="text-sm text-amber-900">→ <strong>RIP</strong> — Simple, easy to configure</div>
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<div class="font-bold text-green-800 mb-1">Large enterprise / Campus</div>
+<div class="text-sm text-green-900">→ <strong>OSPF</strong> — Fast convergence, hierarchical</div>
+</div>
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+<div class="font-bold text-blue-800 mb-1">Internet / Inter-AS</div>
+<div class="text-sm text-blue-900">→ <strong>BGP</strong> — Policy-based, scalable</div>
+</div>
+<div class="bg-purple-50 border border-purple-200 rounded-xl p-4">
+<div class="font-bold text-purple-800 mb-1">Cisco-only environment</div>
+<div class="text-sm text-purple-900">→ <strong>EIGRP</strong> — Fast, composite metric</div>
+</div>
+<div class="bg-red-50 border border-red-200 rounded-xl p-4">
+<div class="font-bold text-red-800 mb-1">ISP backbone / MPLS</div>
+<div class="text-sm text-red-900">→ <strong>IS-IS</strong> — Efficient for service providers</div>
+</div>
+<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+<div class="font-bold text-indigo-800 mb-1">Need loop-free paths guaranteed</div>
+<div class="text-sm text-indigo-900">→ <strong>Link State (OSPF/IS-IS)</strong> — Complete topology view</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 2: SORTING ==================== -->
+<section id="sorting" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">📊 Sorting Algorithms</h2>
+<p class="text-slate-500 mb-6">Complete execution, C++ code, and complexity analysis</p>
+
+<!-- Master Comparison Table -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Master Comparison Table</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-xs md:text-sm border-collapse compare-table">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-3 py-3 text-left">Algorithm</th>
+<th class="px-3 py-3">Best</th>
+<th class="px-3 py-3">Average</th>
+<th class="px-3 py-3">Worst</th>
+<th class="px-3 py-3">Space</th>
+<th class="px-3 py-3">Stable?</th>
+<th class="px-3 py-3">In-place?</th>
+<th class="px-3 py-3 text-left">Best Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">Bubble Sort</td>
+<td class="px-3 py-2 text-center">O(n)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(1)</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2">Educational, nearly sorted data</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-slate-50/50">
+<td class="px-3 py-2 font-semibold">Selection Sort</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(1)</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2">When writes are costly</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">Insertion Sort</td>
+<td class="px-3 py-2 text-center">O(n)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(1)</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2">Small/nearly sorted arrays</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-green-50/30">
+<td class="px-3 py-2 font-semibold">Merge Sort</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n)</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2">Large data, linked lists, external sort</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-green-50/30">
+<td class="px-3 py-2 font-semibold">Quick Sort</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n²)</td>
+<td class="px-3 py-2 text-center">O(log n)</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2">General purpose, arrays</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">Heap Sort</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(n log n)</td>
+<td class="px-3 py-2 text-center">O(1)</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2">When worst-case guarantee needed</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-blue-50/30">
+<td class="px-3 py-2 font-semibold">Counting Sort</td>
+<td class="px-3 py-2 text-center">O(n+k)</td>
+<td class="px-3 py-2 text-center">O(n+k)</td>
+<td class="px-3 py-2 text-center">O(n+k)</td>
+<td class="px-3 py-2 text-center">O(k)</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2">Small range integers</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-blue-50/30">
+<td class="px-3 py-2 font-semibold">Radix Sort</td>
+<td class="px-3 py-2 text-center">O(d·(n+k))</td>
+<td class="px-3 py-2 text-center">O(d·(n+k))</td>
+<td class="px-3 py-2 text-center">O(d·(n+k))</td>
+<td class="px-3 py-2 text-center">O(n+k)</td>
+<td class="px-3 py-2 text-center text-green-600">✓</td>
+<td class="px-3 py-2 text-center text-red-600">✗</td>
+<td class="px-3 py-2">Large integers, strings</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="warn-box mb-6">
+<strong>⚠️ Exam Trap:</strong> Quick Sort's worst case O(n²) occurs when array is already sorted AND pivot is first/last element. Fix: use median-of-three or random pivot.
+</div>
+
+<!-- BUBBLE SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-slate-100 px-5 py-3 flex items-center justify-between text-left font-bold text-slate-800 hover:bg-slate-200">
+<span>1️⃣ Bubble Sort — Execution + Code</span>
+<span class="text-slate-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Repeatedly swap adjacent elements if they're in wrong order. Largest element "bubbles" to end each pass.</p>
+<p class="text-sm font-semibold text-slate-700">Execution Trace: [5, 3, 8, 1, 2]</p>
+<div class="bg-slate-50 rounded-lg p-3 text-xs mono space-y-1">
+<div>Pass 1: [<strong>3</strong>,<strong>5</strong>,8,1,2] → [3,5,<strong>1</strong>,<strong>8</strong>,2] → [3,5,1,<strong>2</strong>,<strong>8</strong>] ← 8 bubbled</div>
+<div>Pass 2: [<strong>3</strong>,<strong>5</strong>,1,2,8] → [3,<strong>1</strong>,<strong>5</strong>,2,8] → [3,1,<strong>2</strong>,<strong>5</strong>,8] ← 5 bubbled</div>
+<div>Pass 3: [<strong>1</strong>,<strong>3</strong>,2,5,8] → [1,<strong>2</strong>,<strong>3</strong>,5,8] ← 3 bubbled</div>
+<div>Pass 4: [<strong>1</strong>,<strong>2</strong>,3,5,8] → No swaps → Sorted! (Early termination)</div>
+</div>
+<pre><span class="kw">void</span> <span class="fn">bubbleSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> n) {
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < n - <span class="num">1</span>; i++) {
+        <span class="tp">bool</span> swapped = <span class="kw">false</span>;  <span class="cm">// Optimization: early exit</span>
+        <span class="kw">for</span> (<span class="tp">int</span> j = <span class="num">0</span>; j < n - i - <span class="num">1</span>; j++) {
+            <span class="kw">if</span> (arr[j] > arr[j+<span class="num">1</span>]) {
+                swap(arr[j], arr[j+<span class="num">1</span>]);
+                swapped = <span class="kw">true</span>;
+            }
+        }
+        <span class="kw">if</span> (!swapped) <span class="kw">break</span>;  <span class="cm">// Already sorted</span>
+    }
+}</pre>
+</div>
+</div>
+
+<!-- SELECTION SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-slate-100 px-5 py-3 flex items-center justify-between text-left font-bold text-slate-800 hover:bg-slate-200">
+<span>2️⃣ Selection Sort — Execution + Code</span>
+<span class="text-slate-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Find minimum element, place it at beginning. Repeat for remaining unsorted portion.</p>
+<p class="text-sm font-semibold text-slate-700">Execution Trace: [5, 3, 8, 1, 2]</p>
+<div class="bg-slate-50 rounded-lg p-3 text-xs mono space-y-1">
+<div>Pass 1: min=1 at idx 3 → swap(5,1) → [<strong>1</strong>,3,8,5,2]</div>
+<div>Pass 2: min=2 at idx 4 → swap(3,2) → [1,<strong>2</strong>,8,5,3]</div>
+<div>Pass 3: min=3 at idx 4 → swap(8,3) → [1,2,<strong>3</strong>,5,8]</div>
+<div>Pass 4: min=5 at idx 3 → Already in place → [1,2,3,<strong>5</strong>,8]</div>
+</div>
+<pre><span class="kw">void</span> <span class="fn">selectionSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> n) {
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < n - <span class="num">1</span>; i++) {
+        <span class="tp">int</span> minIdx = i;
+        <span class="kw">for</span> (<span class="tp">int</span> j = i + <span class="num">1</span>; j < n; j++) {
+            <span class="kw">if</span> (arr[j] < arr[minIdx])
+                minIdx = j;
+        }
+        <span class="kw">if</span> (minIdx != i)
+            swap(arr[i], arr[minIdx]);
+    }
+}</pre>
+</div>
+</div>
+
+<!-- INSERTION SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-slate-100 px-5 py-3 flex items-center justify-between text-left font-bold text-slate-800 hover:bg-slate-200">
+<span>3️⃣ Insertion Sort — Execution + Code</span>
+<span class="text-slate-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Like sorting cards in hand. Pick each element and insert it into its correct position in the sorted portion.</p>
+<p class="text-sm font-semibold text-slate-700">Execution Trace: [5, 3, 8, 1, 2]</p>
+<div class="bg-slate-50 rounded-lg p-3 text-xs mono space-y-1">
+<div>Key=3: [3,<strong>5</strong>,8,1,2] ← 3 inserted before 5</div>
+<div>Key=8: [3,5,<strong>8</strong>,1,2] ← 8 stays (already correct)</div>
+<div>Key=1: [<strong>1</strong>,3,5,8,2] ← 1 inserted at beginning</div>
+<div>Key=2: [1,<strong>2</strong>,3,5,8] ← 2 inserted between 1 and 3</div>
+</div>
+<pre><span class="kw">void</span> <span class="fn">insertionSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> n) {
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i < n; i++) {
+        <span class="tp">int</span> key = arr[i];
+        <span class="tp">int</span> j = i - <span class="num">1</span>;
+        <span class="kw">while</span> (j >= <span class="num">0</span> && arr[j] > key) {
+            arr[j + <span class="num">1</span>] = arr[j];  <span class="cm">// Shift right</span>
+            j--;
+        }
+        arr[j + <span class="num">1</span>] = key;  <span class="cm">// Insert at correct position</span>
+    }
+}</pre>
+</div>
+</div>
+
+<!-- MERGE SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-green-50 px-5 py-3 flex items-center justify-between text-left font-bold text-green-800 hover:bg-green-100">
+<span>4️⃣ Merge Sort — Execution + Code ⭐ (Most Important)</span>
+<span class="text-green-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Divide & Conquer. Split array in half recursively, sort each half, then merge them.</p>
+<p class="text-sm font-semibold text-slate-700">Execution Trace: [38, 27, 43, 3, 9, 82, 10]</p>
+<div class="bg-slate-50 rounded-lg p-3 text-xs mono">
+<pre class="!bg-transparent text-slate-700 !p-0 !text-xs">
+        [38, 27, 43, 3, 9, 82, 10]
+       /                          \
+   [38, 27, 43]              [3, 9, 82, 10]
+   /        \                /            \
+[38]    [27, 43]         [3, 9]        [82, 10]
+         /    \          /    \        /     \
+       [27]  [43]      [3]    [9]   [82]   [10]
+         \    /          \    /        \     /
+       [27, 43]         [3, 9]       [10, 82]
+   \        /                \            /
+   [27, 38, 43]              [3, 9, 10, 82]
+       \                          /
+    [3, 9, 10, 27, 38, 43, 82]  ← MERGED
+</pre>
+</div>
+<pre><span class="kw">void</span> <span class="fn">merge</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> left, <span class="tp">int</span> mid, <span class="tp">int</span> right) {
+    <span class="tp">int</span> n1 = mid - left + <span class="num">1</span>, n2 = right - mid;
+    <span class="tp">int</span> L[n1], R[n2];
+    
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < n1; i++) L[i] = arr[left + i];
+    <span class="kw">for</span> (<span class="tp">int</span> j = <span class="num">0</span>; j < n2; j++) R[j] = arr[mid + <span class="num">1</span> + j];
+    
+    <span class="tp">int</span> i = <span class="num">0</span>, j = <span class="num">0</span>, k = left;
+    <span class="kw">while</span> (i < n1 && j < n2) {
+        <span class="kw">if</span> (L[i] <= R[j]) arr[k++] = L[i++];
+        <span class="kw">else</span> arr[k++] = R[j++];
+    }
+    <span class="kw">while</span> (i < n1) arr[k++] = L[i++];
+    <span class="kw">while</span> (j < n2) arr[k++] = R[j++];
+}
+
+<span class="kw">void</span> <span class="fn">mergeSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> left, <span class="tp">int</span> right) {
+    <span class="kw">if</span> (left < right) {
+        <span class="tp">int</span> mid = left + (right - left) / <span class="num">2</span>;
+        <span class="fn">mergeSort</span>(arr, left, mid);
+        <span class="fn">mergeSort</span>(arr, mid + <span class="num">1</span>, right);
+        <span class="fn">merge</span>(arr, left, mid, right);
+    }
+}</pre>
+</div>
+</div>
+
+<!-- QUICK SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-green-50 px-5 py-3 flex items-center justify-between text-left font-bold text-green-800 hover:bg-green-100">
+<span>5️⃣ Quick Sort — Execution + Code ⭐ (Most Asked)</span>
+<span class="text-green-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Pick a pivot, partition array so elements < pivot go left, > pivot go right. Recursively sort both halves.</p>
+<p class="text-sm font-semibold text-slate-700">Execution Trace (Last element as pivot): [10, 80, 30, 90, 40, 50, 70]</p>
+<div class="bg-slate-50 rounded-lg p-3 text-xs mono space-y-1">
+<div>Pivot=70: [10, 30, 40, 50, <strong>70</strong>, 90, 80] ← 70 at correct position</div>
+<div>Left [10,30,40,50] Pivot=50: Already sorted</div>
+<div>Right [90,80] Pivot=80: [80,90]</div>
+<div>Result: [10, 30, 40, 50, 70, 80, 90]</div>
+</div>
+<pre><span class="tp">int</span> <span class="fn">partition</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> low, <span class="tp">int</span> high) {
+    <span class="tp">int</span> pivot = arr[high];  <span class="cm">// Last element as pivot</span>
+    <span class="tp">int</span> i = low - <span class="num">1</span>;       <span class="cm">// Index of smaller element</span>
+    
+    <span class="kw">for</span> (<span class="tp">int</span> j = low; j < high; j++) {
+        <span class="kw">if</span> (arr[j] < pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + <span class="num">1</span>], arr[high]);
+    <span class="kw">return</span> i + <span class="num">1</span>;
+}
+
+<span class="kw">void</span> <span class="fn">quickSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> low, <span class="tp">int</span> high) {
+    <span class="kw">if</span> (low < high) {
+        <span class="tp">int</span> pi = <span class="fn">partition</span>(arr, low, high);
+        <span class="fn">quickSort</span>(arr, low, pi - <span class="num">1</span>);
+        <span class="fn">quickSort</span>(arr, pi + <span class="num">1</span>, high);
+    }
+}</pre>
+<div class="warn-box">
+<strong>⚠️ Quick Sort vs Merge Sort — Key Differences:</strong>
+<ul class="list-disc ml-5 mt-2 space-y-1">
+<li>Quick Sort: In-place, unstable, worst O(n²), better for arrays (cache-friendly)</li>
+<li>Merge Sort: Not in-place (O(n) space), stable, always O(n log n), better for linked lists</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- HEAP SORT -->
+<div class="border border-slate-200 rounded-xl overflow-hidden mb-4">
+<button onclick="toggle(this)" class="w-full bg-slate-100 px-5 py-3 flex items-center justify-between text-left font-bold text-slate-800 hover:bg-slate-200">
+<span>6️⃣ Heap Sort — Execution + Code</span>
+<span class="text-slate-400">▼</span>
+</button>
+<div class="collapsible-content open px-5 py-4 space-y-4">
+<p class="text-sm text-slate-700"><strong>Idea:</strong> Build a max-heap, repeatedly extract max element and place at end.</p>
+<pre><span class="kw">void</span> <span class="fn">heapify</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> n, <span class="tp">int</span> i) {
+    <span class="tp">int</span> largest = i;
+    <span class="tp">int</span> left = <span class="num">2</span> * i + <span class="num">1</span>;
+    <span class="tp">int</span> right = <span class="num">2</span> * i + <span class="num">2</span>;
+    
+    <span class="kw">if</span> (left < n && arr[left] > arr[largest]) largest = left;
+    <span class="kw">if</span> (right < n && arr[right] > arr[largest]) largest = right;
+    
+    <span class="kw">if</span> (largest != i) {
+        swap(arr[i], arr[largest]);
+        <span class="fn">heapify</span>(arr, n, largest);
+    }
+}
+
+<span class="kw">void</span> <span class="fn">heapSort</span>(<span class="tp">int</span> arr[], <span class="tp">int</span> n) {
+    <span class="cm">// Build max heap</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = n / <span class="num">2</span> - <span class="num">1</span>; i >= <span class="num">0</span>; i--)
+        <span class="fn">heapify</span>(arr, n, i);
+    
+    <span class="cm">// Extract elements one by one</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = n - <span class="num">1</span>; i > <span class="num">0</span>; i--) {
+        swap(arr[<span class="num">0</span>], arr[i]);  <span class="cm">// Move max to end</span>
+        <span class="fn">heapify</span>(arr, i, <span class="num">0</span>);    <span class="cm">// Heapify reduced heap</span>
+    }
+}</pre>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 3: GREEDY vs DP ==================== -->
+<section id="greedy-dp" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🧠 Greedy vs Dynamic Programming</h2>
+<p class="text-slate-500 mb-6">When to use which, overlapping problems, and exam tricks</p>
+
+<!-- Core Difference -->
+<div class="grid md:grid-cols-2 gap-4 mb-6">
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-5">
+<h4 class="font-bold text-blue-800 mb-2">🔵 Greedy Approach</h4>
+<ul class="text-sm text-blue-900 space-y-1.5">
+<li>• Makes <strong>locally optimal</strong> choice at each step</li>
+<li>• <strong>Never reconsiders</strong> previous decisions</li>
+<li>• Works when problem has <strong>Greedy Choice Property</strong></li>
+<li>• Also needs <strong>Optimal Substructure</strong></li>
+<li>• Faster: Usually O(n log n) or O(n)</li>
+<li>• <strong>May NOT give optimal solution</strong> for all problems</li>
+</ul>
+</div>
+<div class="bg-purple-50 border border-purple-200 rounded-xl p-5">
+<h4 class="font-bold text-purple-800 mb-2">🟣 Dynamic Programming</h4>
+<ul class="text-sm text-purple-900 space-y-1.5">
+<li>• Explores <strong>all possibilities</strong> systematically</li>
+<li>• <strong>Overlapping subproblems</strong> — stores & reuses results</li>
+<li>• Works with <strong>Optimal Substructure</strong> only</li>
+<li>• Uses <strong>memoization</strong> (top-down) or <strong>tabulation</strong> (bottom-up)</li>
+<li>• Slower: Usually O(n²) or O(n³)</li>
+<li>• <strong>Always gives optimal solution</strong></li>
+</ul>
+</div>
+</div>
+
+<!-- Comparison Table -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Head-to-Head Comparison</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-4 py-3 text-left">Criteria</th>
+<th class="px-4 py-3 text-left">Greedy</th>
+<th class="px-4 py-3 text-left">Dynamic Programming</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Strategy</td><td class="px-4 py-2">Top-down, make immediate best choice</td><td class="px-4 py-2">Bottom-up or top-down with memoization</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Revisiting decisions</td><td class="px-4 py-2">Never</td><td class="px-4 py-2">Yes, explores all options</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Optimality</td><td class="px-4 py-2">Not guaranteed</td><td class="px-4 py-2">Always guaranteed</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Time Complexity</td><td class="px-4 py-2">Generally faster</td><td class="px-4 py-2">Generally slower</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Space Complexity</td><td class="px-4 py-2">Usually O(1) or O(n)</td><td class="px-4 py-2">O(n²) typically for table</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Key Requirement</td><td class="px-4 py-2">Greedy Choice + Optimal Substructure</td><td class="px-4 py-2">Optimal Substructure + Overlapping Subproblems</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- Problems Classification -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">📋 Problem Classification</h3>
+
+<div class="space-y-4">
+<!-- Solvable by Both -->
+<div class="bg-green-50 border border-green-200 rounded-xl p-5">
+<h4 class="font-bold text-green-800 mb-3">✅ Problems Solvable by BOTH Greedy & DP (Greedy gives optimal)</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white rounded-lg overflow-hidden">
+<thead><tr class="bg-green-100">
+<th class="px-3 py-2 text-left">Problem</th>
+<th class="px-3 py-2 text-left">Greedy Approach</th>
+<th class="px-3 py-2 text-left">DP Approach</th>
+<th class="px-3 py-2 text-left">Why Both Work?</th>
+</tr></thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Fractional Knapsack</td><td class="px-3 py-2">Sort by value/weight ratio, pick greedily</td><td class="px-3 py-2">Can solve but overkill</td><td class="px-3 py-2">Items can be broken → greedy choice property holds</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Activity Selection</td><td class="px-3 py-2">Sort by finish time, pick non-overlapping</td><td class="px-3 py-2">DP also works</td><td class="px-3 py-2">Greedy choice always leads to optimal</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Minimum Spanning Tree</td><td class="px-3 py-2">Kruskal's / Prim's</td><td class="px-3 py-2">DP not typical</td><td class="px-3 py-2">Greedy choice property proven by cut property</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Dijkstra's Shortest Path</td><td class="px-3 py-2">Pick min distance node</td><td class="px-3 py-2">Bellman-Ford (DP-like)</td><td class="px-3 py-2">Works with non-negative weights</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Huffman Coding</td><td class="px-3 py-2">Merge two lowest frequency nodes</td><td class="px-3 py-2">—</td><td class="px-3 py-2">Prefix-free codes → greedy optimal</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- DP Only -->
+<div class="bg-purple-50 border border-purple-200 rounded-xl p-5">
+<h4 class="font-bold text-purple-800 mb-3">🔒 Problems Solvable by DP ONLY (Greedy fails)</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white rounded-lg overflow-hidden">
+<thead><tr class="bg-purple-100">
+<th class="px-3 py-2 text-left">Problem</th>
+<th class="px-3 py-2 text-left">Why Greedy Fails</th>
+<th class="px-3 py-2 text-left">DP Solution</th>
+</tr></thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">0/1 Knapsack</td><td class="px-3 py-2">Can't break items → greedy by ratio doesn't work</td><td class="px-3 py-2">dp[i][w] = max value using first i items with capacity w</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Longest Common Subsequence</td><td class="px-3 py-2">Local match doesn't guarantee global optimum</td><td class="px-3 py-2">dp[i][j] = LCS of X[1..i] and Y[1..j]</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Matrix Chain Multiplication</td><td class="px-3 py-2">Order of multiplication affects total cost non-locally</td><td class="px-3 py-2">dp[i][j] = min cost to multiply Ai..Aj</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Longest Increasing Subsequence</td><td class="px-3 py-2">Picking current max doesn't ensure longest chain</td><td class="px-3 py-2">dp[i] = LIS ending at index i</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Edit Distance (Levenshtein)</td><td class="px-3 py-2">Operations interact in complex ways</td><td class="px-3 py-2">dp[i][j] = edit distance of s1[1..i], s2[1..j]</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Coin Change (min coins)</td><td class="px-3 py-2">Greedy works only for canonical coin systems</td><td class="px-3 py-2">dp[i] = min coins for amount i</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Bellman-Ford (negative edges)</td><td class="px-3 py-2">Negative edges break greedy shortest path</td><td class="px-3 py-2">Relax all edges V-1 times</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Floyd-Warshall (All-pairs SP)</td><td class="px-3 py-2">Multiple sources, negative edges</td><td class="px-3 py-2">dp[i][j][k] considering intermediate vertex k</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Exam Trick -->
+<div class="warn-box">
+<strong>⚠️ Classic Exam Question:</strong> "For which problem does Greedy NOT give optimal solution?"<br>
+Answer is almost always: <strong>0/1 Knapsack</strong> (NOT Fractional Knapsack).<br><br>
+<strong>Example:</strong> Capacity = 50, Items: {A: wt=10, val=60}, {B: wt=20, val=100}, {C: wt=30, val=120}<br>
+• Greedy by ratio: A(6.0) + B(5.0) + C(4.0) → Pick A+B = wt 30, val 160. Remaining capacity 20, can't fit C.<br>
+• DP optimal: B+C = wt 50, val <strong>220</strong> ← Better!
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 4: LINKED LISTS ==================== -->
+<section id="linked-list" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🔗 Linked Lists — Pseudocode</h2>
+<p class="text-slate-500 mb-6">Singly, Doubly, and Circular with all operations</p>
+
+<!-- Singly Linked List -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">1. Singly Linked List</h3>
+<pre class="mb-4"><span class="cm">// Node Structure</span>
+<span class="kw">struct</span> <span class="tp">Node</span> {
+    <span class="tp">int</span> data;
+    <span class="tp">Node</span>* next;
+    <span class="fn">Node</span>(<span class="tp">int</span> val) : data(val), next(<span class="kw">nullptr</span>) {}
+};
+
+<span class="cm">// ============ INSERT AT BEGINNING ============</span>
+<span class="kw">void</span> <span class="fn">insertAtHead</span>(<span class="tp">Node</span>*& head, <span class="tp">int</span> val) {
+    <span class="tp">Node</span>* newNode = <span class="kw">new</span> <span class="fn">Node</span>(val);
+    newNode->next = head;
+    head = newNode;
+}
+
+<span class="cm">// ============ INSERT AT END ============</span>
+<span class="kw">void</span> <span class="fn">insertAtTail</span>(<span class="tp">Node</span>*& head, <span class="tp">int</span> val) {
+    <span class="tp">Node</span>* newNode = <span class="kw">new</span> <span class="fn">Node</span>(val);
+    <span class="kw">if</span> (head == <span class="kw">nullptr</span>) { head = newNode; <span class="kw">return</span>; }
+    <span class="tp">Node</span>* temp = head;
+    <span class="kw">while</span> (temp->next != <span class="kw">nullptr</span>) temp = temp->next;
+    temp->next = newNode;
+}
+
+<span class="cm">// ============ INSERT AT POSITION ============</span>
+<span class="kw">void</span> <span class="fn">insertAtPos</span>(<span class="tp">Node</span>*& head, <span class="tp">int</span> pos, <span class="tp">int</span> val) {
+    <span class="kw">if</span> (pos == <span class="num">1</span>) { <span class="fn">insertAtHead</span>(head, val); <span class="kw">return</span>; }
+    <span class="tp">Node</span>* temp = head;
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i < pos - <span class="num">1</span> && temp; i++) temp = temp->next;
+    <span class="kw">if</span> (!temp) <span class="kw">return</span>;  <span class="cm">// Invalid position</span>
+    <span class="tp">Node</span>* newNode = <span class="kw">new</span> <span class="fn">Node</span>(val);
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
+<span class="cm">// ============ DELETE BY VALUE ============</span>
+<span class="kw">void</span> <span class="fn">deleteNode</span>(<span class="tp">Node</span>*& head, <span class="tp">int</span> key) {
+    <span class="kw">if</span> (head == <span class="kw">nullptr</span>) <span class="kw">return</span>;
+    <span class="kw">if</span> (head->data == key) {
+        <span class="tp">Node</span>* temp = head;
+        head = head->next;
+        <span class="kw">delete</span> temp;
+        <span class="kw">return</span>;
+    }
+    <span class="tp">Node</span>* temp = head;
+    <span class="kw">while</span> (temp->next && temp->next->data != key) temp = temp->next;
+    <span class="kw">if</span> (temp->next == <span class="kw">nullptr</span>) <span class="kw">return</span>;  <span class="cm">// Not found</span>
+    <span class="tp">Node</span>* toDelete = temp->next;
+    temp->next = toDelete->next;
+    <span class="kw">delete</span> toDelete;
+}
+
+<span class="cm">// ============ REVERSE ============</span>
+<span class="tp">Node</span>* <span class="fn">reverse</span>(<span class="tp">Node</span>* head) {
+    <span class="tp">Node</span> *prev = <span class="kw">nullptr</span>, *curr = head, *next = <span class="kw">nullptr</span>;
+    <span class="kw">while</span> (curr) {
+        next = curr->next;    <span class="cm">// Save next</span>
+        curr->next = prev;    <span class="cm">// Reverse link</span>
+        prev = curr;          <span class="cm">// Move prev forward</span>
+        curr = next;          <span class="cm">// Move curr forward</span>
+    }
+    <span class="kw">return</span> prev;  <span class="cm">// New head</span>
+}
+
+<span class="cm">// ============ DETECT CYCLE (Floyd's) ============</span>
+<span class="tp">bool</span> <span class="fn">hasCycle</span>(<span class="tp">Node</span>* head) {
+    <span class="tp">Node</span> *slow = head, *fast = head;
+    <span class="kw">while</span> (fast && fast->next) {
+        slow = slow->next;        <span class="cm">// Moves 1 step</span>
+        fast = fast->next->next;  <span class="cm">// Moves 2 steps</span>
+        <span class="kw">if</span> (slow == fast) <span class="kw">return true</span>;
+    }
+    <span class="kw">return false</span>;
+}</pre>
+
+<!-- Doubly Linked List -->
+<h3 class="text-lg font-bold text-slate-800 mb-3 mt-8">2. Doubly Linked List</h3>
+<pre class="mb-4"><span class="cm">// Node Structure</span>
+<span class="kw">struct</span> <span class="tp">DNode</span> {
+    <span class="tp">int</span> data;
+    <span class="tp">DNode</span>* prev;
+    <span class="tp">DNode</span>* next;
+    <span class="fn">DNode</span>(<span class="tp">int</span> val) : data(val), prev(<span class="kw">nullptr</span>), next(<span class="kw">nullptr</span>) {}
+};
+
+<span class="cm">// ============ INSERT AT BEGINNING ============</span>
+<span class="kw">void</span> <span class="fn">dllInsertHead</span>(<span class="tp">DNode</span>*& head, <span class="tp">int</span> val) {
+    <span class="tp">DNode</span>* newNode = <span class="kw">new</span> <span class="fn">DNode</span>(val);
+    newNode->next = head;
+    <span class="kw">if</span> (head) head->prev = newNode;
+    head = newNode;
+}
+
+<span class="cm">// ============ INSERT AFTER A GIVEN NODE ============</span>
+<span class="kw">void</span> <span class="fn">dllInsertAfter</span>(<span class="tp">DNode</span>* prevNode, <span class="tp">int</span> val) {
+    <span class="kw">if</span> (!prevNode) <span class="kw">return</span>;
+    <span class="tp">DNode</span>* newNode = <span class="kw">new</span> <span class="fn">DNode</span>(val);
+    newNode->next = prevNode->next;
+    newNode->prev = prevNode;
+    <span class="kw">if</span> (prevNode->next) prevNode->next->prev = newNode;
+    prevNode->next = newNode;
+}
+
+<span class="cm">// ============ DELETE A NODE ============</span>
+<span class="kw">void</span> <span class="fn">dllDelete</span>(<span class="tp">DNode</span>*& head, <span class="tp">DNode</span>* delNode) {
+    <span class="kw">if</span> (!head || !delNode) <span class="kw">return</span>;
+    <span class="kw">if</span> (head == delNode) head = head->next;
+    <span class="kw">if</span> (delNode->next) delNode->next->prev = delNode->prev;
+    <span class="kw">if</span> (delNode->prev) delNode->prev->next = delNode->next;
+    <span class="kw">delete</span> delNode;
+}
+
+<span class="cm">// ============ REVERSE DOUBLY LL ============</span>
+<span class="tp">DNode</span>* <span class="fn">dllReverse</span>(<span class="tp">DNode</span>* head) {
+    <span class="tp">DNode</span>* temp = <span class="kw">nullptr</span>;
+    <span class="tp">DNode</span>* curr = head;
+    <span class="kw">while</span> (curr) {
+        temp = curr->prev;
+        curr->prev = curr->next;  <span class="cm">// Swap prev and next</span>
+        curr->next = temp;
+        curr = curr->prev;  <span class="cm">// Move to next (which is now prev)</span>
+    }
+    <span class="kw">if</span> (temp) head = temp->prev;
+    <span class="kw">return</span> head;
+}</pre>
+
+<!-- Complexity Table -->
+<h3 class="text-lg font-bold text-slate-800 mb-3 mt-6">Complexity Comparison</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-4 py-3 text-left">Operation</th>
+<th class="px-4 py-3">Singly LL</th>
+<th class="px-4 py-3">Doubly LL</th>
+<th class="px-4 py-3">Array</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Access by index</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(1)</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Insert at head</td><td class="px-4 py-2 text-center">O(1)</td><td class="px-4 py-2 text-center">O(1)</td><td class="px-4 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Insert at tail</td><td class="px-4 py-2 text-center">O(n)* / O(1)**</td><td class="px-4 py-2 text-center">O(n)* / O(1)**</td><td class="px-4 py-2 text-center">O(1)***</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Delete by value</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Delete given node ptr</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(1)</td><td class="px-4 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Reverse</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(n)</td><td class="px-4 py-2 text-center">O(n)</td></tr>
+</tbody>
+</table>
+</div>
+<p class="text-xs text-slate-500 mt-2">* Without tail pointer | ** With tail pointer | *** Amortized</p>
+</div>
+</section>
+
+<!-- ==================== SECTION 5: TREES ==================== -->
+<section id="trees" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🌳 Trees & Traversal Conversions</h2>
+<p class="text-slate-500 mb-6">BST operations, tree traversals, and exam-based conversion tricks</p>
+
+<!-- BST Operations -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">BST — Pseudocode</h3>
+<pre class="mb-6"><span class="kw">struct</span> <span class="tp">TreeNode</span> {
+    <span class="tp">int</span> data;
+    <span class="tp">TreeNode</span>* left;
+    <span class="tp">TreeNode</span>* right;
+    <span class="fn">TreeNode</span>(<span class="tp">int</span> val) : data(val), left(<span class="kw">nullptr</span>), right(<span class="kw">nullptr</span>) {}
+};
+
+<span class="cm">// ============ INSERT ============</span>
+<span class="tp">TreeNode</span>* <span class="fn">bstInsert</span>(<span class="tp">TreeNode</span>* root, <span class="tp">int</span> val) {
+    <span class="kw">if</span> (!root) <span class="kw">return new</span> <span class="fn">TreeNode</span>(val);
+    <span class="kw">if</span> (val < root->data) root->left = <span class="fn">bstInsert</span>(root->left, val);
+    <span class="kw">else if</span> (val > root->data) root->right = <span class="fn">bstInsert</span>(root->right, val);
+    <span class="kw">return</span> root;
+}
+
+<span class="cm">// ============ SEARCH ============</span>
+<span class="tp">TreeNode</span>* <span class="fn">bstSearch</span>(<span class="tp">TreeNode</span>* root, <span class="tp">int</span> key) {
+    <span class="kw">if</span> (!root || root->data == key) <span class="kw">return</span> root;
+    <span class="kw">if</span> (key < root->data) <span class="kw">return</span> <span class="fn">bstSearch</span>(root->left, key);
+    <span class="kw">return</span> <span class="fn">bstSearch</span>(root->right, key);
+}
+
+<span class="cm">// ============ FIND MIN ============</span>
+<span class="tp">TreeNode</span>* <span class="fn">findMin</span>(<span class="tp">TreeNode</span>* node) {
+    <span class="kw">while</span> (node->left) node = node->left;
+    <span class="kw">return</span> node;
+}
+
+<span class="cm">// ============ DELETE ============</span>
+<span class="tp">TreeNode</span>* <span class="fn">bstDelete</span>(<span class="tp">TreeNode</span>* root, <span class="tp">int</span> key) {
+    <span class="kw">if</span> (!root) <span class="kw">return nullptr</span>;
+    <span class="kw">if</span> (key < root->data) root->left = <span class="fn">bstDelete</span>(root->left, key);
+    <span class="kw">else if</span> (key > root->data) root->right = <span class="fn">bstDelete</span>(root->right, key);
+    <span class="kw">else</span> {
+        <span class="cm">// Case 1: Leaf node</span>
+        <span class="kw">if</span> (!root->left && !root->right) { <span class="kw">delete</span> root; <span class="kw">return nullptr</span>; }
+        <span class="cm">// Case 2: One child</span>
+        <span class="kw">if</span> (!root->left) { <span class="tp">TreeNode</span>* temp = root->right; <span class="kw">delete</span> root; <span class="kw">return</span> temp; }
+        <span class="kw">if</span> (!root->right) { <span class="tp">TreeNode</span>* temp = root->left; <span class="kw">delete</span> root; <span class="kw">return</span> temp; }
+        <span class="cm">// Case 3: Two children → Replace with inorder successor</span>
+        <span class="tp">TreeNode</span>* succ = <span class="fn">findMin</span>(root->right);
+        root->data = succ->data;
+        root->right = <span class="fn">bstDelete</span>(root->right, succ->data);
+    }
+    <span class="kw">return</span> root;
+}
+
+<span class="cm">// ============ TRAVERSALS ============</span>
+<span class="kw">void</span> <span class="fn">inorder</span>(<span class="tp">TreeNode</span>* root) {   <span class="cm">// LEFT ROOT RIGHT → Sorted order in BST</span>
+    <span class="kw">if</span> (root) { <span class="fn">inorder</span>(root->left); cout << root->data << <span class="str">" "</span>; <span class="fn">inorder</span>(root->right); }
+}
+<span class="kw">void</span> <span class="fn">preorder</span>(<span class="tp">TreeNode</span>* root) {  <span class="cm">// ROOT LEFT RIGHT</span>
+    <span class="kw">if</span> (root) { cout << root->data << <span class="str">" "</span>; <span class="fn">preorder</span>(root->left); <span class="fn">preorder</span>(root->right); }
+}
+<span class="kw">void</span> <span class="fn">postorder</span>(<span class="tp">TreeNode</span>* root) { <span class="cm">// LEFT RIGHT ROOT</span>
+    <span class="kw">if</span> (root) { <span class="fn">postorder</span>(root->left); <span class="fn">postorder</span>(root->right); cout << root->data << <span class="str">" "</span>; }
+}</pre>
+
+<!-- CONVERSION SECTION -->
+<h3 class="text-lg font-bold text-slate-800 mb-3 mt-8">🔄 Tree Traversal Conversions — EXAM MASTER GUIDE</h3>
+
+<div class="tip-box mb-6">
+<strong>🎯 Golden Rule:</strong> Inorder traversal of a BST always gives elements in <strong>sorted (ascending) order</strong>. This is the key to all conversions!
+</div>
+
+<div class="space-y-6">
+<!-- Conversion 1 -->
+<div class="border border-green-200 rounded-xl overflow-hidden">
+<div class="bg-green-50 px-5 py-3 font-bold text-green-800">✅ Conversion 1: Preorder + Inorder → Build Tree → Find Postorder</div>
+<div class="px-5 py-4 space-y-3 text-sm">
+<p><strong>Given:</strong> Preorder: [A, B, D, E, C, F] | Inorder: [D, B, E, A, F, C]</p>
+<p class="font-semibold">Step-by-step method (Exam Trick):</p>
+<ol class="list-decimal ml-5 space-y-2">
+<li><strong>First element of Preorder = ROOT</strong> → A is root</li>
+<li><strong>Find A in Inorder</strong> → [D,B,E] <strong>A</strong> [F,C] → Left subtree has 3 nodes, Right has 2</li>
+<li><strong>Left subtree:</strong> Preorder next 3 = [B,D,E], Inorder = [D,B,E]
+   <br>→ B is root of left subtree. In inorder: [D] B [E] → D is left child, E is right child</li>
+<li><strong>Right subtree:</strong> Preorder next 2 = [C,F], Inorder = [F,C]
+   <br>→ C is root of right subtree. In inorder: [F] C [] → F is left child</li>
+<li><strong>Postorder = Left + Right + Root</strong> → [D, E, B, F, C, A]</li>
+</ol>
+<div class="bg-slate-100 rounded-lg p-3 mono text-xs">
+Tree Built:<pre class="!bg-transparent !p-0 !text-xs">
+        A
+       / \
+      B   C
+     / \  /
+    D   E F
+
+Postorder: D E B F C A ✓
+</pre>
+</div>
+</div>
+</div>
+
+<!-- Conversion 2 -->
+<div class="border border-blue-200 rounded-xl overflow-hidden">
+<div class="bg-blue-50 px-5 py-3 font-bold text-blue-800">✅ Conversion 2: Postorder + Inorder → Build Tree → Find Preorder</div>
+<div class="px-5 py-4 space-y-3 text-sm">
+<p><strong>Given:</strong> Postorder: [D, E, B, F, C, A] | Inorder: [D, B, E, A, F, C]</p>
+<p class="font-semibold">Step-by-step method:</p>
+<ol class="list-decimal ml-5 space-y-2">
+<li><strong>Last element of Postorder = ROOT</strong> → A is root</li>
+<li><strong>Find A in Inorder</strong> → [D,B,E] <strong>A</strong> [F,C] → Left: 3 nodes, Right: 2 nodes</li>
+<li><strong>Left subtree:</strong> Postorder first 3 = [D,E,B], Inorder = [D,B,E]
+   <br>→ B is root (last of postorder). In inorder: [D] B [E]</li>
+<li><strong>Right subtree:</strong> Postorder next 2 = [F,C], Inorder = [F,C]
+   <br>→ C is root (last of postorder). In inorder: [F] C</li>
+<li><strong>Preorder = Root + Left + Right</strong> → [A, B, D, E, C, F]</li>
+</ol>
+</div>
+</div>
+
+<!-- Conversion 3 -->
+<div class="border border-red-200 rounded-xl overflow-hidden">
+<div class="bg-red-50 px-5 py-3 font-bold text-red-800">❌ Conversion 3: Preorder + Postorder → CANNOT uniquely determine tree!</div>
+<div class="px-5 py-4 space-y-3 text-sm">
+<div class="warn-box">
+<strong>⚠️ Critical Exam Point:</strong> Preorder + Postorder <strong>CANNOT</strong> uniquely construct a binary tree. You need Inorder as one of the pairs.<br><br>
+<strong>Why?</strong> When a node has only one child, you can't tell if it's a left child or right child from preorder+postorder alone.<br><br>
+<strong>Exception:</strong> If the tree is a <strong>Full Binary Tree</strong> (every node has 0 or 2 children), then preorder + postorder CAN uniquely determine the tree.
+</div>
+<p class="font-semibold">Valid combinations for unique tree construction:</p>
+<ul class="list-disc ml-5 space-y-1">
+<li>✅ <strong>Inorder + Preorder</strong> → Can build unique tree</li>
+<li>✅ <strong>Inorder + Postorder</strong> → Can build unique tree</li>
+<li>❌ <strong>Preorder + Postorder</strong> → Cannot build unique tree (ambiguous)</li>
+</ul>
+</div>
+</div>
+
+<!-- Quick Exam Tricks -->
+<div class="border border-amber-200 rounded-xl overflow-hidden">
+<div class="bg-amber-50 px-5 py-3 font-bold text-amber-800">⚡ Quick Exam Tricks (No Coding Required)</div>
+<div class="px-5 py-4 space-y-3 text-sm">
+<div class="grid md:grid-cols-2 gap-3">
+<div class="bg-white rounded-lg p-3 border border-amber-100">
+<strong>Trick 1:</strong> First element of Preorder = Root<br>
+<strong>Trick 2:</strong> Last element of Postorder = Root<br>
+<strong>Trick 3:</strong> Inorder of BST = Sorted order
+</div>
+<div class="bg-white rounded-lg p-3 border border-amber-100">
+<strong>Trick 4:</strong> Preorder reversed ≠ Postorder (common trap!)<br>
+<strong>Trick 5:</strong> Inorder reversed = Reverse Inorder (RTL)<br>
+<strong>Trick 6:</strong> n nodes → n+1 null pointers in binary tree
+</div>
+</div>
+<div class="bg-white rounded-lg p-3 border border-amber-100 mt-2">
+<strong>Trick 7 (Direct Conversion without building tree):</strong><br>
+If you know Preorder and Inorder, and need Postorder:<br>
+→ The root (first of preorder) will be <strong>LAST</strong> in postorder.<br>
+→ Recursively: postorder = left_postorder + right_postorder + root<br><br>
+<strong>Trick 8:</strong> For a BST, if given Preorder, Inorder is just the <strong>sorted version</strong> of preorder. Then apply conversion.
+</div>
+</div>
+</div>
+</div>
+
+<!-- Tree Properties -->
+<h3 class="text-lg font-bold text-slate-800 mb-3 mt-6">📐 Important Tree Properties (Formula Box)</h3>
+<div class="formula-box space-y-2 text-sm">
+<div>• <strong>Max nodes at level L:</strong> 2^L</div>
+<div>• <strong>Max nodes in tree of height H:</strong> 2^(H+1) - 1</div>
+<div>• <strong>Min height of tree with N nodes:</strong> ⌈log₂(N+1)⌉ - 1</div>
+<div>• <strong>Leaf nodes in full binary tree:</strong> (Internal nodes) + 1</div>
+<div>• <strong>Null pointers in binary tree with N nodes:</strong> N + 1</div>
+<div>• <strong>Edges in tree with N nodes:</strong> N - 1</div>
+<div>• <strong>BST search (balanced):</strong> O(log n) | <strong>Worst (skewed):</strong> O(n)</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 6: GRAPH ALGORITHMS ==================== -->
+<section id="graph" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🕸️ Graph Algorithms</h2>
+<p class="text-slate-500 mb-6">Complete coverage with use cases and complexity</p>
+
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-xs md:text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-3 py-3 text-left">Algorithm</th>
+<th class="px-3 py-3 text-left">Purpose</th>
+<th class="px-3 py-3">Time</th>
+<th class="px-3 py-3">Space</th>
+<th class="px-3 py-3 text-left">Key Feature</th>
+<th class="px-3 py-3 text-left">When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">BFS</td>
+<td class="px-3 py-2">Traversal / Shortest path (unweighted)</td>
+<td class="px-3 py-2 text-center">O(V+E)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Queue-based, level-order</td>
+<td class="px-3 py-2">Unweighted shortest path, level-order traversal</td>
+</tr>
+<tr class="border-b border-slate-200 bg-slate-50">
+<td class="px-3 py-2 font-semibold">DFS</td>
+<td class="px-3 py-2">Traversal / Cycle detection / Topological sort</td>
+<td class="px-3 py-2 text-center">O(V+E)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Stack/Recursion-based</td>
+<td class="px-3 py-2">Cycle detection, path finding, topological sort</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50 bg-green-50/30">
+<td class="px-3 py-2 font-semibold">Dijkstra's</td>
+<td class="px-3 py-2">Single-source shortest path</td>
+<td class="px-3 py-2 text-center">O((V+E)logV)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Greedy, min-heap</td>
+<td class="px-3 py-2">Non-negative weights, GPS navigation</td>
+</tr>
+<tr class="border-b border-slate-200 bg-green-50/30">
+<td class="px-3 py-2 font-semibold">Bellman-Ford</td>
+<td class="px-3 py-2">Single-source shortest path</td>
+<td class="px-3 py-2 text-center">O(V·E)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Handles negative weights</td>
+<td class="px-3 py-2">Negative edge weights, detect negative cycles</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">Floyd-Warshall</td>
+<td class="px-3 py-2">All-pairs shortest path</td>
+<td class="px-3 py-2 text-center">O(V³)</td>
+<td class="px-3 py-2 text-center">O(V²)</td>
+<td class="px-3 py-2">DP approach</td>
+<td class="px-3 py-2">Dense graphs, all-pairs queries</td>
+</tr>
+<tr class="border-b border-slate-200 bg-blue-50/30">
+<td class="px-3 py-2 font-semibold">Kruskal's</td>
+<td class="px-3 py-2">Minimum Spanning Tree</td>
+<td class="px-3 py-2 text-center">O(E log E)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Greedy, Union-Find</td>
+<td class="px-3 py-2">Sparse graphs</td>
+</tr>
+<tr class="border-b border-slate-200 bg-blue-50/30">
+<td class="px-3 py-2 font-semibold">Prim's</td>
+<td class="px-3 py-2">Minimum Spanning Tree</td>
+<td class="px-3 py-2 text-center">O((V+E)logV)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">Greedy, min-heap</td>
+<td class="px-3 py-2">Dense graphs</td>
+</tr>
+<tr class="border-b border-slate-200 hover:bg-slate-50">
+<td class="px-3 py-2 font-semibold">Topological Sort</td>
+<td class="px-3 py-2">Linear ordering of DAG</td>
+<td class="px-3 py-2 text-center">O(V+E)</td>
+<td class="px-3 py-2 text-center">O(V)</td>
+<td class="px-3 py-2">DFS-based or Kahn's (BFS)</td>
+<td class="px-3 py-2">Task scheduling, build systems</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- BFS Code -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">BFS — Code</h3>
+<pre class="mb-4"><span class="kw">void</span> <span class="fn">bfs</span>(<span class="tp">vector</span>&lt;<span class="tp">vector</span>&lt;<span class="tp">int</span>&gt;&gt;& adj, <span class="tp">int</span> start, <span class="tp">int</span> V) {
+    <span class="tp">vector</span>&lt;<span class="tp">bool</span>&gt; visited(V, <span class="kw">false</span>);
+    <span class="tp">queue</span>&lt;<span class="tp">int</span>&gt; q;
+    
+    visited[start] = <span class="kw">true</span>;
+    q.push(start);
+    
+    <span class="kw">while</span> (!q.empty()) {
+        <span class="tp">int</span> curr = q.front(); q.pop();
+        cout << curr << <span class="str">" "</span>;
+        
+        <span class="kw">for</span> (<span class="tp">int</span> neighbor : adj[curr]) {
+            <span class="kw">if</span> (!visited[neighbor]) {
+                visited[neighbor] = <span class="kw">true</span>;
+                q.push(neighbor);
+            }
+        }
+    }
+}</pre>
+
+<!-- Dijkstra Code -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Dijkstra's — Code</h3>
+<pre class="mb-4"><span class="kw">void</span> <span class="fn">dijkstra</span>(<span class="tp">vector</span>&lt;<span class="tp">vector</span>&lt;<span class="tp">pair</span>&lt;<span class="tp">int</span>,<span class="tp">int</span>&gt;&gt;&gt;& adj, <span class="tp">int</span> src, <span class="tp">int</span> V) {
+    <span class="tp">priority_queue</span>&lt;<span class="tp">pair</span>&lt;<span class="tp">int</span>,<span class="tp">int</span>&gt;, <span class="tp">vector</span>&lt;<span class="tp">pair</span>&lt;<span class="tp">int</span>,<span class="tp">int</span>&gt;&gt;, <span class="tp">greater</span>&lt;&gt;&gt; pq;
+    <span class="tp">vector</span>&lt;<span class="tp">int</span>&gt; dist(V, INT_MAX);
+    
+    dist[src] = <span class="num">0</span>;
+    pq.push({<span class="num">0</span>, src});
+    
+    <span class="kw">while</span> (!pq.empty()) {
+        <span class="tp">int</span> d = pq.top().first;
+        <span class="tp">int</span> u = pq.top().second;
+        pq.pop();
+        
+        <span class="kw">for</span> (<span class="kw">auto</span>& [weight, v] : adj[u]) {
+            <span class="kw">if</span> (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+}</pre>
+
+<!-- Kruskal Code -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">Kruskal's MST — Code</h3>
+<pre><span class="cm">// Union-Find (Disjoint Set)</span>
+<span class="tp">int</span> parent[<span class="num">1000</span>], rank_[<span class="num">1000</span>];
+
+<span class="tp">int</span> <span class="fn">find</span>(<span class="tp">int</span> x) {
+    <span class="kw">if</span> (parent[x] != x) parent[x] = <span class="fn">find</span>(parent[x]);  <span class="cm">// Path compression</span>
+    <span class="kw">return</span> parent[x];
+}
+
+<span class="kw">void</span> <span class="fn">unionSet</span>(<span class="tp">int</span> x, <span class="tp">int</span> y) {
+    <span class="tp">int</span> px = <span class="fn">find</span>(x), py = <span class="fn">find</span>(y);
+    <span class="kw">if</span> (rank_[px] < rank_[py]) swap(px, py);
+    parent[py] = px;
+    <span class="kw">if</span> (rank_[px] == rank_[py]) rank_[px]++;
+}
+
+<span class="tp">int</span> <span class="fn">kruskal</span>(<span class="tp">vector</span>&lt;<span class="tp">tuple</span>&lt;<span class="tp">int</span>,<span class="tp">int</span>,<span class="tp">int</span>&gt;&gt;& edges, <span class="tp">int</span> V) {
+    sort(edges.begin(), edges.end());  <span class="cm">// Sort by weight</span>
+    <span class="tp">int</span> mstWeight = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < V; i++) { parent[i] = i; rank_[i] = <span class="num">0</span>; }
+    
+    <span class="kw">for</span> (<span class="kw">auto</span>& [w, u, v] : edges) {
+        <span class="kw">if</span> (<span class="fn">find</span>(u) != <span class="fn">find</span>(v)) {  <span class="cm">// No cycle</span>
+            <span class="fn">unionSet</span>(u, v);
+            mstWeight += w;
+        }
+    }
+    <span class="kw">return</span> mstWeight;
+}</pre>
+</div>
+</section>
+
+<!-- ==================== SECTION 7: DISK SCHEDULING ==================== -->
+<section id="disk" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">💾 Disk Scheduling Algorithms</h2>
+<p class="text-slate-500 mb-6">Traversal patterns, numerical examples, and comparisons</p>
+
+<!-- Overview Table -->
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-xs md:text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-3 py-3 text-left">Algorithm</th>
+<th class="px-3 py-3 text-left">Traversal Pattern</th>
+<th class="px-3 py-3 text-left">Key Feature</th>
+<th class="px-3 py-3 text-left">Drawback</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">FCFS</td><td class="px-3 py-2">As requests come</td><td class="px-3 py-2">Simple, fair</td><td class="px-3 py-2">High seek time, no optimization</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">SSTF</td><td class="px-3 py-2">Nearest request first</td><td class="px-3 py-2">Minimizes seek time</td><td class="px-3 py-2">Starvation possible</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">SCAN (Elevator)</td><td class="px-3 py-2">One end to other, servicing along way</td><td class="px-3 py-2">No starvation, uniform wait</td><td class="px-3 py-2">Bias toward middle cylinders</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">C-SCAN</td><td class="px-3 py-2">One direction only, jump back to start</td><td class="px-3 py-2">Uniform wait time</td><td class="px-3 py-2">More total movement than SCAN</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">LOOK</td><td class="px-3 py-2">Like SCAN but reverses at last request</td><td class="px-3 py-2">Doesn't go to disk ends unnecessarily</td><td class="px-3 py-2">Slight bias to middle</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">C-LOOK</td><td class="px-3 py-2">Like C-SCAN but jumps to first request</td><td class="px-3 py-2">Most uniform wait time</td><td class="px-3 py-2">Complex implementation</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- Numerical Example -->
+<h3 class="text-lg font-bold text-slate-800 mb-3">📝 Numerical Example (All Algorithms)</h3>
+<div class="formula-box mb-4">
+<strong>Problem:</strong> Disk has 200 cylinders (0-199). Head is at cylinder <strong>50</strong>. Moving toward higher cylinders.<br>
+Request queue: <strong>82, 170, 43, 140, 24, 16, 190</strong><br>
+Calculate total head movement for each algorithm.
+</div>
+
+<div class="space-y-4">
+<!-- FCFS -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">1. FCFS (First Come First Serve)</h4>
+<div class="text-sm space-y-1">
+<p><strong>Order:</strong> 50 → 82 → 170 → 43 → 140 → 24 → 16 → 190</p>
+<p><strong>Movement:</strong> |82-50| + |170-82| + |43-170| + |140-43| + |24-140| + |16-24| + |190-16|</p>
+<p>= 32 + 88 + 127 + 97 + 116 + 8 + 174 = <strong class="text-red-600">642 cylinders</strong></p>
+</div>
+</div>
+
+<!-- SSTF -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">2. SSTF (Shortest Seek Time First)</h4>
+<div class="text-sm space-y-1">
+<p><strong>Logic:</strong> Always go to nearest pending request</p>
+<p><strong>Order:</strong> 50 → 43 → 24 → 16 → 82 → 140 → 170 → 190</p>
+<p><strong>Movement:</strong> 7 + 19 + 8 + 66 + 58 + 30 + 20 = <strong class="text-green-600">208 cylinders</strong></p>
+</div>
+</div>
+
+<!-- SCAN -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">3. SCAN (Elevator) — Moving toward higher, disk end = 199</h4>
+<div class="text-sm space-y-1">
+<p><strong>Logic:</strong> Go to end (199) servicing along the way, then reverse</p>
+<p><strong>Order:</strong> 50 → 82 → 140 → 170 → 190 → <strong>199</strong> → 43 → 24 → 16</p>
+<p><strong>Movement:</strong> (199-50) + (199-16) = 149 + 183 = <strong class="text-blue-600">332 cylinders</strong></p>
+</div>
+</div>
+
+<!-- C-SCAN -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">4. C-SCAN — Moving toward higher, disk end = 199</h4>
+<div class="text-sm space-y-1">
+<p><strong>Logic:</strong> Go to end (199), jump to 0, then service remaining</p>
+<p><strong>Order:</strong> 50 → 82 → 140 → 170 → 190 → <strong>199</strong> → <strong>0</strong> → 16 → 24 → 43</p>
+<p><strong>Movement:</strong> (199-50) + 199 + 43 = 149 + 199 + 43 = <strong class="text-purple-600">391 cylinders</strong></p>
+</div>
+</div>
+
+<!-- LOOK -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">5. LOOK — Moving toward higher</h4>
+<div class="text-sm space-y-1">
+<p><strong>Logic:</strong> Go to last request (190), then reverse (no need to go to 199)</p>
+<p><strong>Order:</strong> 50 → 82 → 140 → 170 → 190 → 43 → 24 → 16</p>
+<p><strong>Movement:</strong> (190-50) + (190-16) = 140 + 174 = <strong class="text-amber-600">314 cylinders</strong></p>
+</div>
+</div>
+
+<!-- C-LOOK -->
+<div class="border border-slate-200 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 mb-2">6. C-LOOK — Moving toward higher</h4>
+<div class="text-sm space-y-1">
+<p><strong>Logic:</strong> Go to last request (190), jump to first request (16), continue</p>
+<p><strong>Order:</strong> 50 → 82 → 140 → 170 → 190 → 16 → 24 → 43</p>
+<p><strong>Movement:</strong> (190-50) + (190-16) + (43-16) = 140 + 174 + 27 = <strong class="text-teal-600">341 cylinders</strong></p>
+</div>
+</div>
+</div>
+
+<!-- Summary -->
+<div class="bg-slate-100 rounded-xl p-4 mt-4">
+<h4 class="font-bold text-slate-800 mb-2">📊 Summary Comparison</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead><tr class="border-b border-slate-300">
+<th class="px-3 py-2 text-left">Algorithm</th>
+<th class="px-3 py-2 text-center">Total Movement</th>
+<th class="px-3 py-2 text-center">Rank</th>
+<th class="px-3 py-2 text-center">Starvation?</th>
+</tr></thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">SSTF</td><td class="px-3 py-2 text-center font-bold text-green-600">208</td><td class="px-3 py-2 text-center">1st</td><td class="px-3 py-2 text-center">Yes ⚠️</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">LOOK</td><td class="px-3 py-2 text-center font-bold">314</td><td class="px-3 py-2 text-center">2nd</td><td class="px-3 py-2 text-center">No ✓</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">SCAN</td><td class="px-3 py-2 text-center font-bold">332</td><td class="px-3 py-2 text-center">3rd</td><td class="px-3 py-2 text-center">No ✓</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">C-LOOK</td><td class="px-3 py-2 text-center font-bold">341</td><td class="px-3 py-2 text-center">4th</td><td class="px-3 py-2 text-center">No ✓</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">C-SCAN</td><td class="px-3 py-2 text-center font-bold">391</td><td class="px-3 py-2 text-center">5th</td><td class="px-3 py-2 text-center">No ✓</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">FCFS</td><td class="px-3 py-2 text-center font-bold text-red-600">642</td><td class="px-3 py-2 text-center">6th</td><td class="px-3 py-2 text-center">No ✓</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 8: CPU SCHEDULING ==================== -->
+<section id="cpu" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">⚙️ CPU Scheduling Algorithms</h2>
+<p class="text-slate-500 mb-6">Preemptive vs Non-preemptive, Gantt charts, and formulas</p>
+
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-xs md:text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-3 py-3 text-left">Algorithm</th>
+<th class="px-3 py-3 text-left">Type</th>
+<th class="px-3 py-3 text-left">Key Idea</th>
+<th class="px-3 py-3 text-left">Starvation?</th>
+<th class="px-3 py-3 text-left">Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">FCFS</td><td class="px-3 py-2">Non-preemptive</td><td class="px-3 py-2">First come, first served</td><td class="px-3 py-2">No</td><td class="px-3 py-2">Batch systems</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">SJF</td><td class="px-3 py-2">Non-preemptive</td><td class="px-3 py-2">Shortest job first</td><td class="px-3 py-2 text-red-600">Yes</td><td class="px-3 py-2">Min avg wait time (optimal)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">SRTF</td><td class="px-3 py-2">Preemptive</td><td class="px-3 py-2">Shortest remaining time first</td><td class="px-3 py-2 text-red-600">Yes</td><td class="px-3 py-2">Optimal preemptive</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">Priority</td><td class="px-3 py-2">Both</td><td class="px-3 py-2">Highest priority first</td><td class="px-3 py-2 text-red-600">Yes</td><td class="px-3 py-2">Real-time systems</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Round Robin</td><td class="px-3 py-2">Preemptive</td><td class="px-3 py-2">Time quantum based</td><td class="px-3 py-2">No</td><td class="px-3 py-2">Time-sharing, interactive</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">Multilevel Queue</td><td class="px-3 py-2">Both</td><td class="px-3 py-2">Multiple queues with different algorithms</td><td class="px-3 py-2">Depends</td><td class="px-3 py-2">Mixed workload systems</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="formula-box mb-4">
+<strong>📐 Key Formulas:</strong>
+<div class="grid md:grid-cols-2 gap-3 mt-2 text-sm">
+<div>• <strong>Turnaround Time (TAT)</strong> = Completion Time - Arrival Time</div>
+<div>• <strong>Waiting Time (WT)</strong> = Turnaround Time - Burst Time</div>
+<div>• <strong>Response Time</strong> = First CPU time - Arrival Time</div>
+<div>• <strong>Throughput</strong> = Number of processes / Total time</div>
+<div>• <strong>CPU Utilization</strong> = (Busy time / Total time) × 100%</div>
+</div>
+</div>
+
+<div class="warn-box">
+<strong>⚠️ Exam Trap — Round Robin Time Quantum:</strong>
+<ul class="list-disc ml-5 mt-2 space-y-1 text-sm">
+<li>If quantum is <strong>too large</strong> → behaves like FCFS (high wait time)</li>
+<li>If quantum is <strong>too small</strong> → excessive context switching overhead</li>
+<li><strong>Optimal:</strong> 80% of processes should complete within one quantum</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 9: MEMORY MANAGEMENT ==================== -->
+<section id="memory" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🧩 Memory Management</h2>
+<p class="text-slate-500 mb-6">Paging, Segmentation, Page Replacement, and TLB</p>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">Techniques Comparison</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-3 py-3 text-left">Feature</th>
+<th class="px-3 py-3 text-left">Contiguous</th>
+<th class="px-3 py-3 text-left">Paging</th>
+<th class="px-3 py-3 text-left">Segmentation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Allocation</td><td class="px-3 py-2">Contiguous blocks</td><td class="px-3 py-2">Fixed-size frames/pages</td><td class="px-3 py-2">Variable-size segments</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">External Fragmentation</td><td class="px-3 py-2 text-red-600">Yes</td><td class="px-3 py-2 text-green-600">No</td><td class="px-3 py-2 text-red-600">Yes</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Internal Fragmentation</td><td class="px-3 py-2 text-green-600">No</td><td class="px-3 py-2 text-red-600">Yes</td><td class="px-3 py-2 text-green-600">No</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-3 py-2 font-semibold">Sharing/Protection</td><td class="px-3 py-2">Difficult</td><td class="px-3 py-2">Easy (page-level)</td><td class="px-3 py-2">Easy (segment-level)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2 font-semibold">Address Translation</td><td class="px-3 py-2">Base + Limit register</td><td class="px-3 py-2">Page Table</td><td class="px-3 py-2">Segment Table</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">Page Replacement Algorithms</h3>
+<div class="space-y-3 mb-6">
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+<strong class="text-blue-800">FIFO (First In First Out):</strong>
+<p class="text-sm text-blue-900">Replace the oldest page. Simple but suffers from <strong>Belady's Anomaly</strong> (more frames → more page faults!)</p>
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<strong class="text-green-800">Optimal (OPT/BEL):</strong>
+<p class="text-sm text-green-900">Replace the page that won't be used for the longest time in the future. <strong>Cannot be implemented</strong> (needs future knowledge). Used as benchmark.</p>
+</div>
+<div class="bg-purple-50 border border-purple-200 rounded-xl p-4">
+<strong class="text-purple-800">LRU (Least Recently Used):</strong>
+<p class="text-sm text-purple-900">Replace the page that hasn't been used for the longest time. Good approximation of Optimal. Implemented using stack or counter.</p>
+</div>
+</div>
+
+<div class="formula-box">
+<strong>📐 Effective Memory Access Time (EMAT):</strong>
+<pre class="!bg-transparent !p-0 !text-sm mt-2">EMAT = (1 - p) × memory_access + p × page_fault_overhead
+
+Where p = probability of page fault
+
+With TLB:
+EMAT = hit_ratio × (TLB_access + memory) + miss_ratio × (TLB_access + 2×memory)
+</pre>
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 10: DBMS ==================== -->
+<section id="dbms" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🗄️ DBMS & Normalization</h2>
+<p class="text-slate-500 mb-6">Normal forms, keys, and SQL essentials</p>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">Normalization — Quick Reference</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-4 py-3 text-left">Normal Form</th>
+<th class="px-4 py-3 text-left">Condition</th>
+<th class="px-4 py-3 text-left">Eliminates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">1NF</td><td class="px-4 py-2">Atomic values only (no repeating groups)</td><td class="px-4 py-2">Multi-valued attributes</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">2NF</td><td class="px-4 py-2">1NF + No partial dependency (non-prime → part of candidate key)</td><td class="px-4 py-2">Partial dependencies</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">3NF</td><td class="px-4 py-2">2NF + No transitive dependency (non-prime → non-prime)</td><td class="px-4 py-2">Transitive dependencies</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">BCNF</td><td class="px-4 py-2">For every X→Y, X must be a super key</td><td class="px-4 py-2">Remaining anomalies from overlapping keys</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">4NF</td><td class="px-4 py-2">BCNF + No multi-valued dependencies</td><td class="px-4 py-2">Multi-valued dependencies</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="warn-box mb-6">
+<strong>⚠️ Exam Trap:</strong> "Every BCNF is in 3NF" → <strong>TRUE</strong><br>
+"Every 3NF is in BCNF" → <strong>FALSE</strong> (3NF is weaker than BCNF)<br>
+Hierarchy: 1NF ⊂ 2NF ⊂ 3NF ⊂ BCNF ⊂ 4NF ⊂ 5NF
+</div>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">ACID Properties</h3>
+<div class="grid md:grid-cols-2 gap-3 mb-6">
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+<strong class="text-blue-800">A — Atomicity:</strong>
+<p class="text-sm text-blue-900">All or nothing. Transaction either fully executes or not at all.</p>
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<strong class="text-green-800">C — Consistency:</strong>
+<p class="text-sm text-green-900">Database moves from one valid state to another (constraints maintained).</p>
+</div>
+<div class="bg-purple-50 border border-purple-200 rounded-xl p-4">
+<strong class="text-purple-800">I — Isolation:</strong>
+<p class="text-sm text-purple-900">Concurrent transactions don't interfere (appear serial).</p>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+<strong class="text-amber-800">D — Durability:</strong>
+<p class="text-sm text-amber-900">Once committed, changes persist even after crash.</p>
+</div>
+</div>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">SQL Quick Reference</h3>
+<pre class="mb-4"><span class="cm">-- DDL (Data Definition Language)</span>
+<span class="kw">CREATE TABLE</span> employees (id <span class="tp">INT PRIMARY KEY</span>, name <span class="tp">VARCHAR</span>(<span class="num">100</span>), dept_id <span class="tp">INT</span>);
+<span class="kw">ALTER TABLE</span> employees <span class="kw">ADD</span> salary <span class="tp">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>);
+<span class="kw">DROP TABLE</span> employees;        <span class="cm">-- Removes table entirely</span>
+<span class="kw">TRUNCATE TABLE</span> employees;    <span class="cm">-- Removes all rows, keeps structure</span>
+
+<span class="cm">-- DML (Data Manipulation Language)</span>
+<span class="kw">INSERT INTO</span> employees <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Alice'</span>, <span class="num">10</span>, <span class="num">50000</span>);
+<span class="kw">UPDATE</span> employees <span class="kw">SET</span> salary = <span class="num">60000</span> <span class="kw">WHERE</span> id = <span class="num">1</span>;
+<span class="kw">DELETE FROM</span> employees <span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="cm">-- DQL (Data Query Language)</span>
+<span class="kw">SELECT</span> dept_id, <span class="fn">COUNT</span>(*), <span class="fn">AVG</span>(salary) 
+<span class="kw">FROM</span> employees 
+<span class="kw">WHERE</span> salary > <span class="num">30000</span>
+<span class="kw">GROUP BY</span> dept_id 
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">5</span>
+<span class="kw">ORDER BY</span> <span class="fn">AVG</span>(salary) <span class="kw">DESC</span>;
+
+<span class="cm">-- JOINs</span>
+<span class="kw">SELECT</span> e.name, d.dept_name 
+<span class="kw">FROM</span> employees e 
+<span class="kw">INNER JOIN</span> departments d <span class="kw">ON</span> e.dept_id = d.id;  <span class="cm">-- Only matching</span>
+<span class="cm">-- LEFT JOIN: All from left + matching from right</span>
+<span class="cm">-- RIGHT JOIN: All from right + matching from left</span>
+<span class="cm">-- FULL OUTER JOIN: All from both</span></pre>
+</div>
+</section>
+
+<!-- ==================== SECTION 11: SECURITY & NETWORKS ==================== -->
+<section id="os-network" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">🔒 Security & Networks — Quick Notes</h2>
+<p class="text-slate-500 mb-6">Cryptography, firewalls, and OSI model essentials</p>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">Cryptography — Symmetric vs Asymmetric</h3>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border-collapse">
+<thead>
+<tr class="bg-indigo-600 text-white">
+<th class="px-4 py-3 text-left">Feature</th>
+<th class="px-4 py-3 text-left">Symmetric (Secret Key)</th>
+<th class="px-4 py-3 text-left">Asymmetric (Public Key)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Keys</td><td class="px-4 py-2">Same key for encrypt & decrypt</td><td class="px-4 py-2">Different keys (public + private pair)</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Speed</td><td class="px-4 py-2">Fast</td><td class="px-4 py-2">Slow (100-1000x)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Key Distribution</td><td class="px-4 py-2 text-red-600">Problem (need secure channel)</td><td class="px-4 py-2 text-green-600">Easy (public key is public)</td></tr>
+<tr class="border-b border-slate-200 bg-slate-50"><td class="px-4 py-2 font-semibold">Examples</td><td class="px-4 py-2">AES, DES, 3DES, Blowfish</td><td class="px-4 py-2">RSA, ECC, Diffie-Hellman</td></tr>
+<tr class="border-b border-slate-200"><td class="px-4 py-2 font-semibold">Use Case</td><td class="px-4 py-2">Bulk data encryption</td><td class="px-4 py-2">Key exchange, digital signatures</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="text-lg font-bold text-slate-800 mb-3">OSI Model — Layer by Layer</h3>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-3 bg-purple-50 border border-purple-200 rounded-lg p-3">
+<span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">7</span>
+<div><strong>Application</strong> — HTTP, FTP, SMTP, DNS | User interface</div>
+</div>
+<div class="flex items-center gap-3 bg-indigo-50 border border-indigo-200 rounded-lg p-3">
+<span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">6</span>
+<div><strong>Presentation</strong> — SSL/TLS, JPEG, ASCII | Encryption, compression, translation</div>
+</div>
+<div class="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+<span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">5</span>
+<div><strong>Session</strong> — NetBIOS, RPC | Session management, dialog control</div>
+</div>
+<div class="flex items-center gap-3 bg-cyan-50 border border-cyan-200 rounded-lg p-3">
+<span class="bg-cyan-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">4</span>
+<div><strong>Transport</strong> — TCP, UDP | End-to-end delivery, segmentation, flow control</div>
+</div>
+<div class="flex items-center gap-3 bg-green-50 border border-green-200 rounded-lg p-3">
+<span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</span>
+<div><strong>Network</strong> — IP, ICMP, OSPF, BGP | Logical addressing, routing</div>
+</div>
+<div class="flex items-center gap-3 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+<span class="bg-yellow-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</span>
+<div><strong>Data Link</strong> — Ethernet, PPP, Switch | MAC addressing, framing, error detection</div>
+</div>
+<div class="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg p-3">
+<span class="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">1</span>
+<div><strong>Physical</strong> — Cables, Hubs, Bits | Raw bit transmission</div>
+</div>
+</div>
+
+<div class="tip-box">
+<strong>🎯 Mnemonic:</strong> "<strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing" (top to bottom)<br>
+<strong>Exam Tip:</strong> Router = Layer 3, Switch = Layer 2, Hub = Layer 1, Firewall = Layer 3-7
+</div>
+</div>
+</section>
+
+<!-- ==================== SECTION 12: COMPLEXITY CHEAT SHEET ==================== -->
+<section id="complexity" class="mb-12">
+<div class="section-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+<h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">📈 Complexity Cheat Sheet</h2>
+<p class="text-slate-500 mb-6">All important time & space complexities in one place</p>
+
+<div class="overflow-x-auto">
+<table class="w-full text-xs md:text-sm border-collapse">
+<thead>
+<tr class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+<th class="px-3 py-3 text-left">Algorithm/Operation</th>
+<th class="px-3 py-3 text-center">Best</th>
+<th class="px-3 py-3 text-center">Average</th>
+<th class="px-3 py-3 text-center">Worst</th>
+<th class="px-3 py-3 text-center">Space</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 bg-green-50/50"><td class="px-3 py-2 font-semibold" colspan="5">SORTING</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Bubble Sort</td><td class="px-3 py-2 text-center">O(n)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(1)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Selection Sort</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(1)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Insertion Sort</td><td class="px-3 py-2 text-center">O(n)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(1)</td></tr>
+<tr class="border-b border-slate-200 bg-green-50/30"><td class="px-3 py-2 font-semibold">Merge Sort</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200 bg-green-50/30"><td class="px-3 py-2 font-semibold">Quick Sort</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n²)</td><td class="px-3 py-2 text-center">O(log n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Heap Sort</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(n log n)</td><td class="px-3 py-2 text-center">O(1)</td></tr>
+
+<tr class="border-b border-slate-200 bg-blue-50/50"><td class="px-3 py-2 font-semibold" colspan="5">DATA STRUCTURES</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Array Access</td><td class="px-3 py-2 text-center" colspan="3">O(1)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Linked List Search</td><td class="px-3 py-2 text-center">O(1)</td><td class="px-3 py-2 text-center">O(n)</td><td class="px-3 py-2 text-center">O(n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">BST Search (balanced)</td><td class="px-3 py-2 text-center" colspan="3">O(log n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">BST Search (skewed)</td><td class="px-3 py-2 text-center" colspan="3">O(n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Hash Table</td><td class="px-3 py-2 text-center">O(1)</td><td class="px-3 py-2 text-center">O(1)</td><td class="px-3 py-2 text-center">O(n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Heap Insert/Extract</td><td class="px-3 py-2 text-center" colspan="3">O(log n)</td><td class="px-3 py-2 text-center">O(1)</td></tr>
+
+<tr class="border-b border-slate-200 bg-purple-50/50"><td class="px-3 py-2 font-semibold" colspan="5">GRAPH ALGORITHMS</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">BFS / DFS</td><td class="px-3 py-2 text-center" colspan="3">O(V + E)</td><td class="px-3 py-2 text-center">O(V)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Dijkstra (min-heap)</td><td class="px-3 py-2 text-center" colspan="3">O((V+E) log V)</td><td class="px-3 py-2 text-center">O(V)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Bellman-Ford</td><td class="px-3 py-2 text-center" colspan="3">O(V·E)</td><td class="px-3 py-2 text-center">O(V)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Floyd-Warshall</td><td class="px-3 py-2 text-center" colspan="3">O(V³)</td><td class="px-3 py-2 text-center">O(V²)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Kruskal's MST</td><td class="px-3 py-2 text-center" colspan="3">O(E log E)</td><td class="px-3 py-2 text-center">O(V)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Prim's MST</td><td class="px-3 py-2 text-center" colspan="3">O((V+E) log V)</td><td class="px-3 py-2 text-center">O(V)</td></tr>
+
+<tr class="border-b border-slate-200 bg-amber-50/50"><td class="px-3 py-2 font-semibold" colspan="5">DYNAMIC PROGRAMMING PROBLEMS</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">0/1 Knapsack</td><td class="px-3 py-2 text-center" colspan="3">O(n·W)</td><td class="px-3 py-2 text-center">O(n·W)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">LCS</td><td class="px-3 py-2 text-center" colspan="3">O(m·n)</td><td class="px-3 py-2 text-center">O(m·n)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">Matrix Chain</td><td class="px-3 py-2 text-center" colspan="3">O(n³)</td><td class="px-3 py-2 text-center">O(n²)</td></tr>
+<tr class="border-b border-slate-200"><td class="px-3 py-2">LIS</td><td class="px-3 py-2 text-center" colspan="3">O(n²) / O(n log n)</td><td class="px-3 py-2 text-center">O(n)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-box mt-6">
+<strong>🎯 Big-O Order (from best to worst):</strong><br>
+<code class="text-sm">O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(n³) < O(2ⁿ) < O(n!)</code>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<div class="text-center py-8 text-slate-500 text-sm">
+<p>📚 SEBI Grade A (IT) — Complete Study Notes</p>
+<p class="mt-1">Covering all topics for Phase 1 & Phase 2 preparation</p>
+</div>
+
+</main>
+
+<script>
+function toggle(btn) {
+  const content = btn.nextElementSibling;
+  const arrow = btn.querySelector('span:last-child');
+  content.classList.toggle('open');
+  arrow.textContent = content.classList.contains('open') ? '▼' : '▶';
+}
+
+// Smooth scroll & active link
+document.querySelectorAll('.sidebar-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Highlight active section on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

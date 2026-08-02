@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IBPS SO IT Officer — AI / ML / DL Mock (80Q)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+  :root{
+    --base:#1e1e2e; --mantle:#181825; --crust:#11111b;
+    --text:#cdd6f4; --sub:#a6adc8; --sub0:#6c7086;
+    --surface0:#313244; --surface1:#45475a; --surface2:#585b70;
+    --blue:#89b4fa; --green:#a6e3a1; --red:#f38ba8; --yellow:#f9e2af;
+    --mauve:#cba6f7; --peach:#fab387; --teal:#94e2d5; --pink:#f5c2e7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'JetBrains Mono',monospace; background:var(--crust); color:var(--text); min-height:100vh;}
+  #app{max-width:900px; margin:0 auto; padding:16px;}
+  .card{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  h1{font-size:1.15rem; margin:0 0 4px; color:var(--mauve);}
+  .sub{color:var(--sub); font-size:.83rem; margin-bottom:16px;}
+  .meta{display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--sub); margin-bottom:16px;}
+  .meta span{background:var(--surface0); padding:4px 10px; border-radius:20px;}
+  .badge-hard{background:#3a1e26 !important; color:var(--red) !important; font-weight:700;}
+  .topics{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:8px; margin:14px 0;}
+  .topics div{background:var(--mantle); border:1px solid var(--surface0); border-radius:8px; padding:8px 10px; font-size:.72rem; color:var(--sub);}
+  button{font-family:inherit; cursor:pointer; border:none; border-radius:10px; font-weight:700; padding:12px 20px; font-size:.9rem; transition:.15s;}
+  .start-btn{background:var(--mauve); color:var(--crust); width:100%; margin-top:8px;}
+  .start-btn:hover{opacity:.9;}
+  #quizScreen{display:none;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  #timer{background:var(--surface0); padding:8px 14px; border-radius:10px; font-weight:700; color:var(--yellow);}
+  #timer.low{color:var(--red); animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .progress-track{background:var(--surface0); height:6px; border-radius:4px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{background:var(--mauve); height:100%; width:0%; transition:.3s;}
+  .qtopic{display:inline-block; background:var(--surface0); color:var(--teal); font-size:.7rem; padding:3px 10px; border-radius:12px; margin-bottom:10px;}
+  .qtext{font-size:.96rem; line-height:1.55; margin-bottom:16px; white-space:pre-wrap;}
+  .option{display:flex; align-items:center; gap:10px; background:var(--mantle); border:1.5px solid var(--surface0); border-radius:10px; padding:12px 14px; margin-bottom:10px; cursor:pointer; font-size:.86rem; transition:.15s;}
+  .option:hover{border-color:var(--mauve);}
+  .option.selected{border-color:var(--mauve); background:#3b2f4d;}
+  .optlabel{width:24px; height:24px; border-radius:50%; background:var(--surface1); display:flex; align-items:center; justify-content:center; font-size:.75rem; flex-shrink:0;}
+  .option.selected .optlabel{background:var(--mauve); color:var(--crust);}
+  .navrow{display:flex; justify-content:space-between; margin-top:18px; gap:10px;}
+  .navbtn{background:var(--surface1); color:var(--text); flex:1;}
+  .navbtn:hover{background:var(--surface2);}
+  .navbtn:disabled{opacity:.35; cursor:not-allowed;}
+  .submitbtn{background:var(--red); color:var(--crust); flex:1;}
+  #navigator{display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin:16px 0;}
+  .navdot{aspect-ratio:1; border-radius:6px; background:var(--surface0); color:var(--sub); display:flex; align-items:center; justify-content:center; font-size:.64rem; cursor:pointer; border:1px solid var(--surface1);}
+  .navdot.answered{background:var(--green); color:var(--crust); border-color:var(--green);}
+  .navdot.current{outline:2px solid var(--blue);}
+  #resultScreen{display:none;}
+  .scorebox{text-align:center; padding:20px 0;}
+  .scorebox .big{font-size:2.6rem; font-weight:800; color:var(--mauve);}
+  .statsrow{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .statchip{background:var(--mantle); border:1px solid var(--surface0); border-radius:10px; padding:10px 16px; font-size:.85rem; text-align:center;}
+  .statchip .n{font-size:1.3rem; font-weight:700; display:block;}
+  .review{margin-top:24px;}
+  .revcard{background:var(--mantle); border:1px solid var(--surface0); border-radius:12px; padding:16px; margin-bottom:14px; border-left:4px solid var(--surface2);}
+  .revcard.correct{border-left-color:var(--green);}
+  .revcard.wrong{border-left-color:var(--red);}
+  .revcard.skipped{border-left-color:var(--yellow);}
+  .revq{font-size:.86rem; margin-bottom:8px; font-weight:600; white-space:pre-wrap;}
+  .revopt{font-size:.76rem; padding:6px 10px; border-radius:6px; margin-bottom:4px;}
+  .revopt.rightans{background:#1e3a2a; color:var(--green);}
+  .revopt.userwrong{background:#3a1e26; color:var(--red);}
+  .explain{margin-top:10px; font-size:.76rem; color:var(--sub); background:var(--base); padding:10px 12px; border-radius:8px; line-height:1.5;}
+  .explain b{color:var(--teal);}
+  .tag{font-size:.62rem; padding:2px 8px; border-radius:10px; background:var(--surface0); color:var(--sub); margin-left:6px;}
+  #modalOverlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; align-items:center; justify-content:center; padding:20px;}
+  #modalOverlay.show{display:flex;}
+  .modalbox{background:var(--base); border:1px solid var(--surface0); border-radius:14px; padding:22px; max-width:380px; width:100%; text-align:center;}
+  .modalbox p{font-size:.92rem; margin-bottom:18px; color:var(--text); line-height:1.5;}
+  .modalbtns{display:flex; gap:10px;}
+  .modalbtns button{flex:1;}
+  .btn-cancel{background:var(--surface1); color:var(--text);}
+  .btn-confirm{background:var(--red); color:var(--crust);}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="startScreen" class="card">
+    <h1>IBPS SO IT Officer — AI / ML / DL Mock (80Q)</h1>
+    <div class="sub">Basic + conceptual + deep + execution-flow questions across AI fundamentals, ML theory &amp; algorithms, evaluation metrics, unsupervised learning, deep learning, optimization, pipeline ordering, and NLP</div>
+    <div class="meta">
+      <span>80 Questions</span>
+      <span>+1 / −0.25 marking</span>
+      <span>65 min</span>
+      <span class="badge-hard">Mains-Level</span>
+    </div>
+    <div class="topics" id="topicList"></div>
+    <button class="start-btn" onclick="startQuiz()">Start Test</button>
+  </div>
+
+  <div id="quizScreen" class="card">
+    <div class="topbar">
+      <div id="qcounter" style="color:var(--sub); font-size:.85rem;"></div>
+      <div id="timer">65:00</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="qtopic" class="qtopic"></div>
+    <div id="qtext" class="qtext"></div>
+    <div id="options"></div>
+    <div class="navrow">
+      <button class="navbtn" id="prevBtn" onclick="prevQ()">← Previous</button>
+      <button class="navbtn" id="nextBtn" onclick="nextQ()">Next →</button>
+    </div>
+    <div id="navigator"></div>
+    <button class="submitbtn" style="width:100%;" onclick="confirmSubmit()">Submit Test</button>
+  </div>
+
+  <div id="resultScreen" class="card">
+    <h1>Result</h1>
+    <div class="scorebox">
+      <div class="big" id="scoreBig">0</div>
+      <div class="sub">out of 80 marks</div>
+    </div>
+    <div class="statsrow">
+      <div class="statchip"><span class="n" id="statCorrect" style="color:var(--green);">0</span>Correct</div>
+      <div class="statchip"><span class="n" id="statWrong" style="color:var(--red);">0</span>Wrong</div>
+      <div class="statchip"><span class="n" id="statSkip" style="color:var(--yellow);">0</span>Skipped</div>
+      <div class="statchip"><span class="n" id="statAcc">0%</span>Accuracy</div>
+    </div>
+    <div class="review" id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="modalOverlay">
+  <div class="modalbox">
+    <p id="modalMsg"></p>
+    <div class="modalbtns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="modalConfirmed()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+
+/* ---------- AI FUNDAMENTALS (8) ---------- */
+{t:"AI Fundamentals", q:"Which of the following best defines Artificial Intelligence?", o:["The study of biological neural networks only","The simulation of human intelligence processes by machines, especially computer systems","A database management technique","A programming language for scientific computing"], c:1, e:"AI broadly refers to building machines/systems capable of performing tasks that typically require human intelligence — reasoning, learning, perception, and decision-making — rather than any single technique or tool."},
+{t:"AI Fundamentals", q:"Which type of AI describes a system capable of understanding, learning, and performing any intellectual task a human can, across multiple domains — rather than being limited to one specific task?", o:["Narrow AI (ANI)","General AI (AGI)","Super AI (ASI)","Reactive Machine"], c:1, e:"AGI (Artificial General Intelligence) is the hypothetical stage where a machine matches human-level intelligence across all cognitive domains. Narrow AI (what exists today) excels at one specific task only; Super AI (ASI) would exceed human intelligence entirely."},
+{t:"AI Fundamentals", q:"The Turing Test, proposed by Alan Turing, is designed to evaluate:", o:["The computational speed of a machine","A machine's ability to exhibit intelligent behavior indistinguishable from that of a human","The memory capacity of a computer","The energy efficiency of an algorithm"], c:1, e:"In the Turing Test, a human evaluator holds text conversations with both a human and a machine without knowing which is which; if the evaluator cannot reliably tell them apart, the machine is said to have passed."},
+{t:"AI Fundamentals", q:"Which type of intelligent agent selects actions based solely on the current percept, ignoring the history of past percepts, using simple condition-action rules?", o:["Simple reflex agent","Model-based reflex agent","Goal-based agent","Utility-based agent"], c:0, e:"A simple reflex agent reacts only to the immediate percept using fixed if-then rules, with no internal memory of the past — it cannot handle partially observable environments well, unlike a model-based agent."},
+{t:"AI Fundamentals", q:"Which type of intelligent agent maintains an internal representation ('model') of the world to handle partially observable environments, tracking aspects it cannot currently perceive?", o:["Simple reflex agent","Model-based reflex agent","Learning agent","Purely reactive agent"], c:1, e:"A model-based reflex agent keeps an internal state updated over time, allowing it to reason about parts of the environment that are not directly observable at the current moment — an improvement over the simple reflex agent."},
+{t:"AI Fundamentals", q:"In AI search algorithms, which strategy combines the actual cost so far with a heuristic estimate of the remaining cost to the goal, in order to find an optimal path efficiently?", o:["Breadth-First Search (BFS)","Depth-First Search (DFS)","A* Search","Depth-Limited Search"], c:2, e:"A* Search evaluates nodes using f(n) = g(n) + h(n), where g(n) is the cost so far and h(n) is a heuristic estimate to the goal — combining the completeness of BFS-like search with the efficiency of heuristic guidance."},
+{t:"AI Fundamentals", q:"Which of the following best describes an 'expert system' in AI?", o:["A system that only performs mathematical calculations","A computer program that emulates the decision-making ability of a human expert in a specific domain, typically using a knowledge base and an inference engine","A system that mimics random guessing","A hardware device for parallel processing"], c:1, e:"Expert systems encode domain-specific expert knowledge as rules/facts (the knowledge base) and use an inference engine to apply logical reasoning to that knowledge, mimicking how a human specialist would reach a conclusion."},
+{t:"AI Fundamentals", q:"Which AI subfield focuses specifically on enabling computers to understand, interpret, and generate human language?", o:["Computer Vision","Natural Language Processing (NLP)","Robotics","Expert Systems"], c:1, e:"NLP deals with tasks like translation, sentiment analysis, and text generation, working with the structure and meaning of human language — distinct from Computer Vision (images) or Robotics (physical interaction)."},
+
+/* ---------- ML FUNDAMENTALS (10) ---------- */
+{t:"ML Fundamentals", q:"Which type of machine learning trains a model using labeled input-output pairs to predict outputs for new, unseen inputs?", o:["Supervised Learning","Unsupervised Learning","Reinforcement Learning","None of the above"], c:0, e:"Supervised learning relies on a dataset where every input example is paired with a known correct output (label), allowing the model to learn a mapping function it can then apply to new data."},
+{t:"ML Fundamentals", q:"Which type of machine learning works with unlabeled data to discover hidden patterns or groupings, without any predefined output labels?", o:["Supervised Learning","Unsupervised Learning","Reinforcement Learning","Semi-supervised Learning"], c:1, e:"Unsupervised learning (e.g., clustering, dimensionality reduction) finds structure in data purely from the inputs themselves, with no labeled 'correct answer' to learn from."},
+{t:"ML Fundamentals", q:"In Reinforcement Learning, an agent learns optimal behavior by interacting with an environment and receiving:", o:["Labeled training examples","Rewards or penalties based on its actions","Pre-clustered data groupings","A fixed set of rules only, with no feedback"], c:1, e:"Reinforcement learning is built around a feedback loop: the agent takes an action, the environment returns a reward (or penalty) and a new state, and the agent adjusts its policy over time to maximize cumulative reward."},
+{t:"ML Fundamentals", q:"A model that performs very well on training data but poorly on unseen test data is said to be suffering from:", o:["Underfitting","Overfitting","Regularization","Normalization"], c:1, e:"Overfitting occurs when a model learns the training data too closely — including its noise and idiosyncrasies — so it fails to generalize to new, unseen examples."},
+{t:"ML Fundamentals", q:"A model that fails to capture the underlying pattern in the data, performing poorly on both training and test data, is said to be suffering from:", o:["Overfitting","Underfitting","High variance","Data leakage"], c:1, e:"Underfitting happens when a model is too simple (or undertrained) to capture the true relationship in the data, leading to poor performance everywhere — the opposite problem from overfitting."},
+{t:"ML Fundamentals", q:"The bias-variance tradeoff describes the balance between:", o:["Training speed and testing speed","A model's error from overly simplistic assumptions (bias) versus its sensitivity to small fluctuations in training data (variance)","The number of features and the number of samples","CPU usage and memory usage"], c:1, e:"High-bias models tend to underfit (too simple), while high-variance models tend to overfit (too sensitive to training data specifics). Good model selection aims to balance these two sources of error to minimize total generalization error."},
+{t:"ML Fundamentals", q:"Which technique splits the dataset into k equal-sized subsets, trains on k−1 of them and validates on the remaining one, and repeats this k times to get a more reliable estimate of model performance?", o:["Simple train-test split","k-Fold Cross-Validation","Grid Search","One-hot encoding"], c:1, e:"k-Fold Cross-Validation uses every data point for both training and validation (across different folds), giving a more robust performance estimate than a single fixed train-test split, especially with limited data."},
+{t:"ML Fundamentals", q:"Why is a separate 'validation set' (distinct from both the training and test sets) often used during model development?", o:["To permanently store the final trained model","To tune hyperparameters and make model-selection decisions without contaminating the final, unbiased evaluation on the test set","To artificially increase the size of the training data","Purely to visualize the data"], c:1, e:"If you tune hyperparameters using the test set directly, your final performance estimate becomes overly optimistic (information 'leaks' from the test set into the model selection process). A separate validation set keeps the test set truly untouched until the very end."},
+{t:"ML Fundamentals", q:"Feature scaling techniques like normalization (min-max scaling) and standardization (z-score scaling) are primarily used to:", o:["Remove all outliers from the dataset automatically","Bring features onto a similar scale, helping algorithms sensitive to feature magnitude (like gradient descent-based models, KNN, or SVM) converge properly and perform fairly","Automatically select the most important features","Convert categorical data into numerical data"], c:1, e:"Without scaling, features with larger numeric ranges can dominate distance calculations or gradient updates purely due to their scale, not their actual importance — scaling puts all features on a comparable footing."},
+{t:"ML Fundamentals", q:"Which of the following best distinguishes 'classification' from 'regression' in supervised learning?", o:["Classification predicts continuous numerical values, while regression predicts discrete categories","Classification predicts discrete categories/classes, while regression predicts continuous numerical values","They are identical tasks, just different names","Classification only works with images; regression only works with text"], c:1, e:"Classification tasks output a label from a finite set of classes (e.g., spam/not-spam), while regression tasks output a continuous numeric value (e.g., predicting a house price)."},
+
+/* ---------- ML ALGORITHMS (12) ---------- */
+{t:"ML Algorithms", q:"Which impurity measure, used by the CART algorithm for decision trees, calculates the probability of misclassifying a randomly chosen element if it were randomly labeled according to the class distribution in that node?", o:["Entropy","Gini Index","Information Gain","Euclidean Distance"], c:1, e:"Gini Index measures node impurity as 1 minus the sum of squared class probabilities; CART uses it to choose splits that minimize impurity, while ID3/C4.5 traditionally use entropy/information gain instead."},
+{t:"ML Algorithms", q:"'Information Gain' in decision tree construction is calculated as:", o:["The difference between the entropy of the parent node and the weighted average entropy of the child nodes after a split","The total number of samples in a node","The depth of the tree","The final accuracy of the tree"], c:0, e:"Information Gain measures how much a particular split reduces uncertainty (entropy) about the class label — the tree-building algorithm picks the split at each step that maximizes this gain."},
+{t:"ML Algorithms", q:"The k-Nearest Neighbors (KNN) algorithm classifies a new data point based on:", o:["A pre-trained set of weighted parameters learned during training","The majority class among its k closest data points in the feature space, based on a distance metric","A single decision boundary computed once during training","Randomly assigning it to any class"], c:1, e:"KNN looks at the k nearest training examples (by, e.g., Euclidean distance) to a new point and assigns the class that is most common among those neighbors."},
+{t:"ML Algorithms", q:"Which of the following is a key characteristic of KNN that distinguishes it from most other ML algorithms?", o:["It requires extensive upfront training time to build a model","It is a 'lazy learner' — it builds no explicit model during training, deferring all real computation to prediction time","It can only be used for regression, never classification","It cannot work with numerical features"], c:1, e:"KNN simply stores the training data ('memorizes' it) and does all the actual work — computing distances and finding neighbors — only when a new prediction is requested, unlike 'eager learners' (e.g., decision trees, SVMs) that build an explicit model upfront."},
+{t:"ML Algorithms", q:"The Naive Bayes classifier is based on Bayes' Theorem and makes which key simplifying assumption?", o:["All features are perfectly correlated with each other","All features are conditionally independent of each other, given the class label","The dataset must follow a uniform distribution","Only binary classification problems can be solved"], c:1, e:"The 'naive' assumption is that features contribute independently to the probability of a class, given that class — an assumption that is often technically false in real data, yet Naive Bayes still performs surprisingly well in practice, especially for text classification."},
+{t:"ML Algorithms", q:"In Support Vector Machines (SVM), the 'hyperplane' refers to:", o:["A specific data point closest to the decision boundary","The decision boundary that best separates data points of different classes, chosen to maximize the margin between them","A method used purely for feature scaling","A type of activation function"], c:1, e:"SVM specifically seeks the hyperplane that maximizes the margin (the distance) between itself and the nearest points of each class, aiming for the most robust separation possible."},
+{t:"ML Algorithms", q:"In SVM, the data points that lie closest to the decision boundary and directly determine its position and orientation are called:", o:["Outliers","Support vectors","Centroids","Residuals"], c:1, e:"Support vectors are the critical training points nearest the hyperplane; removing any non-support-vector point wouldn't change the decision boundary at all, since only these closest points actually 'support' its position."},
+{t:"ML Algorithms", q:"The 'kernel trick' in SVM is primarily used to:", o:["Speed up data loading from disk","Implicitly map data into a higher-dimensional space, allowing SVM to find a linear separator even for data that isn't linearly separable in its original space","Reduce the total number of input features","Normalize the target variable before training"], c:1, e:"Kernels (like the RBF or polynomial kernel) compute the effect of a higher-dimensional transformation without ever explicitly computing the coordinates in that space, making it computationally feasible to separate non-linear data with a linear boundary in the transformed space."},
+{t:"ML Algorithms", q:"In Linear Regression, the coefficients (weights) are typically estimated by minimizing which cost function?", o:["Cross-entropy loss","Mean Squared Error (MSE) between predicted and actual values","Gini index","Log-likelihood of a binary outcome"], c:1, e:"Linear Regression fits a line (or hyperplane) by minimizing the average squared difference between predicted and actual continuous values — the classic least-squares approach."},
+{t:"ML Algorithms", q:"Logistic Regression, despite its name, is primarily used for:", o:["Predicting continuous numerical values, like linear regression","Classification tasks, using the sigmoid function to output a probability between 0 and 1","Clustering unlabeled data","Dimensionality reduction"], c:1, e:"Logistic Regression applies the sigmoid function to a linear combination of inputs to produce a probability, which is then thresholded (commonly at 0.5) to make a binary classification decision — 'regression' in the name refers to how it's fit, not its task type."},
+{t:"ML Algorithms", q:"Which ensemble technique builds multiple models (often decision trees) independently and in parallel on different bootstrapped samples of the data, then aggregates their predictions to reduce variance?", o:["Boosting","Bagging (Bootstrap Aggregating)","Stacking only","Gradient Descent"], c:1, e:"Bagging (the technique behind Random Forests) trains many models independently on random subsets (with replacement) of the data and combines their outputs (e.g., by majority vote or averaging), which reduces overfitting/variance without needing the models to depend on each other."},
+{t:"ML Algorithms", q:"Which ensemble technique builds models sequentially, where each new model focuses specifically on correcting the errors made by the previous models, ultimately combining them into a strong learner?", o:["Bagging","Boosting","Random subspace method","k-Fold validation"], c:1, e:"Boosting (e.g., AdaBoost, Gradient Boosting, XGBoost) trains models one after another, giving more weight/attention to previously misclassified examples each round — in contrast to bagging's independent, parallel model-building."},
+
+/* ---------- MODEL EVALUATION METRICS (8) ---------- */
+{t:"Model Evaluation Metrics", q:"In a binary classification confusion matrix, a 'False Negative' refers to a case where:", o:["The model correctly predicts the positive class","The model correctly predicts the negative class","The model incorrectly predicts the negative class when the actual class is positive","The model incorrectly predicts the positive class when the actual class is negative"], c:2, e:"A False Negative is a 'miss' — the true label was positive, but the model predicted negative. (The reverse case — predicting positive when the truth is negative — is a False Positive.)"},
+{t:"Model Evaluation Metrics", q:"'Precision' in classification evaluation is defined as:", o:["True Positives / (True Positives + False Negatives)","True Positives / (True Positives + False Positives)","(True Positives + True Negatives) / Total predictions","True Negatives / (True Negatives + False Positives)"], c:1, e:"Precision answers: 'Of everything the model labeled positive, how many actually were positive?' — it penalizes False Positives specifically."},
+{t:"Model Evaluation Metrics", q:"'Recall' (also called Sensitivity) in classification evaluation is defined as:", o:["True Positives / (True Positives + False Positives)","True Positives / (True Positives + False Negatives)","(True Positives + True Negatives) / Total predictions","True Negatives / (True Negatives + False Negatives)"], c:1, e:"Recall answers: 'Of all the actual positive cases, how many did the model correctly catch?' — it penalizes False Negatives specifically, which matters most when missing a positive case is costly (e.g., disease detection)."},
+{t:"Model Evaluation Metrics", q:"The F1-Score is best described as:", o:["The simple arithmetic mean of precision and recall","The harmonic mean of precision and recall, useful for balancing the two, especially with imbalanced classes","The overall accuracy of the model","The area under the ROC curve"], c:1, e:"The harmonic mean penalizes extreme imbalances between precision and recall more heavily than a simple average would, making F1 a better single summary metric when both false positives and false negatives matter."},
+{t:"Model Evaluation Metrics", q:"Scenario: A medical dataset has 950 healthy patients and only 50 patients with a rare disease. A model that simply predicts 'healthy' for every single patient achieves what accuracy, and why is accuracy misleading here?", o:["50% accuracy; accuracy is always a reliable metric regardless of class balance","95% accuracy; this is misleading because it completely hides the model's failure to detect any actual disease cases — a classic imbalanced-dataset trap","5% accuracy, since the model is always wrong","0% accuracy since it never predicts disease"], c:1, e:"950/1000 = 95% accuracy, despite the model having zero ability to actually detect the disease (0% recall for the positive class) — this is precisely why accuracy alone is a poor metric for imbalanced datasets, and why precision/recall/F1 are preferred in such cases."},
+{t:"Model Evaluation Metrics", q:"The ROC (Receiver Operating Characteristic) curve plots:", o:["Precision vs Recall at various thresholds","True Positive Rate (Recall) vs False Positive Rate at various classification thresholds","Training loss vs number of epochs","Bias vs Variance"], c:1, e:"The ROC curve shows the tradeoff between catching true positives and incorrectly flagging false positives as the classification decision threshold is varied, letting you see performance across all possible thresholds at once."},
+{t:"Model Evaluation Metrics", q:"An AUC (Area Under the ROC Curve) close to 1.0 indicates:", o:["A model performing no better than random guessing","A model with excellent ability to distinguish between the positive and negative classes across all thresholds","A model that is definitely overfitting","A model with high bias only"], c:1, e:"AUC summarizes the entire ROC curve into a single number; a value near 1.0 means the model consistently ranks positive examples higher than negative ones across thresholds, while an AUC near 0.5 indicates performance no better than a coin flip."},
+{t:"Model Evaluation Metrics", q:"Which evaluation metric would be most appropriate for a regression task (e.g., predicting continuous house prices), rather than for classification?", o:["F1-Score","Root Mean Squared Error (RMSE)","Precision","Confusion Matrix"], c:1, e:"RMSE measures the average magnitude of prediction error in the same units as the target variable, making it a natural fit for continuous-value regression tasks — precision, F1, and confusion matrices are all classification-specific concepts."},
+
+/* ---------- UNSUPERVISED LEARNING (8) ---------- */
+{t:"Unsupervised Learning", q:"The K-Means clustering algorithm partitions data into k clusters by iteratively:", o:["Building a decision tree from the data","Assigning each data point to its nearest centroid, then recalculating each centroid as the mean of its assigned points, repeating until convergence","Sorting the data by a single feature","Applying backpropagation to update cluster boundaries"], c:1, e:"K-Means alternates between an 'assignment' step (points join their nearest centroid) and an 'update' step (centroids move to the mean of their assigned points), continuing until the centroids stabilize (converge)."},
+{t:"Unsupervised Learning", q:"In K-Means clustering, how is the value of 'k' (number of clusters) often determined when it isn't known in advance?", o:["It is always fixed at 2, by convention","Using techniques like the 'Elbow Method,' which plots within-cluster variance against different values of k to find a point of diminishing returns","k is chosen randomly and never validated","k must always equal the number of features in the dataset"], c:1, e:"The Elbow Method plots a measure of within-cluster variance (like inertia) for increasing values of k; the 'elbow' point, where adding more clusters stops giving much improvement, is often chosen as a reasonable k."},
+{t:"Unsupervised Learning", q:"Which clustering approach builds a tree-like structure of nested clusters (a dendrogram), either by successively merging smaller clusters (agglomerative) or splitting larger ones (divisive)?", o:["K-Means Clustering","Hierarchical Clustering","DBSCAN","Association Rule Mining"], c:1, e:"Hierarchical clustering doesn't require specifying k upfront — it builds a full hierarchy of clusters (visualized as a dendrogram), from which you can 'cut' at any level to get a desired number of clusters."},
+{t:"Unsupervised Learning", q:"Principal Component Analysis (PCA) is primarily used for:", o:["Classification of labeled data","Dimensionality reduction, by transforming data into a new set of uncorrelated variables (principal components) that capture the maximum variance","Generating synthetic labeled training data","Clustering categorical data exclusively"], c:1, e:"PCA re-expresses data along new axes (principal components) chosen to capture as much variance as possible with as few dimensions as possible, useful for visualization, noise reduction, and speeding up downstream algorithms."},
+{t:"Unsupervised Learning", q:"In PCA, how are the principal components ordered?", o:["Randomly, with no particular order","The first principal component captures the maximum possible variance in the data; each subsequent component captures the next-highest variance while remaining orthogonal (uncorrelated) to the previous ones","All components always capture exactly equal variance","Alphabetically, by original feature name"], c:1, e:"This ordering means you can often keep just the first few principal components and discard the rest with minimal information loss, since later components typically contribute very little additional variance."},
+{t:"Unsupervised Learning", q:"In Association Rule Mining (e.g., the Apriori algorithm, used in market basket analysis), 'support' for an itemset refers to:", o:["The confidence level of a specific rule","The proportion of transactions in the dataset that contain that itemset","The number of distinct items sold in the store","The runtime of the mining algorithm"], c:1, e:"Support measures how frequently an itemset appears across all transactions — a low-support itemset is rare and often filtered out before rules are even generated, to keep the search computationally feasible."},
+{t:"Unsupervised Learning", q:"In Association Rule Mining, the 'confidence' of a rule 'A → B' measures:", o:["How frequently the entire dataset appears overall","The likelihood that a transaction containing A also contains B, i.e., P(B given A)","The total number of transactions in the dataset","How many rules exist in total"], c:1, e:"Confidence is a conditional probability: among transactions that already contain A, what fraction also contain B? High confidence suggests a strong association, though it should be interpreted alongside 'lift' to rule out coincidental frequent items."},
+{t:"Unsupervised Learning", q:"Which unsupervised learning technique is specifically designed to identify clusters of arbitrary shape and automatically flag outliers/noise points, unlike K-Means, which assumes roughly spherical, similarly-sized clusters?", o:["K-Means","DBSCAN (Density-Based Spatial Clustering)","Linear Regression","Apriori Algorithm"], c:1, e:"DBSCAN groups together points that are closely packed (high density), automatically marking points in low-density regions as noise/outliers, without requiring the number of clusters to be specified in advance — a strength over K-Means for irregularly shaped clusters."},
+
+/* ---------- DEEP LEARNING FUNDAMENTALS (10) ---------- */
+{t:"DL Fundamentals", q:"The basic building block of a neural network, which takes weighted inputs, sums them (with a bias), and applies an activation function to produce an output, is called a:", o:["Kernel","Neuron (or node / perceptron)","Epoch","Tensor"], c:1, e:"A neuron computes a weighted sum of its inputs plus a bias, then passes that sum through a (typically non-linear) activation function — the fundamental computational unit that networks are built from."},
+{t:"DL Fundamentals", q:"Which activation function outputs a value between 0 and 1, historically popular for binary classification output layers, but prone to the vanishing gradient problem in deep networks?", o:["ReLU","Sigmoid","Softmax","Linear (identity)"], c:1, e:"The sigmoid function squashes any input into the (0,1) range, making it naturally interpretable as a probability, but its gradient becomes very small for very large or very small inputs, slowing learning in deep architectures."},
+{t:"DL Fundamentals", q:"Which activation function, defined as f(x) = max(0, x), is widely used in hidden layers of deep networks because it helps mitigate the vanishing gradient problem and is computationally efficient?", o:["Sigmoid","Tanh","ReLU (Rectified Linear Unit)","Softmax"], c:2, e:"ReLU passes positive values through unchanged and outputs zero for negative values. Its constant gradient of 1 for positive inputs avoids the vanishing-gradient issue that plagues sigmoid/tanh in deep networks, and it's cheap to compute."},
+{t:"DL Fundamentals", q:"Which activation function is commonly used in the output layer of a multi-class classification network to convert raw output scores into a probability distribution that sums to 1?", o:["Sigmoid","ReLU","Softmax","Tanh"], c:2, e:"Softmax exponentiates each output score and normalizes by their sum, producing a set of probabilities across all classes that add up to 1 — ideal for multi-class (as opposed to binary) classification."},
+{t:"DL Fundamentals", q:"In neural network training, 'forward propagation' refers to:", o:["Updating the weights based on the computed error","Passing input data through the network layer by layer to compute the predicted output","Randomly initializing the weights before training begins","Splitting the data into mini-batches"], c:1, e:"Forward propagation is simply running the input through each layer's computations in sequence (weighted sums + activations) to arrive at the network's final prediction — the first half of a training iteration, before backpropagation."},
+{t:"DL Fundamentals", q:"'Backpropagation' is the algorithm used to:", o:["Initialize the network's weights randomly at the start","Compute the gradient of the loss function with respect to each weight, by propagating the error backward through the network layer by layer, enabling weight updates via gradient descent","Only perform the forward pass through the network","Normalize the input data before training"], c:1, e:"Backpropagation applies the chain rule of calculus, working backward from the output layer's loss toward the input layer, to efficiently compute how much each individual weight contributed to the overall error."},
+{t:"DL Fundamentals", q:"The 'vanishing gradient problem' in deep neural networks refers to:", o:["Gradients becoming excessively large, causing unstable, wildly oscillating updates","Gradients becoming extremely small as they are propagated backward through many layers, causing earlier layers to learn very slowly or not at all","The loss function becoming exactly zero permanently","The network running out of available memory"], c:1, e:"When many layers each multiply gradients by small values (as with sigmoid/tanh derivatives), the compounded effect can shrink gradients toward zero by the time they reach early layers, effectively stalling their learning — one motivation for ReLU and architectures like ResNet/LSTM."},
+{t:"DL Fundamentals", q:"Which of the following is a key difference between a 'shallow' neural network and a 'deep' neural network?", o:["Deep networks have only a single hidden layer","Deep networks have multiple (often many) hidden layers, allowing them to learn increasingly abstract, hierarchical feature representations","Shallow networks always outperform deep ones","Deep networks cannot use backpropagation"], c:1, e:"Depth allows a network to build up complex representations in stages — early layers might detect simple patterns (like edges in an image), while deeper layers combine these into increasingly abstract concepts (like shapes, then objects)."},
+{t:"DL Fundamentals", q:"A single perceptron (with no hidden layers) can only correctly learn to classify data that is:", o:["Non-linearly separable in any dimension","Linearly separable","Always exactly three-dimensional","Always categorical, never numerical"], c:1, e:"A lone perceptron can only draw a single straight decision boundary (a hyperplane), so it fundamentally cannot solve problems like XOR, which requires a non-linear decision boundary — this is precisely why multi-layer networks (with hidden layers and non-linear activations) were needed."},
+{t:"DL Fundamentals", q:"In a neural network, what is the role of the 'bias' term associated with a neuron, in addition to its weights?", o:["It has no functional purpose and is purely decorative","It allows the activation function's output to be shifted, giving the model more flexibility to fit data that doesn't naturally pass through the origin","It is used only during testing, never during training","It replaces the need for an activation function entirely"], c:1, e:"Without a bias, a neuron's weighted sum is forced to pass through the origin for zero input, restricting the range of functions it can represent. The bias term acts like the intercept in a linear equation, adding crucial flexibility."},
+
+/* ---------- DEEP LEARNING ARCHITECTURES (10) ---------- */
+{t:"DL Architectures", q:"Convolutional Neural Networks (CNNs) are primarily designed and most commonly used for:", o:["Sequential text data processing","Image and spatial data processing, using convolutional filters to detect local patterns like edges and textures","Tabular data with no spatial structure","Simple linear regression tasks"], c:1, e:"CNNs exploit the spatial structure of images by applying small filters across local regions, detecting increasingly complex visual patterns as depth increases — from edges, to shapes, to whole objects."},
+{t:"DL Architectures", q:"In a CNN, the 'pooling layer' (e.g., max pooling) primarily serves to:", o:["Increase the spatial dimensions of the feature map","Downsample the feature map, reducing its spatial dimensions while retaining the most important information — also reducing computation and helping control overfitting","Add more trainable parameters to the network","Convert a color image to grayscale"], c:1, e:"Pooling (e.g., taking the max value in each small region) shrinks the feature map's size while preserving the strongest activations, making the network more computationally efficient and somewhat robust to small spatial shifts in the input."},
+{t:"DL Architectures", q:"In a CNN, a 'convolutional filter' (kernel) works by:", o:["Randomly deleting pixels from the input image","Sliding across the input, computing a weighted sum (dot product) over a local receptive field at every position, to detect specific patterns like edges", "Sorting pixel values in ascending order","Directly outputting the final classification label"], c:1, e:"Each filter is a small matrix of learned weights that slides ('convolves') across the input, producing a feature map that highlights where the pattern the filter has learned to detect appears in the image."},
+{t:"DL Architectures", q:"Recurrent Neural Networks (RNNs) are specifically designed to handle:", o:["Only fixed-size, non-sequential image data","Sequential data, by maintaining a hidden state that carries information from previous time steps to influence the processing of the current input","Only unsupervised clustering tasks","Data with no temporal or sequential relationship at all"], c:1, e:"RNNs process sequences one element at a time while maintaining a hidden state (a kind of running memory) that gets updated at each step, letting information from earlier in the sequence influence later processing — ideal for text, time series, and speech."},
+{t:"DL Architectures", q:"A key limitation of standard (vanilla) RNNs, which LSTM (Long Short-Term Memory) networks were specifically designed to address, is:", o:["They cannot process any sequential data at all","Difficulty learning long-range dependencies due to the vanishing gradient problem compounding across many time steps","They require no training data whatsoever","They can only be used to process static images"], c:1, e:"As a vanilla RNN processes longer sequences, gradients from distant time steps tend to vanish (or occasionally explode) during backpropagation-through-time, making it hard for the network to 'remember' information from far in the past."},
+{t:"DL Architectures", q:"LSTM networks address the vanishing gradient problem in sequence modeling primarily through:", o:["Removing all recurrent connections entirely","A system of gates (input, forget, and output gates) that regulate the flow of information, allowing the network to selectively retain or discard information over long sequences","Using only convolutional filters instead of recurrence","Eliminating the need for backpropagation altogether"], c:1, e:"LSTM's gating mechanism lets the network learn what to remember, what to forget, and what to output at each time step, maintaining a more stable 'cell state' that can carry relevant information across many time steps without vanishing."},
+{t:"DL Architectures", q:"A Generative Adversarial Network (GAN) consists of two networks trained together in competition: a generator, which creates synthetic data, and a discriminator, which:", o:["Also independently generates synthetic data","Tries to distinguish between real data and the generator's fake/synthetic data, providing feedback that pushes the generator to improve","Compresses the input data into a smaller representation","Performs only unsupervised clustering tasks"], c:1, e:"The generator and discriminator are trained in a minimax game: the generator tries to fool the discriminator into thinking its output is real, while the discriminator tries to correctly tell real from fake — over time, this adversarial pressure pushes the generator to produce increasingly realistic output."},
+{t:"DL Architectures", q:"An Autoencoder is a type of neural network primarily trained to:", o:["Classify labeled images into predefined categories","Reconstruct its input at the output layer, typically by compressing it into a lower-dimensional latent representation (encoding) and then reconstructing it (decoding) — useful for dimensionality reduction and anomaly detection","Play games via reinforcement learning signals","Translate text between languages only"], c:1, e:"By forcing information through a narrow 'bottleneck' layer and requiring accurate reconstruction, an autoencoder learns a compressed representation that captures the most important structure in the data, useful for compression, denoising, and detecting anomalies (which reconstruct poorly)."},
+{t:"DL Architectures", q:"The Transformer architecture, which underlies modern large language models, relies primarily on which mechanism to weigh the relevance of different parts of an input sequence to each other, without relying on recurrence?", o:["Convolutional filters","Self-attention mechanism","K-means clustering","Decision tree splitting"], c:1, e:"Self-attention lets each position in a sequence directly attend to (weigh the importance of) every other position, capturing long-range dependencies in parallel — a major advantage over RNNs, which must process sequences step-by-step."},
+{t:"DL Architectures", q:"Which of the following best describes 'transfer learning' in deep learning?", o:["Training a completely new model from scratch for every new task","Taking a model already pre-trained on a large dataset (for one task) and fine-tuning/adapting it for a new, often related task — saving training time and data requirements","Transferring data between two unrelated databases","Converting a supervised model into a fully unsupervised one"], c:1, e:"Transfer learning reuses the general features a large model has already learned (e.g., from ImageNet for vision, or a large text corpus for language) as a strong starting point, requiring much less data and compute to adapt to a new, related task."},
+
+/* ---------- OPTIMIZATION & TRAINING (8) ---------- */
+{t:"Optimization & Training", q:"Gradient Descent is an optimization algorithm that updates model parameters by moving in the direction of:", o:["The steepest ascent of the loss function","The steepest descent (negative gradient) of the loss function, to iteratively minimize it","A completely random direction at each iteration","The average of all previous gradients only, ignoring the current one"], c:1, e:"Since the gradient points in the direction of steepest increase, moving in the opposite (negative gradient) direction moves parameters toward a (local) minimum of the loss function, one small step at a time."},
+{t:"Optimization & Training", q:"The 'learning rate' in gradient descent controls:", o:["The number of layers in the network","The size of the steps taken toward the minimum of the loss function during each update; too high can overshoot the minimum, too low can make training very slow","The number of training samples used per epoch","The type of activation function used"], c:1, e:"Choosing an appropriate learning rate is critical: too large and updates can overshoot or diverge; too small and training can take an impractically long time (or get stuck in a shallow local minimum)."},
+{t:"Optimization & Training", q:"Which variant of gradient descent updates model parameters using the gradient computed from the ENTIRE training dataset in a single update step?", o:["Stochastic Gradient Descent (SGD)","Batch Gradient Descent","Mini-batch Gradient Descent","Momentum-based Descent"], c:1, e:"Batch Gradient Descent computes the exact gradient using all training examples before making a single parameter update — accurate but computationally expensive and slow for very large datasets."},
+{t:"Optimization & Training", q:"Stochastic Gradient Descent (SGD) differs from Batch Gradient Descent in that it:", o:["Uses the entire dataset for every single update, just like batch GD","Updates parameters using the gradient computed from just ONE randomly chosen training example at a time, making updates faster but noisier","Never converges to any minimum","Requires no learning rate at all"], c:1, e:"By updating after every single example, SGD makes much faster (though noisier) progress per unit of computation, and its inherent noise can actually help escape shallow local minima — a middle ground is mini-batch gradient descent, which updates using a small batch of examples at a time."},
+{t:"Optimization & Training", q:"Which optimizer combines the benefits of momentum and adaptive per-parameter learning rates, and is one of the most widely used optimizers in modern deep learning due to its generally fast and stable convergence?", o:["Plain SGD with no enhancements","Adam (Adaptive Moment Estimation)","Grid Search","Apriori Algorithm"], c:1, e:"Adam maintains running estimates of both the first moment (mean, like momentum) and second moment (variance) of the gradients, adaptively adjusting the effective learning rate per parameter — a big reason for its popularity as a reliable default optimizer."},
+{t:"Optimization & Training", q:"'Dropout' is a regularization technique in deep learning that works by:", o:["Removing entire layers permanently from the network","Randomly 'dropping' (deactivating) a fraction of neurons during each training iteration, forcing the network not to rely too heavily on any single neuron, and reducing overfitting","Increasing the learning rate steadily over time","Automatically generating more training data"], c:1, e:"By randomly zeroing out a fraction of neurons on each forward pass during training, dropout prevents complex co-adaptations between neurons, effectively training an ensemble of many 'thinned' sub-networks that share weights — at test time, all neurons are used, typically with an adjustment for the scale."},
+{t:"Optimization & Training", q:"L2 regularization (Ridge) helps prevent overfitting by:", o:["Removing features entirely from the model","Adding a penalty term to the loss function proportional to the square of the magnitude of the model's weights, discouraging overly large weight values","Increasing the model's complexity indefinitely","Duplicating the training data multiple times"], c:1, e:"By penalizing large weights, L2 regularization encourages the model to find smaller, more evenly distributed weights, which typically leads to a simpler, smoother decision boundary that generalizes better to unseen data."},
+{t:"Optimization & Training", q:"'Batch Normalization' in deep neural networks primarily helps by:", o:["Reducing the total number of training samples needed","Normalizing the inputs to each layer (typically to mean 0, variance 1, computed per mini-batch), which stabilizes and speeds up training and can allow higher learning rates","Eliminating the need for any activation function","Converting a regression problem into a classification problem"], c:1, e:"Batch Normalization reduces internal covariate shift (the tendency for each layer's input distribution to keep changing as earlier layers' weights update during training), making training more stable and often allowing faster convergence with higher learning rates."},
+
+/* ---------- EXECUTION FLOW / PIPELINE (4) ---------- */
+{t:"Execution Flow", q:"Scenario: Arrange the typical stages of a standard machine learning pipeline in the correct order:\n(1) Model Evaluation  (2) Data Preprocessing  (3) Data Collection  (4) Model Training  (5) Feature Engineering", o:["3 → 2 → 5 → 4 → 1","1 → 2 → 3 → 4 → 5","3 → 5 → 2 → 1 → 4","4 → 3 → 2 → 1 → 5"], c:0, e:"The standard flow is: Data Collection → Data Preprocessing (cleaning, handling missing values) → Feature Engineering (creating/selecting useful features) → Model Training → Model Evaluation. Skipping or reordering these steps (e.g., evaluating before training) simply isn't logically possible."},
+{t:"Execution Flow", q:"In training a neural network via backpropagation, what is the correct order of execution for a single training iteration?", o:["Backward pass (compute gradients) → Forward pass (compute output) → Update weights → Compute loss","Forward pass (compute output) → Compute loss → Backward pass (compute gradients) → Update weights","Update weights → Forward pass → Compute loss → Backward pass","Compute loss → Update weights → Forward pass → Backward pass"], c:1, e:"You must first compute the network's output (forward pass) before you can measure how wrong it is (loss), before you can figure out how each weight contributed to that error (backward pass/backpropagation), before finally adjusting the weights (update) using that gradient information."},
+{t:"Execution Flow", q:"In the K-Means clustering algorithm, what is the correct order of the core iterative steps (after initial centroid selection)?", o:["Recalculate centroids → Assign points to nearest centroid → Check for convergence, in that fixed order every time","Assign each point to its nearest centroid → Recalculate centroids as the mean of their assigned points → Repeat until the centroids stop changing significantly (convergence)","Check convergence first → Assign points → Recalculate centroids","Randomly reassign points every iteration, with no centroid recalculation at all"], c:1, e:"K-Means alternates between the assignment step (which cluster does each point currently belong to?) and the update step (where should each cluster's centroid move to, given its current members?), repeating this pair of steps until the assignments stabilize."},
+{t:"Execution Flow", q:"Which of the following correctly describes the order of operations when using k-fold cross-validation to evaluate a model?", o:["Train on all the data → Test on all the data → Simply repeat this k times","Split the data into k folds → For each fold: train on the remaining k−1 folds and validate on that held-out fold → Average the performance across all k iterations","Split into k folds → Train once on a single fold only → Report that one result as final","Validate first, then train afterward on the exact same data that was just used for validation"], c:1, e:"The key idea is that each fold takes a turn being the held-out validation set exactly once, while the model is retrained fresh on the remaining folds each time — the final reported metric is the average across all k runs, giving a more robust performance estimate than a single split."},
+
+/* ---------- NLP & APPLICATIONS (2) ---------- */
+{t:"NLP & Applications", q:"In NLP, 'tokenization' refers to:", o:["Encrypting text data for secure storage or transmission","Breaking down text into smaller units, such as words or subwords, for further processing","Translating text from one language into another","Permanently removing all punctuation with no further use"], c:1, e:"Tokenization is usually the very first preprocessing step in an NLP pipeline, converting raw text into a sequence of discrete units (tokens) that downstream models (like embeddings or transformers) can actually operate on."},
+{t:"NLP & Applications", q:"Word embeddings (like Word2Vec or GloVe) are primarily used in NLP to:", o:["Store raw text data as compressed images","Represent words as dense numerical vectors in a continuous space, capturing semantic relationships (e.g., words with similar meanings end up with similar vectors)","Compress audio files for storage","Encrypt sensitive text data for security"], c:1, e:"Unlike simple one-hot encoding (where every word is equally 'far' from every other word), embeddings place semantically related words closer together in vector space, capturing meaningful relationships (like the famous king − man + woman ≈ queen example) that models can leverage."}
+];
+
+let current=0, answers=new Array(QUESTIONS.length).fill(null), timeLeft=65*60, timerInterval=null, submitted=false;
+
+function renderTopics(){
+  const topics=[...new Set(QUESTIONS.map(q=>q.t))];
+  document.getElementById('topicList').innerHTML = topics.map(t=>{
+    const n=QUESTIONS.filter(q=>q.t===t).length;
+    return `<div>${t} <span style="color:var(--mauve);float:right;">${n}Q</span></div>`;
+  }).join('');
+}
+renderTopics();
+
+function startQuiz(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  buildNavigator();
+  renderQuestion();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInterval); doSubmit(); }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('low', timeLeft<=60);
+}
+
+function buildNavigator(){
+  const nav=document.getElementById('navigator');
+  nav.innerHTML='';
+  QUESTIONS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='navdot';
+    d.textContent=i+1;
+    d.onclick=()=>{ current=i; renderQuestion(); };
+    nav.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[current];
+  document.getElementById('qcounter').textContent = `Question ${current+1} of ${QUESTIONS.length}`;
+  document.getElementById('qtopic').textContent = q.t;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('progressFill').style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+
+  const optsDiv=document.getElementById('options');
+  optsDiv.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');
+    d.className='option'+(answers[current]===i?' selected':'');
+    d.innerHTML = `<div class="optlabel">${String.fromCharCode(65+i)}</div><div>${opt}</div>`;
+    d.onclick=()=>{ answers[current]=i; renderQuestion(); };
+    optsDiv.appendChild(d);
+  });
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===QUESTIONS.length-1;
+
+  document.querySelectorAll('.navdot').forEach((d,i)=>{
+    d.classList.toggle('answered', answers[i]!==null);
+    d.classList.toggle('current', i===current);
+  });
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; renderQuestion(); } }
+function prevQ(){ if(current>0){ current--; renderQuestion(); } }
+
+function confirmSubmit(){
+  const unanswered = answers.filter(a=>a===null).length;
+  document.getElementById('modalMsg').textContent = unanswered>0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : `Submit the test now?`;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+function modalConfirmed(){
+  closeModal();
+  doSubmit();
+}
+
+function doSubmit(){
+  if(submitted) return;
+  submitted=true;
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  let correct=0, wrong=0, skipped=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===null) skipped++;
+    else if(answers[i]===q.c) correct++;
+    else wrong++;
+  });
+  const score = (correct*1) - (wrong*0.25);
+  const attempted = correct+wrong;
+  const accuracy = attempted>0 ? Math.round((correct/attempted)*100) : 0;
+
+  document.getElementById('scoreBig').textContent = score.toFixed(2);
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statSkip').textContent = skipped;
+  document.getElementById('statAcc').textContent = accuracy+'%';
+
+  const reviewDiv=document.getElementById('reviewList');
+  reviewDiv.innerHTML = '<h1 style="margin-top:24px;">Answers & Explanations</h1>';
+  QUESTIONS.forEach((q,i)=>{
+    const userAns=answers[i];
+    const status = userAns===null ? 'skipped' : (userAns===q.c ? 'correct' : 'wrong');
+    const statusLabel = status==='skipped'?'Skipped':(status==='correct'?'Correct':'Wrong');
+    let optsHtml='';
+    q.o.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.c) cls+=' rightans';
+      else if(oi===userAns) cls+=' userwrong';
+      optsHtml += `<div class="${cls}">${String.fromCharCode(65+oi)}. ${opt}${oi===q.c?' ✓ (Correct answer)':''}${(oi===userAns && oi!==q.c)?' ✗ (Your answer)':''}</div>`;
+    });
+    reviewDiv.innerHTML += `
+      <div class="revcard ${status}">
+        <div class="revq">Q${i+1}. ${q.q} <span class="tag">${q.t}</span> <span class="tag">${statusLabel}</span></div>
+        ${optsHtml}
+        <div class="explain"><b>Explanation:</b> ${q.e}</div>
+      </div>`;
+  });
+}
+</script>
+</body>
+</html>

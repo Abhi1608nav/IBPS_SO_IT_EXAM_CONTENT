@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Cyber Security Mock Test (30Q)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --sec:#e0616f;
+    --ok:#5ecfa8; --ok-dim:#1e2c22; --bad:#e2707a; --bad-dim:#301f22; --marked:#c99bd6; --marked-dim:#2c2030;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, rgba(224,97,111,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,179,214,0.05), transparent 55%), var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:20px;}
+  h1,h2,h3{font-family:var(--display);margin:0;}
+  .hide{display:none !important;}
+  button{font-family:var(--sans);cursor:pointer;}
+
+  #startScreen{max-width:720px;margin:40px auto;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--sec);box-shadow:0 0 8px var(--sec);}
+  #startScreen h1{font-size:26px;margin-bottom:8px;}
+  #startScreen p.sub{color:var(--text-dim);font-size:14px;margin:0 0 20px 0;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .infogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .infochip{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;}
+  .infochip .n{font-family:var(--display);font-size:20px;font-weight:700;color:var(--sec);}
+  .infochip .l{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+  .card h3{font-size:14px;margin-bottom:10px;color:var(--text);}
+  .card ul{margin:0;padding-left:20px;color:var(--text-dim);font-size:13.5px;}
+  .card li{margin:6px 0;}
+  .card li b{color:var(--text);}
+  #historyLine{font-family:var(--mono);font-size:12px;color:var(--text-faint);margin:10px 0 0 0;}
+  .startbtn{display:block;width:100%;background:var(--sec);color:#0e131a;border:none;border-radius:8px;padding:15px;font-family:var(--display);font-weight:700;font-size:15px;margin-top:8px;}
+  .startbtn:hover{filter:brightness(1.08);}
+
+  #testScreen{display:none;}
+  .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px;gap:12px;flex-wrap:wrap;}
+  .topbar .ttl{font-family:var(--display);font-weight:600;font-size:14px;color:var(--text-dim);}
+  .timerbox{font-family:var(--mono);font-size:16px;font-weight:600;background:var(--panel);border:1px solid var(--border);padding:6px 14px;border-radius:8px;color:var(--sec);}
+  .timerbox.low{color:var(--bad);border-color:var(--bad);}
+  .submitbtn{background:var(--bad);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;}
+
+  .testlayout{display:grid;grid-template-columns:1fr 300px;gap:18px;padding:18px 20px;}
+  @media (max-width:860px){.testlayout{grid-template-columns:1fr;}}
+
+  .qpanel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .qnum{font-family:var(--mono);font-size:12px;color:var(--text-faint);}
+  .qtext{font-size:16px;color:var(--text);margin:0 0 18px 0;font-weight:500;}
+  .options{display:grid;gap:10px;margin-bottom:20px;}
+  .option{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:12px 14px;border-radius:8px;font-size:14px;display:flex;align-items:center;gap:10px;}
+  .option:hover{border-color:var(--text-faint);color:var(--text);}
+  .option.selected{border-color:var(--sec);background:rgba(224,97,111,0.14);color:var(--text);}
+  .option .lettercircle{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0;color:var(--text-faint);}
+  .option.selected .lettercircle{border-color:var(--sec);color:var(--sec);}
+  .ctrlbar{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border-soft);padding-top:16px;}
+  .ctrlbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:9px 14px;border-radius:7px;font-size:12.5px;font-family:var(--mono);}
+  .ctrlbtn:hover{color:var(--text);border-color:var(--text-faint);}
+  .ctrlbtn.primary{background:var(--ok);color:#0e131a;border-color:var(--ok);font-weight:600;}
+  .ctrlbtn.mark{background:var(--marked);color:#0e131a;border-color:var(--marked);font-weight:600;}
+  .ctrlbtn.spacer{margin-left:auto;}
+
+  .palette{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;height:fit-content;position:sticky;top:70px;}
+  .palette h3{font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;color:var(--text-faint);margin-bottom:10px;}
+  .legend{display:grid;gap:5px;margin-bottom:14px;font-size:11px;color:var(--text-dim);}
+  .legend div{display:flex;align-items:center;gap:6px;}
+  .legend .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0;}
+  .sw.nv{background:var(--panel-alt);border:1px solid var(--border);} .sw.na{background:var(--bad);} .sw.an{background:var(--ok);}
+  .sw.mk{background:var(--marked);} .sw.am{background:var(--ok);border:2px solid var(--marked);}
+  .pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+  .pbtn{aspect-ratio:1;border-radius:6px;border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .pbtn.na{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .pbtn.an{background:var(--ok);color:#0e131a;border-color:var(--ok);}
+  .pbtn.mk{background:var(--marked);color:#0e131a;border-color:var(--marked);}
+  .pbtn.am{background:var(--ok);color:#0e131a;box-shadow:0 0 0 2px var(--marked) inset;}
+  .pbtn.current{outline:2px solid var(--sec);outline-offset:1px;}
+
+  #resultScreen{display:none;max-width:760px;margin:30px auto;}
+  .scorecard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:18px;}
+  .scorecard .bigscore{font-family:var(--display);font-size:44px;font-weight:700;color:var(--sec);}
+  .scorecard .bigscore span{font-size:20px;color:var(--text-faint);}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;}
+  .statrow .s{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:10px;}
+  .statrow .s .v{font-family:var(--display);font-size:18px;font-weight:700;}
+  .statrow .s .l{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;margin-top:2px;}
+  .resultbtns{display:flex;gap:10px;margin-top:18px;}
+  .resultbtns button{flex:1;padding:13px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:14px;border:1px solid var(--border);}
+  .resultbtns .review{background:var(--sec);color:#0e131a;border-color:var(--sec);}
+  .resultbtns .retake{background:var(--panel-alt);color:var(--text);}
+
+  #reviewScreen{display:none;max-width:820px;margin:20px auto;padding-bottom:60px;}
+  .filterbar{display:flex;gap:8px;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:10;}
+  .filterbtn{border:1px solid var(--border);background:var(--panel-alt);color:var(--text-dim);padding:7px 14px;border-radius:100px;font-size:12px;font-family:var(--mono);}
+  .filterbtn.active{background:var(--sec);color:#0e131a;border-color:var(--sec);}
+  .revq{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;}
+  .revq .qtext{font-size:14.5px;margin-bottom:12px;}
+  .revopt{padding:9px 12px;border-radius:7px;border:1px solid var(--border);margin-bottom:6px;font-size:13px;color:var(--text-dim);}
+  .revopt.correctAns{border-color:var(--ok);background:rgba(94,207,168,0.1);color:var(--text);}
+  .revopt.userWrong{border-color:var(--bad);background:rgba(226,112,122,0.1);color:var(--text);}
+  .revexp{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--sec);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .revexp b{color:var(--text);}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;margin-left:8px;}
+  .badge.correct{background:var(--ok-dim);color:var(--ok);border:1px solid var(--ok);}
+  .badge.wrong{background:var(--bad-dim);color:var(--bad);border:1px solid var(--bad);}
+  .badge.unattempted{background:var(--panel-alt);color:var(--text-faint);border:1px solid var(--border);}
+  .backbtn{background:var(--panel-alt);color:var(--text);border:1px solid var(--border);padding:10px 16px;border-radius:8px;font-family:var(--display);font-weight:600;margin-bottom:16px;}
+
+  .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .confirm-overlay.hide{display:none;}
+  .confirm-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:360px;text-align:center;}
+  .confirm-box p{color:var(--text);font-size:14px;margin:0 0 18px 0;}
+  .confirm-btns{display:flex;gap:10px;justify-content:center;}
+  .confirm-btns button{padding:10px 18px;border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;border:1px solid var(--border);cursor:pointer;}
+  .confirm-btns .cbtn-yes{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .confirm-btns .cbtn-cancel{background:var(--panel-alt);color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="startScreen">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER · PROFESSIONAL KNOWLEDGE MOCK</div>
+    <h1>Cyber Security Mock Test — 30 Questions</h1>
+    <p class="sub">Covers the CIA triad, malware &amp; attack types, symmetric/asymmetric cryptography, hashing &amp; digital signatures, security protocols, and IT Act 2000 key sections.</p>
+    <div class="infogrid">
+      <div class="infochip"><div class="n">30</div><div class="l">Questions</div></div>
+      <div class="infochip"><div class="n">23:00</div><div class="l">Time Limit</div></div>
+      <div class="infochip"><div class="n">−0.25</div><div class="l">Negative Mark</div></div>
+    </div>
+    <div class="card">
+      <h3>Instructions</h3>
+      <ul>
+        <li>Total <b>30 questions</b>, time limit <b>23 minutes</b>. Timer starts as soon as you click Start.</li>
+        <li>Marking: <b>+1</b> for a correct answer, <b>&minus;0.25</b> for a wrong answer, <b>0</b> for unattempted.</li>
+        <li>Click an option to select it, then <b>Save &amp; Next</b> to lock it in and move on — selecting alone does not save your answer.</li>
+        <li><b>Mark for Review &amp; Next</b> flags a question for revisit; <b>Clear Response</b> removes your selection.</li>
+        <li>Use the question palette on the right to jump to any question directly.</li>
+        <li>The test auto-submits when the timer hits zero.</li>
+      </ul>
+      <p id="historyLine"></p>
+    </div>
+    <button class="startbtn" id="startBtn">Start Test</button>
+  </div>
+
+  <div id="testScreen">
+    <div class="topbar">
+      <div class="ttl">Cyber Security Mock · 30Q</div>
+      <div class="timerbox" id="timerBox">23:00</div>
+      <button class="submitbtn" id="submitBtn">Submit Test</button>
+    </div>
+    <div class="testlayout">
+      <div class="qpanel">
+        <div class="qmeta"><span class="qnum" id="qNum">Question 1 of 30</span></div>
+        <p class="qtext" id="qText"></p>
+        <div class="options" id="qOptions"></div>
+        <div class="ctrlbar">
+          <button class="ctrlbtn" id="clearBtn">Clear Response</button>
+          <button class="ctrlbtn mark" id="markBtn">Mark for Review &amp; Next</button>
+          <button class="ctrlbtn spacer" id="prevBtn">◂ Previous</button>
+          <button class="ctrlbtn primary" id="saveBtn">Save &amp; Next ▸</button>
+        </div>
+      </div>
+      <div class="palette">
+        <h3>Question Palette</h3>
+        <div class="legend">
+          <div><span class="sw nv"></span> Not visited</div>
+          <div><span class="sw na"></span> Not answered</div>
+          <div><span class="sw an"></span> Answered</div>
+          <div><span class="sw mk"></span> Marked for review</div>
+          <div><span class="sw am"></span> Answered &amp; marked</div>
+        </div>
+        <div id="paletteContainer" class="pgrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultScreen">
+    <div class="scorecard">
+      <div class="eyebrow" style="justify-content:center;"><span class="dot"></span> TEST COMPLETE</div>
+      <div class="bigscore" id="bigScore">0<span>/30</span></div>
+      <div class="statrow">
+        <div class="s"><div class="v" id="statCorrect">0</div><div class="l">Correct</div></div>
+        <div class="s"><div class="v" id="statWrong">0</div><div class="l">Wrong</div></div>
+        <div class="s"><div class="v" id="statUnatt">0</div><div class="l">Unattempted</div></div>
+        <div class="s"><div class="v" id="statAcc">0%</div><div class="l">Accuracy</div></div>
+      </div>
+      <div class="resultbtns">
+        <button class="review" id="reviewBtn">Review Answers</button>
+        <button class="retake" id="retakeBtn">Retake Test</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reviewScreen">
+    <button class="backbtn" id="backBtn">◂ Back to Result</button>
+    <div class="filterbar">
+      <button class="filterbtn active" data-f="all">All 30</button>
+      <button class="filterbtn" data-f="correct">Correct</button>
+      <button class="filterbtn" data-f="wrong">Wrong</button>
+      <button class="filterbtn" data-f="unattempted">Unattempted</button>
+    </div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<div id="confirmOverlay" class="confirm-overlay hide">
+  <div class="confirm-box">
+    <p>Submit the test? You cannot change answers after this.</p>
+    <div class="confirm-btns">
+      <button id="confirmCancel" class="cbtn-cancel">Cancel</button>
+      <button id="confirmYes" class="cbtn-yes">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const QUESTIONS = [
+{id:'q1',q:`Which part of the CIA Triad is protected specifically by using checksums and hash verification?`,options:[`Confidentiality`,`Integrity`,`Availability`,`Authentication`],correct:1,exp:`<b>Integrity</b> is verified using checksums/hashes to detect if data has been altered.`},
+{id:'q2',q:`Which security mechanism is used primarily to protect Confidentiality?`,options:[`Load balancing`,`Encryption`,`Backups`,`Redundant servers`],correct:1,exp:`<b>Encryption</b> ensures only authorized parties with the correct key can read the data — the core of confidentiality.`},
+{id:'q3',q:`Which type of malware disguises itself as legitimate software but does NOT self-replicate, typically opening a backdoor for the attacker?`,options:[`Worm`,`Trojan Horse`,`Adware`,`Virus`],correct:1,exp:`A <b>Trojan Horse</b> appears legitimate but hides malicious functionality, and unlike viruses/worms, doesn't self-replicate.`},
+{id:'q4',q:`Which malware encrypts a victim's files and demands payment for the decryption key?`,options:[`Spyware`,`Adware`,`Ransomware`,`Rootkit`],correct:2,exp:`<b>Ransomware</b> encrypts data and extorts payment for the key to decrypt it.`},
+{id:'q5',q:`Which malware hides deep in the operating system, often at kernel level, to conceal the presence of other malicious activity?`,options:[`Rootkit`,`Keylogger`,`Worm`,`Trojan`],correct:0,exp:`A <b>rootkit</b> specifically hides itself and other malware from detection at a deep system level.`},
+{id:'q6',q:`Which malware type specifically records every keystroke made by a user to steal passwords or sensitive data?`,options:[`Rootkit`,`Botnet`,`Keylogger`,`Adware`],correct:2,exp:`A <b>keylogger</b> captures keystrokes, commonly used to steal login credentials.`},
+{id:'q7',q:`A network of compromised, remotely-controlled devices often used to launch large-scale DDoS attacks is called a:`,options:[`Botnet`,`VPN`,`Firewall cluster`,`Honeypot`],correct:0,exp:`A <b>botnet</b> is a network of infected "bot" devices controlled remotely by an attacker, frequently used for DDoS attacks.`},
+{id:'q8',q:`Fraudulent emails or messages designed to trick users into revealing sensitive information like passwords are an example of:`,options:[`Phishing`,`Spoofing`,`Brute force`,`SQL Injection`],correct:0,exp:`<b>Phishing</b> uses deceptive communication to trick victims into giving up sensitive data.`},
+{id:'q9',q:`An attack where a third party secretly intercepts and possibly alters communication between two parties who believe they are talking directly to each other is called:`,options:[`Man-in-the-Middle (MITM)`,`Phishing`,`SQL Injection`,`Cross-Site Scripting`],correct:0,exp:`<b>MITM</b> attacks insert the attacker invisibly between two communicating parties.`},
+{id:'q10',q:`Inserting malicious SQL code into a website's input field to manipulate or extract data from its database is called:`,options:[`Cross-Site Scripting (XSS)`,`SQL Injection`,`Brute force attack`,`Spoofing`],correct:1,exp:`<b>SQL Injection</b> exploits poorly sanitized input fields to run unintended SQL commands against a database.`},
+{id:'q11',q:`Systematically trying every possible password combination until the correct one is found describes a:`,options:[`Brute force attack`,`Phishing attack`,`Man-in-the-Middle attack`,`Rootkit attack`],correct:0,exp:`A <b>brute force attack</b> exhaustively tries combinations rather than exploiting a technical flaw.`},
+{id:'q12',q:`Manipulating a person (rather than exploiting a technical vulnerability) into divulging confidential information is known as:`,options:[`Social engineering`,`Cross-site scripting`,`Packet sniffing`,`Buffer overflow`],correct:0,exp:`<b>Social engineering</b> exploits human psychology rather than technical weaknesses.`},
+{id:'q13',q:`The scrambled, unreadable form of a message produced after applying an encryption algorithm is called:`,options:[`Plaintext`,`Ciphertext`,`Hash`,`Digest`],correct:1,exp:`<b>Ciphertext</b> is the encrypted output; plaintext is the original readable message before encryption.`},
+{id:'q14',q:`Which of these was the original DES (Data Encryption Standard) algorithm's key length, now considered too weak for modern security?`,options:[`56-bit`,`128-bit`,`256-bit`,`512-bit`],correct:0,exp:`Original <b>DES uses a 56-bit key</b> — far too short by modern standards, which is why 3DES and later AES replaced it.`},
+{id:'q15',q:`AES (Advanced Encryption Standard) supports which of these key sizes?`,options:[`64, 96, or 160 bits`,`128, 192, or 256 bits`,`32, 64, or 96 bits`,`Only a fixed 512-bit key`],correct:1,exp:`<b>AES</b> supports 128, 192, or 256-bit keys — the current industry-standard symmetric cipher.`},
+{id:'q16',q:`The RSA algorithm's security is based on the mathematical difficulty of:`,options:[`Reversing a hash function`,`Factoring the product of two large prime numbers`,`Solving a system of linear equations`,`Guessing a shared secret key`],correct:1,exp:`<b>RSA</b>'s security rests on how computationally hard it is to factor the product of two large primes.`},
+{id:'q17',q:`Which asymmetric technique is used specifically to let two parties agree on a shared secret key over an insecure channel, rather than to encrypt general messages?`,options:[`RSA`,`AES`,`Diffie-Hellman key exchange`,`MD5`],correct:2,exp:`<b>Diffie-Hellman</b> is designed specifically for securely establishing a shared key, not general-purpose message encryption.`},
+{id:'q18',q:`Compared to RSA, what is the main advantage of ECC (Elliptic Curve Cryptography)?`,options:[`It doesn't require a private key`,`It provides similar security with much smaller key sizes, suited to mobile/low-power devices`,`It is a symmetric algorithm, making it faster`,`It cannot be used for digital signatures`],correct:1,exp:`<b>ECC</b> achieves equivalent security to RSA using much smaller keys, which is why it's popular on resource-constrained devices.`},
+{id:'q19',q:`Why do secure protocols like HTTPS avoid using asymmetric encryption for the entire data transfer, using it only for the initial key exchange?`,options:[`Asymmetric encryption is not secure enough`,`Asymmetric encryption is computationally much slower than symmetric encryption`,`Asymmetric encryption cannot use a public key`,`Browsers don't support asymmetric encryption`],correct:1,exp:`Asymmetric encryption is far <b>slower</b>, so it's used only to exchange a session key, after which fast symmetric encryption (AES) handles the actual data.`},
+{id:'q20',q:`Which hashing algorithm produces a 128-bit output and is now considered cryptographically broken/weak?`,options:[`SHA-256`,`MD5`,`AES`,`RSA`],correct:1,exp:`<b>MD5</b> produces a 128-bit hash and has known collision vulnerabilities, making it unsuitable for security-critical use today.`},
+{id:'q21',q:`SHA-256 belongs to which family of hashing algorithms?`,options:[`MD family`,`SHA-1 family`,`SHA-2 family`,`RSA family`],correct:2,exp:`<b>SHA-256</b> is part of the <b>SHA-2</b> family, the current widely-used standard for secure hashing.`},
+{id:'q22',q:`A digital signature primarily proves which two properties of a message?`,options:[`Confidentiality and availability`,`Authenticity and integrity`,`Speed and compression`,`Anonymity and deniability`],correct:1,exp:`A digital signature proves the message truly came from the claimed sender (<b>authenticity</b>) and hasn't been altered (<b>integrity</b>) — it does not by itself provide confidentiality.`},
+{id:'q23',q:`In a Public Key Infrastructure (PKI), which entity issues digital certificates binding a public key to a verified identity?`,options:[`Certificate Authority (CA)`,`Internet Service Provider (ISP)`,`Domain Name System (DNS)`,`Firewall`],correct:0,exp:`A <b>Certificate Authority (CA)</b> issues and vouches for digital certificates, forming the trust backbone of PKI.`},
+{id:'q24',q:`TLS is the modern successor to which older cryptographic protocol securing web traffic?`,options:[`HTTP`,`SSL`,`FTP`,`SSH`],correct:1,exp:`<b>TLS</b> (Transport Layer Security) succeeded <b>SSL</b> (Secure Sockets Layer) as the standard for encrypting web traffic.`},
+{id:'q25',q:`SSH is primarily used to provide which capability securely?`,options:[`Sending bulk email`,`Remote login and command execution`,`Resolving domain names`,`Assigning IP addresses automatically`],correct:1,exp:`<b>SSH</b> (Secure Shell) provides encrypted remote login and command execution, replacing insecure protocols like Telnet.`},
+{id:'q26',q:`Which security device filters incoming and outgoing network traffic based on a defined set of rules?`,options:[`Router`,`Firewall`,`Modem`,`Switch`],correct:1,exp:`A <b>firewall</b> enforces rule-based filtering of traffic, blocking unauthorized access.`},
+{id:'q27',q:`What is the key difference between an IDS and an IPS?`,options:[`IDS only detects and alerts on suspicious activity; IPS can actively block it`,`IDS blocks traffic; IPS only monitors it`,`They are exactly the same thing`,`IDS works only on wireless networks`],correct:0,exp:`An <b>IDS</b> (Intrusion Detection System) monitors and alerts; an <b>IPS</b> (Intrusion Prevention System) can actively intervene and block the threat.`},
+{id:'q28',q:`A VPN primarily provides which security benefit?`,options:[`Faster internet speeds always`,`An encrypted tunnel for secure communication over a public network`,`Automatic virus removal`,`Unlimited free storage`],correct:1,exp:`A <b>VPN</b> creates an encrypted tunnel over a public network, protecting data in transit and masking the user's real IP/location.`},
+{id:'q29',q:`Two-Factor Authentication (2FA) improves security mainly by requiring:`,options:[`Two different passwords for the same account`,`More than one independent form of verification, such as a password plus an OTP`,`A longer single password only`,`Biometric data as the only method`],correct:1,exp:`<b>2FA</b> combines two independent verification factors (e.g. something you know + something you have), making compromise significantly harder than a single password alone.`},
+{id:'q30',q:`Under India's IT Act 2000, which section covers the penalty/compensation for unauthorized access or damage to a computer system?`,options:[`Section 43`,`Section 66C`,`Section 66F`,`Section 67`],correct:0,exp:`<b>Section 43</b> covers penalties for unauthorized access, damage, or disruption to a computer system. Section 66 criminalizes the same acts when done with dishonest/fraudulent intent.`}
+];
+
+const TOTAL = QUESTIONS.length;
+const TIME_LIMIT = 23*60;
+let answers = {};
+QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+let currentIdx = 0;
+let tempSelected = null;
+let remaining = TIME_LIMIT;
+let timerHandle = null;
+
+const el = id => document.getElementById(id);
+
+async function loadHistory(){
+  try{
+    const res = await window.storage.get('cybersec-mocktest-history', false);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){}
+  return [];
+}
+async function saveAttempt(record){
+  try{
+    const hist = await loadHistory();
+    hist.push(record);
+    await window.storage.set('cybersec-mocktest-history', JSON.stringify(hist), false);
+  }catch(e){}
+}
+async function renderHistoryLine(){
+  const hist = await loadHistory();
+  if(hist.length===0){ el('historyLine').textContent = 'No previous attempts yet — this will be attempt #1.'; return; }
+  const best = Math.max(...hist.map(h=>h.score));
+  el('historyLine').textContent = `Previous attempts: ${hist.length} · Best score so far: ${best.toFixed(2)}/30`;
+}
+
+function statusClass(st){
+  if(st==='not-answered') return 'na';
+  if(st==='answered') return 'an';
+  if(st==='marked') return 'mk';
+  if(st==='answered-marked') return 'am';
+  return '';
+}
+function renderPalette(){
+  const container = el('paletteContainer');
+  let html = '';
+  QUESTIONS.forEach((q,i)=>{
+    const st = answers[q.id].status;
+    const cls = statusClass(st) + (i===currentIdx ? ' current' : '');
+    html += `<button class="pbtn ${cls}" data-idx="${i}">${i+1}</button>`;
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.pbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ goTo(parseInt(btn.dataset.idx,10)); });
+  });
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentIdx];
+  el('qNum').textContent = `Question ${currentIdx+1} of ${TOTAL}`;
+  el('qText').innerHTML = q.q;
+  const saved = answers[q.id];
+  tempSelected = saved.selected;
+  const letters = ['A','B','C','D'];
+  el('qOptions').innerHTML = q.options.map((opt,i)=>
+    `<button class="option${tempSelected===i?' selected':''}" data-i="${i}"><span class="lettercircle">${letters[i]}</span>${opt}</button>`
+  ).join('');
+  el('qOptions').querySelectorAll('.option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tempSelected = parseInt(btn.dataset.i,10);
+      el('qOptions').querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  el('prevBtn').disabled = currentIdx===0;
+  renderPalette();
+}
+
+function goTo(idx){
+  if(idx<0 || idx>=TOTAL) return;
+  currentIdx = idx;
+  const qid = QUESTIONS[currentIdx].id;
+  if(answers[qid].status === 'not-visited') answers[qid].status = 'not-answered';
+  renderQuestion();
+}
+
+function commitAndAdvance(newStatusIfSelected, newStatusIfEmpty){
+  const qid = QUESTIONS[currentIdx].id;
+  if(tempSelected !== null){
+    answers[qid] = {selected:tempSelected, status:newStatusIfSelected};
+  } else {
+    answers[qid] = {selected:null, status:newStatusIfEmpty};
+  }
+  if(currentIdx < TOTAL-1) goTo(currentIdx+1); else renderPalette();
+}
+
+el('saveBtn').addEventListener('click', ()=> commitAndAdvance('answered','not-answered'));
+el('markBtn').addEventListener('click', ()=> commitAndAdvance('answered-marked','marked'));
+el('clearBtn').addEventListener('click', ()=>{
+  const qid = QUESTIONS[currentIdx].id;
+  answers[qid] = {selected:null, status:'not-answered'};
+  tempSelected = null;
+  renderQuestion();
+});
+el('prevBtn').addEventListener('click', ()=> goTo(currentIdx-1));
+
+function fmtTime(sec){
+  const m = Math.floor(sec/60).toString().padStart(2,'0');
+  const s = Math.floor(sec%60).toString().padStart(2,'0');
+  return m+':'+s;
+}
+function startTimer(){
+  timerHandle = setInterval(()=>{
+    remaining--;
+    el('timerBox').textContent = fmtTime(Math.max(remaining,0));
+    if(remaining <= 180) el('timerBox').classList.add('low');
+    if(remaining <= 0){
+      clearInterval(timerHandle);
+      submitTest(true);
+    }
+  }, 1000);
+}
+
+function computeResults(){
+  let correct=0, wrong=0, unatt=0;
+  QUESTIONS.forEach(q=>{
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    if(!attempted){ unatt++; return; }
+    if(a.selected === q.correct){ correct++; }
+    else { wrong++; }
+  });
+  const score = correct*1 - wrong*0.25;
+  return {correct, wrong, unatt, score};
+}
+
+async function submitTest(auto){
+  if(timerHandle) clearInterval(timerHandle);
+  const results = computeResults();
+  el('testScreen').style.display='none';
+  el('resultScreen').style.display='block';
+  el('bigScore').innerHTML = `${results.score.toFixed(2)}<span>/30</span>`;
+  el('statCorrect').textContent = results.correct;
+  el('statWrong').textContent = results.wrong;
+  el('statUnatt').textContent = results.unatt;
+  const attempted = results.correct+results.wrong;
+  const acc = attempted>0 ? Math.round((results.correct/attempted)*100) : 0;
+  el('statAcc').textContent = acc+'%';
+  await saveAttempt({date:new Date().toISOString(), score:results.score, correct:results.correct, wrong:results.wrong, unatt:results.unatt});
+}
+
+el('submitBtn').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.remove('hide');
+});
+el('confirmCancel').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+});
+el('confirmYes').addEventListener('click', ()=>{
+  el('confirmOverlay').classList.add('hide');
+  submitTest(false);
+});
+
+let reviewFilter = 'all';
+function renderReview(){
+  const list = el('reviewList');
+  const letters = ['A','B','C','D'];
+  let html = '';
+  QUESTIONS.forEach((q,i)=>{
+    const a = answers[q.id];
+    const attempted = (a.status==='answered' || a.status==='answered-marked') && a.selected!==null;
+    let state = 'unattempted';
+    if(attempted) state = (a.selected===q.correct) ? 'correct' : 'wrong';
+    if(reviewFilter!=='all' && reviewFilter!==state) return;
+    const badgeText = state==='correct' ? 'Correct' : state==='wrong' ? 'Wrong' : 'Unattempted';
+    let optsHtml = '';
+    q.options.forEach((opt,oi)=>{
+      let cls='revopt';
+      if(oi===q.correct) cls+=' correctAns';
+      else if(attempted && oi===a.selected) cls+=' userWrong';
+      optsHtml += `<div class="${cls}">${letters[oi]}. ${opt}</div>`;
+    });
+    html += `<div class="revq">
+      <span class="badge ${state}">${badgeText}</span>
+      <p class="qtext">Q${i+1}. ${q.q}</p>
+      ${optsHtml}
+      <div class="revexp">${q.exp}</div>
+    </div>`;
+  });
+  list.innerHTML = html || '<p style="color:var(--text-faint);font-family:var(--mono);font-size:13px;">No questions in this filter.</p>';
+}
+document.querySelectorAll('.filterbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    reviewFilter = btn.dataset.f;
+    renderReview();
+  });
+});
+el('reviewBtn').addEventListener('click', ()=>{
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='block';
+  reviewFilter='all';
+  document.querySelectorAll('.filterbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filterbtn[data-f="all"]').classList.add('active');
+  renderReview();
+});
+el('backBtn').addEventListener('click', ()=>{
+  el('reviewScreen').style.display='none';
+  el('resultScreen').style.display='block';
+});
+
+el('retakeBtn').addEventListener('click', ()=>{
+  answers = {};
+  QUESTIONS.forEach(q=>{ answers[q.id] = {selected:null, status:'not-visited'}; });
+  currentIdx = 0; tempSelected = null; remaining = TIME_LIMIT;
+  el('timerBox').classList.remove('low');
+  el('resultScreen').style.display='none';
+  el('reviewScreen').style.display='none';
+  el('startScreen').style.display='block';
+  renderHistoryLine();
+});
+
+el('startBtn').addEventListener('click', ()=>{
+  el('startScreen').style.display='none';
+  el('testScreen').style.display='block';
+  goTo(0);
+  startTimer();
+});
+
+renderHistoryLine();
+})();
+</script>
+</body>
+</html>

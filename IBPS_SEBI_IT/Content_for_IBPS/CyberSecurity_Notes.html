@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBPS SO IT Officer — Cyber Security Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e131a; --panel:#161d27; --panel-alt:#1c2532; --border:#2a3341; --border-soft:#212a37;
+    --text:#e7ebf0; --text-dim:#93a1b0; --text-faint:#5f6c7a;
+    --sec:#e0616f; --sec-dim:#331f24;
+    --alice:#5eb3d6; --bob:#e0a458;
+    --danger:#e2707a;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;
+    --display:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',SFMono-Regular,Consolas,monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, rgba(224,97,111,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(94,179,214,0.05), transparent 55%), var(--bg);
+    color:var(--text); font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; padding:0 0 60px 0;
+  }
+  a{color:var(--sec);}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+
+  header.top{border-bottom:1px solid var(--border);padding:28px 0 20px 0;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--sec);box-shadow:0 0 8px var(--sec);}
+  h1{font-family:var(--display);font-size:27px;font-weight:700;margin:0 0 6px 0;letter-spacing:-0.01em;}
+  h1 span{color:var(--text-dim);font-weight:500;}
+  .subhead{color:var(--text-dim);font-size:14px;margin:0 0 18px 0;max-width:640px;}
+  .examstrip{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--border);border-radius:100px;padding:6px 12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+  .chip b{color:var(--text);font-weight:600;}
+
+  main{padding-top:26px;}
+
+  details.acc{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
+  details.acc[open]{border-color:var(--border-soft);}
+  details.acc summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;color:var(--text);}
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .code{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 7px;border-radius:5px;color:#0e131a;background:var(--sec);flex-shrink:0;}
+  summary .chev{margin-left:auto;color:var(--text-faint);font-size:12px;transition:transform .2s ease;}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  .acc-body{padding:2px 20px 20px 20px;color:var(--text-dim);font-size:14px;}
+  .acc-body p{margin:8px 0;}
+  .acc-body ul,.acc-body ol{margin:8px 0;padding-left:20px;}
+  .acc-body li{margin:4px 0;}
+  .acc-body h4{font-family:var(--sans);color:var(--text);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin:16px 0 6px 0;}
+  .acc-body strong{color:var(--text);font-weight:600;}
+  .acc-body code{font-family:var(--mono);background:var(--panel-alt);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:12.5px;color:#f0dcb8;}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px 0;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-faint);font-weight:500;border-bottom:1px solid var(--border-soft);}
+  td{color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong,td b{color:var(--text);}
+  .tbl-wrap{overflow-x:auto;}
+
+  .tip{display:flex;gap:10px;background:var(--panel-alt);border:1px dashed var(--border-soft);border-radius:8px;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .tip .lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;color:#0e131a;background:#f0b429;padding:2px 6px;border-radius:4px;height:fit-content;flex-shrink:0;}
+  .tip.warn .lbl{background:var(--danger);}
+  .tip p{margin:0;color:var(--text-dim);}
+
+  /* example walkthrough boxes */
+  .example{background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:12px 0;}
+  .example h5{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--sec);margin:0 0 10px 0;}
+  .steps{display:grid;gap:8px;}
+  .step{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;}
+  .step .n{font-family:var(--mono);font-size:11px;font-weight:700;color:#0e131a;background:var(--text-faint);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .step .who{font-weight:600;}
+  .step .who.alice{color:var(--alice);}
+  .step .who.bob{color:var(--bob);}
+
+  .quiz{margin-top:26px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px 22px 20px;}
+  .quiz-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .quiz-header h3{font-family:var(--display);font-size:16px;margin:0;display:flex;align-items:center;gap:8px;}
+  .quiz-stats{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .quiz-stats .score{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .quiz-stats .timer{background:var(--panel-alt);border:1px solid var(--border);padding:5px 10px;border-radius:6px;}
+  .reset-btn{font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:6px 10px;border-radius:6px;cursor:pointer;}
+  .reset-btn:hover{color:var(--danger);border-color:var(--danger);}
+  .quiz-q{padding:14px 0;border-bottom:1px solid var(--border-soft);}
+  .quiz-q:last-of-type{border-bottom:none;padding-bottom:0;}
+  .q-text{font-size:14px;color:var(--text);margin:0 0 10px 0;font-weight:500;}
+  .quiz-options{display:grid;gap:8px;}
+  .opt{text-align:left;background:var(--panel-alt);border:1px solid var(--border);color:var(--text-dim);padding:9px 12px;border-radius:7px;font-family:var(--sans);font-size:13.5px;cursor:pointer;transition:border-color .12s ease, background .12s ease;}
+  .quiz-q:not(.answered) .opt:hover{border-color:var(--text-faint);color:var(--text);}
+  .quiz-q.answered .opt{cursor:default;}
+  .opt.picked-correct{border-color:#5ecfa8;background:rgba(94,207,168,0.12);color:#bfe8cf;}
+  .opt.picked-wrong{border-color:var(--danger);background:rgba(226,112,122,0.12);color:#f3c3c7;}
+  .opt.reveal-correct{border-color:#5ecfa8;background:rgba(94,207,168,0.08);color:#bfe8cf;}
+  .explain{margin-top:10px;font-size:13px;color:var(--text-dim);background:var(--panel-alt);border-left:3px solid var(--sec);padding:8px 12px;border-radius:0 6px 6px 0;}
+  .explain b{color:var(--text);}
+
+  footer{text-align:center;color:var(--text-faint);font-size:12px;font-family:var(--mono);margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+
+  @media (max-width:640px){
+    h1{font-size:21px;}
+    .acc-body{padding:2px 14px 16px 14px;}
+    table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow"><span class="dot"></span> IBPS SO · IT OFFICER SCALE-I · PROFESSIONAL KNOWLEDGE</div>
+    <h1>Cyber Security Notes <span>— Symmetric &amp; Asymmetric Cryptography</span></h1>
+    <p class="subhead">Threats, defenses, and cryptography fundamentals — with a worked Alice-and-Bob example for both symmetric and asymmetric encryption. Same interactive format: expandable notes plus a self-test with scores saved automatically.</p>
+    <div class="examstrip">
+      <div class="chip">Frequently tested with: <b>Networks · DBMS security</b></div>
+      <div class="chip">Includes: <b>IT Act 2000 key sections</b></div>
+      <div class="chip">Negative marking: <b>−0.25</b> per wrong answer</div>
+    </div>
+  </header>
+
+  <main>
+    <details class="acc" open>
+      <summary><span class="code">CS1</span> Introduction &amp; the CIA Triad <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>Cyber security</strong> is the practice of protecting systems, networks, and data from digital attacks, unauthorized access, and damage. Almost every cyber security goal maps back to the <strong>CIA Triad</strong>:</p>
+        <ul>
+          <li><strong>Confidentiality</strong> — only authorized parties can access the information (protected via encryption, access control).</li>
+          <li><strong>Integrity</strong> — data hasn't been altered or tampered with, either accidentally or maliciously (protected via hashing, checksums).</li>
+          <li><strong>Availability</strong> — systems and data are accessible to authorized users whenever needed (threatened by DoS/DDoS attacks).</li>
+        </ul>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Almost every attack or defense mechanism can be classified by which part of the CIA triad it threatens or protects — a very common way exam questions are framed.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS2</span> Malware Types <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Type</th><th>Behaviour</th></tr>
+          <tr><td><strong>Virus</strong></td><td>Attaches to a host file/program; needs the host to run and human action to spread</td></tr>
+          <tr><td><strong>Worm</strong></td><td>Standalone; self-replicates and spreads across a network without needing a host file</td></tr>
+          <tr><td><strong>Trojan Horse</strong></td><td>Disguised as legitimate software; doesn't self-replicate; typically opens a backdoor</td></tr>
+          <tr><td><strong>Ransomware</strong></td><td>Encrypts the victim's data and demands payment for the decryption key</td></tr>
+          <tr><td><strong>Spyware</strong></td><td>Secretly monitors and collects user activity/data</td></tr>
+          <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td></tr>
+          <tr><td><strong>Rootkit</strong></td><td>Hides deep in the system (often at OS/kernel level) to conceal the presence of other malware or unauthorized access</td></tr>
+          <tr><td><strong>Keylogger</strong></td><td>Records every keystroke to steal passwords/sensitive input</td></tr>
+          <tr><td><strong>Botnet</strong></td><td>A network of infected devices ("bots") remotely controlled by an attacker, often used to launch DDoS attacks</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS3</span> Common Cyber Attacks <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Phishing</strong> — fraudulent emails/messages/sites tricking users into revealing sensitive data.</li>
+          <li><strong>Spoofing</strong> — disguising communication (email, IP, website) to appear as if from a trusted source.</li>
+          <li><strong>Man-in-the-Middle (MITM)</strong> — attacker secretly intercepts and possibly alters communication between two parties who believe they're talking directly to each other.</li>
+          <li><strong>DoS / DDoS</strong> — flooding a system with traffic to make it unavailable to legitimate users (DDoS uses many distributed sources, often a botnet).</li>
+          <li><strong>SQL Injection</strong> — inserting malicious SQL code into an input field to manipulate or extract data from a database.</li>
+          <li><strong>Cross-Site Scripting (XSS)</strong> — injecting malicious scripts into web pages viewed by other users.</li>
+          <li><strong>Brute Force Attack</strong> — systematically trying every possible password/key combination until the correct one is found.</li>
+          <li><strong>Social Engineering</strong> — manipulating people (rather than systems) into divulging confidential information.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS4</span> Cryptography Basics <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p><strong>Cryptography</strong> is the practice of securing information by transforming it into an unreadable format, reversible only with the correct key.</p>
+        <ul>
+          <li><strong>Plaintext</strong> — the original, readable message.</li>
+          <li><strong>Ciphertext</strong> — the scrambled, unreadable form of the message after encryption.</li>
+          <li><strong>Encryption</strong> — converting plaintext into ciphertext.</li>
+          <li><strong>Decryption</strong> — converting ciphertext back into plaintext.</li>
+          <li><strong>Key</strong> — the secret value that controls exactly how the encryption/decryption transformation is performed.</li>
+        </ul>
+        <p>Two broad approaches exist, based on whether the same key is used for both encryption and decryption: <strong>Symmetric key cryptography</strong> and <strong>Asymmetric key cryptography</strong> — covered in detail next.</p>
+      </div>
+    </details>
+    <details class="acc" open>
+      <summary><span class="code">CS5</span> Symmetric Key Cryptography <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>In <strong>symmetric key cryptography</strong>, the exact <strong>same secret key</strong> is used for both encryption and decryption. Both the sender and receiver must already share this key privately before communicating.</p>
+        <h4>Common Algorithms</h4>
+        <p><strong>DES</strong> (Data Encryption Standard — 56-bit key, now considered weak/obsolete), <strong>3DES</strong> (Triple DES — applies DES three times for stronger security), <strong>AES</strong> (Advanced Encryption Standard — the current industry standard, key sizes of 128/192/256 bits), <strong>RC4</strong> (a stream cipher, now considered insecure), <strong>Blowfish</strong>.</p>
+
+        <div class="example">
+          <h5>Worked Example — Alice sends Bob a secret message</h5>
+          <div class="steps">
+            <div class="step"><span class="n">1</span><span><span class="who alice">Alice and Bob</span> already share one secret key, <code>K</code> (exchanged safely beforehand, e.g. in person or via a secure channel).</span></div>
+            <div class="step"><span class="n">2</span><span><span class="who alice">Alice</span> encrypts her plaintext message <code>M</code> using key <code>K</code> with an algorithm like AES: <code>C = Encrypt(M, K)</code>.</span></div>
+            <div class="step"><span class="n">3</span><span><span class="who alice">Alice</span> sends the ciphertext <code>C</code> to <span class="who bob">Bob</span> over the network (even if intercepted, it's unreadable without <code>K</code>).</span></div>
+            <div class="step"><span class="n">4</span><span><span class="who bob">Bob</span> decrypts it using the <strong>same key</strong> <code>K</code>: <code>M = Decrypt(C, K)</code>, recovering the original message.</span></div>
+          </div>
+        </div>
+
+        <h4>Pros &amp; Cons</h4>
+        <ul>
+          <li><strong>Pro:</strong> Fast and computationally efficient — well suited to encrypting large volumes of data.</li>
+          <li><strong>Con:</strong> The <strong>key distribution problem</strong> — the shared secret key must somehow be exchanged safely beforehand, which is difficult to do securely over an open network.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary><span class="code">CS6</span> Asymmetric Key Cryptography <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>In <strong>asymmetric key cryptography</strong> (also called <strong>public key cryptography</strong>), each party has a mathematically linked <strong>key pair</strong>: a <strong>public key</strong> (freely shared with everyone) and a <strong>private key</strong> (kept secret, never shared). Data encrypted with one key of the pair can only be decrypted with the other.</p>
+        <h4>Common Algorithms</h4>
+        <p><strong>RSA</strong> (based on the difficulty of factoring large prime numbers — the most widely used), <strong>DSA</strong> (Digital Signature Algorithm), <strong>ECC</strong> (Elliptic Curve Cryptography — smaller keys, same security level, popular on mobile/low-power devices), <strong>Diffie-Hellman</strong> (used specifically for securely agreeing on a shared key over an open channel).</p>
+
+        <div class="example">
+          <h5>Worked Example — Alice sends Bob a secret message</h5>
+          <div class="steps">
+            <div class="step"><span class="n">1</span><span><span class="who bob">Bob</span> generates a key pair: a public key <code>Kpub-B</code> and a private key <code>Kpriv-B</code>. He publishes <code>Kpub-B</code> openly — anyone can see it.</span></div>
+            <div class="step"><span class="n">2</span><span><span class="who alice">Alice</span> encrypts her message <code>M</code> using <span class="who bob">Bob's PUBLIC</span> key: <code>C = Encrypt(M, Kpub-B)</code>.</span></div>
+            <div class="step"><span class="n">3</span><span><span class="who alice">Alice</span> sends <code>C</code> to <span class="who bob">Bob</span>. Anyone intercepting <code>C</code> cannot decrypt it — only Bob's matching private key can.</span></div>
+            <div class="step"><span class="n">4</span><span><span class="who bob">Bob</span> decrypts using his own <strong>PRIVATE</strong> key: <code>M = Decrypt(C, Kpriv-B)</code>. No key exchange was ever needed beforehand.</span></div>
+          </div>
+        </div>
+
+        <h4>Pros &amp; Cons</h4>
+        <ul>
+          <li><strong>Pro:</strong> Solves the key distribution problem entirely — the public key can be shared openly with no prior secret exchange needed.</li>
+          <li><strong>Con:</strong> Computationally much slower/heavier than symmetric encryption — impractical for encrypting large volumes of data directly.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span class="code">CS7</span> Symmetric vs Asymmetric — Comparison &amp; Hybrid Use <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <div class="tbl-wrap"><table>
+          <tr><th>Aspect</th><th>Symmetric</th><th>Asymmetric</th></tr>
+          <tr><td>Keys used</td><td>One shared secret key for both encrypt/decrypt</td><td>A public/private key pair; different keys for encrypt and decrypt</td></tr>
+          <tr><td>Speed</td><td>Fast</td><td>Much slower</td></tr>
+          <tr><td>Key distribution</td><td>Difficult — key must be shared secretly beforehand</td><td>Easy — public key can be shared openly</td></tr>
+          <tr><td>Best suited for</td><td>Encrypting large volumes of data (bulk encryption)</td><td>Secure key exchange, digital signatures, authentication</td></tr>
+          <tr><td>Examples</td><td>AES, DES, 3DES, RC4, Blowfish</td><td>RSA, DSA, ECC, Diffie-Hellman</td></tr>
+        </table></div>
+        <div class="tip"><span class="lbl">EXAM TIP</span><p>Real systems almost always combine both — this "hybrid" approach is a favourite exam concept. For example, <strong>HTTPS/TLS</strong> uses asymmetric encryption (RSA/ECC) only to securely exchange a temporary symmetric session key, then switches to fast symmetric encryption (AES) for the actual data of the session — getting asymmetric's easy key exchange AND symmetric's speed.</p></div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS8</span> Hashing &amp; Digital Signatures <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <h4>Hashing</h4>
+        <p>A <strong>hash function</strong> converts input data of any size into a fixed-size string (the "hash" or "digest"). Unlike encryption, hashing is <strong>one-way</strong> — it cannot be reversed to recover the original data, and is used to verify <strong>integrity</strong> rather than provide confidentiality. Common algorithms: <strong>MD5</strong> (128-bit, now considered weak/broken), <strong>SHA-1</strong> (also weakened), <strong>SHA-256</strong> (part of the SHA-2 family, current standard).</p>
+        <h4>Digital Signatures</h4>
+        <p>A digital signature proves a message's authenticity and integrity using asymmetric cryptography, but in the <strong>reverse</strong> direction of encryption:</p>
+        <ol>
+          <li>The sender hashes the message, then encrypts that hash using their OWN <strong>private</strong> key — this encrypted hash is the "signature."</li>
+          <li>The receiver decrypts the signature using the sender's <strong>public</strong> key, recomputes the hash independently, and checks the two match.</li>
+        </ol>
+        <p>A <strong>digital certificate</strong> (issued by a trusted <strong>Certificate Authority, CA</strong>, as part of a <strong>PKI</strong> — Public Key Infrastructure) binds a public key to a verified identity, so others can trust that a given public key really belongs to who it claims to.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS9</span> Security Protocols &amp; Tools <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><strong>SSL/TLS</strong> — cryptographic protocols securing data in transit; TLS is the modern successor to SSL, underlying HTTPS.</li>
+          <li><strong>HTTPS</strong> — HTTP running over TLS, providing encrypted, authenticated web traffic.</li>
+          <li><strong>SSH</strong> — encrypted protocol for secure remote login/administration.</li>
+          <li><strong>Firewall</strong> — filters incoming/outgoing network traffic based on defined rules.</li>
+          <li><strong>IDS / IPS</strong> — Intrusion Detection/Prevention Systems: monitor traffic for malicious activity; IDS alerts, IPS can actively block it.</li>
+          <li><strong>VPN</strong> — creates an encrypted tunnel over a public network for secure, private communication.</li>
+          <li><strong>2FA / MFA</strong> — Two-Factor/Multi-Factor Authentication: requires more than one form of verification (e.g. password + OTP) to log in.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary><span class="code">CS10</span> Indian Cyber Law — IT Act, 2000 <span class="chev">›</span></summary>
+      <div class="acc-body">
+        <p>The <strong>Information Technology Act, 2000</strong> (amended in 2008) is India's primary legislation governing electronic transactions and cyber crime. Key sections frequently tested:</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Section</th><th>Deals with</th></tr>
+          <tr><td><strong>Section 43</strong></td><td>Penalty/compensation for unauthorized access, damage to a computer or computer system</td></tr>
+          <tr><td><strong>Section 66</strong></td><td>Computer-related offences (hacking) — acts under Section 43 done dishonestly/fraudulently</td></tr>
+          <tr><td><strong>Section 66B</strong></td><td>Dishonestly receiving stolen computer resource/communication device</td></tr>
+          <tr><td><strong>Section 66C</strong></td><td>Identity theft — fraudulent use of another person's password/digital signature/unique ID</td></tr>
+          <tr><td><strong>Section 66D</strong></td><td>Cheating by personation using a computer resource (impersonation)</td></tr>
+          <tr><td><strong>Section 66E</strong></td><td>Violation of privacy</td></tr>
+          <tr><td><strong>Section 66F</strong></td><td>Cyber terrorism</td></tr>
+          <tr><td><strong>Section 67</strong></td><td>Publishing/transmitting obscene material in electronic form</td></tr>
+        </table></div>
+        <p><strong>CERT-In</strong> (Indian Computer Emergency Response Team) is India's national nodal agency for responding to cyber security incidents.</p>
+      </div>
+    </details>
+    <div class="quiz">
+      <div class="quiz-header">
+        <h3>✓ Self-Test — Cyber Security &amp; Cryptography</h3>
+        <div class="quiz-stats"><span class="score">Score: 0/10</span><span class="timer">00:00</span><button class="reset-btn">Reset</button></div>
+      </div>
+
+      <div class="quiz-q" data-qid="cs1">
+        <p class="q-text">1. Which part of the CIA Triad is most directly threatened by a DDoS attack?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Confidentiality</button>
+          <button class="opt" data-correct="false">Integrity</button>
+          <button class="opt" data-correct="true">Availability</button>
+          <button class="opt" data-correct="false">Authentication</button>
+        </div>
+        <p class="explain" hidden>A DDoS attack floods a system to make it unusable — directly attacking <b>Availability</b>.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs2">
+        <p class="q-text">2. Which malware type is standalone and spreads across a network on its own, without needing to attach to a host file?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Virus</button>
+          <button class="opt" data-correct="true">Worm</button>
+          <button class="opt" data-correct="false">Trojan Horse</button>
+          <button class="opt" data-correct="false">Adware</button>
+        </div>
+        <p class="explain" hidden>A <b>worm</b> self-replicates and spreads independently; a virus needs a host file and human action.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs3">
+        <p class="q-text">3. In symmetric key cryptography, how many keys are used for both encryption and decryption combined?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="true">One shared key</button>
+          <button class="opt" data-correct="false">Two — a public and a private key</button>
+          <button class="opt" data-correct="false">Three keys</button>
+          <button class="opt" data-correct="false">No key is needed</button>
+        </div>
+        <p class="explain" hidden>Symmetric cryptography uses exactly <b>one shared secret key</b> for both encrypting and decrypting.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs4">
+        <p class="q-text">4. Which of these is a symmetric encryption algorithm?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">RSA</button>
+          <button class="opt" data-correct="false">Diffie-Hellman</button>
+          <button class="opt" data-correct="true">AES</button>
+          <button class="opt" data-correct="false">ECC</button>
+        </div>
+        <p class="explain" hidden><b>AES</b> is symmetric. RSA, ECC, and Diffie-Hellman are all asymmetric (public-key) approaches.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs5">
+        <p class="q-text">5. In asymmetric encryption, if Alice wants to send Bob a secret message, which key should she use to encrypt it?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Alice's own private key</button>
+          <button class="opt" data-correct="false">Alice's own public key</button>
+          <button class="opt" data-correct="true">Bob's public key</button>
+          <button class="opt" data-correct="false">Bob's private key</button>
+        </div>
+        <p class="explain" hidden>Alice encrypts with <b>Bob's public key</b> — only Bob's matching private key can then decrypt it.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs6">
+        <p class="q-text">6. What is the main practical drawback of asymmetric encryption compared to symmetric encryption?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">It cannot be used for digital signatures</button>
+          <button class="opt" data-correct="true">It is computationally much slower, making it impractical for large volumes of data</button>
+          <button class="opt" data-correct="false">It requires the key to be shared secretly in advance</button>
+          <button class="opt" data-correct="false">It has no real-world use cases</button>
+        </div>
+        <p class="explain" hidden>Asymmetric encryption is <b>much slower</b> than symmetric — that's exactly why real systems use it only to exchange a symmetric session key, then switch to symmetric encryption for the bulk data.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs7">
+        <p class="q-text">7. When creating a digital signature, the sender encrypts the message's hash using which key?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">The receiver's public key</button>
+          <button class="opt" data-correct="false">The receiver's private key</button>
+          <button class="opt" data-correct="true">The sender's own private key</button>
+          <button class="opt" data-correct="false">A shared symmetric key</button>
+        </div>
+        <p class="explain" hidden>The sender signs using their OWN <b>private key</b>; anyone can then verify it using the sender's public key — proving it could only have come from them.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs8">
+        <p class="q-text">8. Which of these is true about hashing, as opposed to encryption?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Hashing is reversible, just like encryption</button>
+          <button class="opt" data-correct="true">Hashing is a one-way function, primarily used to verify data integrity</button>
+          <button class="opt" data-correct="false">Hashing requires a private key to reverse</button>
+          <button class="opt" data-correct="false">Hashing and encryption are exactly the same thing</button>
+        </div>
+        <p class="explain" hidden>Hashing is <b>one-way</b> — you can't recover the original input from the hash. It's used for integrity verification, not confidentiality.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs9">
+        <p class="q-text">9. HTTPS achieves both secure key exchange AND fast bulk data transfer by combining which two approaches?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Two different symmetric algorithms</button>
+          <button class="opt" data-correct="true">Asymmetric encryption for key exchange, then symmetric encryption for the session data</button>
+          <button class="opt" data-correct="false">Hashing alone, with no encryption</button>
+          <button class="opt" data-correct="false">Two different asymmetric algorithms</button>
+        </div>
+        <p class="explain" hidden>This <b>hybrid</b> approach uses asymmetric crypto (RSA/ECC) just to exchange a symmetric session key, then AES (symmetric) handles the actual data — combining easy key exchange with speed.</p>
+      </div>
+
+      <div class="quiz-q" data-qid="cs10">
+        <p class="q-text">10. Under India's IT Act 2000, which section specifically deals with the punishment for identity theft?</p>
+        <div class="quiz-options">
+          <button class="opt" data-correct="false">Section 43</button>
+          <button class="opt" data-correct="false">Section 66</button>
+          <button class="opt" data-correct="true">Section 66C</button>
+          <button class="opt" data-correct="false">Section 67</button>
+        </div>
+        <p class="explain" hidden><b>Section 66C</b> specifically covers identity theft (fraudulent use of another's password/digital signature/unique ID). Section 66D covers cheating by personation, a related but distinct offence.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>IBPS SO IT Officer · Professional Knowledge revision notes · scores stored locally to this tool</footer>
+</div>
+
+<script>
+(function(){
+  const quizState = {};
+  const timer = {start:null, elapsed:0, handle:null};
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60).toString().padStart(2,'0');
+    const s = Math.floor(sec%60).toString().padStart(2,'0');
+    return m+':'+s;
+  }
+
+  function updateScoreDisplay(){
+    const quizEl = document.querySelector('.quiz');
+    if(!quizEl) return;
+    const total = quizEl.querySelectorAll('.quiz-q').length;
+    const correct = Object.values(quizState).filter(v=>v.correct).length;
+    const answered = Object.keys(quizState).length;
+    quizEl.querySelector('.score').textContent = 'Score: '+correct+'/'+total;
+    return {total, answered, correct};
+  }
+
+  function startTimer(){
+    if(timer.handle) return;
+    timer.start = Date.now() - timer.elapsed*1000;
+    timer.handle = setInterval(()=>{
+      timer.elapsed = (Date.now()-timer.start)/1000;
+      const quizEl = document.querySelector('.quiz');
+      if(quizEl) quizEl.querySelector('.timer').textContent = fmtTime(timer.elapsed);
+    }, 1000);
+  }
+  function stopTimer(){ if(timer.handle){ clearInterval(timer.handle); timer.handle=null; } }
+  function resetTimer(){
+    stopTimer();
+    timer.start=null; timer.elapsed=0;
+    const quizEl = document.querySelector('.quiz');
+    if(quizEl) quizEl.querySelector('.timer').textContent = '00:00';
+  }
+
+  async function saveProgress(){
+    try{ await window.storage.set('cybersec-quiz', JSON.stringify(quizState), false); }catch(e){}
+  }
+
+  function applyAnswer(qEl, chosenIdx, isCorrect){
+    const opts = qEl.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      if(i===chosenIdx && isCorrect) o.classList.add('picked-correct');
+      else if(i===chosenIdx && !isCorrect) o.classList.add('picked-wrong');
+      else if(o.dataset.correct==='true') o.classList.add('reveal-correct');
+    });
+    qEl.classList.add('answered');
+    const ex = qEl.querySelector('.explain');
+    if(ex) ex.hidden = false;
+  }
+
+  function handleOptionClick(e){
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    const qEl = opt.closest('.quiz-q');
+    if(!qEl || qEl.classList.contains('answered')) return;
+    const qid = qEl.dataset.qid;
+    const opts = Array.from(qEl.querySelectorAll('.opt'));
+    const chosenIdx = opts.indexOf(opt);
+    const isCorrect = opt.dataset.correct === 'true';
+    applyAnswer(qEl, chosenIdx, isCorrect);
+    quizState[qid] = {chosenIndex:chosenIdx, correct:isCorrect};
+    startTimer();
+    const stats = updateScoreDisplay();
+    if(stats && stats.answered >= stats.total) stopTimer();
+    saveProgress();
+  }
+  document.addEventListener('click', handleOptionClick);
+
+  const resetBtn = document.querySelector('.reset-btn');
+  if(resetBtn){
+    resetBtn.addEventListener('click', async ()=>{
+      for(const k in quizState) delete quizState[k];
+      document.querySelectorAll('.quiz-q').forEach(qEl=>{
+        qEl.classList.remove('answered');
+        qEl.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked-correct','picked-wrong','reveal-correct'));
+        const ex = qEl.querySelector('.explain');
+        if(ex) ex.hidden = true;
+      });
+      updateScoreDisplay();
+      resetTimer();
+      try{ await window.storage.delete('cybersec-quiz', false); }catch(e){}
+    });
+  }
+
+  function restoreState(){
+    Object.keys(quizState).forEach(qid=>{
+      const qEl = document.querySelector('.quiz-q[data-qid="'+qid+'"]');
+      if(!qEl) return;
+      const rec = quizState[qid];
+      applyAnswer(qEl, rec.chosenIndex, rec.correct);
+    });
+    updateScoreDisplay();
+  }
+
+  async function init(){
+    try{
+      const res = await window.storage.get('cybersec-quiz', false);
+      if(res && res.value) Object.assign(quizState, JSON.parse(res.value));
+    }catch(e){}
+    restoreState();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
