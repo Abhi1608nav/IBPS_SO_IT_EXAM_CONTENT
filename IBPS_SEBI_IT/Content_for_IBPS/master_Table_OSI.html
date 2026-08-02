@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSI Model - Complete Reference Table</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.css">
+<style>
+* { font-family: 'Inter', sans-serif; }
+.layer-7 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+.layer-6 { background: linear-gradient(135deg, #fed7aa, #fdba74); }
+.layer-5 { background: linear-gradient(135deg, #e9d5ff, #d8b4fe); }
+.layer-4 { background: linear-gradient(135deg, #bfdbfe, #93c5fd); }
+.layer-3 { background: linear-gradient(135deg, #bbf7d0, #86efac); }
+.layer-2 { background: linear-gradient(135deg, #fecaca, #fca5a5); }
+.layer-1 { background: linear-gradient(135deg, #e5e7eb, #d1d5db); }
+.table-container { overflow-x: auto; }
+th { position: sticky; top: 0; z-index: 10; }
+</style>
+</head>
+<body class="bg-slate-50 p-4 md:p-8">
+
+<div class="max-w-7xl mx-auto">
+<!-- Header -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white mb-6 shadow-xl">
+<h1 class="text-3xl md:text-4xl font-bold mb-2">🌐 OSI Model - Complete Reference</h1>
+<p class="text-blue-100 text-lg">Protocols, Functions, Security & Network Devices</p>
+</div>
+
+<!-- Main Table -->
+<div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-8">
+<div class="table-container">
+<table class="w-full text-sm">
+<thead>
+<tr class="bg-slate-800 text-white">
+<th class="px-4 py-4 text-left w-32">OSI Layer</th>
+<th class="px-4 py-4 text-left">Primary Function</th>
+<th class="px-4 py-4 text-left">Key Protocols</th>
+<th class="px-4 py-4 text-left">Cyber Security Aspects</th>
+<th class="px-4 py-4 text-left">Network Devices</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- Layer 7: Application -->
+<tr class="layer-7 border-b-4 border-yellow-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-yellow-900">Layer 7</div>
+<div class="font-semibold text-yellow-800">Application</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-yellow-900">
+<li>• Provides network services to user applications</li>
+<li>• Interface between software and network</li>
+<li>• Handles high-level APIs</li>
+<li>• Resource sharing, remote file access</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-yellow-900">HTTP/HTTPS</strong> - Web browsing</div>
+<div><strong class="text-yellow-900">FTP/SFTP</strong> - File transfer</div>
+<div><strong class="text-yellow-900">SMTP/POP3/IMAP</strong> - Email</div>
+<div><strong class="text-yellow-900">DNS</strong> - Domain name resolution</div>
+<div><strong class="text-yellow-900">DHCP</strong> - IP address assignment</div>
+<div><strong class="text-yellow-900">SNMP</strong> - Network management</div>
+<div><strong class="text-yellow-900">Telnet/SSH</strong> - Remote login</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-yellow-900 text-xs">
+<div>🔒 <strong>SSL/TLS</strong> - Encrypts HTTP (HTTPS)</div>
+<div>🔒 <strong>SSH</strong> - Secure shell (replaces Telnet)</div>
+<div>🔒 <strong>SFTP/FTPS</strong> - Secure file transfer</div>
+<div>⚠️ <strong>Attacks:</strong> Phishing, DNS spoofing, SQL injection, XSS</div>
+<div>🛡️ <strong>Defense:</strong> WAF, input validation, HTTPS enforcement</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-yellow-900">
+<div>• <strong>Gateway</strong> (Layer 7)</div>
+<div>• <strong>Firewall</strong> (Layer 7 - Application layer firewall)</div>
+<div>• <strong>Load Balancer</strong> (Layer 7 - Content switching)</div>
+<div>• <strong>Proxy Server</strong></div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 6: Presentation -->
+<tr class="layer-6 border-b-4 border-orange-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-orange-900">Layer 6</div>
+<div class="font-semibold text-orange-800">Presentation</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-orange-900">
+<li>• Data translation & formatting</li>
+<li>• Encryption/Decryption</li>
+<li>• Compression/Decompression</li>
+<li>• Character encoding conversion</li>
+<li>• Ensures data is readable by application layer</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-orange-900">SSL/TLS</strong> - Encryption</div>
+<div><strong class="text-orange-900">JPEG/GIF/PNG</strong> - Image formats</div>
+<div><strong class="text-orange-900">MPEG</strong> - Video compression</div>
+<div><strong class="text-orange-900">ASCII/EBCDIC</strong> - Character encoding</div>
+<div><strong class="text-orange-900">MIDI</strong> - Musical data</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-orange-900 text-xs">
+<div>🔒 <strong>Encryption:</strong> AES, DES, RSA</div>
+<div>🔒 <strong>Digital Certificates</strong> - X.509</div>
+<div>🔒 <strong>Data Integrity:</strong> Hash functions (SHA-256, MD5)</div>
+<div>⚠️ <strong>Attacks:</strong> Cryptographic attacks, weak encryption</div>
+<div>🛡️ <strong>Defense:</strong> Strong encryption algorithms, key management</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="text-orange-900">
+<div>• No specific device</div>
+<div>• Functionality embedded in:</div>
+<div class="ml-3">- Operating Systems</div>
+<div class="ml-3">- Application software</div>
+<div class="ml-3">- Encryption hardware</div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 5: Session -->
+<tr class="layer-5 border-b-4 border-purple-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-purple-900">Layer 5</div>
+<div class="font-semibold text-purple-800">Session</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-purple-900">
+<li>• Establishes, maintains, terminates sessions</li>
+<li>• Session management & synchronization</li>
+<li>• Dialog control (half/full duplex)</li>
+<li>• Authentication & authorization</li>
+<li>• Checkpointing & recovery</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-purple-900">NetBIOS</strong> - Session service</div>
+<div><strong class="text-purple-900">RPC</strong> - Remote Procedure Call</div>
+<div><strong class="text-purple-900">SQL</strong> - Database sessions</div>
+<div><strong class="text-purple-900">NFS</strong> - Network File System</div>
+<div><strong class="text-purple-900">SCP</strong> - Session Control Protocol</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-purple-900 text-xs">
+<div>🔒 <strong>Session Tokens</strong> - Secure authentication</div>
+<div>🔒 <strong>Kerberos</strong> - Authentication protocol</div>
+<div>🔒 <strong>OAuth/SAML</strong> - Authorization frameworks</div>
+<div>⚠️ <strong>Attacks:</strong> Session hijacking, session fixation</div>
+<div>🛡️ <strong>Defense:</strong> Secure tokens, session timeouts, HTTPS</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="text-purple-900">
+<div>• No specific device</div>
+<div>• Functionality in:</div>
+<div class="ml-3">- Operating Systems</div>
+<div class="ml-3">- Application software</div>
+<div class="ml-3">- Session managers</div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 4: Transport -->
+<tr class="layer-4 border-b-4 border-blue-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-blue-900">Layer 4</div>
+<div class="font-semibold text-blue-800">Transport</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-blue-900">
+<li>• End-to-end communication</li>
+<li>• Segmentation & reassembly</li>
+<li>• Flow control & error control</li>
+<li>• Connection-oriented (TCP) or connectionless (UDP)</li>
+<li>• Port addressing (multiplexing)</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-blue-900">TCP</strong> - Reliable, connection-oriented</div>
+<div><strong class="text-blue-900">UDP</strong> - Unreliable, connectionless, fast</div>
+<div><strong class="text-blue-900">SPX</strong> - Sequenced Packet Exchange</div>
+<div class="text-xs mt-2"><strong>Ports:</strong> HTTP(80), HTTPS(443), SSH(22), FTP(21)</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-blue-900 text-xs">
+<div>🔒 <strong>TLS/SSL</strong> - Transport layer security</div>
+<div>🔒 <strong>Port Security</strong> - Firewall rules</div>
+<div>⚠️ <strong>Attacks:</strong> SYN flood, port scanning, TCP hijacking</div>
+<div>🛡️ <strong>Defense:</strong> Firewalls, SYN cookies, port filtering</div>
+<div>🛡️ <strong>DDoS Protection</strong> at transport layer</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-blue-900">
+<div>• <strong>Firewall</strong> (Layer 4 - filters by port)</div>
+<div>• <strong>Load Balancer</strong> (Layer 4 - transport layer)</div>
+<div>• <strong>Gateway</strong></div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 3: Network -->
+<tr class="layer-3 border-b-4 border-green-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-green-900">Layer 3</div>
+<div class="font-semibold text-green-800">Network</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-green-900">
+<li>• Logical addressing (IP addresses)</li>
+<li>• Routing & path determination</li>
+<li>• Packet forwarding</li>
+<li>• Internetworking (connecting networks)</li>
+<li>• Fragmentation & reassembly</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-green-900">IP</strong> (IPv4/IPv6) - Internet Protocol</div>
+<div><strong class="text-green-900">ICMP</strong> - Ping, error messages</div>
+<div><strong class="text-green-900">OSPF</strong> - Open Shortest Path First</div>
+<div><strong class="text-green-900">BGP</strong> - Border Gateway Protocol</div>
+<div><strong class="text-green-900">RIP</strong> - Routing Information Protocol</div>
+<div><strong class="text-green-900">IPsec</strong> - IP Security</div>
+<div><strong class="text-green-900">ARP</strong> - Address Resolution Protocol</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-green-900 text-xs">
+<div>🔒 <strong>IPsec</strong> - IP encryption & authentication</div>
+<div>🔒 <strong>VPNs</strong> - Virtual Private Networks</div>
+<div>🔒 <strong>ACLs</strong> - Access Control Lists</div>
+<div>⚠️ <strong>Attacks:</strong> IP spoofing, routing attacks, MITM</div>
+<div>🛡️ <strong>Defense:</strong> IPsec, firewalls, route authentication</div>
+<div>🛡️ <strong>NAT</strong> - Network Address Translation</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-green-900">
+<div>• <strong>Router</strong> ⭐ (Primary device)</div>
+<div>• <strong>Layer 3 Switch</strong></div>
+<div>• <strong>Firewall</strong> (Layer 3 - packet filtering)</div>
+<div>• <strong>Brouter</strong> (Bridge + Router)</div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 2: Data Link -->
+<tr class="layer-2 border-b-4 border-red-400">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-red-900">Layer 2</div>
+<div class="font-semibold text-red-800">Data Link</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-red-900">
+<li>• Physical addressing (MAC addresses)</li>
+<li>• Framing (encapsulation into frames)</li>
+<li>• Error detection (CRC, checksum)</li>
+<li>• Flow control</li>
+<li>• Media Access Control (MAC sublayer)</li>
+<li>• LLC (Logical Link Control) sublayer</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-red-900">Ethernet</strong> - IEEE 802.3</div>
+<div><strong class="text-red-900">Wi-Fi</strong> - IEEE 802.11</div>
+<div><strong class="text-red-900">PPP</strong> - Point-to-Point Protocol</div>
+<div><strong class="text-red-900">HDLC</strong> - High-Level Data Link Control</div>
+<div><strong class="text-red-900">Frame Relay</strong></div>
+<div><strong class="text-red-900">ATM</strong> - Asynchronous Transfer Mode</div>
+<div><strong class="text-red-900">STP</strong> - Spanning Tree Protocol</div>
+<div><strong class="text-red-900">ARP</strong> - Address Resolution Protocol</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-red-900 text-xs">
+<div>🔒 <strong>MAC Filtering</strong> - Device authentication</div>
+<div>🔒 <strong>WPA/WPA2/WPA3</strong> - Wi-Fi security</div>
+<div>🔒 <strong>802.1X</strong> - Port-based authentication</div>
+<div>⚠️ <strong>Attacks:</strong> MAC spoofing, ARP poisoning, MAC flooding</div>
+<div>🛡️ <strong>Defense:</strong> Port security, Dynamic ARP Inspection</div>
+<div>🛡️ <strong>VLANs</strong> - Virtual LANs for segmentation</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-red-900">
+<div>• <strong>Switch</strong> ⭐ (Primary device)</div>
+<div>• <strong>Bridge</strong></div>
+<div>• <strong>NIC</strong> - Network Interface Card</div>
+<div>• <strong>Wireless Access Point</strong></div>
+<div>• <strong>Brouter</strong> (Bridge part)</div>
+</div>
+</td>
+</tr>
+
+<!-- Layer 1: Physical -->
+<tr class="layer-1">
+<td class="px-4 py-4 align-top">
+<div class="font-bold text-lg text-gray-900">Layer 1</div>
+<div class="font-semibold text-gray-800">Physical</div>
+</td>
+<td class="px-4 py-4 align-top">
+<ul class="space-y-1 text-gray-900">
+<li>• Transmits raw bit stream</li>
+<li>• Physical connection specifications</li>
+<li>• Electrical/optical signals</li>
+<li>• Bit synchronization</li>
+<li>• Topology (bus, star, ring, mesh)</li>
+<li>• Transmission mode (simplex, half/full duplex)</li>
+</ul>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-2">
+<div><strong class="text-gray-900">Ethernet</strong> - Physical layer specs</div>
+<div><strong class="text-gray-900">USB</strong> - Universal Serial Bus</div>
+<div><strong class="text-gray-900">Bluetooth</strong> - Physical layer</div>
+<div><strong class="text-gray-900">DSL</strong> - Digital Subscriber Line</div>
+<div><strong class="text-gray-900">ISDN</strong> - Integrated Services Digital Network</div>
+<div><strong class="text-gray-900">SONET/SDH</strong> - Optical networking</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-gray-900 text-xs">
+<div>🔒 <strong>Physical Security</strong> - Lock server rooms</div>
+<div>🔒 <strong>Cable Security</strong> - Prevent tapping</div>
+<div>🔒 <strong>Shielding</strong> - EMI protection</div>
+<div>⚠️ <strong>Attacks:</strong> Wiretapping, physical theft, cable cutting</div>
+<div>🛡️ <strong>Defense:</strong> Fiber optics (harder to tap), secure facilities</div>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<div class="space-y-1 text-gray-900">
+<div>• <strong>Hub</strong> ⭐ (Primary device)</div>
+<div>• <strong>Repeater</strong></div>
+<div>• <strong>Modem</strong> (Modulator-Demodulator)</div>
+<div>• <strong>Cables:</strong></div>
+<div class="ml-3">- Twisted Pair (UTP/STP)</div>
+<div class="ml-3">- Coaxial Cable</div>
+<div class="ml-3">- Fiber Optic</div>
+<div>• <strong>Connectors:</strong> RJ-45, BNC, SC</div>
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Quick Reference Cards -->
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+<!-- Network Devices Summary -->
+<div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
+<h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+🔌 Network Devices Quick Reference
+</h3>
+<div class="space-y-3 text-sm">
+<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+<strong class="text-red-900">Hub (Layer 1):</strong>
+<p class="text-red-800 text-xs mt-1">Broadcasts data to ALL ports. No intelligence. Causes collisions. Obsolete.</p>
+</div>
+<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+<strong class="text-red-900">Switch (Layer 2):</strong>
+<p class="text-red-800 text-xs mt-1">Forwards data only to destination port using MAC addresses. Creates separate collision domains.</p>
+</div>
+<div class="bg-green-50 border-l-4 border-green-500 p-3 rounded">
+<strong class="text-green-900">Router (Layer 3):</strong>
+<p class="text-green-800 text-xs mt-1">Routes packets between different networks using IP addresses. Connects LANs to WANs.</p>
+</div>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+<strong class="text-blue-900">Brouter (Layer 2 & 3):</strong>
+<p class="text-blue-800 text-xs mt-1">Bridge + Router. Routes routable protocols, bridges non-routable protocols.</p>
+</div>
+<div class="bg-gray-50 border-l-4 border-gray-500 p-3 rounded">
+<strong class="text-gray-900">Modem (Layer 1):</strong>
+<p class="text-gray-800 text-xs mt-1">Modulator-Demodulator. Converts digital to analog and vice versa for transmission over phone lines.</p>
+</div>
+<div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded">
+<strong class="text-yellow-900">Gateway (Layer 7):</strong>
+<p class="text-yellow-800 text-xs mt-1">Protocol converter. Connects networks with different protocols. Works at all layers.</p>
+</div>
+<div class="bg-purple-50 border-l-4 border-purple-500 p-3 rounded">
+<strong class="text-purple-900">Firewall (Layer 3-7):</strong>
+<p class="text-purple-800 text-xs mt-1">Filters traffic based on rules. Can operate at multiple layers (packet filtering to application layer).</p>
+</div>
+</div>
+</div>
+
+<!-- Security Layers Summary -->
+<div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
+<h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+🔒 Security at Each Layer
+</h3>
+<div class="space-y-3 text-sm">
+<div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded">
+<strong class="text-yellow-900">Layer 7 - Application:</strong>
+<p class="text-yellow-800 text-xs mt-1">HTTPS, SSH, SFTP, WAF, Input validation, Authentication</p>
+</div>
+<div class="bg-orange-50 border-l-4 border-orange-500 p-3 rounded">
+<strong class="text-orange-900">Layer 6 - Presentation:</strong>
+<p class="text-orange-800 text-xs mt-1">Encryption (SSL/TLS), Digital certificates, Character encoding security</p>
+</div>
+<div class="bg-purple-50 border-l-4 border-purple-500 p-3 rounded">
+<strong class="text-purple-900">Layer 5 - Session:</strong>
+<p class="text-purple-800 text-xs mt-1">Session tokens, Kerberos, OAuth, Session hijacking prevention</p>
+</div>
+<div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+<strong class="text-blue-900">Layer 4 - Transport:</strong>
+<p class="text-blue-800 text-xs mt-1">TLS/SSL, Port security, SYN flood protection, DDoS mitigation</p>
+</div>
+<div class="bg-green-50 border-l-4 border-green-500 p-3 rounded">
+<strong class="text-green-900">Layer 3 - Network:</strong>
+<p class="text-green-800 text-xs mt-1">IPsec, VPNs, ACLs, Firewalls, IP spoofing prevention, NAT</p>
+</div>
+<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+<strong class="text-red-900">Layer 2 - Data Link:</strong>
+<p class="text-red-800 text-xs mt-1">MAC filtering, WPA2/WPA3, 802.1X, VLANs, ARP spoofing prevention</p>
+</div>
+<div class="bg-gray-50 border-l-4 border-gray-500 p-3 rounded">
+<strong class="text-gray-900">Layer 1 - Physical:</strong>
+<p class="text-gray-800 text-xs mt-1">Physical access control, Cable security, Fiber optics, EMI shielding</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Exam Tips -->
+<div class="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-300 rounded-xl p-6 mb-6">
+<h3 class="text-xl font-bold text-indigo-900 mb-3">🎯 SEBI IT Exam Tips</h3>
+<div class="grid md:grid-cols-2 gap-4 text-sm">
+<div>
+<strong class="text-indigo-800">Common Questions:</strong>
+<ul class="list-disc ml-5 mt-2 space-y-1 text-indigo-900">
+<li>Which layer does router/switch/hub operate at?</li>
+<li>Which protocol works at which layer?</li>
+<li>Difference between TCP and UDP</li>
+<li>MAC address vs IP address</li>
+<li>Which layer handles encryption?</li>
+</ul>
+</div>
+<div>
+<strong class="text-indigo-800">Memory Tricks:</strong>
+<ul class="list-disc ml-5 mt-2 space-y-1 text-indigo-900">
+<li><strong>APPS TN</strong> - Application, Presentation, Session, Transport, Network, Data Link, Physical</li>
+<li><strong>Router = Layer 3</strong> (IP addressing)</li>
+<li><strong>Switch = Layer 2</strong> (MAC addressing)</li>
+<li><strong>Hub = Layer 1</strong> (Physical signals)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="text-center text-slate-500 text-sm py-4">
+<p>📚 Complete OSI Model Reference for SEBI Grade A (IT) Preparation</p>
+</div>
+</div>
+
+</body>
+</html>

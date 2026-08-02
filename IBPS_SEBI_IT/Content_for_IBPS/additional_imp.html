@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master CS & Network Security Study Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.6/index.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
+            min-height: 100vh;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 30px 20px; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(123,47,247,0.4), transparent);
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d2ff, #7b2ff7, #ff6b6b, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero .subtitle { color: #777; font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
+
+        /* Navigation */
+        .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            padding: 30px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,26,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 30px;
+        }
+        .nav-btn {
+            padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: #aaa;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #7b2ff7, #00d2ff);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-1px);
+        }
+
+        /* Section Headers */
+        .section-block {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .section-desc {
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            padding-left: 54px;
+        }
+
+        .s1 .section-title { color: #00d2ff; }
+        .s1 .num { background: rgba(0,210,255,0.15); color: #00d2ff; }
+        .s2 .section-title { color: #00ff88; }
+        .s2 .num { background: rgba(0,255,136,0.15); color: #00ff88; }
+        .s3 .section-title { color: #ff6b6b; }
+        .s3 .num { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+        .s4 .section-title { color: #ffaa00; }
+        .s4 .num { background: rgba(255,170,0,0.15); color: #ffaa00; }
+        .s5 .section-title { color: #7b2ff7; }
+        .s5 .num { background: rgba(123,47,247,0.15); color: #7b2ff7; }
+        .s6 .section-title { color: #ff66cc; }
+        .s6 .num { background: rgba(255,102,204,0.15); color: #ff66cc; }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(6px);
+        }
+        .card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #fff;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        tbody td {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+            vertical-align: top;
+        }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* Table header gradients */
+        .thead-cyan thead { background: linear-gradient(135deg, rgba(0,210,255,0.2), rgba(0,210,255,0.05)); }
+        .thead-green thead { background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,136,0.05)); }
+        .thead-red thead { background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(255,107,107,0.05)); }
+        .thead-orange thead { background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,170,0,0.05)); }
+        .thead-purple thead { background: linear-gradient(135deg, rgba(123,47,247,0.2), rgba(123,47,247,0.05)); }
+        .thead-pink thead { background: linear-gradient(135deg, rgba(255,102,204,0.2), rgba(255,102,204,0.05)); }
+        .thead-multi thead { background: linear-gradient(135deg, rgba(255,107,107,0.15), rgba(123,47,247,0.15), rgba(0,210,255,0.15)); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .badge-cyan { background: rgba(0,210,255,0.15); color: #66e0ff; }
+        .badge-green { background: rgba(0,255,136,0.15); color: #66ffaa; }
+        .badge-red { background: rgba(255,107,107,0.15); color: #ff8a8a; }
+        .badge-orange { background: rgba(255,170,0,0.15); color: #ffcc55; }
+        .badge-purple { background: rgba(123,47,247,0.15); color: #b57fff; }
+        .badge-pink { background: rgba(255,102,204,0.15); color: #ff88cc; }
+        .badge-yellow { background: rgba(255,255,0,0.1); color: #ffff88; }
+        .badge-gray { background: rgba(255,255,255,0.08); color: #aaa; }
+
+        /* Code / Formula */
+        code, .code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(123,47,247,0.12);
+            color: #c9a0ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+        }
+        .formula-box {
+            background: rgba(123,47,247,0.08);
+            border: 1px solid rgba(123,47,247,0.2);
+            border-radius: 10px;
+            padding: 16px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: #c9a0ff;
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        /* ASCII Diagrams */
+        .ascii-diagram {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            color: #aaa;
+            white-space: pre;
+            margin: 16px 0;
+        }
+        .ascii-diagram .highlight-cyan { color: #66e0ff; }
+        .ascii-diagram .highlight-green { color: #66ffaa; }
+        .ascii-diagram .highlight-red { color: #ff8a8a; }
+        .ascii-diagram .highlight-orange { color: #ffcc55; }
+        .ascii-diagram .highlight-purple { color: #b57fff; }
+        .ascii-diagram .highlight-pink { color: #ff88cc; }
+
+        /* Grid layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+
+        /* Info cards */
+        .info-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .info-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .info-card p, .info-card li {
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .info-card ul li {
+            padding: 3px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+        .info-card ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: #7b2ff7;
+            font-weight: 700;
+        }
+
+        /* Kill Chain Flow */
+        .kill-chain {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        .kc-step {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px 16px;
+            text-align: center;
+            position: relative;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+        .kc-step:hover { transform: translateY(-4px); }
+        .kc-step .kc-num {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .kc-step .kc-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .kc-step .kc-desc {
+            font-size: 0.75rem;
+            color: #999;
+            line-height: 1.5;
+        }
+        .kc-arrow {
+            display: flex;
+            align-items: center;
+            color: #555;
+            font-size: 1.2rem;
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        /* Expandable */
+        .expand-btn {
+            background: linear-gradient(135deg, rgba(123,47,247,0.3), rgba(0,210,255,0.2));
+            border: 1px solid rgba(123,47,247,0.3);
+            color: #c9a0ff;
+            padding: 10px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .expand-btn:hover { background: linear-gradient(135deg, rgba(123,47,247,0.5), rgba(0,210,255,0.3)); }
+        .expand-content { display: none; margin-top: 16px; animation: fadeSlide 0.4s ease; }
+        .expand-content.show { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Key point */
+        .key-point {
+            border-left: 3px solid;
+            padding: 12px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+            font-size: 0.88rem;
+        }
+        .key-point.cyan { border-color: #00d2ff; background: rgba(0,210,255,0.06); color: #99dde8; }
+        .key-point.green { border-color: #00ff88; background: rgba(0,255,136,0.06); color: #99ddb8; }
+        .key-point.red { border-color: #ff6b6b; background: rgba(255,107,107,0.06); color: #ddaaaa; }
+        .key-point.orange { border-color: #ffaa00; background: rgba(255,170,0,0.06); color: #ddcc88; }
+        .key-point.purple { border-color: #7b2ff7; background: rgba(123,47,247,0.06); color: #bbaadd; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            .section-desc { padding-left: 0; }
+            .kill-chain { flex-direction: column; }
+            .kc-arrow { transform: rotate(90deg); justify-content: center; padding: 4px 0; }
+        }
+        @media (max-width: 600px) {
+            .card { padding: 18px; }
+            .nav-btn { font-size: 0.7rem; padding: 6px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>🛡️ Master CS & Network Security Study Guide</h1>
+            <p class="subtitle">A comprehensive revision guide covering Data Link Layer, Network Diagnostics, Security Architectures, Cyber Attacks, Firewalls, and Cryptography</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-bar" id="navbar">
+            <a href="#s1" class="nav-btn">1 · Data Link Layer</a>
+            <a href="#s2" class="nav-btn">2 · ICMP & Diagnostics</a>
+            <a href="#s3" class="nav-btn">3 · Security Models</a>
+            <a href="#s4" class="nav-btn">4 · Cyber Attacks</a>
+            <a href="#s5" class="nav-btn">5 · Firewalls</a>
+            <a href="#s6" class="nav-btn">6 · Cryptography</a>
+        </div>
+
+        <!-- ==================== SECTION 1 ==================== -->
+        <div class="section-block s1" id="s1">
+            <div class="section-title"><span class="num">1</span> Data Link Layer & Multiple Access Protocols</div>
+            <p class="section-desc">How devices share a common communication medium — from wired Ethernet to wireless and satellite networks.</p>
+
+            <div class="card">
+                <h3 style="color:#00d2ff;">📋 Master Protocol Comparison Table</h3>
+                <div class="table-wrap">
+                    <table class="thead-cyan">
+                        <thead>
+                            <tr>
+                                <th>Protocol</th>
+                                <th>Medium / Environment</th>
+                                <th>Collision Strategy</th>
+                                <th>Operating Mechanism</th>
+                                <th>Max Efficiency</th>
+                                <th>Topic Tag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color:#66e0ff;">CSMA/CD</strong></td>
+                                <td>Wired Ethernet (802.3)</td>
+                                <td><span class="badge badge-cyan">Detection</span></td>
+                                <td>Listen before transmit; detect collision via voltage spike; send jam signal; random backoff</td>
+                                <td>~100% at low load; degrades under high load</td>
+                                <td><span class="badge badge-gray">#MACSublayer</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#66e0ff;">CSMA/CA</strong></td>
+                                <td>Wi-Fi / Wireless (802.11)</td>
+                                <td><span class="badge badge-green">Avoidance</span></td>
+                                <td>Listen → wait DIFS → RTS/CTS handshake → transmit → ACK; random backoff on collision</td>
+                                <td>Lower than CSMA/CD due to overhead (RTS/CTS/ACK)</td>
+                                <td><span class="badge badge-gray">#MACSublayer</span> <span class="badge badge-gray">#Wireless</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#66e0ff;">Token Passing</strong></td>
+                                <td>Token Ring (802.5), FDDI</td>
+                                <td><span class="badge badge-purple">Prevention</span></td>
+                                <td>Circular token passed; only token holder transmits; no collisions possible</td>
+                                <td>High & predictable at high load; poor at low load (token wait)</td>
+                                <td><span class="badge badge-gray">#ControlledAccess</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#66e0ff;">Pure ALOHA</strong></td>
+                                <td>Satellite, early radio networks</td>
+                                <td><span class="badge badge-red">Uncontrolled</span></td>
+                                <td>Transmit anytime; if collision, wait random time & retry; vulnerable period = 2× frame time</td>
+                                <td><strong>18.4%</strong> (≈ 1/2e)</td>
+                                <td><span class="badge badge-gray">#RandomAccess</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#66e0ff;">Slotted ALOHA</strong></td>
+                                <td>Satellite, shared channels</td>
+                                <td><span class="badge badge-red">Uncontrolled</span></td>
+                                <td>Time divided into slots; transmit only at slot start; vulnerable period = 1× frame time</td>
+                                <td><strong>36.8%</strong> (≈ 1/e)</td>
+                                <td><span class="badge badge-gray">#RandomAccess</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="color:#00d2ff;">🔑 Key Formulas</h3>
+                    <div class="formula-box">Pure ALOHA: S<sub>max</sub> = G·e<sup>−2G</sup> → <strong>18.4%</strong></div>
+                    <div class="formula-box">Slotted ALOHA: S<sub>max</sub> = G·e<sup>−G</sup> → <strong>36.8%</strong></div>
+                    <div class="key-point cyan">Slotted ALOHA is exactly <strong>2× more efficient</strong> than Pure ALOHA because the vulnerable period is halved.</div>
+                </div>
+                <div class="card">
+                    <h3 style="color:#00d2ff;">⚡ CSMA/CD vs CSMA/CA</h3>
+                    <div class="key-point cyan"><strong>CSMA/CD</strong> — Can <em>detect</em> collisions because wired signals can be monitored (voltage changes). Used in Ethernet.</div>
+                    <div class="key-point green"><strong>CSMA/CA</strong> — Cannot detect collisions wirelessly (hidden terminal problem). Must <em>avoid</em> them using RTS/CTS and ACKs. Used in Wi-Fi.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 2 ==================== -->
+        <div class="section-block s2" id="s2">
+            <div class="section-title"><span class="num">2</span> ICMP & Network Diagnostics</div>
+            <p class="section-desc">Internet Control Message Protocol — the error-reporting and diagnostic backbone of IP networks.</p>
+
+            <div class="card">
+                <h3 style="color:#00ff88;">📋 ICMP Message Types Reference</h3>
+                <div class="table-wrap">
+                    <table class="thead-green">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Common Codes</th>
+                                <th>Function</th>
+                                <th>Triggered By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-green">0</span></td>
+                                <td><strong>Echo Reply</strong></td>
+                                <td>0</td>
+                                <td>Response to a ping request</td>
+                                <td><code>ping</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-red">3</span></td>
+                                <td><strong>Destination Unreachable</strong></td>
+                                <td>0 (Net), 1 (Host), 3 (Port), 13 (Comm. admin prohibited)</td>
+                                <td>Router/host cannot deliver packet to destination</td>
+                                <td><code>traceroute</code> (final hop), port scans</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-orange">4</span></td>
+                                <td><strong>Source Quench</strong></td>
+                                <td>0</td>
+                                <td>Ask sender to slow down (flow control)</td>
+                                <td>Router congestion</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-cyan">5</span></td>
+                                <td><strong>Redirect</strong></td>
+                                <td>0 (Network), 1 (Host)</td>
+                                <td>Tell host to use a better router</td>
+                                <td>Router configuration change</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-green">8</span></td>
+                                <td><strong>Echo Request</strong></td>
+                                <td>0</td>
+                                <td>Ping request — "Are you there?"</td>
+                                <td><code>ping</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-orange">11</span></td>
+                                <td><strong>Time Exceeded</strong></td>
+                                <td>0 (TTL in transit), 1 (Frag. reassembly)</td>
+                                <td>TTL reached 0 — packet discarded</td>
+                                <td><code>traceroute</code> (intermediate hops)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#00ff88;">🔍 How <code>traceroute</code> Works — Step by Step</h3>
+                <div class="ascii-diagram">
+<span class="highlight-green">┌──────────────────────────────────────────────────────────────────────────┐</span>
+<span class="highlight-green">│</span>  <span class="highlight-cyan">traceroute destination.com</span>                                           <span class="highlight-green">│</span>
+<span class="highlight-green">└──────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="highlight-orange">Round 1:</span> Send 3 packets with <span class="highlight-cyan">TTL = 1</span>
+   ┌────────┐   TTL=1    ┌─────────┐
+   │ Source │───────────→│ Router 1│  TTL→0 → Discards → Sends <span class="highlight-orange">ICMP Type 11</span>
+   └────────┘            └─────────┘   back to source with its IP
+                                        Result: <span class="highlight-green">Hop 1 discovered ✓</span>
+
+<span class="highlight-orange">Round 2:</span> Send 3 packets with <span class="highlight-cyan">TTL = 2</span>
+   ┌────────┐   TTL=2    ┌─────────┐   TTL=1    ┌─────────┐
+   │ Source │───────────→│ Router 1│───────────→│ Router 2│  TTL→0 → <span class="highlight-orange">ICMP Type 11</span>
+   └────────┘            └─────────┘            └─────────┘
+                                                Result: <span class="highlight-green">Hop 2 discovered ✓</span>
+
+<span class="highlight-orange">Round N:</span> Send 3 packets with <span class="highlight-cyan">TTL = N</span>
+   ...reaches <span class="highlight-pink">Destination</span> → Destination receives packet
+   → If port unreachable → Sends <span class="highlight-red">ICMP Type 3 Code 3</span> (Port Unreachable)
+   → This signals <span class="highlight-green">traceroute COMPLETE ✓</span>
+                </div>
+
+                <div class="key-point green">
+                    <strong>Key Insight:</strong> <code>traceroute</code> exploits the <strong>TTL field</strong>. Each round increments TTL by 1. Intermediate routers respond with <strong>ICMP Type 11</strong> (Time Exceeded). The final destination responds with <strong>ICMP Type 3</strong> (Destination Unreachable — Port), signaling the end.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#00ff88;">📊 <code>ping</code> vs <code>traceroute</code> — Side by Side</h3>
+                <div class="table-wrap">
+                    <table class="thead-green">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th><span class="badge badge-green">ping</span></th>
+                                <th><span class="badge badge-orange">traceroute</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Purpose</strong></td><td>Test reachability & measure RTT to a single host</td><td>Map the entire path (all hops) to a destination</td></tr>
+                            <tr><td><strong>ICMP Used</strong></td><td>Type 8 (Echo Request) → Type 0 (Echo Reply)</td><td>Type 11 (Time Exceeded) + Type 3 (Dest. Unreachable)</td></tr>
+                            <tr><td><strong>TTL Value</strong></td><td>Fixed (usually 64 or 128)</td><td>Incremented from 1 upward each round</td></tr>
+                            <tr><td><strong>Output</strong></td><td>RTT (ms), packet loss %, bytes</td><td>List of all router IPs + RTT per hop</td></tr>
+                            <tr><td><strong>Packets Sent</strong></td><td>4 (default on Windows), 56-byte payload</td><td>3 packets per TTL level</td></tr>
+                            <tr><td><strong>Use Case</strong></td><td>"Is the host alive? How fast?"</td><td>"Where is the problem along the path?"</td></tr>
+                            <tr><td><strong>Windows Cmd</strong></td><td><code>ping google.com</code></td><td><code>tracert google.com</code></td></tr>
+                            <tr><td><strong>Linux/Mac Cmd</strong></td><td><code>ping google.com</code></td><td><code>traceroute google.com</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 3 ==================== -->
+        <div class="section-block s3" id="s3">
+            <div class="section-title"><span class="num">3</span> Network Security Models & Architectures</div>
+            <p class="section-desc">Defensive strategies — from perimeter walls to zero-trust verification at every step.</p>
+
+            <div class="grid-2">
+                <div class="info-card" style="border-top: 3px solid #ff6b6b;">
+                    <h4 style="color:#ff6b6b;">🏰 Perimeter Defense</h4>
+                    <p><strong>Philosophy:</strong> "Trust everything inside, block everything outside."</p>
+                    <ul>
+                        <li>Firewalls at network boundary</li>
+                        <li>Strong outer wall, weak interior</li>
+                        <li>Once breached, attacker moves freely</li>
+                        <li><strong>Weakness:</strong> Insider threats, lateral movement</li>
+                    </ul>
+                </div>
+                <div class="info-card" style="border-top: 3px solid #00d2ff;">
+                    <h4 style="color:#66e0ff;">🔐 Zero Trust Architecture (ZTA)</h4>
+                    <p><strong>Philosophy:</strong> "Never Trust, Always Verify" — every request is authenticated.</p>
+                    <ul>
+                        <li>No implicit trust for any user/device</li>
+                        <li>Micro-segmentation of network</li>
+                        <li>Continuous verification & least privilege</li>
+                        <li>Identity-based access control</li>
+                        <li><strong>Strength:</strong> Limits blast radius of breaches</li>
+                    </ul>
+                </div>
+                <div class="info-card" style="border-top: 3px solid #7b2ff7;">
+                    <h4 style="color:#b57fff;">🛡️ Defense in Depth (DiD)</h4>
+                    <p><strong>Philosophy:</strong> Multiple overlapping layers of security controls.</p>
+                    <ul>
+                        <li>Physical → Network → Host → App → Data</li>
+                        <li>If one layer fails, others still protect</li>
+                        <li>Firewalls + IDS + Encryption + MFA + Audits</li>
+                        <li><strong>Strength:</strong> Redundancy reduces single points of failure</li>
+                    </ul>
+                </div>
+                <div class="info-card" style="border-top: 3px solid #ffaa00;">
+                    <h4 style="color:#ffcc55;">🌐 Demilitarized Zone (DMZ)</h4>
+                    <p><strong>Philosophy:</strong> Isolate public-facing services in a buffer zone.</p>
+                    <ul>
+                        <li>Web servers, mail servers, DNS in DMZ</li>
+                        <li>Between untrusted internet & trusted internal LAN</li>
+                        <li>Two firewalls: screening + internal</li>
+                        <li>Compromised DMZ ≠ compromised internal network</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff6b6b;">🏗️ Architecture Comparison</h3>
+                <div class="table-wrap">
+                    <table class="thead-red">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Core Philosophy</th>
+                                <th>Trust Model</th>
+                                <th>Key Mechanism</th>
+                                <th>Trade-off</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Perimeter</strong></td>
+                                <td>Castle & moat</td>
+                                <td>Trust inside, deny outside</td>
+                                <td>Firewalls, IDS at boundary</td>
+                                <td>Vulnerable to insider threats & breaches</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zero Trust</strong></td>
+                                <td>Never trust, always verify</td>
+                                <td>Trust nothing, verify everything</td>
+                                <td>MFA, micro-segmentation, IAM</td>
+                                <td>Complex to implement; higher latency</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Defense in Depth</strong></td>
+                                <td>Layered security</td>
+                                <td>Multiple trust boundaries</td>
+                                <td>Overlapping controls at every layer</td>
+                                <td>Cost & management overhead</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DMZ</strong></td>
+                                <td>Buffer zone isolation</td>
+                                <td>Semi-trusted middle ground</td>
+                                <td>Dual-firewall, isolated subnet</td>
+                                <td>DMZ servers still exposed to attacks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff6b6b;">🔎 IDS vs IPS — Where They Fit</h3>
+                <div class="ascii-diagram">
+<span class="highlight-red">┌─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="highlight-red">│</span>                        <span class="highlight-orange">NETWORK SECURITY MONITORING</span>                          <span class="highlight-red">│</span>
+<span class="highlight-red">└─────────────────────────────────────────────────────────────────────────────────┘</span>
+
+    <span class="highlight-cyan">Internet</span>
+       │
+       ▼
+  ┌─────────┐
+  │ Firewall │  ← Perimeter defense (first line)
+  └────┬────┘
+       │
+       ▼
+  ┌─────────┐     ┌──────────────────────────────────────────┐
+  │   IDS   │────→│ <span class="highlight-orange">MONITORS</span> traffic passively               │
+  │(Passive)│     │ Detects threats → Generates <span class="highlight-red">ALERTS</span>       │
+  └────┬────┘     │ Does NOT block traffic                    │
+       │          │ Placement: <span class="highlight-green">Behind firewall</span>, network tap  │
+       │          └──────────────────────────────────────────┘
+       ▼
+  ┌─────────┐     ┌──────────────────────────────────────────┐
+  │   IPS   │────→│ <span class="highlight-orange">INSPECTS</span> traffic inline (in the path)    │
+  │ (Inline)│     │ Detects threats → <span class="highlight-red">BLOCKS</span> malicious pkts  │
+  └────┬────┘     │ Can cause false positives (drops legit)   │
+       │          │ Placement: <span class="highlight-green">Inline</span>, between firewall & LAN │
+       ▼
+  ┌─────────────────┐
+  │  Internal LAN   │  ← Protected assets
+  └─────────────────┘
+                </div>
+                <div class="table-wrap" style="margin-top:16px;">
+                    <table class="thead-red">
+                        <thead>
+                            <tr><th>Feature</th><th><span class="badge badge-cyan">IDS</span></th><th><span class="badge badge-red">IPS</span></th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Mode</strong></td><td>Passive (out-of-band)</td><td>Inline (in the path)</td></tr>
+                            <tr><td><strong>Action</strong></td><td>Detect & Alert</td><td>Detect & Block/Drop</td></tr>
+                            <tr><td><strong>Performance Impact</strong></td><td>None (copies traffic)</td><td>Can add latency</td></tr>
+                            <tr><td><strong>False Positive Risk</strong></td><td>Low (just alerts)</td><td>High (may block legitimate traffic)</td></tr>
+                            <tr><td><strong>Placement</strong></td><td>Network tap / span port</td><td>Inline between segments</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 4 ==================== -->
+        <div class="section-block s4" id="s4">
+            <div class="section-title"><span class="num">4</span> Cyber Attack Taxonomy & The Cyber Kill Chain</div>
+            <p class="section-desc">Understanding how attacks unfold — from initial reconnaissance to final objective.</p>
+
+            <div class="card">
+                <h3 style="color:#ffaa00;">⛓️ The Cyber Kill Chain — Attack Flow</h3>
+                <div class="kill-chain">
+                    <div class="kc-step" style="background:rgba(0,210,255,0.1); border:1px solid rgba(0,210,255,0.2);">
+                        <div class="kc-num" style="color:#66e0ff;">Stage 1</div>
+                        <div class="kc-name">Reconnaissance</div>
+                        <div class="kc-desc">Gather intel: IP ranges, employee info, tech stack. <strong>Active</strong> (scanning) or <strong>Passive</strong> (OSINT, WHOIS).</div>
+                    </div>
+                    <div class="kc-arrow">→</div>
+                    <div class="kc-step" style="background:rgba(123,47,247,0.1); border:1px solid rgba(123,47,247,0.2);">
+                        <div class="kc-num" style="color:#b57fff;">Stage 2</div>
+                        <div class="kc-name">Weaponization</div>
+                        <div class="kc-desc">Create deliverable payload: malware + exploit bundled into a weapon (e.g., malicious PDF, phishing email).</div>
+                    </div>
+                    <div class="kc-arrow">→</div>
+                    <div class="kc-step" style="background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.2);">
+                        <div class="kc-num" style="color:#ff8a8a;">Stage 3</div>
+                        <div class="kc-name">Delivery &<br>Exploitation</div>
+                        <div class="kc-desc">Deliver weapon to target (email, USB, web). Exploit vulnerability to execute code on victim system.</div>
+                    </div>
+                    <div class="kc-arrow">→</div>
+                    <div class="kc-step" style="background:rgba(255,170,0,0.1); border:1px solid rgba(255,170,0,0.2);">
+                        <div class="kc-num" style="color:#ffcc55;">Stage 4</div>
+                        <div class="kc-name">Installation &<br>C2</div>
+                        <div class="kc-desc">Install backdoor/trojan. Establish Command & Control channel to remotely control the compromised host.</div>
+                    </div>
+                    <div class="kc-arrow">→</div>
+                    <div class="kc-step" style="background:rgba(255,102,204,0.1); border:1px solid rgba(255,102,204,0.2);">
+                        <div class="kc-num" style="color:#ff88cc;">Stage 5</div>
+                        <div class="kc-name">Actions on<br>Objective</div>
+                        <div class="kc-desc">Achieve goal: data exfiltration, encryption (ransomware), lateral movement, or destruction.</div>
+                    </div>
+                </div>
+
+                <div class="key-point orange" style="margin-top:16px;">
+                    <strong>Reconnaissance Types:</strong><br>
+                    <span class="badge badge-cyan">Active</span> Port scanning (Nmap), ping sweeps, DNS queries — generates traffic, can be detected<br>
+                    <span class="badge badge-purple">Passive</span> WHOIS lookups, social media, job postings, packet sniffing — no direct interaction with target
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ffaa00;">📋 Master Attack Matrix</h3>
+                <div class="table-wrap">
+                    <table class="thead-orange">
+                        <thead>
+                            <tr>
+                                <th>Attack Name</th>
+                                <th>Target / Layer</th>
+                                <th>Mechanism</th>
+                                <th>Goal & Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color:#ff8a8a;">SYN Flood</strong></td>
+                                <td><span class="badge badge-red">Transport (TCP)</span></td>
+                                <td>Send massive SYN packets with spoofed IPs; server allocates resources for half-open connections; never completes handshake</td>
+                                <td>Denial of Service — exhaust server connection table</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff8a8a;">Smurf Attack</strong></td>
+                                <td><span class="badge badge-red">Network (ICMP)</span></td>
+                                <td>Broadcast ICMP Echo Request with <strong>spoofed victim IP</strong> to network broadcast address; all hosts reply to victim</td>
+                                <td>Amplified DDoS — flood victim with replies</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff8a8a;">Ping of Death</strong></td>
+                                <td><span class="badge badge-red">Network (IP)</span></td>
+                                <td>Send ICMP packet > 65,535 bytes (max IP packet size); causes buffer overflow in target's IP stack</td>
+                                <td>System crash / reboot / BSOD</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ffcc55;">Buffer Overflow</strong></td>
+                                <td><span class="badge badge-orange">Application</span></td>
+                                <td>Input exceeds allocated buffer; overwrites adjacent memory (stack/heap); injects shellcode or modifies return address</td>
+                                <td>Arbitrary code execution, privilege escalation</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ffcc55;">SQL Injection</strong></td>
+                                <td><span class="badge badge-orange">Application (Database)</span></td>
+                                <td>Inject malicious SQL via user input (e.g., <code>' OR 1=1 --</code>); manipulates backend database queries</td>
+                                <td>Data theft, authentication bypass, data deletion</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ffcc55;">Cross-Site Scripting (XSS)</strong></td>
+                                <td><span class="badge badge-orange">Application (Web)</span></td>
+                                <td>Inject malicious JavaScript into web pages viewed by other users; executes in victim's browser context</td>
+                                <td>Session hijacking, credential theft, defacement</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#b57fff;">Man-in-the-Middle (MITM)</strong></td>
+                                <td><span class="badge badge-purple">Network / Transport</span></td>
+                                <td>Attacker intercepts & possibly alters communication between two parties (ARP spoofing, rogue AP, SSL stripping)</td>
+                                <td>Eavesdropping, data manipulation, credential theft</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff66cc;">Ransomware</strong></td>
+                                <td><span class="badge badge-pink">Application / OS</span></td>
+                                <td>Encrypts victim's files using strong crypto; demands payment (usually cryptocurrency) for decryption key</td>
+                                <td>Data hostage, financial loss, operational downtime</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#b57fff;">DNS Poisoning / Spoofing</strong></td>
+                                <td><span class="badge badge-purple">Application (DNS)</span></td>
+                                <td>Inject forged DNS responses into resolver cache; maps legitimate domain to attacker-controlled IP</td>
+                                <td>Redirect users to fake sites, phishing, MITM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 5 ==================== -->
+        <div class="section-block s5" id="s5">
+            <div class="section-title"><span class="num">5</span> Firewall Types & Inspection Methods</div>
+            <p class="section-desc">Network gatekeepers — from simple packet filters to AI-powered next-generation firewalls.</p>
+
+            <div class="card">
+                <h3 style="color:#7b2ff7;">📋 Firewall Comparison Matrix</h3>
+                <div class="table-wrap">
+                    <table class="thead-purple">
+                        <thead>
+                            <tr>
+                                <th>Firewall Type</th>
+                                <th>OSI Layer</th>
+                                <th>State Tracking</th>
+                                <th>Inspection Depth</th>
+                                <th>Performance</th>
+                                <th>Key Limitation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color:#b57fff;">Packet Filtering<br>(Stateless)</strong></td>
+                                <td><span class="badge badge-purple">Layer 3–4</span><br>(Network / Transport)</td>
+                                <td><span class="badge badge-red">❌ No</span></td>
+                                <td>Inspects individual packets in isolation: src/dst IP, port, protocol, flags</td>
+                                <td><span class="badge badge-green">⚡ Fastest</span><br>Minimal overhead</td>
+                                <td>Cannot track connections; vulnerable to IP spoofing; no application awareness</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#b57fff;">Stateful Inspection</strong></td>
+                                <td><span class="badge badge-purple">Layer 3–4</span><br>(Network / Transport)</td>
+                                <td><span class="badge badge-green">✅ Yes</span></td>
+                                <td>Maintains state table of active connections; validates packets against connection context</td>
+                                <td><span class="badge badge-orange">⚡ Fast</span><br>Moderate overhead</td>
+                                <td>Still cannot inspect application-layer content; encrypted traffic is opaque</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#b57fff;">Application Gateway<br>(Proxy Firewall)</strong></td>
+                                <td><span class="badge badge-purple">Layer 7</span><br>(Application)</td>
+                                <td><span class="badge badge-green">✅ Yes</span></td>
+                                <td>Full proxy — terminates & re-establishes connections; inspects application payload (HTTP, FTP, etc.)</td>
+                                <td><span class="badge badge-red">🐢 Slowest</span><br>High overhead</td>
+                                <td>Must support each protocol individually; latency from proxy processing</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#b57fff;">Next-Gen Firewall<br>(NGFW)</strong></td>
+                                <td><span class="badge badge-purple">Layer 2–7</span><br>(All layers)</td>
+                                <td><span class="badge badge-green">✅ Deep</span></td>
+                                <td>Combines stateful inspection + DPI + IPS + application awareness + user identity + threat intelligence</td>
+                                <td><span class="badge badge-orange">⚡ Moderate</span><br>Hardware-accelerated</td>
+                                <td>Expensive; complex configuration; encrypted traffic requires SSL inspection</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#7b2ff7;">🔍 Inspection Depth Visual</h3>
+                <div class="ascii-diagram">
+<span class="highlight-purple">PACKET FILTERING (Stateless)</span>          <span class="highlight-purple">STATEFUL INSPECTION</span>              <span class="highlight-purple">NGFW (Deep Inspection)</span>
+<span class="highlight-purple">━━━━━━━━━━━━━━━━━━━━━━━</span>          <span class="highlight-purple">━━━━━━━━━━━━━━━━━━━</span>              <span class="highlight-purple">━━━━━━━━━━━━━━━━━━━━━━</span>
+
+  ┌─────────────────────┐            ┌─────────────────────┐          ┌─────────────────────────┐
+  │ Check per packet:   │            │ Track connection:   │          │ Everything + :          │
+  │ • Src/Dst IP        │            │ • State table       │          │ • App identification    │
+  │ • Src/Dst Port      │            │ • Seq numbers       │          │ • User identity         │
+  │ • Protocol          │            │ • Allow/Deny based  │          │ • Deep packet inspect   │
+  │ • Flags (SYN,ACK)   │            │   on context        │          │ • IPS / threat intel    │
+  │                     │            │                     │          │ • URL / content filter  │
+  │ <span class="highlight-red">✗ No context</span>        │            │ <span class="highlight-green">✓ Connection aware</span>  │          │ • SSL/TLS decryption    │
+  └─────────────────────┘            └─────────────────────┘          └─────────────────────────┘
+
+  <span class="highlight-red">Depth: Headers only</span>              <span class="highlight-orange">Depth: Headers + state</span>         <span class="highlight-green">Depth: Full payload analysis</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 6 ==================== -->
+        <div class="section-block s6" id="s6">
+            <div class="section-title"><span class="num">6</span> Cryptography & Key Management</div>
+            <p class="section-desc">The mathematical foundation of digital security — encryption, signatures, and key exchange.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="color:#ff66cc;">🔒 Asymmetric Encryption — Confidentiality</h3>
+                    <div class="ascii-diagram">
+<span class="highlight-pink">GOAL: Send a secret message to Bob</span>
+
+  Alice                        Bob
+  ─────                        ───
+  1. Gets Bob's <span class="highlight-green">PUBLIC key</span>
+     ─────────────────────────→
+  2. Encrypts message          
+     with Bob's public key     
+     E<sub>Bob-pub</sub>(M) = C           
+  3. Sends ciphertext ────────→  4. Decrypts with his
+                                    <span class="highlight-red">PRIVATE key</span>
+                                    D<sub>Bob-priv</sub>(C) = M
+
+<span class="highlight-cyan">Rule: Encrypt with receiver's PUBLIC key</span>
+<span class="highlight-cyan">      Decrypt with receiver's PRIVATE key</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="color:#ff66cc;">✍️ Digital Signature — Authentication & Non-Repudiation</h3>
+                    <div class="ascii-diagram">
+<span class="highlight-pink">GOAL: Prove Alice sent the message</span>
+
+  Alice                        Bob
+  ─────                        ───
+  1. Hashes message
+     H(M) = digest
+  2. Encrypts hash with
+     her <span class="highlight-red">PRIVATE key</span>
+     E<sub>Alice-priv</sub>(H(M)) = Sig
+  3. Sends M + Sig ─────────→  4. Decrypts Sig with
+                                  Alice's <span class="highlight-green">PUBLIC key</span>
+                                  → gets H(M)'
+  5.                           6. Hashes received M
+                                  → gets H(M)
+  7.                           8. Compare: H(M)' == H(M)?
+                                  <span class="highlight-green">✓ Match = Authenticated</span>
+                                  <span class="highlight-green">✓ Alice can't deny (non-repudiation)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff66cc;">🔢 Key Count Formulas</h3>
+                <div class="grid-2">
+                    <div>
+                        <div class="formula-box">
+                            <strong>Symmetric Keys:</strong><br>
+                            For N users → <span style="font-size:1.2rem;">N(N−1) / 2</span> keys
+                        </div>
+                        <div class="key-point pink">
+                            <strong>Example:</strong> 10 users → 10×9/2 = <strong>45 keys</strong><br>
+                            100 users → 100×99/2 = <strong>4,950 keys</strong><br>
+                            Scales quadratically — <strong>impractical</strong> for large groups.
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <strong>Asymmetric Keys:</strong><br>
+                            For N users → <span style="font-size:1.2rem;">2N</span> keys (N public + N private)
+                        </div>
+                        <div class="key-point pink">
+                            <strong>Example:</strong> 10 users → 2×10 = <strong>20 keys</strong><br>
+                            100 users → 2×100 = <strong>200 keys</strong><br>
+                            Scales linearly — <strong>highly scalable</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff66cc;">📋 Master Cryptographic Algorithms Reference</h3>
+                <div class="table-wrap">
+                    <table class="thead-pink">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Category</th>
+                                <th>Key / Block / Output Size</th>
+                                <th>Hard Math Problem</th>
+                                <th>Primary Use</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">AES</strong></td>
+                                <td><span class="badge badge-green">Symmetric Block Cipher</span></td>
+                                <td>Key: 128 / 192 / 256 bits<br>Block: 128 bits</td>
+                                <td>Substitution-Permutation Network (SPN); no known practical attack</td>
+                                <td>Bulk data encryption, TLS, disk encryption, Wi-Fi (WPA2/3)</td>
+                                <td><span class="badge badge-green">✅ Secure — Current standard</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">DES / 3DES</strong></td>
+                                <td><span class="badge badge-green">Symmetric Block Cipher</span></td>
+                                <td>Key: 56 bits (DES) / 168 bits (3DES)<br>Block: 64 bits</td>
+                                <td>Feistel network; DES vulnerable to brute force (56-bit key too small)</td>
+                                <td>Legacy systems; 3DES in old banking</td>
+                                <td><span class="badge badge-red">❌ Deprecated — NIST retired 2023</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">RSA</strong></td>
+                                <td><span class="badge badge-cyan">Asymmetric</span></td>
+                                <td>Key: 2048 / 3072 / 4096 bits</td>
+                                <td><strong>Integer Factorization</strong> — factoring the product of two large primes</td>
+                                <td>Digital signatures, key exchange, TLS certificates</td>
+                                <td><span class="badge badge-green">✅ Secure (≥2048 bits)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">Diffie-Hellman<br>(DH / DHE / ECDH)</strong></td>
+                                <td><span class="badge badge-purple">Key Exchange</span></td>
+                                <td>Key: 2048+ bits (DH) / 256+ bits (ECDH)</td>
+                                <td><strong>Discrete Logarithm Problem</strong> — computing discrete logs in finite fields / elliptic curves</td>
+                                <td>Secure key exchange over insecure channels (TLS, SSH)</td>
+                                <td><span class="badge badge-green">✅ Secure — Enables forward secrecy</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">ECC</strong><br>(Elliptic Curve)</td>
+                                <td><span class="badge badge-cyan">Asymmetric</span></td>
+                                <td>Key: 256 / 384 / 521 bits</td>
+                                <td><strong>Elliptic Curve Discrete Log</strong> — finding scalar k given kP on curve</td>
+                                <td>Mobile/IoT (small keys), TLS 1.3, Bitcoin signatures</td>
+                                <td><span class="badge badge-green">✅ Secure — Same security as RSA with much smaller keys</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color:#ff88cc;">SHA-256</strong></td>
+                                <td><span class="badge badge-orange">Hash Function</span></td>
+                                <td>Output: 256 bits (fixed)<br>Any input size</td>
+                                <td>Compression function with Merkle-Damgård construction; designed to be one-way & collision-resistant</td>
+                                <td>Digital signatures, password hashing (with salt), blockchain, data integrity</td>
+                                <td><span class="badge badge-green">✅ Secure — No known collisions</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff66cc;">🔑 Key Concepts Summary</h3>
+                <div class="grid-3">
+                    <div class="info-card" style="border-left: 3px solid #66ffaa;">
+                        <h4 style="color:#66ffaa;">🔐 Confidentiality</h4>
+                        <p>Only authorized parties can read the data.</p>
+                        <ul>
+                            <li>Achieved via <strong>encryption</strong></li>
+                            <li>Symmetric: same key (AES)</li>
+                            <li>Asymmetric: public encrypts, private decrypts</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-left: 3px solid #66e0ff;">
+                        <h4 style="color:#66e0ff;">✍️ Authentication</h4>
+                        <p>Verify the identity of the sender.</p>
+                        <ul>
+                            <li>Achieved via <strong>digital signatures</strong></li>
+                            <li>Private key signs, public key verifies</li>
+                            <li>Proves "who sent it"</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="border-left: 3px solid #ffcc55;">
+                        <h4 style="color:#ffcc55;">🚫 Non-Repudiation</h4>
+                        <p>Sender cannot deny having sent the message.</p>
+                        <ul>
+                            <li>Achieved via <strong>digital signatures</strong></li>
+                            <li>Only sender holds private key</li>
+                            <li>Legal proof of origin</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point pink" style="margin-top:20px;">
+                    <strong>⚡ Quick Rule:</strong><br>
+                    • <strong>Confidentiality</strong> → Encrypt with receiver's <span class="badge badge-green">PUBLIC</span> key<br>
+                    • <strong>Signature (Auth + Non-Repudiation)</strong> → Sign with sender's <span class="badge badge-red">PRIVATE</span> key<br>
+                    • <strong>Both together</strong> → Sign with sender's private key, then encrypt with receiver's public key
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#ff66cc;">🔄 Symmetric vs Asymmetric — Quick Comparison</h3>
+                <div class="table-wrap">
+                    <table class="thead-pink">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th><span class="badge badge-green">Symmetric</span></th>
+                                <th><span class="badge badge-cyan">Asymmetric</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Keys Used</strong></td><td>1 shared secret key</td><td>2 keys (public + private)</td></tr>
+                            <tr><td><strong>Speed</strong></td><td>⚡ Very fast (100–1000× faster)</td><td>🐢 Slow (complex math)</td></tr>
+                            <tr><td><strong>Key Distribution</strong></td><td>❌ Hard — need secure channel to share key</td><td>✅ Easy — public key can be shared openly</td></tr>
+                            <tr><td><strong>Key Count (N users)</strong></td><td>N(N−1)/2</td><td>2N</td></tr>
+                            <tr><td><strong>Scalability</strong></td><td>Poor for large groups</td><td>Excellent</td></tr>
+                            <tr><td><strong>Use Case</strong></td><td>Bulk data encryption (AES in TLS)</td><td>Key exchange, digital signatures</td></tr>
+                            <tr><td><strong>Examples</strong></td><td>AES, DES, 3DES, ChaCha20</td><td>RSA, ECC, Diffie-Hellman</td></tr>
+                            <tr><td><strong>Real-World Pattern</strong></td><td colspan="2" style="text-align:center;"><strong>Hybrid approach:</strong> Asymmetric to exchange a session key → Symmetric to encrypt the actual data (e.g., TLS handshake)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align:center; padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.05);">
+            <p style="color:#555; font-size:0.85rem;">📚 Master CS & Network Security Study Guide — All 6 sections covered</p>
+            <p style="color:#444; font-size:0.75rem; margin-top:6px;">Data Link Layer · ICMP & Diagnostics · Security Models · Cyber Attacks · Firewalls · Cryptography</p>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll for nav
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(btn.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Highlight active nav on scroll
+        const sections = document.querySelectorAll('.section-block');
+        const navBtns = document.querySelectorAll('.nav-btn');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navBtns.forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '-80px 0px -50% 0px' });
+
+        sections.forEach(s => scrollObserver.observe(s));
+
+        // Expand buttons
+        document.querySelectorAll('.expand-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const isShown = content.classList.contains('show');
+                content.classList.toggle('show');
+                btn.querySelector('.arrow').textContent = isShown ? '▼' : '▲';
+                btn.querySelector('.label').textContent = isShown ? 'Show Details' : 'Hide Details';
+            });
+        });
+    </script>
+</body>
+</html>
